@@ -91,10 +91,8 @@ class AuthControlller extends GetxController {
         registerPojo.value = registerPojoFromJson(response);
         CommonDialog.showsnackbar(registerPojo.value.message);
         final prefs = await SharedPreferences.getInstance();
-        prefs.setString(
-          'session',
-          "$registerPojo.value.data?.token}",
-        );
+
+        await prefs.setString('session', registerPojo.value.data!.token.toString());
         await prefs.setString('name', registerPojo.value.data!.name.toString());
         await prefs.setString('email', registerPojo.value.data!.email.toString());
         await prefs.setString('phoneno', registerPojo.value.data!.phone.toString());

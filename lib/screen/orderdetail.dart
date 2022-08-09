@@ -91,7 +91,7 @@ class _OrderDetailState extends State<OrderDetail> {
   void openCheckout(shopname, description) async {
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
-      'amount': 100,
+      'amount': totalPrice,
       'name': '${shopname}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
@@ -871,7 +871,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                             });
                                             openCheckout(
                                                 widget.data!.name.toString(),
-                                                description);
+                                                description,);
                                           });
                                         },
                                         child: Container(

@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
       print(e);
     });
   }
-
+//flutter build apk --split-per-abi --no-sound-null-safety
   @override
   Widget build(BuildContext context) {
     SharedPreferences.getInstance().then((SharedPreferences sp) {
@@ -99,6 +99,8 @@ class _HomePageState extends State<HomePage> {
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
       setState(() {
+        homeControlller.sessiooo.value= sharedPreferences.getString("session") as String;
+
         name = _testValue!;
         email = emailValue!;
         phone = _phoneValue!;
@@ -463,7 +465,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(' ${_currentAddress!=null?_currentAddress:""}',
               style: TextStyle(
-                  fontSize: width * 0.02,
+                  fontSize: 6,
                   fontFamily: 'Poppins Regular',
                   color: Colors.black),
               textAlign: TextAlign.center),

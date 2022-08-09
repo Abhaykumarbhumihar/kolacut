@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/model/ProfilePojo.dart';
 import 'package:untitled/model/ShopDetailPojo.dart';
 import 'package:untitled/model/ShopLIstPojo.dart';
@@ -16,6 +17,8 @@ class HomeController extends GetxController {
   var serviceList = AdminServicePojo().obs;
   final box = GetStorage();
   var lodaer = true;
+  var sessiooo="".obs;
+  late SharedPreferences sharedPreferences;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -28,11 +31,20 @@ class HomeController extends GetxController {
     //session_id
     super.onReady();
     print("SDLKFJKLSDFJDSprofile");
-    print(box.read('session'));
-    Future.delayed(Duration(seconds: 2), (){
-      getShopList(box.read('session'));
-      getServiceList(box.read('session'));
+
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+      var  _testValue = sharedPreferences.getString("session");
+      print(sharedPreferences.getString("session"));
+      getShopList(_testValue);
+      getServiceList(_testValue);
+
     });
+
+
+
+
+
    //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
    //  getServiceList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
   }
@@ -42,6 +54,7 @@ class HomeController extends GetxController {
     map = {"session_id": "$session_id"};
     try {
      // CommonDialog.showLoading(title: "Please waitt...");
+      lodaer=true;
       final response =
           await APICall().registerUrse(map, AppConstant.SERVICE_LIST);
       print(response);
@@ -52,6 +65,7 @@ class HomeController extends GetxController {
       } else {
       //  CommonDialog.hideLoading();
         serviceList.value = adminServicePojoFromJson(response);
+
         update();
       //  lodaer = false;
       }
@@ -65,6 +79,7 @@ class HomeController extends GetxController {
     map = {"session_id": session_id};
     try {
      // CommonDialog.showLoading(title: "Please waitt...");
+      lodaer=true;
       final response = await APICall().registerUrse(map, AppConstant.SHOP_LIST);
       Get.back();
       //print(response);
