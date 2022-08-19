@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/model/AdminCouponPojo.dart';
+import 'package:untitled/model/CartListPojo.dart';
+import 'package:untitled/model/CoinPojo.dart';
 import 'package:untitled/model/ProfilePojo.dart';
 import 'package:untitled/model/ShopDetailPojo.dart';
 import 'package:untitled/model/ShopLIstPojo.dart';
@@ -11,19 +14,24 @@ import '../model/AdminServicePojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
+import 'dart:convert';
 
 class HomeController extends GetxController {
   var shopListPojo = ShopLIstPojo().obs;
   var serviceList = AdminServicePojo().obs;
+  var adminCouponList = AdminCouponPojo().obs;
+  var coinPojo = CoinPojo().obs;
   final box = GetStorage();
   var lodaer = true;
-  var sessiooo="".obs;
+  var sessiooo = "".obs;
   late SharedPreferences sharedPreferences;
+  var cartListPjo = CartListPojo().obs;
+  int coin = 0;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-
   }
 
   @override
@@ -31,43 +39,93 @@ class HomeController extends GetxController {
     //session_id
     super.onReady();
     print("SDLKFJKLSDFJDSprofile");
-
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
-      var  _testValue = sharedPreferences.getString("session");
+      var _testValue = sharedPreferences.getString("session");
       print(sharedPreferences.getString("session"));
       getShopList(_testValue);
       getServiceList(_testValue);
-
+      getAdminCouponList(_testValue);
+      getCoin(_testValue);
+      getCartList(_testValue);
     });
 
-
-
-
-
-   //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
-   //  getServiceList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
+    //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
+    //  getServiceList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
   }
 
   void getServiceList(session_id) async {
     Map map;
     map = {"session_id": "$session_id"};
     try {
-     // CommonDialog.showLoading(title: "Please waitt...");
-      lodaer=true;
+      // CommonDialog.showLoading(title: "Please waitt...");
+      lodaer = true;
       final response =
           await APICall().registerUrse(map, AppConstant.SERVICE_LIST);
       print(response);
       print("kjkjkljljlkjlkljkljkljhjgyuyyghgh");
       if (serviceList.value.message == "No Data found") {
-     //   CommonDialog.hideLoading();
-      //  CommonDialog.showsnackbar("No Data found");
+        //   CommonDialog.hideLoading();
+        //  CommonDialog.showsnackbar("No Data found");
       } else {
-      //  CommonDialog.hideLoading();
+        //  CommonDialog.hideLoading();
         serviceList.value = adminServicePojoFromJson(response);
 
         update();
-      //  lodaer = false;
+        //  lodaer = false;
+      }
+    } catch (error) {
+      //CommonDialog.hideLoading();
+    }
+  }
+
+  void getAdminCouponList(session_id) async {
+    Map map;
+    map = {"session_id": "$session_id"};
+    try {
+      // CommonDialog.showLoading(title: "Please waitt...");
+      // lodaer=true;
+      final response =
+          await APICall().getMethod(map, AppConstant.ADMIN_COUPON_LIST);
+      print(response);
+      print("ADMIN COUPON ");
+      if (adminCouponList.value.message == "No Data found") {
+        //   CommonDialog.hideLoading();
+        //  CommonDialog.showsnackbar("No Data found");
+      } else {
+        //  CommonDialog.hideLoading();
+        adminCouponList.value = adminCouponPojoFromJson(response);
+
+        update();
+        //  lodaer = false;
+      }
+    } catch (error) {
+      //CommonDialog.hideLoading();
+    }
+  }
+
+  void getCoin(session_id) async {
+    Map map;
+    map = {"session_id": "$session_id"};
+    try {
+      // CommonDialog.showLoading(title: "Please waitt...");
+      // lodaer=true;
+      final response = await APICall().registerUrse(map, AppConstant.COIN);
+      print(response);
+      print("COIND data ");
+      if (coinPojo.value.message == "No Data found") {
+        //   CommonDialog.hideLoading();
+        //  CommonDialog.showsnackbar("No Data found");
+      } else {
+        //  CommonDialog.hideLoading();
+        coinPojo.value = coinPojoFromJson(response);
+        if (coinPojo.value.coin != null) {
+          coin = coinPojo.value!.coin!;
+          //myInteger.value
+          update();
+        }
+        update();
+        //  lodaer = false;
       }
     } catch (error) {
       //CommonDialog.hideLoading();
@@ -78,8 +136,8 @@ class HomeController extends GetxController {
     Map map;
     map = {"session_id": session_id};
     try {
-     // CommonDialog.showLoading(title: "Please waitt...");
-      lodaer=true;
+      // CommonDialog.showLoading(title: "Please waitt...");
+      lodaer = true;
       final response = await APICall().registerUrse(map, AppConstant.SHOP_LIST);
       Get.back();
       //print(response);
@@ -87,12 +145,54 @@ class HomeController extends GetxController {
         CommonDialog.hideLoading();
         CommonDialog.showsnackbar("No Data found");
       } else {
-       // Get.back();
+        // Get.back();
         shopListPojo.value = shopLIstPojoFromJson(response);
         lodaer = false;
         update();
-
       }
+    } catch (error) {
+      lodaer = false;
+      CommonDialog.hideLoading();
+    }
+  }
+
+  void getCartList(session_id) async {
+    lodaer = true;
+    Map map;
+    map = {"session_id": session_id};
+    try {
+      // CommonDialog.showLoading(title: "Please waitt...");
+
+      final response =
+          await APICall().registerUrse(map, AppConstant.GET_CART_LIST);
+      Get.back();
+      //print(response);
+      if (cartListPjo.value.message == "No Data found") {
+        CommonDialog.hideLoading();
+        CommonDialog.showsnackbar("No Data found");
+      } else {
+        // Get.back();
+        cartListPjo.value = cartListPojoFromJson(response);
+        lodaer = false;
+        update();
+      }
+    } catch (error) {
+      lodaer = false;
+      CommonDialog.hideLoading();
+    }
+  }
+
+  void removeFromCart(session_id, cart_id) async {
+    Map map;
+    map = {"session_id": session_id, "cart_id": cart_id};
+    try {
+      CommonDialog.showLoading(title: "Please waitt...");
+      lodaer = true;
+      final response =
+          await APICall().registerUrse(map, AppConstant.DELTE_CART);
+
+      //print(response);
+
     } catch (error) {
       lodaer = false;
       CommonDialog.hideLoading();

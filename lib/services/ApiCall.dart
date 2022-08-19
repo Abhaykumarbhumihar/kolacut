@@ -32,6 +32,32 @@ headers: mainheader,
     }
   }
 
+
+  Future<String> getMethod(Map map, url) async {
+    Map<String, String> mainheader = {
+      "Content-type": "application/x-www-form-urlencoded",
+
+    };
+    var apiUrl = Uri.parse(AppConstant.BASE_URL + url);
+    print(apiUrl);
+    print(map);
+    final response = await http.get(
+        apiUrl,
+        headers: mainheader,
+
+    );
+    print("SDFDSFDFDFDF");
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      print(response.statusCode);
+      print("SDFDSFDFDFDF");
+       print(response.body);
+      return jsonString;
+    } else {
+      return "null";
+    }
+  }
   Future<String> registerUserMulti(
       image, name, email, dob, gender, phone, device_type, device_token) async {
     var request = http.MultipartRequest(

@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  ezanimation:
+    dependency: "direct main"
+    description:
+      name: ezanimation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   fake_async:
     dependency: transitive
     description:
@@ -111,6 +118,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_circle_chart:
+    dependency: "direct main"
+    description:
+      name: flutter_circle_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_circular_slider:
     dependency: "direct main"
     description:

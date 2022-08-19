@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:untitled/screen/cartlist.dart';
+import 'package:untitled/utils/CommomDialog.dart';
+import 'dart:convert';
 
 import '../utils/Utils.dart';
+import '../utils/appconstant.dart';
 
 class SideNavigatinPage extends StatefulWidget {
   var s = "", s1 = "", s2 = "", s3 = "";
@@ -22,10 +28,13 @@ class SideNavigatinPage extends StatefulWidget {
 
 class _SideNavigatinPageState extends State<SideNavigatinPage> {
   late SharedPreferences sharedPreferences;
+  final box = GetStorage();
 
   _SideNavigatinPageState(String s, String s1, String s2, String s3);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  TextEditingController _textFieldControllerupdateAmenities =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
-
           children: <Widget>[
             Column(
               children: [
@@ -69,7 +77,8 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                               child: Row(
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 6.0, right: 6.0),
+                                    margin:
+                                        EdgeInsets.only(left: 6.0, right: 6.0),
                                     height: height * 0.1,
                                     child: Center(
                                       child: Row(
@@ -164,7 +173,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-
                     ListTile(
                       leading: const Icon(Icons.person),
                       title: const Text(' About '),
@@ -189,6 +197,133 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                       height: 1.0,
                       color: Colors.grey,
                     ),
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text(' My Cart '),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MyCartList()),
+                        );
+                      },
+                      trailing: const Icon(Icons.keyboard_arrow_right),
+                    ),
+                    Divider(
+                      height: 1.0,
+                      color: Colors.grey,
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.person),
+                      title: const Text(' Refer To Earm '),
+                      subtitle: const Text(
+                          ' You will get 50 coin on first order of your firend '),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            var valueName = "";
+                            var valuePrice = "";
+                            return AlertDialog(
+                              title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Refer to your friend',
+                                    style: TextStyle(fontSize: 8.0),
+                                  ),
+                                  IconButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    icon: Icon(Icons.cancel_outlined),
+                                  ),
+                                ],
+                              ),
+                              content: Container(
+                                width: 200,
+                                height: height * 0.4,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: height * 0.03,
+                                      ),
+                                      SizedBox(
+                                        width: width,
+                                        height: height * 0.3,
+                                        child: TextField(
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              valueName = value;
+                                            });
+                                          },
+                                          keyboardType: TextInputType.phone,
+                                          controller:
+                                              _textFieldControllerupdateAmenities,
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText: "Enter mobile no"),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      FlatButton(
+                                        color: Colors.green,
+                                        textColor: Colors.white,
+                                        child: Text('OK'),
+                                        onPressed: () async {
+                                          Map map = {
+                                            "session_id": box.read('session'),
+                                            "phone":
+                                                _textFieldControllerupdateAmenities
+                                                    .text
+                                                    .toString()
+                                          };
+                                          print(map);
+                                          var apiUrl = Uri.parse(
+                                              AppConstant.BASE_URL +
+                                                  AppConstant.REFER_TO_FRIEND);
+                                          print(apiUrl);
+                                          print(map);
+                                          final response = await http.post(
+                                            apiUrl,
+                                            body: map,
+                                          );
+                                          print(response.body);
+                                          var data = response.body;
+                                          final body =
+                                              json.decode(response.body);
+                                          CommonDialog.showsnackbar(
+                                              body['message'] +
+                                                  "your code is \n" +
+                                                  body['referel_code']);
+                                          _textFieldControllerupdateAmenities
+                                              .clear();
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              actions: <Widget>[],
+                            );
+                          },
+                        );
+                        Navigator.pop(context);
+                      },
+                      trailing: const Icon(Icons.keyboard_arrow_right),
+                    ),
+                    Divider(
+                      height: 1.0,
+                      color: Colors.grey,
+                    ),
                   ],
                 ),
               ],
@@ -197,7 +332,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-
                 Container(
                   child: Align(
                     alignment: FractionalOffset.bottomCenter,
@@ -244,7 +378,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: height*0.05)
+                SizedBox(height: height * 0.05)
               ],
             )
           ],

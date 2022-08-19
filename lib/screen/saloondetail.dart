@@ -59,7 +59,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
   List<SamleClass> data = [];
 
   List<String> userChecked = [];
-  List<SubService> tempArray = [];
+  List<ServiceService> tempArray = [];
 
   @override
   void initState() {
@@ -98,8 +98,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
           return Container();
         } else {
           var a = salonControlller.shopDetailpojo.value.data;
-          salonControlller.isFavourite = a!.ifFavourite!;
-          print("${a.ifFavourite.toString()}" + "sdfsdfsdfsd");
+          salonControlller.isFavourite = a!.isFavorite!;
+          print("${a.isFavorite.toString()}" + "sdfsdfsdfsd");
           return Container(
             width: width,
             height: height,
@@ -181,7 +181,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 ),
                                 InkWell(
                                   onTap: () async {
-                                    Share.share('check out my website https://example.com',
+                                    Share.share(
+                                        'check out my website https://example.com',
                                         subject: 'Look what I made!');
                                   },
                                   child: Container(
@@ -398,7 +399,22 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     var mainlistPosition = 0;
                                     var bntname = "Add";
                                     return AlertDialog(
-                                      title: Text("Select your services"),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            "Select your services",
+                                            style: TextStyle(
+                                                fontSize: width * 0.03),
+                                          ),
+                                          IconButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            icon: Icon(Icons.cancel_outlined),
+                                          ),
+                                        ],
+                                      ),
                                       content: StatefulBuilder(
                                         // You need this, notice the parameters below:
                                         builder: (BuildContext context,
@@ -417,7 +433,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                       shrinkWrap: true,
                                                       itemCount: a
                                                           .services![index]
-                                                          .subServices!
+                                                          .service!
                                                           .length,
                                                       itemBuilder:
                                                           (context, position) {
@@ -427,14 +443,14 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                               if (tempArray.contains(a
                                                                       .services![
                                                                           index]
-                                                                      .subServices![
+                                                                      .service![
                                                                   position])) {
                                                                 print(
                                                                     "SDF SDF SDF DSF ");
                                                                 tempArray.remove(a
                                                                         .services![
                                                                             index]
-                                                                        .subServices![
+                                                                        .service![
                                                                     position]);
                                                               } else {
                                                                 print(
@@ -442,7 +458,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                                 tempArray.add(a
                                                                         .services![
                                                                             index]
-                                                                        .subServices![
+                                                                        .service![
                                                                     position]);
                                                               }
 
@@ -463,49 +479,62 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                             });
                                                           },
                                                           child: Container(
-                                                            height:
-                                                                height * 0.1,
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    6.0),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 6.0,
+                                                                    right: 6.0,
+                                                                    top: 2.0,
+                                                                    bottom:
+                                                                        1.0),
                                                             child: Card(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Text(a
-                                                                          .services![
-                                                                              index]
-                                                                          .subServices![
-                                                                              position]
-                                                                          .name
-                                                                          .toString()),
-                                                                      Text(a
-                                                                          .services![
-                                                                              index]
-                                                                          .subServices![
-                                                                              position]
-                                                                          .price
-                                                                          .toString())
-                                                                    ],
-                                                                  ),
-                                                                  Icon(tempArray.contains(a
-                                                                          .services![
-                                                                              index]
-                                                                          .subServices![position])
-                                                                      ? Icons.remove_circle_outline
-                                                                      : Icons.add),
-                                                                ],
+                                                              child: Container(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            4.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Text(
+                                                                          a.services![index].service![position]
+                                                                              .name
+                                                                              .toString(),
+                                                                          style: TextStyle(
+                                                                              fontSize: width * 0.03,
+                                                                              fontFamily: "Poppins Semibold",
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                        Text("Price: " + a.services![index].service![position].price.toString(),
+                                                                            style: TextStyle(
+                                                                                fontSize: width * 0.03,
+                                                                                fontFamily: "Poppins Semibold",
+                                                                                color: Colors.black)),
+                                                                        Text("Time :" + a.services![index].service![position].time.toString(),
+                                                                            style: TextStyle(
+                                                                                fontSize: width * 0.03,
+                                                                                fontFamily: "Poppins Semibold",
+                                                                                color: Colors.black))
+                                                                      ],
+                                                                    ),
+                                                                    Icon(tempArray.contains(a.services![index].service![
+                                                                            position])
+                                                                        ? Icons
+                                                                            .remove_circle_outline
+                                                                        : Icons
+                                                                            .add),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
@@ -628,7 +657,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   seeallbarbaer(context),
 
                   Container(
-                    height: a.emploeyee!.length > 0 ? height * 0.4 : 0.0,
+                    height: a.emploeyee!.length > 0 ? height * 0.3+height*0.03 : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,
                         //customerRegList == null ? 0 : customerRegList.length
@@ -673,10 +702,10 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             height: 12,
                                           ),
                                           CircleAvatar(
-                                            radius: width * 0.14,
+                                            radius: width * 0.1+width*0.03,
                                             backgroundColor: Colors.yellow,
                                             child: CircleAvatar(
-                                              radius: width * 0.13,
+                                              radius: width * 0.1+width*0.02,
                                               backgroundImage: NetworkImage(a
                                                   .emploeyee![position]
                                                   .profileImage
@@ -716,17 +745,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                           SizedBox(
                                             height: 2,
                                           ),
-                                          RatingBarIndicator(
-                                            rating: 2.75,
-                                            itemBuilder: (context, index) =>
-                                                Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
-                                            ),
-                                            itemCount: 5,
-                                            itemSize: 18.0,
-                                            direction: Axis.horizontal,
-                                          )
+                                          // RatingBarIndicator(
+                                          //   rating: 2.75,
+                                          //   itemBuilder: (context, index) =>
+                                          //       Icon(
+                                          //     Icons.star,
+                                          //     color: Colors.amber,
+                                          //   ),
+                                          //   itemCount: 5,
+                                          //   itemSize: 18.0,
+                                          //   direction: Axis.horizontal,
+                                          // )
                                         ],
                                       ),
                                     ),
@@ -1164,7 +1193,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
   }
 
   Widget profiledes(BuildContext context, width, height, name, address,
-      ownerimage, ownername, List<Service>? services) {
+      ownerimage, ownername, List<DataService>? services) {
     return Container(
         width: width,
         height: height * 0.4 - height * 0.07,

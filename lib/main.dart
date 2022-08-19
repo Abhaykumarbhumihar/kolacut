@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/controller/home_controller.dart';
 import 'package:untitled/model/ProfilePojo.dart';
 import 'package:untitled/screen/HomeScreen.dart';
 import 'package:untitled/screen/coin.dart';
@@ -24,6 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   final String? session = prefs.getString('session');
+
   runApp(MyApp(session: session));
 }
 
@@ -36,6 +38,9 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     print(session);
+    if(session!=null){
+      Get.put<HomeController>(HomeController());
+    }
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: session == null ? const LoginPage() : const MainPage(),

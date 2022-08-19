@@ -1,12 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:untitled/model/AddRemoveFavouritePojo.dart';
 import 'package:untitled/model/ProfilePojo.dart';
 import 'package:untitled/model/ShopDetailPojo.dart';
 import 'package:untitled/screen/profile.dart';
+import 'dart:convert';
 
 import '../model/AddBookingPojo.dart';
+import '../screen/homepage.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -17,7 +21,7 @@ class ShopDetailController extends GetxController {
   var lodaer = true;
   var shopId = "".obs;
   var addRemoveFavourtePojo = AddRemoveFavouritePojo().obs;
-  var addBookingPojo=AddBookingPojo().obs;
+  var addBookingPojo = AddBookingPojo().obs;
   var isFavourite = 0;
 
   @override
@@ -42,11 +46,9 @@ class ShopDetailController extends GetxController {
     // getShopDetail("0EX03NjgPziSlCcTiZdxAi1c3aT1r1SA",shopId);
   }
 
-  void getShopDetail( shop_id) async {
+  void getShopDetail(shop_id) async {
     Map map;
-    map = {"session_id":box.read('session'),
-
-      "shop_id": shop_id.toString()};
+    map = {"session_id": box.read('session'), "shop_id": shop_id.toString()};
     print("API HIT HIT HIT HIT");
     try {
       lodaer = true;
@@ -62,7 +64,8 @@ class ShopDetailController extends GetxController {
       } else {
         CommonDialog.hideLoading();
         shopDetailpojo.value = shopDetailPojoFromJson(response);
-        print(shopDetailpojo.value.data!.ifFavourite.toString()+" lllllllllll");
+        print(
+            shopDetailpojo.value.data!.isFavorite.toString() + " lllllllllll");
         update();
         lodaer = false;
       }
@@ -73,11 +76,11 @@ class ShopDetailController extends GetxController {
     }
   }
 
-  void addRemoveFavourite( shop_id) async {
+  void addRemoveFavourite(shop_id) async {
     //addRemoveFavourtePojo
     Map map;
     map = {"session_id": box.read('session'), "shop_id": shop_id.toString()};
-   // map = {"session_id":"TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm", "shop_id": shop_id.toString()};
+    // map = {"session_id":"TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm", "shop_id": shop_id.toString()};
 
     try {
       //lodaer = true;
@@ -86,7 +89,7 @@ class ShopDetailController extends GetxController {
           await APICall().registerUrse(map, AppConstant.ADD_REMOVE_FAVOURITE);
       print("response  response   response   response  ");
       //print(response);
-      addRemoveFavourtePojo.value=addRemoveFavouritePojoFromJson(response);
+      addRemoveFavourtePojo.value = addRemoveFavouritePojoFromJson(response);
       if (addRemoveFavourtePojo.value.message ==
           "Item removed from favorite.") {
         isFavourite = 0;
@@ -95,13 +98,13 @@ class ShopDetailController extends GetxController {
         CommonDialog.hideLoading();
         //CommonDialog.showsnackbar("No Data found");
         update();
-      } else if (addRemoveFavourtePojo.value.message.toString()==
+      } else if (addRemoveFavourtePojo.value.message.toString() ==
           "Item added to favorite.") {
         isFavourite = 1;
         print(isFavourite);
         print(response);
         CommonDialog.hideLoading();
-      //  CommonDialog.showsnackbar("No Data found");
+        //  CommonDialog.showsnackbar("No Data found");
         update();
       } else {
         CommonDialog.hideLoading();
@@ -116,38 +119,64 @@ class ShopDetailController extends GetxController {
     }
   }
 
+  void addTocart(BuildContext context, shop_id, sub_service_id) async {
+    Map map;
+    //session_id:a9z55MMZSJKtxESDbbGlAgIOVRdxY9Pa
+    // shop_id:1
+    // sub_service_id:1,2
+    map = {
+      "session_id": box.read('session'),
+      "shop_id": shop_id.toString() + "",
+      "sub_service_id": sub_service_id.toString() + "",
+    };
+    lodaer = true;
+    CommonDialog.showLoading(title: "Please waitt...");
+    final response = await APICall().registerUrse(map, AppConstant.ADD_TO_CART);
+    final body = json.decode(response);
+    update();
+    CommonDialog.hideLoading();
+    if (body['message'] == "Data added successfully") {
+      CommonDialog.showsnackbar(body['message']);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+          (route) => false);
+    } else {
+      CommonDialog.showsnackbar(body['message']);
+    }
+  }
 
-  void bookserVice( shop_idd,employee_id,service_id,sub_service_id,date,
-      from_time,booking_day,to_time,amount
-       ) async {
+  void bookserVice(shop_idd, employee_id, service_id, sub_service_id, date,
+      from_time, booking_day, to_time, amount) async {
     Map map;
 
-    map = {"session_id":box.read('session'),
-     "shop_id":shop_idd.toString()+"",
-     "employee_id":employee_id.toString()+"",
-     "service_id":service_id.toString()+"",
-     "sub_service_id":sub_service_id.toString()+"",
-     "date":date.toString()+"",
-     "from_time":from_time+"",
-     "booking_day":booking_day.toString()+"",
-     "to_time":from_time+"",
-     "amount":"200"};
+    map = {
+      "session_id": box.read('session'),
+      "shop_id": shop_idd.toString() + "",
+      "employee_id": employee_id.toString() + "",
+      "service_id": service_id.toString() + "",
+      "sub_service_id": sub_service_id.toString() + "",
+      "date": date.toString() + "",
+      "from_time": from_time + "",
+      "booking_day": booking_day.toString() + "",
+      "to_time": from_time + "",
+      "amount": "200"
+    };
     print("API HIT HIT HIT HIT");
     try {
       lodaer = true;
       CommonDialog.showLoading(title: "Please waitt...");
       final response =
-      await APICall().registerUrse(map, AppConstant.BOOK_SERVICE);
+          await APICall().registerUrse(map, AppConstant.BOOK_SERVICE);
       print("response  response   response   response  ");
       print(response);
       update();
       CommonDialog.hideLoading();
       lodaer = false;
-      if(response!="null"){
-        addBookingPojo.value=addBookingPojoFromJson(response);
+      if (response != "null") {
+        addBookingPojo.value = addBookingPojoFromJson(response);
         CommonDialog.showsnackbar(addBookingPojo.value.message);
-
-      }else{
+      } else {
         CommonDialog.showsnackbar("Error");
       }
       // if (shopDetailpojo.value.message == "No Data found") {

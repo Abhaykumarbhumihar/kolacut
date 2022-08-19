@@ -11,6 +11,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:geolocator/geolocator.dart';
 import '../controller/home_controller.dart';
+import '../model/AdminCouponPojo.dart';
 import '../model/AdminServicePojo.dart';
 import 'package:google_place/google_place.dart';
 
@@ -26,12 +27,11 @@ class _HomePageState extends State<HomePage> {
   late GooglePlace googlePlace;
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   late Position _currentPosition;
-   String _currentAddress="";
+  String _currentAddress = "";
   List<AutocompletePrediction> predictions = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   int isSelected =
       1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
-
 
   _getAddressFromLatLng() async {
     try {
@@ -42,13 +42,14 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         _currentAddress =
-        "${place.locality}, ${place.postalCode}, ${place.country}";
+            "${place.locality}, ${place.postalCode}, ${place.country}";
         print(_currentAddress);
       });
     } catch (e) {
       print(e);
     }
   }
+
   var name = "";
   var email = "";
   var phone = "";
@@ -60,12 +61,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    String apiKey ="AIzaSyA8BbLiH2vnQ4dvm9ygAgED1KW2tCYnYMo";
+    String apiKey = "AIzaSyA8BbLiH2vnQ4dvm9ygAgED1KW2tCYnYMo";
     googlePlace = GooglePlace(apiKey);
     super.initState();
     _getCurrentLocation();
-
   }
+
   _isSelected(int index) {
     //pass the selected index to here and set to 'isSelected'
     setState(() {
@@ -89,6 +90,7 @@ class _HomePageState extends State<HomePage> {
       print(e);
     });
   }
+
 //flutter build apk --split-per-abi --no-sound-null-safety
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,8 @@ class _HomePageState extends State<HomePage> {
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
       setState(() {
-        homeControlller.sessiooo.value= sharedPreferences.getString("session") as String;
+        homeControlller.sessiooo.value =
+            sharedPreferences.getString("session") as String;
 
         name = _testValue!;
         email = emailValue!;
@@ -117,7 +120,8 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: scaffolKey,
-        drawer:  SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
+        drawer:
+            SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
         appBar: appBarr(context, width, height),
         body: ListView(
           scrollDirection: Axis.vertical,
@@ -155,9 +159,20 @@ class _HomePageState extends State<HomePage> {
                       ),
                       filterContainer(context, width, height),
                       searchHint(context),
-                      GestureDetector(
-                        onTap: () {},
-                        child: OfferWidger(context, width, height),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeControlller
+                                .adminCouponList.value.couponDetail!.length,
+                            itemBuilder: (context, position) {
+                              return OfferWidger(
+                                  context,
+                                  width,
+                                  height,
+                                  homeControlller.adminCouponList.value
+                                      .couponDetail![position]);
+                            }),
                       ),
                       SizedBox(
                         height: height * 0.02,
@@ -176,6 +191,7 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, position) {
                             return GestureDetector(
                                 onTap: () {
+                                  print(data[position].shopId!);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -201,8 +217,9 @@ class _HomePageState extends State<HomePage> {
                                               child: Expanded(
                                                 flex: 3,
                                                 child: Container(
-                                                    margin: const EdgeInsets.only(
-                                                        left: 8),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 8),
                                                     height:
                                                         MediaQuery.of(context)
                                                                     .size
@@ -211,7 +228,8 @@ class _HomePageState extends State<HomePage> {
                                                             height * 0.04,
                                                     decoration: BoxDecoration(
                                                         borderRadius:
-                                                            const BorderRadius.only(
+                                                            const BorderRadius
+                                                                    .only(
                                                                 topLeft: Radius
                                                                     .circular(
                                                                         12),
@@ -411,24 +429,22 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   void getDetils(String placeId) async {
     var result = await this.googlePlace.details.get(placeId);
     if (result != null && result.result != null && mounted) {
       setState(() {
-        var  detailsResult = result.result!;
-        print( detailsResult.name);
-        print( detailsResult.formattedAddress);
-        print( detailsResult.adrAddress);
-        print( detailsResult.scope);
-        print( detailsResult.name);
-        _currentAddress=detailsResult.name!;
-
+        var detailsResult = result.result!;
+        print(detailsResult.name);
+        print(detailsResult.formattedAddress);
+        print(detailsResult.adrAddress);
+        print(detailsResult.scope);
+        print(detailsResult.name);
+        _currentAddress = detailsResult.name!;
 
         //print(detailsResult.geometry!.location!.lat);
         //print( detailsResult.geometry!.location!.lat);
-
       });
-
     }
   }
 
@@ -437,10 +453,10 @@ class _HomePageState extends State<HomePage> {
     if (result != null && result.predictions != null && mounted) {
       setState(() {
         predictions = result.predictions!;
-
       });
     }
   }
+
   AppBar appBarr(BuildContext context, width, height) {
     return AppBar(
       centerTitle: true,
@@ -450,7 +466,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: Icon(
           Icons.menu,
-          color: Colors.black,
+          color: Color(Utils.hexStringToHexInt('#77ACA2')),
         ),
       ),
       title: Row(
@@ -463,7 +479,7 @@ class _HomePageState extends State<HomePage> {
               "images/svgicons/mappin.svg",
             ),
           ),
-          Text(' ${_currentAddress!=null?_currentAddress:""}',
+          Text(' ${_currentAddress != null ? _currentAddress : ""}',
               style: TextStyle(
                   fontSize: 6,
                   fontFamily: 'Poppins Regular',
@@ -481,7 +497,7 @@ class _HomePageState extends State<HomePage> {
                 context: context,
                 builder: (BuildContext context) {
                   bool showSublist =
-                  false; // Declare your variable outside the builder
+                      false; // Declare your variable outside the builder
 
                   bool showmainList = true;
                   var mainlistPosition = 0;
@@ -490,14 +506,12 @@ class _HomePageState extends State<HomePage> {
                     title: Text("Search your location"),
                     content: StatefulBuilder(
                       // You need this, notice the parameters below:
-                      builder: (BuildContext context,
-                          StateSetter setState) {
+                      builder: (BuildContext context, StateSetter setState) {
                         return Container(
                           width: width,
                           height: height,
                           child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               TextField(
                                 decoration: const InputDecoration(
@@ -517,9 +531,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 onChanged: (value) {
                                   if (value.isNotEmpty) {
-                                  setState((){
-                                    autoCompleteSearch(value);
-                                  });
+                                    setState(() {
+                                      autoCompleteSearch(value);
+                                    });
                                   } else {
                                     if (predictions.length > 0 && mounted) {
                                       setState(() {
@@ -532,40 +546,44 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 width: width,
                                 height: height * 0.4,
-                              child:   ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: predictions.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    leading: CircleAvatar(
-                                      child: Icon(
-                                        Icons.pin_drop,
-                                        color: Colors.black,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: predictions.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading: CircleAvatar(
+                                        child: Icon(
+                                          Icons.pin_drop,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
-                                    title: Text(predictions[index].description.toString(),style: TextStyle(
-                                      color: Colors.black
-                                    ),),
-                                    onTap: () {
-                                      setState((){
-                                        debugPrint(predictions[index].placeId);
-                                        getDetils(predictions[index].placeId!);
-                                        Navigator.pop(context);
-                                      });
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => DetailsPage(
-                                      //       placeId: predictions[index].placeId.toString(),
-                                      //       googlePlace: googlePlace, key: null,
-                                      //     ),
-                                      //   ),
-                                      // );
-                                    },
-                                  );
-                                },
-                              ),
-
+                                      title: Text(
+                                        predictions[index]
+                                            .description
+                                            .toString(),
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          debugPrint(
+                                              predictions[index].placeId);
+                                          getDetils(
+                                              predictions[index].placeId!);
+                                          Navigator.pop(context);
+                                        });
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => DetailsPage(
+                                        //       placeId: predictions[index].placeId.toString(),
+                                        //       googlePlace: googlePlace, key: null,
+                                        //     ),
+                                        //   ),
+                                        // );
+                                      },
+                                    );
+                                  },
+                                ),
                               )
                             ],
                           ),
@@ -613,7 +631,7 @@ class _HomePageState extends State<HomePage> {
           iconSize: width * 0.07,
           icon: Icon(
             CupertinoIcons.bell,
-            color: Colors.blue,
+            color: Color(Utils.hexStringToHexInt('#77ACA2')),
           ),
           tooltip: 'Setting Icon',
           onPressed: () {},
@@ -622,7 +640,6 @@ class _HomePageState extends State<HomePage> {
       //<Widget>[]
       backgroundColor: Colors.white,
       elevation: 50.0,
-
 
       brightness: Brightness.dark,
     );
@@ -701,11 +718,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget OfferWidger(BuildContext context, width, height) {
+  Widget OfferWidger(
+      BuildContext context, width, height, CouponDetail couponDetail) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width - width * 0.2,
       height: MediaQuery.of(context).size.height * 0.2,
-      margin: EdgeInsets.only(top: height * 0.02),
+      margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
       padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.02, left: 12),
       decoration: BoxDecoration(
@@ -728,7 +746,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'New User Discounts',
+                  '${couponDetail.couponName}',
                   style: TextStyle(
                       color: Color(Utils.hexStringToHexInt('FFFFFF')),
                       fontFamily: 'Poppins Medium',
@@ -746,7 +764,7 @@ class _HomePageState extends State<HomePage> {
                   height: height * 0.02,
                 ),
                 Text(
-                  'Use Code : NEW50',
+                  'Use Code : ${couponDetail.couponCode}',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Poppins Medium',
