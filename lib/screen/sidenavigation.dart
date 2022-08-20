@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:untitled/screen/cartlist.dart';
 import 'package:untitled/utils/CommomDialog.dart';
 import 'dart:convert';
 
+import '../controller/home_controller.dart';
 import '../utils/Utils.dart';
 import '../utils/appconstant.dart';
 
@@ -31,11 +33,28 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
   final box = GetStorage();
 
   _SideNavigatinPageState(String s, String s1, String s2, String s3);
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   TextEditingController _textFieldControllerupdateAmenities =
       TextEditingController();
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+      var _testValue = sharedPreferences.getString("session");
+      print(sharedPreferences.getString("session"));
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        if(_testValue!=""){
+          try{
+            Get.find<HomeController>().getCartList(_testValue);
+          }catch(e){
 
+          }
+        }
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -174,31 +193,31 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     ListTile(
-                      leading: const Icon(Icons.person),
-                      title: const Text(' About '),
+                      leading:  Icon(Icons.favorite,color:  Color(Utils.hexStringToHexInt('77ACA2')),),
+                      title: const Text(' Wishlist '),
                       onTap: () {
                         Navigator.pop(context);
                       },
                       trailing: const Icon(Icons.keyboard_arrow_right),
                     ),
-                    Divider(
+                    const Divider(
                       height: 1.0,
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: const Icon(Icons.person),
+                      leading:  Icon(Icons.person,color:  Color(Utils.hexStringToHexInt('77ACA2')),),
                       title: const Text(' Employee '),
                       onTap: () {
                         Navigator.pop(context);
                       },
                       trailing: const Icon(Icons.keyboard_arrow_right),
                     ),
-                    Divider(
+                    const Divider(
                       height: 1.0,
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: const Icon(Icons.person),
+                      leading:  Icon(CupertinoIcons.cart,color: Color(Utils.hexStringToHexInt('77ACA2')),),
                       title: const Text(' My Cart '),
                       onTap: () {
                         Navigator.pop(context);
@@ -208,13 +227,13 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                         );
                       },
                       trailing: const Icon(Icons.keyboard_arrow_right),
-                    ),
-                    Divider(
+                    ),//flutter build apk --release --no-sound-null-safety
+                    const Divider(
                       height: 1.0,
                       color: Colors.grey,
                     ),
                     ListTile(
-                      leading: const Icon(Icons.person),
+                      leading:  Icon(Icons.share,color:  Color(Utils.hexStringToHexInt('77ACA2')),),
                       title: const Text(' Refer To Earm '),
                       subtitle: const Text(
                           ' You will get 50 coin on first order of your firend '),
@@ -229,9 +248,9 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(
+                                  const Text(
                                     'Refer to your friend',
-                                    style: TextStyle(fontSize: 8.0),
+                                    style: TextStyle(fontSize: 12.0),
                                   ),
                                   IconButton(
                                     onPressed: () => Navigator.pop(context),
@@ -241,7 +260,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                               ),
                               content: Container(
                                 width: 200,
-                                height: height * 0.4,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -253,7 +271,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                       ),
                                       SizedBox(
                                         width: width,
-                                        height: height * 0.3,
                                         child: TextField(
                                           textCapitalization:
                                               TextCapitalization.sentences,
@@ -274,7 +291,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                         height: 10,
                                       ),
                                       FlatButton(
-                                        color: Colors.green,
+                                        color: Color(Utils.hexStringToHexInt('77ACA2')),
                                         textColor: Colors.white,
                                         child: Text('OK'),
                                         onPressed: () async {

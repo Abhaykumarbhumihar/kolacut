@@ -31,7 +31,27 @@ headers: mainheader,
       return "null";
     }
   }
+  Future<String> postWithoutBody(url) async {
+    Map<String, String> mainheader = {
+      "Content-type": "application/x-www-form-urlencoded",
 
+    };
+    var apiUrl = Uri.parse(AppConstant.BASE_URL + url);
+    print(apiUrl);
+    final response = await http.post(
+        apiUrl,
+        headers: mainheader,
+    );
+    if (response.statusCode == 200) {
+
+      var jsonString = response.body;
+      print(response.statusCode);
+      // print(response.body);
+      return jsonString;
+    } else {
+      return "null";
+    }
+  }
 
   Future<String> getMethod(Map map, url) async {
     Map<String, String> mainheader = {

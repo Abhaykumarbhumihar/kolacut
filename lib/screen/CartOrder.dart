@@ -86,126 +86,247 @@ class _CartOrderState extends State<CartOrder> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          CupertinoIcons.arrow_left,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        '${widget.slotDetail!.shopName.toString()}',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: width * 0.04,
-                            fontFamily: 'Poppins Regular'),
-                      )
-                    ],
-                  ),
-                  SvgPicture.asset(
-                    'images/svgicons/appcupon.svg',
-                    fit: BoxFit.contain,
-                    width: 24,
-                    height: 24,
-                  )
-                ],
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                color: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 24,
-                      height: 24,
-                      child: SvgPicture.asset(
-                        "images/svgicons/mappin.svg",
-                      ),
-                    ),
-                    Text(' ${widget.slotDetail!.userName}',
-                        style: TextStyle(
-                            fontSize: width * 0.03,
-                            fontFamily: 'Poppins Regular',
-                            color: Color(Utils.hexStringToHexInt('#77ACA2'))),
-                        textAlign: TextAlign.center),
-                  ],
+
+Padding(
+  padding: const EdgeInsets.only(left:12.0,right: 12.0),
+  child:   Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+
+    children: <Widget>[
+      SizedBox(
+        height: height * 0.02,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  CupertinoIcons.arrow_left,
+                  color: Colors.black,
                 ),
               ),
-              //////
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  DatePicker(
-                    DateTime.now(),
-                    initialSelectedDate: DateTime.now(),
-                    selectionColor: Color(Utils.hexStringToHexInt('77ACA2')),
-                    selectedTextColor: Colors.white,
-                    monthTextStyle:
-                        TextStyle(color: Colors.white, fontSize: 0.0),
-                    onDateChange: (date) {
-                      // New date selected
-                      setState(() {
-                        selectDate = date.day.toString() +
-                            "-" +
-                            date.month.toString() +
-                            "-" +
-                            date.year.toString();
-                        selectDay = date.day.toString();
-                        if (date.weekday.toString() == "1") {
-                          selectDay = "Monday";
-                        } else if (date.weekday.toString() == "2") {
-                          selectDay = "Tuesday";
-                        } else if (date.weekday.toString() == "3") {
-                          selectDay = "Wednesday";
-                        } else if (date.weekday.toString() == "4") {
-                          selectDay = "Thrusday";
-                        } else if (date.weekday.toString() == "5") {
-                          selectDay = "Friday";
-                        } else if (date.weekday.toString() == "6") {
-                          selectDay = "Saturday";
-                        } else if (date.weekday.toString() == "7") {
-                          selectDay = "Sunday";
-                        }
-
-                        print(selectDay);
-                        // _selectedValue = date;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 6,
-              ),
               Text(
-                ' Morning',
+                '${widget.slotDetail!.shopName.toString()}',
                 style: TextStyle(
+                    color: Colors.black,
+                    fontSize: width * 0.04,
+                    fontFamily: 'Poppins Regular'),
+              )
+            ],
+          ),
+          SvgPicture.asset(
+            'images/svgicons/appcupon.svg',
+            fit: BoxFit.contain,
+            width: 24,
+            height: 24,
+          )
+        ],
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      Container(
+        alignment: Alignment.topLeft,
+        color: Colors.white,
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 24,
+              height: 24,
+              child: SvgPicture.asset(
+                "images/svgicons/mappin.svg",
+              ),
+            ),
+            Text(' ${widget.slotDetail!.userName}',
+                style: TextStyle(
+                    fontSize: width * 0.03,
                     fontFamily: 'Poppins Regular',
-                    color: Color(Utils.hexStringToHexInt('#A3A2A2')),
-                    fontSize: width * 0.04),
+                    color: Color(Utils.hexStringToHexInt('#77ACA2'))),
+                textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+      //////
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          DatePicker(
+            DateTime.now(),
+            initialSelectedDate: DateTime.now(),
+            selectionColor: Color(Utils.hexStringToHexInt('77ACA2')),
+            selectedTextColor: Colors.white,
+            monthTextStyle:
+            TextStyle(color: Colors.white, fontSize: 0.0),
+            onDateChange: (date) {
+              // New date selected
+              setState(() {
+                selectDate = date.day.toString() +
+                    "-" +
+                    date.month.toString() +
+                    "-" +
+                    date.year.toString();
+                selectDay = date.day.toString();
+                if (date.weekday.toString() == "1") {
+                  selectDay = "Monday";
+                } else if (date.weekday.toString() == "2") {
+                  selectDay = "Tuesday";
+                } else if (date.weekday.toString() == "3") {
+                  selectDay = "Wednesday";
+                } else if (date.weekday.toString() == "4") {
+                  selectDay = "Thrusday";
+                } else if (date.weekday.toString() == "5") {
+                  selectDay = "Friday";
+                } else if (date.weekday.toString() == "6") {
+                  selectDay = "Saturday";
+                } else if (date.weekday.toString() == "7") {
+                  selectDay = "Sunday";
+                }
+
+                print(selectDay);
+                // _selectedValue = date;
+              });
+            },
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 6,
+      ),
+      Text(
+        ' Morning',
+        style: TextStyle(
+            fontFamily: 'Poppins Regular',
+            color: Color(Utils.hexStringToHexInt('#A3A2A2')),
+            fontSize: width * 0.04),
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      InkWell(
+        onTap: () {
+          slotSelected = "Morning";
+          timeSelected = "10:00 AM - 12:00 PM";
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: width * 0.02),
+          padding: EdgeInsets.only(
+              left: width * 0.02,
+              right: width * 0.02,
+              top: width * 0.02,
+              bottom: width * 0.02),
+          decoration: BoxDecoration(
+              border: Border.all(
+                //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                  color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                  width: 1)),
+          child: Text(
+            '10:00 AM - 12:00 PM',
+            style: TextStyle(
+                fontSize: width * 0.03,
+                color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      Text(
+        ' Afternoon',
+        style: TextStyle(
+            fontFamily: 'Poppins Regular',
+            color: Color(Utils.hexStringToHexInt('#A3A2A2')),
+            fontSize: width * 0.04),
+      ),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: <Widget>[
+            InkWell(
+              onTap: () {
+                slotSelected = "Afternoon";
+                timeSelected = "10:00 AM - 12:00 PM";
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: width * 0.02),
+                padding: EdgeInsets.only(
+                    left: width * 0.02,
+                    right: width * 0.02,
+                    top: width * 0.02,
+                    bottom: width * 0.02),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color:
+                        Color(Utils.hexStringToHexInt('#8D8D8D')),
+                        width: 1)),
+                child: Text(
+                  '10:00 AM - 12:00 PM',
+                  style: TextStyle(
+                      fontSize: width * 0.03,
+                      color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
+                ),
               ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              InkWell(
-                onTap: () {
-                  slotSelected = "Morning";
+            ),
+            SizedBox(
+              width: width * 0.02,
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  slotSelected = "Afternoon";
                   timeSelected = "10:00 AM - 12:00 PM";
-                },
-                child: Container(
+                });
+              },
+              child: Container(
+                  margin: EdgeInsets.only(left: width * 0.01),
+                  padding: EdgeInsets.only(
+                      left: width * 0.02,
+                      right: width * 0.02,
+                      top: width * 0.02,
+                      bottom: width * 0.02),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color:
+                          Color(Utils.hexStringToHexInt('#8D8D8D')),
+                          width: 1)),
+                  child: Text(
+                    '10:00 AM - 12:00 PM',
+                    style: TextStyle(
+                        fontSize: width * 0.03,
+                        color:
+                        Color(Utils.hexStringToHexInt('#8D8D8D'))),
+                  )),
+            ),
+          ])),
+      SizedBox(
+        height: height * 0.01,
+      ),
+      Text(
+        ' Evening',
+        style: TextStyle(
+            fontFamily: 'Poppins Regular',
+            color: Color(Utils.hexStringToHexInt('#A3A2A2')),
+            fontSize: width * 0.04),
+      ),
+      SizedBox(
+        height: 6,
+      ),
+
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: <Widget>[
+            InkWell(
+              onTap: () {
+                slotSelected = "Evening";
+                timeSelected = "10:00 AM - 12:00 PM";
+              },
+              child: Container(
                   margin: EdgeInsets.only(left: width * 0.02),
                   padding: EdgeInsets.only(
                       left: width * 0.02,
@@ -214,302 +335,190 @@ class _CartOrderState extends State<CartOrder> {
                       bottom: width * 0.02),
                   decoration: BoxDecoration(
                       border: Border.all(
-                          //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                          color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                          color:
+                          Color(Utils.hexStringToHexInt('#8D8D8D')),
                           width: 1)),
                   child: Text(
                     '10:00 AM - 12:00 PM',
                     style: TextStyle(
                         fontSize: width * 0.03,
-                        color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              Text(
-                ' Afternoon',
-                style: TextStyle(
-                    fontFamily: 'Poppins Regular',
-                    color: Color(Utils.hexStringToHexInt('#A3A2A2')),
-                    fontSize: width * 0.04),
-              ),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        slotSelected = "Afternoon";
-                        timeSelected = "10:00 AM - 12:00 PM";
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: width * 0.02),
-                        padding: EdgeInsets.only(
-                            left: width * 0.02,
-                            right: width * 0.02,
-                            top: width * 0.02,
-                            bottom: width * 0.02),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color:
-                                    Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                width: 1)),
-                        child: Text(
-                          '10:00 AM - 12:00 PM',
-                          style: TextStyle(
-                              fontSize: width * 0.03,
-                              color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          slotSelected = "Afternoon";
-                          timeSelected = "10:00 AM - 12:00 PM";
-                        });
-                      },
-                      child: Container(
-                          margin: EdgeInsets.only(left: width * 0.01),
-                          padding: EdgeInsets.only(
-                              left: width * 0.02,
-                              right: width * 0.02,
-                              top: width * 0.02,
-                              bottom: width * 0.02),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                  width: 1)),
-                          child: Text(
-                            '10:00 AM - 12:00 PM',
-                            style: TextStyle(
-                                fontSize: width * 0.03,
-                                color:
-                                    Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                          )),
-                    ),
-                  ])),
-              SizedBox(
-                height: height * 0.01,
-              ),
-              Text(
-                ' Evening',
-                style: TextStyle(
-                    fontFamily: 'Poppins Regular',
-                    color: Color(Utils.hexStringToHexInt('#A3A2A2')),
-                    fontSize: width * 0.04),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-
-              SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        slotSelected = "Evening";
-                        timeSelected = "10:00 AM - 12:00 PM";
-                      },
-                      child: Container(
-                          margin: EdgeInsets.only(left: width * 0.02),
-                          padding: EdgeInsets.only(
-                              left: width * 0.02,
-                              right: width * 0.02,
-                              top: width * 0.02,
-                              bottom: width * 0.02),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                  width: 1)),
-                          child: Text(
-                            '10:00 AM - 12:00 PM',
-                            style: TextStyle(
-                                fontSize: width * 0.03,
-                                color:
-                                    Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                          )),
-                    ),
-                    SizedBox(
-                      width: width * 0.02,
-                    ),
-                    Container(
-                        margin: EdgeInsets.only(left: width * 0.01),
-                        padding: EdgeInsets.only(
-                            left: width * 0.02,
-                            right: width * 0.02,
-                            top: width * 0.02,
-                            bottom: width * 0.02),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color:
-                                    Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                width: 1)),
-                        child: Text(
-                          '10:00 AM - 12:00 PM',
-                          style: TextStyle(
-                              fontSize: width * 0.03,
-                              color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                        )),
-                  ])),
-              ///////
-              SizedBox(
-                height: height * 0.04,
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 24,
-                    height: 24,
-                    child: SvgPicture.asset(
-                      "images/svgicons/lock.svg",
-                    ),
-                  ),
-                  Text(
-                    '  Your Order',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: width * 0.04,
-                        fontFamily: 'Poppins Semibold'),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: height * 0.02,
-              ),
-              Container(
-                width: width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '  Services',
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('5E5E5E')),
-                          fontSize: width * 0.03,
-                          fontFamily: 'Poppins Regular'),
-                    ),
-                    Text(
-                      '  Prices      ',
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('5E5E5E')),
-                          fontSize: width * 0.03,
-                          fontFamily: 'Poppins Regular'),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: height * 0.02),
-              Material(
-                elevation: 1,
-                color: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: height * 0.02,
-                    ),
-                    SizedBox(
-                      width: width,
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: widget.slotDetail!.service!.length,
-                          itemBuilder: (context, position) {
-                            return Container(
-                              margin: EdgeInsets.only(right: width * 0.03),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                        width: width * 0.08,
-                                        height: height * 0.04,
-                                        child: SvgPicture.asset(
-                                          "images/svgicons/checktick.svg",
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(left: width * 0.03),
-                                        child: Text(
-                                            '${widget.slotDetail!.service![position].name}',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: width * 0.04,
-                                                fontFamily: 'Poppins Regular')),
-                                      )
-                                    ],
-                                  ),
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(right: width * 0.03),
-                                    child: Text(
-                                        'Rs. ${widget.slotDetail!.service![position].price}',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: width * 0.03,
-                                            fontFamily: 'Poppins Regular')),
-                                  )
-                                ],
+                        color:
+                        Color(Utils.hexStringToHexInt('#8D8D8D'))),
+                  )),
+            ),
+            SizedBox(
+              width: width * 0.02,
+            ),
+            Container(
+                margin: EdgeInsets.only(left: width * 0.01),
+                padding: EdgeInsets.only(
+                    left: width * 0.02,
+                    right: width * 0.02,
+                    top: width * 0.02,
+                    bottom: width * 0.02),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color:
+                        Color(Utils.hexStringToHexInt('#8D8D8D')),
+                        width: 1)),
+                child: Text(
+                  '10:00 AM - 12:00 PM',
+                  style: TextStyle(
+                      fontSize: width * 0.03,
+                      color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
+                )),
+          ])),
+      ///////
+      SizedBox(
+        height: height * 0.04,
+      ),
+      Row(
+        children: <Widget>[
+          Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(
+              "images/svgicons/lock.svg",
+            ),
+          ),
+          Text(
+            '  Your Order',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: width * 0.04,
+                fontFamily: 'Poppins Semibold'),
+          )
+        ],
+      ),
+      SizedBox(
+        height: height * 0.02,
+      ),
+      Container(
+        width: width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              '  Services',
+              style: TextStyle(
+                  color: Color(Utils.hexStringToHexInt('5E5E5E')),
+                  fontSize: width * 0.03,
+                  fontFamily: 'Poppins Regular'),
+            ),
+            Text(
+              '  Prices      ',
+              style: TextStyle(
+                  color: Color(Utils.hexStringToHexInt('5E5E5E')),
+                  fontSize: width * 0.03,
+                  fontFamily: 'Poppins Regular'),
+            )
+          ],
+        ),
+      ),
+      SizedBox(height: height * 0.02),
+      Material(
+        elevation: 1,
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: height * 0.02,
+            ),
+            SizedBox(
+              width: width,
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: widget.slotDetail!.service!.length,
+                  itemBuilder: (context, position) {
+                    return Container(
+                      margin: EdgeInsets.only(right: width * 0.03),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                width: width * 0.08,
+                                height: height * 0.04,
+                                child: SvgPicture.asset(
+                                  "images/svgicons/checktick.svg",
+                                ),
                               ),
-                            );
-                          }),
-                    ),
-                    SizedBox(
-                      height: height * 0.05,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(
-                          'images/svgicons/addmoreservices.svg',
-                          width: width * 0.01,
-                          height: height * 0.02,
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      thickness: 2,
-                      color: Color(Utils.hexStringToHexInt('E5E5E5')),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          'images/svgicons/questionmark.svg',
-                          fit: BoxFit.contain,
-                          width: 18,
-                          height: 18,
-                        ),
-                        Text(
-                          ' Do you have any query?',
-                          style: TextStyle(
-                              fontFamily: 'Poppins Light',
-                              fontSize: width * 0.02,
-                              color: Color(Utils.hexStringToHexInt('8D8D8D'))),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: height * 0.02,
-                    ),
-                  ],
+                              Container(
+                                margin:
+                                EdgeInsets.only(left: width * 0.03),
+                                child: Text(
+                                    '${widget.slotDetail!.service![position].name}',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: width * 0.04,
+                                        fontFamily: 'Poppins Regular')),
+                              )
+                            ],
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(right: width * 0.03),
+                            child: Text(
+                                'Rs. ${widget.slotDetail!.service![position].price}',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: width * 0.03,
+                                    fontFamily: 'Poppins Regular')),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+            SizedBox(
+              height: height * 0.05,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SvgPicture.asset(
+                  'images/svgicons/addmoreservices.svg',
+                  width: width * 0.01,
+                  height: height * 0.02,
                 ),
-              ),
-
+              ],
+            ),
+            Divider(
+              thickness: 2,
+              color: Color(Utils.hexStringToHexInt('E5E5E5')),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  'images/svgicons/questionmark.svg',
+                  fit: BoxFit.contain,
+                  width: 18,
+                  height: 18,
+                ),
+                Text(
+                  ' Do you have any query?',
+                  style: TextStyle(
+                      fontFamily: 'Poppins Light',
+                      fontSize: width * 0.02,
+                      color: Color(Utils.hexStringToHexInt('8D8D8D'))),
+                )
+              ],
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+),
               InkWell(
                 onTap: () {
                   showDialog(
@@ -933,138 +942,145 @@ class _CartOrderState extends State<CartOrder> {
                 color: Colors.white,
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: width * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
+                  Padding(
+                    padding: const EdgeInsets.only(left:12.0,right: 12.0),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(right: width * 0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: width * 0.03),
+                                    child: Text('Services total',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: width * 0.04,
+                                            fontFamily: 'Poppins Regular')),
+                                  )
+                                ],
+                              ),
                               Container(
-                                margin: EdgeInsets.only(left: width * 0.03),
-                                child: Text('Services total',
+                                margin: EdgeInsets.only(right: width * 0.03),
+                                //TODO--services ka total price
+                                child: Text('Rs. ${total_price}',
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: width * 0.04,
+                                        fontSize: width * 0.03,
                                         fontFamily: 'Poppins Regular')),
                               )
                             ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
-                            //TODO--services ka total price
-                            child: Text('Rs. ${total_price}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular')),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: width * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: width * 0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: width * 0.03),
+                                    child: Text('Taxes & Charges',
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt('5E5E5E')),
+                                            fontSize: width * 0.03,
+                                            fontFamily: 'Poppins Regular')),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down_sharp,
+                                    size: width * 0.06,
+                                  )
+                                ],
+                              ),
                               Container(
-                                margin: EdgeInsets.only(left: width * 0.03),
-                                child: Text('Taxes & Charges',
+                                margin: EdgeInsets.only(right: width * 0.03),
+                                //TODO---services ka total price
+                                child: Text('Rs. 0.0',
+                                    style: TextStyle(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('5E5E5E')),
+                                        fontSize: width * 0.03,
+                                        fontFamily: 'Poppins Regular')),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: width * 0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: width * 0.03),
+                                    child: Text('Coupon Discount',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: width * 0.04,
+                                            fontFamily: 'Poppins Regular')),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: width * 0.03),
+                                child: Text(
+                                    applycouponPrice != 0.0
+                                        ? "-" + "${applycouponPrice}"
+                                        : "N/A",
                                     style: TextStyle(
                                         color: Color(
                                             Utils.hexStringToHexInt('5E5E5E')),
                                         fontSize: width * 0.03,
                                         fontFamily: 'Poppins Regular')),
                               ),
-                              Icon(
-                                Icons.arrow_drop_down_sharp,
-                                size: width * 0.06,
-                              )
                             ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
-                            //TODO---services ka total price
-                            child: Text('Rs. 0.0',
-                                style: TextStyle(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('5E5E5E')),
-                                    fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular')),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.02,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: width * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: width * 0.03),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: width * 0.03),
+                                    child: Text('Coin Applied',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: width * 0.04,
+                                            fontFamily: 'Poppins Regular')),
+                                  )
+                                ],
+                              ),
                               Container(
-                                margin: EdgeInsets.only(left: width * 0.03),
-                                child: Text('Coupon Discount',
+                                margin: EdgeInsets.only(right: width * 0.03),
+                                child: Text(
+                                    applycoin != 0 ? "-" + "${applycoin}" : "N/A",
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: width * 0.04,
+                                        color: Color(
+                                            Utils.hexStringToHexInt('5E5E5E')),
+                                        fontSize: width * 0.03,
                                         fontFamily: 'Poppins Regular')),
-                              )
+                              ),
                             ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
-                            child: Text(
-                                applycouponPrice != 0.0
-                                    ? "-" + "${applycouponPrice}"
-                                    : "N/A",
-                                style: TextStyle(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('5E5E5E')),
-                                    fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular')),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: width * 0.03),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(left: width * 0.03),
-                                child: Text('Coin Applied',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: width * 0.04,
-                                        fontFamily: 'Poppins Regular')),
-                              )
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
-                            child: Text(
-                                applycoin != 0 ? "-" + "${applycoin}" : "N/A",
-                                style: TextStyle(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('5E5E5E')),
-                                    fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular')),
-                          ),
-                        ],
-                      ),
-                    ),
+                  ),
                     SizedBox(
                       height: 2,
                     ),

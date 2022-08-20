@@ -15,6 +15,8 @@ import '../model/AdminCouponPojo.dart';
 import '../model/AdminServicePojo.dart';
 import 'package:google_place/google_place.dart';
 
+import '../model/SeeallShoplist.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -126,304 +128,312 @@ class _HomePageState extends State<HomePage> {
         body: ListView(
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            GetBuilder<HomeController>(builder: (homeControlller) {
-              if (homeControlller.lodaer) {
-                return Container();
-              } else {
-                var data = homeControlller.shopListPojo.value.staffDetail;
-                var servicedata =
-                    homeControlller.serviceList.value.serviceDetail;
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Color(Utils.hexStringToHexInt('#fbfbfc')),
-                  margin: const EdgeInsets.only(left: 12, right: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        'Hello ${name}!',
-                        style: TextStyle(
-                            fontFamily: 'Poppins Regular',
-                            fontSize: MediaQuery.of(context).size.width * 0.02,
-                            color: Color(Utils.hexStringToHexInt('#cfcfcf'))),
-                      ),
-                      Text(
-                        'Start looking for your Favourite Salon',
-                        style: TextStyle(
-                            fontFamily: 'Poppins Medium',
-                            fontSize: MediaQuery.of(context).size.width * 0.03,
-                            color: Color(Utils.hexStringToHexInt('#154f84'))),
-                      ),
-                      filterContainer(context, width, height),
-                      searchHint(context),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: homeControlller
-                                .adminCouponList.value.couponDetail!.length,
-                            itemBuilder: (context, position) {
-                              return OfferWidger(
-                                  context,
-                                  width,
-                                  height,
-                                  homeControlller.adminCouponList.value
-                                      .couponDetail![position]);
-                            }),
-                      ),
-                      SizedBox(
-                        height: height * 0.02,
-                      ),
-                      Utils().titleText('Services', context),
-                      servicelist(context, width, height, servicedata),
-                      SizedBox(
-                        height: height * 0.02,
-                      ),
-                      seeall(context),
-                      ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: data!.length,
-                          itemBuilder: (context, position) {
-                            return GestureDetector(
-                                onTap: () {
-                                  print(data[position].shopId!);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SaloonDetail(
-                                            data[position].shopId!)),
-                                  );
-                                },
-                                child: Container(
-                                  width: width,
-                                  height: height * 0.2,
-                                  margin: EdgeInsets.only(
-                                      top: height * 0.001,
-                                      bottom: height * 0.001),
-                                  color: Colors.white,
-                                  child: Card(
-                                    child: Stack(
-                                      clipBehavior: Clip.none,
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            /*TODO---Saloon image*/
-                                            Container(
-                                              child: Expanded(
-                                                flex: 3,
-                                                child: Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            left: 8),
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                    .size
-                                                                    .height *
-                                                                0.2 -
-                                                            height * 0.04,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        12),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        12)),
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              data[position]
-                                                                  .shopLogo
-                                                                  .toString()),
-                                                          fit: BoxFit.cover,
-                                                        ))),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Expanded(
-                                                flex: 5,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Column(
-                                                      children: <Widget>[],
-                                                    ),
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(""),
-                                                        SizedBox(
-                                                          height: height * 0.03,
-                                                        ),
-                                                        SizedBox(
+            homeControlller != null
+                ? GetBuilder<HomeController>(builder: (homeControlller) {
+                    if (homeControlller.lodaer) {
+                      return Container();
+                    } else {
+                      var data = homeControlller.data;
+                      var servicedata =
+                          homeControlller.serviceList.value.serviceDetail;
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Color(Utils.hexStringToHexInt('#fbfbfc')),
+                        margin: const EdgeInsets.only(left: 12, right: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              'Hello ${name}!',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins Regular',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  color: Color(
+                                      Utils.hexStringToHexInt('#cfcfcf'))),
+                            ),
+                            Text(
+                              'Start looking for your Favourite Salon',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins Medium',
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03,
+                                  color: Color(
+                                      Utils.hexStringToHexInt('#154f84'))),
+                            ),
+                            filterContainer(context, width, height),
+                            searchHint(context),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: homeControlller.adminCouponList
+                                      .value.couponDetail!.length,
+                                  itemBuilder: (context, position) {
+                                    return OfferWidger(
+                                        context,
+                                        width,
+                                        height,
+                                        homeControlller.adminCouponList.value
+                                            .couponDetail![position]);
+                                  }),
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Utils().titleText('Services', context),
+                            servicelist(context, width, height, servicedata),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            seeall(context),
+                            ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: data!.length,
+                                itemBuilder: (context, position) {
+                                  return GestureDetector(
+                                      onTap: () {
+                                        print(data[position].shopId!);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SaloonDetail(
+                                                      data[position].shopId!)),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: width,
+                                        height: height * 0.2,
+                                        margin: EdgeInsets.only(
+                                            top: height * 0.001,
+                                            bottom: height * 0.001),
+                                        color: Colors.white,
+                                        child: Card(
+                                          child: Stack(
+                                            clipBehavior: Clip.none,
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  /*TODO---Saloon image*/
+                                                  Container(
+                                                    child: Expanded(
+                                                      flex: 3,
+                                                      child: Container(
+                                                          margin: const EdgeInsets
+                                                              .only(left: 8),
                                                           height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height *
-                                                              0.04,
-                                                          child:
-                                                              ListView.builder(
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis
-                                                                          .horizontal,
-                                                                  itemCount: data[
-                                                                          position]
-                                                                      .service!
-                                                                      .length,
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.2 -
+                                                              height * 0.04,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  borderRadius: const BorderRadius
+                                                                          .only(
+                                                                      topLeft: Radius
+                                                                          .circular(
+                                                                              12),
+                                                                      bottomLeft:
+                                                                          Radius.circular(
+                                                                              12)),
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    image: NetworkImage(data[
+                                                                            position]
+                                                                        .shopLogo
+                                                                        .toString()),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ))),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Expanded(
+                                                      flex: 5,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceAround,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Column(
+                                                            children: <
+                                                                Widget>[],
+                                                          ),
+                                                          Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: <Widget>[
+                                                              Text(""),
+                                                              SizedBox(
+                                                                height: height *
+                                                                    0.03,
+                                                              ),
+                                                              SizedBox(
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.04,
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        scrollDirection:
+                                                                            Axis
+                                                                                .horizontal,
+                                                                        itemCount: data[position]
+                                                                            .service!
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return Container(
+                                                                            margin:
+                                                                                EdgeInsets.only(left: 4, right: 4),
+                                                                            padding:
+                                                                                EdgeInsets.all(4),
+                                                                            color:
+                                                                                Color(Utils.hexStringToHexInt('E5E5E5')),
+                                                                            child:
+                                                                                Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: <Widget>[
+                                                                                Container(
+                                                                                  margin: EdgeInsets.only(top: 5),
+                                                                                  child: Center(
+                                                                                    child: SvgPicture.asset(
+                                                                                      'images/svgicons/tagsvg.svg',
+                                                                                      fit: BoxFit.contain,
+                                                                                      width: 24,
+                                                                                      height: 24,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.only(right: 4),
+                                                                                  decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
+                                                                                  child: Center(
+                                                                                      child: Text(
+                                                                                    data[position].service![index].serviceTitle.toString(),
+                                                                                    style: TextStyle(fontSize: width * 0.03),
+                                                                                  )),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        }),
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(
+                                                                    top: height *
+                                                                        0.01),
+                                                                child:
+                                                                    RatingBarIndicator(
+                                                                  rating: 2.75,
                                                                   itemBuilder:
                                                                       (context,
-                                                                          index) {
-                                                                    return Container(
-                                                                      margin: EdgeInsets.only(
-                                                                          left:
-                                                                              4,
-                                                                          right:
-                                                                              4),
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              4),
-                                                                      color: Color(
-                                                                          Utils.hexStringToHexInt(
-                                                                              'E5E5E5')),
-                                                                      child:
-                                                                          Row(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.center,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Container(
-                                                                            margin:
-                                                                                EdgeInsets.only(top: 5),
-                                                                            child:
-                                                                                Center(
-                                                                              child: SvgPicture.asset(
-                                                                                'images/svgicons/tagsvg.svg',
-                                                                                fit: BoxFit.contain,
-                                                                                width: 24,
-                                                                                height: 24,
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                          Container(
-                                                                            padding:
-                                                                                EdgeInsets.only(right: 4),
-                                                                            decoration:
-                                                                                BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
-                                                                            child: Center(
-                                                                                child: Text(
-                                                                              data[position].service![index].serviceTitle.toString(),
-                                                                              style: TextStyle(fontSize: width * 0.03),
-                                                                            )),
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    );
-                                                                  }),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: height *
-                                                                      0.01),
-                                                          child:
-                                                              RatingBarIndicator(
-                                                            rating: 2.75,
-                                                            itemBuilder:
-                                                                (context,
-                                                                        index) =>
-                                                                    Icon(
-                                                              Icons.star,
-                                                              color:
-                                                                  Colors.amber,
-                                                            ),
-                                                            itemCount: 5,
-                                                            itemSize: 18.0,
-                                                            direction:
-                                                                Axis.horizontal,
+                                                                              index) =>
+                                                                          Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
+                                                                  ),
+                                                                  itemCount: 5,
+                                                                  itemSize:
+                                                                      18.0,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Expanded(
+                                                        flex: 1,
+                                                        child: Container(
+                                                          child: Icon(
+                                                            Icons
+                                                                .keyboard_arrow_right_outlined,
+                                                            size: 34,
+                                                            color: Colors.blue,
                                                           ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
+                                                        )),
+                                                  )
+                                                ],
+                                              ),
+                                              // /*TODO--femina text*/
+                                              Positioned(
+                                                top: height * 0.02,
+                                                left:
+                                                    width * 0.3 + width * 0.03,
+                                                child: Text(
+                                                  data[position]
+                                                      .shopName
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                      fontFamily:
+                                                          'Poppins Regular'),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              child: Expanded(
-                                                  flex: 1,
-                                                  child: Container(
-                                                    child: Icon(
-                                                      Icons
-                                                          .keyboard_arrow_right_outlined,
-                                                      size: 34,
-                                                      color: Colors.blue,
-                                                    ),
-                                                  )),
-                                            )
-                                          ],
-                                        ),
-                                        // /*TODO--femina text*/
-                                        Positioned(
-                                          top: height * 0.02,
-                                          left: width * 0.3 + width * 0.03,
-                                          child: Text(
-                                            data[position].shopName.toString(),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                                fontFamily: 'Poppins Regular'),
-                                          ),
-                                        ),
 
-                                        /*TODO---address*/
-                                        Positioned(
-                                          top: height * 0.05,
-                                          left: width * 0.3 + width * 0.03,
-                                          child: Text(
-                                            data[position].location.toString(),
-                                            style: TextStyle(
-                                                color: Color(
-                                                    Utils.hexStringToHexInt(
-                                                        'A3A2A2')),
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.03,
-                                                fontFamily: 'Poppins Regular'),
+                                              /*TODO---address*/
+                                              Positioned(
+                                                top: height * 0.05,
+                                                left:
+                                                    width * 0.3 + width * 0.03,
+                                                child: Text(
+                                                  data[position]
+                                                      .location
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Color(Utils
+                                                          .hexStringToHexInt(
+                                                              'A3A2A2')),
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.03,
+                                                      fontFamily:
+                                                          'Poppins Regular'),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ));
-                          })
-                    ],
-                  ),
-                );
-              }
-            })
+                                        ),
+                                      ));
+                                })
+                          ],
+                        ),
+                      );
+                    }
+                  })
+                : Container()
           ],
         ),
       ),
@@ -665,13 +675,38 @@ class _HomePageState extends State<HomePage> {
                   color: Color(Utils.hexStringToHexInt('#77aca2')),
                   size: MediaQuery.of(context).size.width * 0.06,
                 ),
-                Text(
-                  'What are you looking for?',
-                  style: TextStyle(
-                      fontFamily: 'Poppins Semibold',
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width*0.6,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    child: TextField(
+                      autocorrect: true,
+                      autofocus: false,
+                      style: TextStyle(
+                          fontFamily: 'Poppins Semibold',
+                          fontSize: MediaQuery.of(context).size.width * 0.03,
+                          color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'What are you looking for?',
+                        hintStyle: TextStyle(
+                            fontFamily: 'Poppins Semibold',
+                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                            color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                      ),
+                        onChanged: (value) {
+                          homeControlller.filterEmplist(value);
+                        }
+                    ),
+                  ),
                 ),
+                // Text(
+                //   'What are you looking for?',
+                //   style: TextStyle(
+                //       fontFamily: 'Poppins Semibold',
+                //       fontSize: MediaQuery.of(context).size.width * 0.03,
+                //       color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                // ),
               ],
             ),
             Container(
@@ -684,33 +719,40 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget searchHint(BuildContext context) {
+    var list=["makeup","Hair cut","Cosmetics","Trimming"];
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.05,
       child: ListView.builder(
-          itemCount: 4,
+          itemCount: list.length,
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, position) {
-            return Container(
-              width: MediaQuery.of(context).size.width * 0.3,
-              margin: const EdgeInsets.only(left: 6, right: 6),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(Utils.hexStringToHexInt('#e5e5e5')),
-                    width: 2,
+            return InkWell(
+              onTap: (){
+                print(list[position].toString().toLowerCase());
+                homeControlller.filterEmplist(list[position].toString().toLowerCase());
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.3,
+                margin: const EdgeInsets.only(left: 6, right: 6),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(Utils.hexStringToHexInt('#e5e5e5')),
+                      width: 2,
+                    ),
+                    borderRadius:
+                        const BorderRadius.all(const Radius.circular(6))),
+                child: Center(
+                  child: Text(
+                    '${list[position]}',
+                    style: TextStyle(
+                        fontFamily: 'Poppins Regular',
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
+                        color: Color(Utils.hexStringToHexInt('000000'))),
+                    textAlign: TextAlign.center,
                   ),
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(6))),
-              child: Center(
-                child: Text(
-                  'Makeup',
-                  style: TextStyle(
-                      fontFamily: 'Poppins Regular',
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      color: Color(Utils.hexStringToHexInt('000000'))),
-                  textAlign: TextAlign.center,
                 ),
               ),
             );
@@ -857,12 +899,20 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Utils().titleText('Nearby Salons', context),
-        Text(
-          'See all',
-          style: TextStyle(
-              fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.height * 0.02,
-              color: Color(Utils.hexStringToHexInt('#77aca2'))),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SeeAllShopList()),
+            );
+          },
+          child: Text(
+            'See all',
+            style: TextStyle(
+                fontFamily: 'Poppins Regular',
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                color: Color(Utils.hexStringToHexInt('#77aca2'))),
+          ),
         )
       ],
     );

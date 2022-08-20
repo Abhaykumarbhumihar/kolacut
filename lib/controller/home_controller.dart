@@ -18,6 +18,7 @@ import 'dart:convert';
 
 class HomeController extends GetxController {
   var shopListPojo = ShopLIstPojo().obs;
+  List<StaffDetail> data = [];
   var serviceList = AdminServicePojo().obs;
   var adminCouponList = AdminCouponPojo().obs;
   var coinPojo = CoinPojo().obs;
@@ -47,7 +48,8 @@ class HomeController extends GetxController {
       getServiceList(_testValue);
       getAdminCouponList(_testValue);
       getCoin(_testValue);
-      getCartList(_testValue);
+
+      // getCartList(_testValue);
     });
 
     //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
@@ -84,7 +86,7 @@ class HomeController extends GetxController {
     map = {"session_id": "$session_id"};
     try {
       // CommonDialog.showLoading(title: "Please waitt...");
-      // lodaer=true;
+      lodaer = true;
       final response =
           await APICall().getMethod(map, AppConstant.ADMIN_COUPON_LIST);
       print(response);
@@ -97,7 +99,7 @@ class HomeController extends GetxController {
         adminCouponList.value = adminCouponPojoFromJson(response);
 
         update();
-        //  lodaer = false;
+        //lodaer = false;
       }
     } catch (error) {
       //CommonDialog.hideLoading();
@@ -125,7 +127,7 @@ class HomeController extends GetxController {
           update();
         }
         update();
-        //  lodaer = false;
+        lodaer = false;
       }
     } catch (error) {
       //CommonDialog.hideLoading();
@@ -138,7 +140,7 @@ class HomeController extends GetxController {
     try {
       // CommonDialog.showLoading(title: "Please waitt...");
       lodaer = true;
-      final response = await APICall().registerUrse(map, AppConstant.SHOP_LIST);
+      final response = await APICall().postWithoutBody(AppConstant.SHOP_LIST);
       Get.back();
       //print(response);
       if (shopListPojo.value.message == "No Data found") {
@@ -147,7 +149,8 @@ class HomeController extends GetxController {
       } else {
         // Get.back();
         shopListPojo.value = shopLIstPojoFromJson(response);
-        lodaer = false;
+        data = shopListPojo.value.staffDetail!;
+        // lodaer = false;
         update();
       }
     } catch (error) {
@@ -196,6 +199,24 @@ class HomeController extends GetxController {
     } catch (error) {
       lodaer = false;
       CommonDialog.hideLoading();
+    }
+  }
+
+  /*TODO--home screen filter*/
+
+  void filterEmplist(text) {
+    if (text.toString().trim() == "") {
+      data = shopListPojo.value.staffDetail!;
+      update();
+    } else {
+      var da = shopListPojo.value.staffDetail!
+          .where((m) => m.service!
+              .where((s) =>
+                  s.serviceTitle!.toLowerCase().contains(text.toString().tr))
+              .isNotEmpty)
+          .toList();
+      data = da;
+      update();
     }
   }
 }

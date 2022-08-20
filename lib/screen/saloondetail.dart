@@ -382,6 +382,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       crossAxisCount: 3,
                       crossAxisSpacing: 6.0,
                       shrinkWrap: true,
+                      primary: true,
+                      physics: new NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 10.0,
                       children: List.generate(
                         a.services!.length,
@@ -392,19 +394,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    bool showSublist =
-                                        false; // Declare your variable outside the builder
-
-                                    bool showmainList = true;
-                                    var mainlistPosition = 0;
-                                    var bntname = "Add";
                                     return AlertDialog(
+                                      insetPadding: EdgeInsets.symmetric(
+                                        horizontal: 50.0,
+                                        vertical: 100.0,
+                                      ),
                                       title: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            "Select your services",
+                                            "Select your services 5645",
                                             style: TextStyle(
                                                 fontSize: width * 0.03),
                                           ),
@@ -421,14 +421,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             StateSetter setState) {
                                           return Container(
                                             width: width,
-                                            height: height,
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width: width,
-                                                  height: height * 0.4,
+                                                Flexible(
                                                   child: ListView.builder(
                                                       shrinkWrap: true,
                                                       itemCount: a
@@ -480,7 +477,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                           },
                                                           child: Container(
                                                             margin:
-                                                                EdgeInsets.only(
+                                                                const EdgeInsets.only(
                                                                     left: 6.0,
                                                                     right: 6.0,
                                                                     top: 2.0,
@@ -1196,7 +1193,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
       ownerimage, ownername, List<DataService>? services) {
     return Container(
         width: width,
-        height: height * 0.4 - height * 0.07,
+        height: height * 0.2+height*0.04,
         color: Colors.white,
         margin: EdgeInsets.only(left: width * 0.04, top: height * 0.02),
         child: Stack(
@@ -1272,14 +1269,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     SizedBox(
                       height: height * 0.02,
                     ),
-                    SizedBox(
-                      height: height * 0.06,
-                      width: width * 0.9,
+                    Flexible(
                       child: ListView.builder(
                           // customerRegList == null ? 0 : customerRegList.length,
                           itemCount: services == null ? 0 : services.length,
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
+                          primary: true,
                           itemBuilder: (context, position) {
                             return Wrap(
                               children: <Widget>[
@@ -1652,13 +1648,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
               fontSize: MediaQuery.of(context).size.height * 0.02,
               color: Colors.black),
         ),
-        Text(
-          'See all ',
-          style: TextStyle(
-              fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.height * 0.02,
-              color: Color(Utils.hexStringToHexInt('#77aca2'))),
-        )
+        // Text(
+        //   'See all ',
+        //   style: TextStyle(
+        //       fontFamily: 'Poppins Regular',
+        //       fontSize: MediaQuery.of(context).size.height * 0.02,
+        //       color: Color(Utils.hexStringToHexInt('#77aca2'))),
+        // )
       ],
     );
   }
@@ -1675,7 +1671,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
               color: Colors.black),
         ),
         Text(
-          '3 offers  ',
+          '5 offers  ',
           style: TextStyle(
               fontFamily: 'Poppins Regular',
               fontSize: MediaQuery.of(context).size.height * 0.01,
@@ -1697,13 +1693,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
               fontSize: MediaQuery.of(context).size.height * 0.02,
               color: Colors.black),
         ),
-        Text(
-          'See all ',
-          style: TextStyle(
-              fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.height * 0.02,
-              color: Color(Utils.hexStringToHexInt('#77aca2'))),
-        )
+        // Text(
+        //   'See all ',
+        //   style: TextStyle(
+        //       fontFamily: 'Poppins Regular',
+        //       fontSize: MediaQuery.of(context).size.height * 0.02,
+        //       color: Color(Utils.hexStringToHexInt('#77aca2'))),
+        // )
       ],
     );
   }

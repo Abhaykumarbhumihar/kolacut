@@ -119,7 +119,7 @@ class ShopDetailController extends GetxController {
     }
   }
 
-  void addTocart(BuildContext context, shop_id, sub_service_id) async {
+  void addTocart(BuildContext context, shop_id, sub_service_id,employee_id) async {
     Map map;
     //session_id:a9z55MMZSJKtxESDbbGlAgIOVRdxY9Pa
     // shop_id:1
@@ -128,6 +128,7 @@ class ShopDetailController extends GetxController {
       "session_id": box.read('session'),
       "shop_id": shop_id.toString() + "",
       "sub_service_id": sub_service_id.toString() + "",
+      "employee_id":"1"
     };
     lodaer = true;
     CommonDialog.showLoading(title: "Please waitt...");

@@ -32,14 +32,7 @@ class _MyCartListState extends State<MyCartList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      sharedPreferences = sp;
-      var _testValue = sharedPreferences.getString("session");
-      print(sharedPreferences.getString("session"));
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Get.find<HomeController>().getCartList(_testValue);
-      });
-    });
+
   }
 
   @override
@@ -60,10 +53,10 @@ class _MyCartListState extends State<MyCartList> {
               centerTitle: false,
               leading: InkWell(
                 onTap: () {
-                  scaffolKey.currentState!.openDrawer();
+                 Navigator.pop(context);
                 },
                 child: Icon(
-                  Icons.menu,
+                  Icons.arrow_back,
                   color: Colors.black,
                 ),
               ),
