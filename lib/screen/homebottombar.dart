@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:untitled/screen/circular_slider.dart';
 import 'package:untitled/screen/coin.dart';
@@ -13,6 +17,7 @@ import 'package:untitled/screen/yourbooking.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
+import '../main.dart';
 import 'profile.dart';
 
 class MainPage extends StatefulWidget {
@@ -85,6 +90,87 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notification();
+  }
+
+  notification() async {
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    if (Platform.isIOS) {
+      firebaseMessaging.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+    }
+
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+        alert: true, badge: true, sound: true);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      print("54566565565656565556 ----UNONPE UNONPE ");
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title! + "789",
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                // channel.description,
+                color: Colors.transparent,
+                playSound: true,
+                icon: "mipmap/ic_launcher",
+              ),
+            ));
+/*TODO-- pass rote here*/
+        // _homepage = TwilioPhoneNumberInput();
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      print(
+          "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title! + "onMessageOpenedApp",
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                // channel.description,
+                color: Colors.transparent,
+                playSound: true,
+                icon: "mipmap/ic_launcher",
+              ),
+            ));
+/*TODO-- pass rote here*/
+        // _homepage = TwilioPhoneNumberInput();
+      } /*TODO-- pass rote here*/
+      //  _homepage = TwilioPhoneNumberInput();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     //box.write('session', "TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
