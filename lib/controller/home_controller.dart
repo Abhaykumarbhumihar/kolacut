@@ -122,7 +122,7 @@ class HomeController extends GetxController {
         //  CommonDialog.hideLoading();
         coinPojo.value = coinPojoFromJson(response);
         if (coinPojo.value.coin != null) {
-          coin = coinPojo.value!.coin!;
+          coin = coinPojo.value.coin!;
           //myInteger.value
           update();
         }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -71,11 +72,13 @@ class AuthControlller extends GetxController {
   void verifyOtp(otp) async {
     Map map;
     print(phoneno);
+    String? fcm_token = await FirebaseMessaging.instance.getToken();
+
     map = {
       "phone": phoneno,
       "otp": otp,
       "device_type": "android",
-      "device_token": "SDFSDFFD"
+      "device_token": fcm_token
     };
     try {
       CommonDialog.showLoading(title: "Please waitt...");

@@ -148,7 +148,8 @@ class ShopDetailController extends GetxController {
   }
 
   void bookserVice(shop_idd, employee_id, service_id, sub_service_id, date,
-      from_time, booking_day, to_time, amount) async {
+      from_time, booking_day, to_time, amount,payment_type,transaction_id,
+      coin,coupon_code) async {
     Map map;
 
     map = {
@@ -161,7 +162,11 @@ class ShopDetailController extends GetxController {
       "from_time": from_time + "",
       "booking_day": booking_day.toString() + "",
       "to_time": from_time + "",
-      "amount": "200"
+      "amount": amount,
+      "payment_type":"$payment_type",
+      "coin":"$coin",
+      "coupon_code":"$coupon_code",
+      "transaction_id":"$transaction_id"
     };
     print("API HIT HIT HIT HIT");
     try {

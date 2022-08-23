@@ -76,56 +76,58 @@ void main() async {
   FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    print("54566565565656565556 ----UNONPE UNONPE ");
-
-    if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title! + "789",
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              // channel.description,
-              color: Colors.transparent,
-              playSound: true,
-              icon: "mipmap/ic_launcher",
-            ),
-          ));
-/*TODO-- pass rote here*/
-      // _homepage = TwilioPhoneNumberInput();
-    }
-  });
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    print(
-        "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
-    if (notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title! + "onMessageOpenedApp",
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              // channel.description,
-              color: Colors.transparent,
-              playSound: true,
-              icon: "mipmap/ic_launcher",
-            ),
-          ));
-/*TODO-- pass rote here*/
-      // _homepage = TwilioPhoneNumberInput();
-    } /*TODO-- pass rote here*/
-    //  _homepage = TwilioPhoneNumberInput();
-  });
+//   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//     RemoteNotification? notification = message.notification;
+//     AndroidNotification? android = message.notification?.android;
+//     print("54566565565656565556 ----UNONPE UNONPE ");
+//     print(  message.data["we"]);
+//
+//     if (notification != null && android != null) {
+//       flutterLocalNotificationsPlugin.show(
+//           notification.hashCode,
+//           notification.title! + "789",
+//           notification.body,
+//           NotificationDetails(
+//             android: AndroidNotificationDetails(
+//               channel.id,
+//               channel.name,
+//               // channel.description,
+//               color: Colors.transparent,
+//               playSound: true,
+//               icon: "mipmap/ic_launcher",
+//             ),
+//           ));
+// /*TODO-- pass rote here*/
+//       // _homepage = TwilioPhoneNumberInput();
+//     }
+//   });
+//
+//   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//     RemoteNotification? notification = message.notification;
+//     AndroidNotification? android = message.notification?.android;
+//     print(
+//         "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
+//     print(  message.data["we"]);
+//     if (notification != null && android != null) {
+//       flutterLocalNotificationsPlugin.show(
+//           notification.hashCode,
+//           notification.title! + "onMessageOpenedApp",
+//           notification.body,
+//           NotificationDetails(
+//             android: AndroidNotificationDetails(
+//               channel.id,
+//               channel.name,
+//               // channel.description,
+//               color: Colors.transparent,
+//               playSound: true,
+//               icon: "mipmap/ic_launcher",
+//             ),
+//           ));
+// /*TODO-- pass rote here*/
+//       // _homepage = TwilioPhoneNumberInput();
+//     } /*TODO-- pass rote here*/
+//     //  _homepage = TwilioPhoneNumberInput();
+//   });
   runApp(MyApp(session: session));
 }
 

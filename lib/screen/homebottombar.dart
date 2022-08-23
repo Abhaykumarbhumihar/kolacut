@@ -124,6 +124,7 @@ class _MainPageState extends State<MainPage> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
+      print(  message.data["we"]);
       print("54566565565656565556 ----UNONPE UNONPE ");
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -148,6 +149,7 @@ class _MainPageState extends State<MainPage> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
+      print(  message.data["we"]);
       print(
           "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
       if (notification != null && android != null) {

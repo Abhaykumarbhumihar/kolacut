@@ -44,6 +44,7 @@ class _CartOrderState extends State<CartOrder> {
   var coin = 0;
   var applycoin = 0.0;
   var applycouponPrice = 0.0;
+  var applycouponCode="";
 
   @override
   void initState() {
@@ -680,7 +681,13 @@ Padding(
                                                               .coupon![position]
                                                               .price
                                                               .toString());
-                                                          applycouponPrice =
+                                                          applycouponCode=
+                                                          applycouponCode =widget
+                                                              .slotDetail!
+                                                              .coupon![
+                                                          position]
+                                                              .couponCode
+                                                              .toString();
                                                               double.parse(widget
                                                                   .slotDetail!
                                                                   .coupon![
@@ -1283,10 +1290,10 @@ Padding(
                                         print(description);
                                       });
                                       //TODO--checkout screen
-                                      // openCheckout(
-                                      //   widget.data!.name.toString(),
-                                      //   description,
-                                      // );
+                                      openCheckout(
+                                        widget.slotDetail!.shopName.toString(),
+                                        description,
+                                      );
                                     });
                                   },
                                   child: Container(
@@ -1364,7 +1371,7 @@ Padding(
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
       'amount': total_price,
-      'name': '${shopname}',
+      'name': '${widget.slotDetail!.shopName}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
@@ -1385,6 +1392,7 @@ Padding(
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
+    bookServiceOnline("${response.paymentId}",applycoin,applycouponCode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -1404,16 +1412,39 @@ Padding(
         toastLength: Toast.LENGTH_SHORT); */
   }
 
-  void bookService() {
-    // salonControlller.bookserVice(
-    //     widget.data!.id.toString(),
-    //     widget.selectEmpid.toString() + "",
-    //     "3",
-    //     resultList.join(","),
-    //    selectDate,
-    //    slotSelected,
-    //     selectDay,
-    //     "",
-    //     "200");
+  void bookService(coin, coupon) {
+    salonControlller.bookserVice(
+        widget.slotDetail!.id.toString(),
+         "",
+        "3",
+        resultList.join(","),
+       selectDate,
+       slotSelected,
+        selectDay,
+        "",
+        "$total_price",
+        "Offline",
+        "",
+        "",
+        ""
+       );
+  }
+
+  void bookServiceOnline(transactionID,coin, coupon) {
+    salonControlller.bookserVice(
+        widget.slotDetail!.id.toString(),
+        "",
+        "3",
+        resultList.join(","),
+        selectDate,
+        slotSelected,
+        selectDay,
+        "",
+        "${int.parse(total_price.toString()) - (applycouponPrice + applycoin)}",
+        "Online",
+        transactionID,
+        coin,
+        coupon
+    );
   }
 }

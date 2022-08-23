@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: data!.length,
+                                itemCount: data.length,
                                 itemBuilder: (context, position) {
                                   return GestureDetector(
                                       onTap: () {
