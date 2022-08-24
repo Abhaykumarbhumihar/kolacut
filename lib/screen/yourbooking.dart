@@ -90,8 +90,8 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
           return Container();
         } else {
           for (var i = 0;
-              i < bookingController.bookingPojo.value.slotDetail!.length;
-              i++) {
+          i < bookingController.bookingPojo.value.slotDetail!.length;
+          i++) {
             _element.add(bookingController.bookingPojo.value.slotDetail![i]);
           }
           return RefreshIndicator(
@@ -126,10 +126,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                 defaultBuilder: (ctx, day, focusedDay) {
                                   int index = 0;
                                   for (var leaveEvent = 0;
-                                      leaveEvent <
-                                          bookingController.bookingPojo.value
-                                              .slotDetail!.length;
-                                      leaveEvent++) {
+                                  leaveEvent <
+                                      bookingController.bookingPojo.value
+                                          .slotDetail!.length;
+                                  leaveEvent++) {
                                     index++;
                                     final DateTime event = bookingController
                                         .bookingPojo
@@ -144,20 +144,20 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                         child: Material(
                                           elevation: 6.0,
                                           borderRadius:
-                                              BorderRadius.circular(6.0),
+                                          BorderRadius.circular(6.0),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
-                                                  const BorderRadius.all(
+                                              const BorderRadius.all(
                                                 Radius.circular(8.0),
                                               ),
                                             ),
                                             child: Column(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              CrossAxisAlignment.center,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Container(
                                                   child: Center(
@@ -169,8 +169,8 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                                   height: 6,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            6.0),
+                                                    BorderRadius.circular(
+                                                        6.0),
                                                     color: Colors.orange,
                                                   ),
                                                 )
@@ -201,10 +201,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                             ),
                             groupComparator:
                                 (DateTime value1, DateTime value2) =>
-                                    value2.compareTo(value1),
+                                value2.compareTo(value1),
                             itemComparator:
                                 (SlotDetail element1, SlotDetail element2) =>
-                                    element1.date!.compareTo(element2.date!),
+                                element1.date!.compareTo(element2.date!),
                             floatingHeader: true,
                             groupSeparatorBuilder: _getGroupSeparator,
                             itemBuilder: _getItem,
@@ -489,6 +489,27 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                       fontSize: width * 0.03)),
                             ],
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Transaction",
+                                style: TextStyle(
+                                    fontFamily: 'Poppins Regular',
+                                    color: Color(
+                                        Utils.hexStringToHexInt('C4C4C4')),
+                                    fontSize: width * 0.03),
+                              ),
+                              Text(
+                                "${slotDetail.transactionId}",
+                                style: TextStyle(
+                                    fontFamily: 'Poppins Regular',
+                                    color: Color(
+                                        Utils.hexStringToHexInt('C4C4C4')),
+                                    fontSize: width * 0.03),
+                              ),
+                            ],
+                          ),
                           LimitedBox(
                             maxHeight: height * 0.3,
                             child: ListView.builder(
@@ -501,13 +522,13 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                       width: width,
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
                                                 "${slotDetail.service![position].name}",

@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:untitled/utils/Utils.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 
 import '../controller/auth_controller.dart';
+import '../utils/Utils.dart';
 
 class VerifyOtpPage extends StatefulWidget {
   const VerifyOtpPage({Key? key}) : super(key: key);

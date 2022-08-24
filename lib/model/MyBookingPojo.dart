@@ -45,6 +45,10 @@ class SlotDetail {
     this.fromTime,
     this.toTime,
     this.date,
+    this.couponCode,
+    this.coin,
+    this.paymentType,
+    this.transactionId,
     this.service,
   });
 
@@ -57,6 +61,10 @@ class SlotDetail {
   String? fromTime;
   String? toTime;
   DateTime? date;
+  String? couponCode;
+  String? coin;
+  String? paymentType;
+  String? transactionId;
   List<Service>? service;
 
   factory SlotDetail.fromJson(Map<String, dynamic> json) => SlotDetail(
@@ -67,6 +75,10 @@ class SlotDetail {
         userImage: json["user_image"],
         bookingDay: json["booking_day"],
         fromTime: json["from_time"],
+        couponCode: json["coupon_code"],
+        coin: json["coin"],
+        paymentType: json["payment_type"] == null ? null : json["payment_type"],
+        transactionId: json["transaction_id"],
         toTime: json["to_time"],
         date: DateTime.parse(json["date"]),
         service:
@@ -81,6 +93,10 @@ class SlotDetail {
         "user_image": userImage,
         "booking_day": bookingDay,
         "from_time": fromTime,
+        "coupon_code": couponCode,
+        "coin": coin,
+        "payment_type": paymentType == null ? null : paymentType,
+        "transaction_id": transactionId,
         "to_time": toTime,
         "date":
             "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",

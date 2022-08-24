@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/screen/cartlist.dart';
-import 'package:untitled/utils/CommomDialog.dart';
 import 'dart:convert';
 
 import '../controller/home_controller.dart';
+import '../utils/CommomDialog.dart';
 import '../utils/Utils.dart';
 import '../utils/appconstant.dart';
+import 'cartlist.dart';
 
 class SideNavigatinPage extends StatefulWidget {
   var s = "", s1 = "", s2 = "", s3 = "";
@@ -45,7 +45,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
       var _testValue = sharedPreferences.getString("session");
       print(sharedPreferences.getString("session"));
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        if(_testValue!=""){
+        if(_testValue!=null){
           try{
             Get.find<HomeController>().getCartList(_testValue);
           }catch(e){
@@ -204,14 +204,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                       height: 1.0,
                       color: Colors.grey,
                     ),
-                    ListTile(
-                      leading:  Icon(Icons.person,color:  Color(Utils.hexStringToHexInt('77ACA2')),),
-                      title: const Text(' Employee '),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      trailing: const Icon(Icons.keyboard_arrow_right),
-                    ),
+
                     const Divider(
                       height: 1.0,
                       color: Colors.grey,

@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:untitled/model/VerifyOtp.dart';
-import 'package:untitled/utils/CommomDialog.dart';
-import 'package:untitled/utils/appconstant.dart';
+
+import '../utils/appconstant.dart';
 
 class APICall {
   final apiBaseUri = "http://bltechno.atwebpages.com/index.php/Dashboard";

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/screen/sidenavigation.dart';
-import 'package:untitled/utils/Utils.dart';
+
+import '../utils/Utils.dart';
+import 'sidenavigation.dart';
+
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);

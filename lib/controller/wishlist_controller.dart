@@ -1,11 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:untitled/model/ProfilePojo.dart';
-import 'package:untitled/model/ShopDetailPojo.dart';
-import 'package:untitled/model/WishlistPojo.dart';
-import 'package:untitled/screen/profile.dart';
 
+import '../model/WishlistPojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -28,7 +25,10 @@ class WishListController extends GetxController {
     super.onReady();
     print("SDLKFJKLSDFJDSprofile");
     print(box.read('session'));
-    getWishList();
+    if(box.read('session')!=null){
+      getWishList();
+    }
+
   }
 
   void getWishList() async {

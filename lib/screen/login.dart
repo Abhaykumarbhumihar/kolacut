@@ -74,14 +74,14 @@ class _LoginPageState extends State<LoginPage> {
     var height = MediaQuery.of(context).size.height;
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        width: width,
-        height: height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('images/svgicons/dottedbackground.png'),
-                fit: BoxFit.fill)),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Container(
+          width: width,
+          height: height,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/svgicons/dottedbackground.png'),
+                  fit: BoxFit.fill)),
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -97,8 +97,8 @@ class _LoginPageState extends State<LoginPage> {
                 height: height * 0.04,
               ),
               Container(
-                width: width * 0.7 - width * 0.03,
-                height: height * 0.4 - height * 0.03,
+                width: width * 0.5 +width*0.06,
+                height: height * 0.2+height*0.06 ,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('images/svgicons/logibar.png'),
@@ -353,10 +353,10 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const MainPage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainPage()),
+                    );
                   },
                   child: Container(
                     child: Text("SKIP",

@@ -5,19 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:untitled/screen/coin.dart';
-import 'package:untitled/screen/orderdetail.dart';
-import 'package:untitled/screen/profile_update.dart';
-import 'package:untitled/utils/CommomDialog.dart';
-import 'package:untitled/utils/Utils.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/shopdetain_controller.dart';
 import '../model/ShopDetailPojo.dart';
+import '../utils/CommomDialog.dart';
+import '../utils/Utils.dart';
+import 'orderdetail.dart';
 
 class SaloonDetail extends StatefulWidget {
   var id = 0;
@@ -54,6 +52,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
 
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   bool valuefirst = false;
+  var time = 0;
+
+  String durationToString(int minutes) {
+    var d = Duration(minutes: minutes);
+    List<String> parts = d.toString().split(':');
+    return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')}';
+  }
 
   final List<DateTime> days = [];
   List<SamleClass> data = [];
@@ -404,7 +409,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            "Select your services 5645",
+                                            "Select your services ",
                                             style: TextStyle(
                                                 fontSize: width * 0.03),
                                           ),
@@ -464,6 +469,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                                       tempArray
                                                                           .length;
                                                                   i++) {
+
+
                                                                 print(tempArray[
                                                                             i]
                                                                         .name
@@ -477,7 +484,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                           },
                                                           child: Container(
                                                             margin:
-                                                                const EdgeInsets.only(
+                                                                const EdgeInsets
+                                                                        .only(
                                                                     left: 6.0,
                                                                     right: 6.0,
                                                                     top: 2.0,
@@ -654,7 +662,9 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   seeallbarbaer(context),
 
                   Container(
-                    height: a.emploeyee!.length > 0 ? height * 0.3+height*0.03 : 0.0,
+                    height: a.emploeyee!.length > 0
+                        ? height * 0.3 + height * 0.03
+                        : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,
                         //customerRegList == null ? 0 : customerRegList.length
@@ -699,10 +709,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             height: 12,
                                           ),
                                           CircleAvatar(
-                                            radius: width * 0.1+width*0.03,
+                                            radius: width * 0.1 + width * 0.03,
                                             backgroundColor: Colors.yellow,
                                             child: CircleAvatar(
-                                              radius: width * 0.1+width*0.02,
+                                              radius:
+                                                  width * 0.1 + width * 0.02,
                                               backgroundImage: NetworkImage(a
                                                   .emploeyee![position]
                                                   .profileImage
@@ -801,12 +812,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     children: <Widget>[
                       DatePicker(
                         DateTime.now(),
+                        height: 100,
+                        daysCount: 30,
                         initialSelectedDate: DateTime.now(),
                         selectionColor:
                             Color(Utils.hexStringToHexInt('77ACA2')),
-                        selectedTextColor: Colors.white,
-                        monthTextStyle:
-                            TextStyle(color: Colors.white, fontSize: 0.0),
+                        selectedTextColor: Colors.black,
+                        monthTextStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: width * 0.03,
+                          fontFamily: 'Poppins Medium',
+                        ),
                         onDateChange: (date) {
                           // New date selected
                           setState(() {
@@ -1193,7 +1209,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
       ownerimage, ownername, List<DataService>? services) {
     return Container(
         width: width,
-        height: height * 0.2+height*0.04,
+        height: height * 0.2 + height * 0.04,
         color: Colors.white,
         margin: EdgeInsets.only(left: width * 0.04, top: height * 0.02),
         child: Stack(

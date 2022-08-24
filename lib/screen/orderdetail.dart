@@ -37,9 +37,8 @@ class OrderDetail extends StatefulWidget {
   }
 
   @override
-  State<OrderDetail> createState() =>
-      _OrderDetailState(
-          newarray, data, selectDate, selectEmpid, selectDay, selectSlot);
+  State<OrderDetail> createState() => _OrderDetailState(
+      newarray, data, selectDate, selectEmpid, selectDay, selectSlot);
 }
 
 class _OrderDetailState extends State<OrderDetail> {
@@ -48,13 +47,13 @@ class _OrderDetailState extends State<OrderDetail> {
   var coin = 0;
   var applycoin = 0.0;
   var applycouponPrice = 0.0;
-  var applycouponcode="";
+  var applycouponcode = "";
   var total_price = 0;
   TextEditingController _textFieldcoin = TextEditingController();
   EzAnimation ezAnimation = EzAnimation(50.0, 200.0, Duration(seconds: 5));
 
-  _OrderDetailState(tempArray, a, selectDate, selectEmpid, selectDay,
-      selectSlot);
+  _OrderDetailState(
+      tempArray, a, selectDate, selectEmpid, selectDay, selectSlot);
 
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   late SharedPreferences sharedPreferences;
@@ -81,7 +80,11 @@ class _OrderDetailState extends State<OrderDetail> {
         "",
         "");
   }
-
+  String getTimeString(int value) {
+    final int hour = value ~/ 60;
+    final int minutes = value % 60;
+    return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
+  }
   void bookServiceOnline(transactionid, coin, coupone) {
     salonControlller.bookserVice(
         widget.data!.id.toString(),
@@ -96,8 +99,7 @@ class _OrderDetailState extends State<OrderDetail> {
         "Online",
         transactionid,
         coin,
-        coupone
-    );
+        coupone);
   }
 
   @override
@@ -116,12 +118,8 @@ class _OrderDetailState extends State<OrderDetail> {
         Get.find<HomeController>().getCoin(_testValue);
       });
     });
-    print("COIN IS ${Get
-        .find<HomeController>()
-        .coin}");
-    coin = Get
-        .find<HomeController>()
-        .coin;
+    print("COIN IS ${Get.find<HomeController>().coin}");
+    coin = Get.find<HomeController>().coin;
     print(widget.data!.name.toString());
     print(widget.selectEmpid + "EMP");
     print(widget.selectDay + " day");
@@ -165,7 +163,7 @@ class _OrderDetailState extends State<OrderDetail> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
-    bookServiceOnline("${response.paymentId}",applycoin,applycouponcode);
+    bookServiceOnline("${response.paymentId}", applycoin, applycouponcode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -187,909 +185,950 @@ class _OrderDetailState extends State<OrderDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
 
     return SafeArea(
         child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          //  backgroundColor: Colors.white,
-          body: ListView(
+      resizeToAvoidBottomInset: true,
+      //  backgroundColor: Colors.white,
+      body: ListView(
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                    child: Column(
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Row(
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                CupertinoIcons.arrow_left,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              '${widget.data!.name.toString()}',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: width * 0.04,
+                                  fontFamily: 'Poppins Regular'),
+                            )
+                          ],
+                        ),
+                        SvgPicture.asset(
+                          'images/svgicons/appcupon.svg',
+                          fit: BoxFit.contain,
+                          width: 24,
+                          height: 24,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      color: Colors.white,
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 24,
+                            height: 24,
+                            child: SvgPicture.asset(
+                              "images/svgicons/mappin.svg",
+                            ),
+                          ),
+                          Text(' ${widget.data!.address.toString()}',
+                              style: TextStyle(
+                                  fontSize: width * 0.03,
+                                  fontFamily: 'Poppins Regular',
+                                  color: Color(
+                                      Utils.hexStringToHexInt('#77ACA2'))),
+                              textAlign: TextAlign.center),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: 24,
+                          height: 24,
+                          child: SvgPicture.asset(
+                            "images/svgicons/lock.svg",
+                          ),
+                        ),
+                        Text(
+                          '  Your Order',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: width * 0.04,
+                              fontFamily: 'Poppins Semibold'),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Container(
+                      width: width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            '  Services',
+                            style: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('5E5E5E')),
+                                fontSize: width * 0.03,
+                                fontFamily: 'Poppins Regular'),
+                          ),
+                          Text(
+                            '  Prices      ',
+                            style: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('5E5E5E')),
+                                fontSize: width * 0.03,
+                                fontFamily: 'Poppins Regular'),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: height * 0.02),
+                    Material(
+                      elevation: 1,
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          SizedBox(
+                            width: width,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.newarray!.length,
+                                itemBuilder: (context, position) {
+                                  return Container(
+                                    margin:
+                                        EdgeInsets.only(right: width * 0.03),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  widget.newarray!
+                                                      .removeAt(position);
+                                                  resultList.clear();
+                                                  total_price = 0;
+                                                  totalPrice = 0;
+                                                  widget.newarray!
+                                                      .forEach((element) {
+                                                    total_price += int.parse(
+                                                        element.price
+                                                            .toString());
+                                                    totalPrice = totalPrice +
+                                                        int.parse(element.price
+                                                            .toString());
+                                                    print(element.name
+                                                            .toString() +
+                                                        "  " +
+                                                        element.price
+                                                            .toString());
+                                                    resultList.add(element.id);
+                                                  });
+                                                });
+                                              },
+                                              child: Container(
+                                                width: width * 0.08,
+                                                height: height * 0.04,
+                                                child: SvgPicture.asset(
+                                                  "images/svgicons/checktick.svg",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: width * 0.03),
+                                              child: Text(
+                                                  '${widget.newarray![position].name}',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: width * 0.04,
+                                                      fontFamily:
+                                                          'Poppins Regular')),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              right: width * 0.03),
+                                          child: Text(
+                                              'Rs. ${widget.newarray![position].price}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: width * 0.03,
+                                                  fontFamily:
+                                                      'Poppins Regular')),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                          SizedBox(
+                            height: height * 0.05,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(
+                                  'images/svgicons/addmoreservices.svg',
+                                  width: width * 0.01,
+                                  height: height * 0.02,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 2,
+                            color: Color(Utils.hexStringToHexInt('E5E5E5')),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                'images/svgicons/questionmark.svg',
+                                fit: BoxFit.contain,
+                                width: 18,
+                                height: 18,
+                              ),
+                              Text(
+                                ' Do you have any query?',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins Light',
+                                    fontSize: width * 0.02,
+                                    color: Color(
+                                        Utils.hexStringToHexInt('8D8D8D'))),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      bool showSublist =
+                          false; // Declare your variable outside the builder
+
+                      bool showmainList = true;
+
+                      return AlertDialog(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Use coupon',
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.black,
+                                fontFamily: 'Poppins Medium',
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => {Navigator.pop(context)},
+                              icon: Icon(Icons.cancel_outlined),
+                            ),
+                          ],
+                        ),
+                        content: StatefulBuilder(
+                          // You need this, notice the parameters below:
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Container(
+                              width: width,
+                              height: height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: widget.data!.coupon!.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, position) {
+                                          return Container(
+                                              width: width * 0.4 + width * 0.05,
+                                              height: height * 0.12,
+                                              margin: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: <Widget>[
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  ${widget.data!.coupon![position].couponName.toString()}',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Regular',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.02,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Text(
+                                                            '  Upto 50% off via UPI',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.01,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                        'A4A4A4'))),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  Use Code ',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.01,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                        'A4A4A4'))),
+                                                          ),
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        2.0,
+                                                                    horizontal:
+                                                                        10.0),
+                                                            color: Color(Utils
+                                                                .hexStringToHexInt(
+                                                                    '#46D0D9')),
+                                                            child: Text(
+                                                              '${widget.data!.coupon![position].couponCode.toString()}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.01,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: IconButton(
+                                                        tooltip:
+                                                            "Applied coupon",
+                                                        onPressed: () {
+                                                          print(widget
+                                                              .data!
+                                                              .coupon![position]
+                                                              .price
+                                                              .toString());
+                                                          applycouponPrice =
+                                                              double.parse(widget
+                                                                  .data!
+                                                                  .coupon![
+                                                                      position]
+                                                                  .price
+                                                                  .toString());
+                                                          applycouponcode =
+                                                              widget
+                                                                  .data!
+                                                                  .coupon![
+                                                                      position]
+                                                                  .couponCode
+                                                                  .toString();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon: Icon(
+                                                          CupertinoIcons
+                                                              .tag_circle,
+                                                          size: width * 0.05,
+                                                          color: Colors.cyan,
+                                                        )),
+                                                  ),
+                                                ],
+                                              ));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: SizedBox(
+                  width: width,
+                  height: height * 0.09,
+                  child: Material(
+                    color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                    child: Container(
+                        width: width,
+                        height: height * 0.09,
+                        padding: EdgeInsets.only(
+                            left: width * 0.03, right: width * 0.03),
+                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Icon(
-                                    CupertinoIcons.arrow_left,
-                                    color: Colors.black,
-                                  ),
+                                SvgPicture.asset(
+                                  'images/svgicons/bigoffer.svg',
+                                  fit: BoxFit.contain,
+                                  width: width * 0.06,
+                                  height: height * 0.04,
                                 ),
                                 Text(
-                                  '${widget.data!.name.toString()}',
+                                  ' Use Coupons',
                                   style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: width * 0.04,
-                                      fontFamily: 'Poppins Regular'),
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
+                                      fontFamily: 'Poppins Medium',
+                                      fontSize: width * 0.04),
                                 )
                               ],
                             ),
-                            SvgPicture.asset(
-                              'images/svgicons/appcupon.svg',
-                              fit: BoxFit.contain,
-                              width: 24,
-                              height: 24,
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
                             )
                           ],
-                        ),
-                        SizedBox(
-                          height: height * 0.01,
-                        ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          color: Colors.white,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 24,
-                                height: 24,
-                                child: SvgPicture.asset(
-                                  "images/svgicons/mappin.svg",
-                                ),
-                              ),
-                              Text(' ${widget.data!.address.toString()}',
-                                  style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      fontFamily: 'Poppins Regular',
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#77ACA2'))),
-                                  textAlign: TextAlign.center),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: height * 0.04,
-                        ),
-                        Row(
+                        )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  var Totalcoin = Get.find<HomeController>().coin * 0.10;
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      var valueName = "";
+                      var valuePrice = "";
+                      return AlertDialog(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Container(
-                              width: 24,
-                              height: 24,
-                              child: SvgPicture.asset(
-                                "images/svgicons/lock.svg",
+                            Text(
+                              'Use coin',
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.black,
+                                fontFamily: 'Poppins Medium',
                               ),
                             ),
-                            Text(
-                              '  Your Order',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: width * 0.04,
-                                  fontFamily: 'Poppins Semibold'),
-                            )
+                            IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: Icon(Icons.cancel_outlined),
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-                        Container(
-                          width: width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                '  Services',
-                                style: TextStyle(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('5E5E5E')),
+                        content: Container(
+                          width: 200,
+                          height: height * 0.3,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'You have ${Get.find<HomeController>().coin} coins',
+                                  style: TextStyle(
                                     fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular'),
-                              ),
-                              Text(
-                                '  Prices      ',
-                                style: TextStyle(
                                     color: Color(
-                                        Utils.hexStringToHexInt('5E5E5E')),
-                                    fontSize: width * 0.03,
-                                    fontFamily: 'Poppins Regular'),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: height * 0.02),
-                        Material(
-                          elevation: 1,
-                          color: Colors.white,
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height: height * 0.02,
-                              ),
-                              SizedBox(
-                                width: width,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: widget.newarray!.length,
-                                    itemBuilder: (context, position) {
-                                      return Container(
-                                        margin: EdgeInsets.only(
-                                            right: width * 0.03),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: width * 0.08,
-                                                  height: height * 0.04,
-                                                  child: SvgPicture.asset(
-                                                    "images/svgicons/checktick.svg",
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin:
-                                                  EdgeInsets.only(
-                                                      left: width * 0.03),
-                                                  child: Text(
-                                                      '${widget
-                                                          .newarray![position]
-                                                          .name}',
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: width *
-                                                              0.04,
-                                                          fontFamily: 'Poppins Regular')),
-                                                )
-                                              ],
-                                            ),
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(
-                                                  right: width * 0.03),
-                                              child: Text(
-                                                  'Rs. ${widget
-                                                      .newarray![position]
-                                                      .price}',
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: width * 0.03,
-                                                      fontFamily: 'Poppins Regular')),
-                                            )
-                                          ],
+                                        Utils.hexStringToHexInt('77ACA2')),
+                                    fontFamily: 'Poppins Medium',
+                                  ),
+                                ),
+                                // Text(
+                                //   'You can only use 5% of your total coin ${Get.find<HomeController>().coin * 0.05}',
+                                //   style: TextStyle(
+                                //     fontSize: 8.0,
+                                //     color: Color(
+                                //         Utils.hexStringToHexInt('77ACA2')),
+                                //     fontFamily: 'Poppins Medium',
+                                //   ),
+                                // ),
+                                Text(
+                                  ' ${Get.find<HomeController>().coin * 0.10} coin applied  .',
+                                  style: TextStyle(
+                                    fontSize: 8.0,
+                                    color: Color(
+                                        Utils.hexStringToHexInt('77ACA2')),
+                                    fontFamily: 'Poppins Medium',
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: height * 0.03,
+                                ),
+
+                                // SizedBox(
+                                //   width: width,
+                                //   height: height * 0.1,
+                                //   child: TextField(
+                                //     textCapitalization:
+                                //     TextCapitalization.sentences,
+                                //     onChanged: (value) {
+                                //       setState(() {
+                                //         var Totalcoin =
+                                //             Get.find<HomeController>().coin *
+                                //                 0.05;
+                                //         valueName = value;
+                                //         if (int.parse(value) > Totalcoin) {
+                                //           print("SDFDFDFDF ${value}");
+                                //           CommonDialog.showsnackbar(
+                                //               "You can not use coin more then ${Totalcoin}");
+                                //         } else {
+                                //           print(value);
+                                //           applycoin = double.parse(value);
+                                //         }
+                                //       });
+                                //     },
+                                //     keyboardType: TextInputType.number,
+                                //     controller: _textFieldcoin,
+                                //     decoration: const InputDecoration(
+                                //         border: OutlineInputBorder(),
+                                //         hintText: "Enter coin here.."),
+                                //   ),
+                                // ),
+
+                                AnimatedBuilder(
+                                    animation: ezAnimation,
+                                    builder: (context, snapshot) {
+                                      return Center(
+                                        child: Container(
+                                          width: width * 0.3,
+                                          height: height * 0.1,
+                                          child: Image.asset(
+                                            "images/svgicons/coin.png",
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       );
                                     }),
-                              ),
-                              SizedBox(
-                                height: height * 0.05,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
+
+                                SizedBox(
+                                  height: 6,
+                                ),
+
+                                Center(
+                                  child: FlatButton(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('77ACA2')),
+                                    textColor: Colors.white,
+                                    child: Text('Use coin'),
+                                    onPressed: () async {
+                                      setState(() {
+                                        applycoin = double.parse(
+                                            "${Get.find<HomeController>().coin * 0.10}");
+                                      });
                                       Navigator.pop(context);
                                     },
-                                    child: SvgPicture.asset(
-                                      'images/svgicons/addmoreservices.svg',
-                                      width: width * 0.01,
-                                      height: height * 0.02,
-                                    ),
                                   ),
-                                ],
-                              ),
-                              Divider(
-                                thickness: 2,
-                                color: Color(Utils.hexStringToHexInt('E5E5E5')),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    'images/svgicons/questionmark.svg',
-                                    fit: BoxFit.contain,
-                                    width: 18,
-                                    height: 18,
-                                  ),
-                                  Text(
-                                    ' Do you have any query?',
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins Light',
-                                        fontSize: width * 0.02,
-                                        color: Color(
-                                            Utils.hexStringToHexInt('8D8D8D'))),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: height * 0.02,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          bool showSublist =
-                          false; // Declare your variable outside the builder
-
-                          bool showmainList = true;
-
-                          return AlertDialog(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Use coupon',
-                                  style: TextStyle(
-                                    fontSize: width * 0.04,
-                                    color: Colors.black,
-                                    fontFamily: 'Poppins Medium',
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () => {Navigator.pop(context)},
-                                  icon: Icon(Icons.cancel_outlined),
                                 ),
                               ],
                             ),
-                            content: StatefulBuilder(
-                              // You need this, notice the parameters below:
-                              builder:
-                                  (BuildContext context, StateSetter setState) {
-                                return Container(
-                                  width: width,
-                                  height: height,
+                          ),
+                        ),
+                        actions: <Widget>[],
+                      );
+                    },
+                  );
+                },
+                child: SizedBox(
+                  width: width,
+                  height: height * 0.09,
+                  child: Material(
+                    color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                    child: Container(
+                        width: width,
+                        height: height * 0.09,
+                        padding: EdgeInsets.only(
+                            left: width * 0.03, right: width * 0.03),
+                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  'images/svgicons/bigoffer.svg',
+                                  fit: BoxFit.contain,
+                                  width: width * 0.06,
+                                  height: height * 0.04,
+                                ),
+                                Text(
+                                  ' Use Coin',
+                                  style: TextStyle(
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
+                                      fontFamily: 'Poppins Medium',
+                                      fontSize: width * 0.04),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            )
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Material(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(right: width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: width * 0.03),
+                                      child: Text('Services total',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: width * 0.04,
+                                              fontFamily: 'Poppins Regular')),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: width * 0.03),
+                                  child: Text('Rs. ${totalPrice.toString()}',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: width * 0.03,
+                                          fontFamily: 'Poppins Regular')),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: width * 0.03),
+                                      child: Text('Taxes & Charges',
+                                          style: TextStyle(
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '5E5E5E')),
+                                              fontSize: width * 0.03,
+                                              fontFamily: 'Poppins Regular')),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_down_sharp,
+                                      size: width * 0.06,
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: width * 0.03),
+                                  child: Text('Rs. 0.0',
+                                      style: TextStyle(
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '5E5E5E')),
+                                          fontSize: width * 0.03,
+                                          fontFamily: 'Poppins Regular')),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: width * 0.03),
+                                      child: Text('Coupon Discount',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: width * 0.04,
+                                              fontFamily: 'Poppins Regular')),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: width * 0.03),
+                                  child: Text(
+                                      applycouponPrice != 0.0
+                                          ? "-" + "${applycouponPrice}"
+                                          : "N/A",
+                                      style: TextStyle(
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '5E5E5E')),
+                                          fontSize: width * 0.03,
+                                          fontFamily: 'Poppins Regular')),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(left: width * 0.03),
+                                      child: Text('Coin Applied',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: width * 0.04,
+                                              fontFamily: 'Poppins Regular')),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: width * 0.03),
+                                  child: Text(
+                                      applycoin != 0
+                                          ? "-" + "${applycoin}"
+                                          : "N/A",
+                                      style: TextStyle(
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '5E5E5E')),
+                                          fontSize: width * 0.03,
+                                          fontFamily: 'Poppins Regular')),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Divider(
+                      color: Color(Utils.hexStringToHexInt('5E5E5E')),
+                      thickness: 1,
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Container(
+                        width: width,
+                        margin: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () {
+                                print(resultList.join(","));
+
+                                salonControlller.addTocart(
+                                    context,
+                                    widget.data!.id.toString(),
+                                    resultList.join(","),
+                                    "");
+                              },
+                              child: Container(
+                                width: width - width * 0.2,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12)),
+                                    border: Border.all(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('77ACA2')),
+                                        width: 2)),
+                                child: Center(
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: widget.data!.coupon!
-                                                .length,
-                                            scrollDirection: Axis.vertical,
-                                            itemBuilder: (context, position) {
-                                              return Container(
-                                                  width: width * 0.4 +
-                                                      width * 0.05,
-                                                  height: height * 0.12,
-                                                  margin: EdgeInsets.all(6),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8)),
-                                                      border: Border.all(
-                                                          color: Colors.grey,
-                                                          width: 1)),
-                                                  child: Stack(
-                                                    children: <Widget>[
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                        children: <Widget>[
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                            children: <Widget>[
-                                                              Text(
-                                                                '  ${widget
-                                                                    .data!
-                                                                    .coupon![position]
-                                                                    .couponName
-                                                                    .toString()}',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Poppins Regular',
-                                                                    fontSize: MediaQuery
-                                                                        .of(
-                                                                        context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.02,
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 8,
-                                                              ),
-                                                              Text(
-                                                                '  Upto 50% off via UPI',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Poppins Light',
-                                                                    fontSize: MediaQuery
-                                                                        .of(
-                                                                        context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.01,
-                                                                    color: Color(
-                                                                        Utils
-                                                                            .hexStringToHexInt(
-                                                                            'A4A4A4'))),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Text(
-                                                                '  Use Code ',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Poppins Light',
-                                                                    fontSize: MediaQuery
-                                                                        .of(
-                                                                        context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.01,
-                                                                    color: Color(
-                                                                        Utils
-                                                                            .hexStringToHexInt(
-                                                                            'A4A4A4'))),
-                                                              ),
-                                                              Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                    2.0,
-                                                                    horizontal:
-                                                                    10.0),
-                                                                color: Color(
-                                                                    Utils
-                                                                        .hexStringToHexInt(
-                                                                        '#46D0D9')),
-                                                                child: Text(
-                                                                  '${widget
-                                                                      .data!
-                                                                      .coupon![position]
-                                                                      .couponCode
-                                                                      .toString()}',
-                                                                  style: TextStyle(
-                                                                    fontFamily:
-                                                                    'Poppins Light',
-                                                                    fontSize: MediaQuery
-                                                                        .of(
-                                                                        context)
-                                                                        .size
-                                                                        .height *
-                                                                        0.01,
-                                                                    color: Colors
-                                                                        .white,
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                        Alignment.centerRight,
-                                                        child: IconButton(
-                                                            tooltip:
-                                                            "Applied coupon",
-                                                            onPressed: () {
-                                                              print(widget
-                                                                  .data!
-                                                                  .coupon![position]
-                                                                  .price
-                                                                  .toString());
-                                                              applycouponPrice =
-                                                                  double.parse(
-                                                                      widget
-                                                                          .data!
-                                                                          .coupon![
-                                                                      position]
-                                                                          .price
-                                                                          .toString());
-                                                              applycouponcode= widget
-                                                                  .data!
-                                                                  .coupon![
-                                                              position]
-                                                                  .couponCode
-                                                                  .toString();
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            icon: Icon(
-                                                              CupertinoIcons
-                                                                  .tag_circle,
-                                                              size: width *
-                                                                  0.05,
-                                                              color: Colors
-                                                                  .cyan,
-                                                            )),
-                                                      ),
-                                                    ],
-                                                  ));
-                                            }),
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        'Add to cart',
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    '77ACA2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
                                       ),
                                     ],
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: SizedBox(
-                      width: width,
-                      height: height * 0.09,
-                      child: Material(
-                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                        child: Container(
-                            width: width,
-                            height: height * 0.09,
-                            padding: EdgeInsets.only(
-                                left: width * 0.03, right: width * 0.03),
-                            color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      'images/svgicons/bigoffer.svg',
-                                      fit: BoxFit.contain,
-                                      width: width * 0.06,
-                                      height: height * 0.04,
-                                    ),
-                                    Text(
-                                      ' Use Coupons',
-                                      style: TextStyle(
-                                          color: Color(
-                                              Utils.hexStringToHexInt(
-                                                  '77ACA2')),
-                                          fontFamily: 'Poppins Medium',
-                                          fontSize: width * 0.04),
-                                    )
-                                  ],
                                 ),
-                                Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                  color: Color(
-                                      Utils.hexStringToHexInt('77ACA2')),
-                                )
-                              ],
-                            )),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Card(
+                      elevation: 12,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      var Totalcoin = Get
-                          .find<HomeController>()
-                          .coin * 0.10;
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          var valueName = "";
-                          var valuePrice = "";
-                          return AlertDialog(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Container(
+                        width: width,
+                        height: height * 0.1 + height * 0.05,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(18))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  'Use coin',
+                                  ' Bill Total',
                                   style: TextStyle(
-                                    fontSize: width * 0.04,
-                                    color: Colors.black,
-                                    fontFamily: 'Poppins Medium',
-                                  ),
+                                      color: Color(
+                                          Utils.hexStringToHexInt('A3A2A2')),
+                                      fontSize: width * 0.04,
+                                      fontFamily: 'Poppins Regular'),
                                 ),
-                                IconButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  icon: Icon(Icons.cancel_outlined),
-                                ),
-                              ],
-                            ),
-                            content: Container(
-                              width: 200,
-                              height: height * 0.3,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      'You have ${Get
-                                          .find<HomeController>()
-                                          .coin} coins',
-                                      style: TextStyle(
-                                        fontSize: width * 0.03,
-                                        color: Color(
-                                            Utils.hexStringToHexInt('77ACA2')),
-                                        fontFamily: 'Poppins Medium',
-                                      ),
-                                    ),
-                                    // Text(
-                                    //   'You can only use 5% of your total coin ${Get.find<HomeController>().coin * 0.05}',
-                                    //   style: TextStyle(
-                                    //     fontSize: 8.0,
-                                    //     color: Color(
-                                    //         Utils.hexStringToHexInt('77ACA2')),
-                                    //     fontFamily: 'Poppins Medium',
-                                    //   ),
-                                    // ),
-                                    Text(
-                                      ' ${Get
-                                          .find<HomeController>()
-                                          .coin * 0.10} coin applied  .',
-                                      style: TextStyle(
-                                        fontSize: 8.0,
-                                        color: Color(
-                                            Utils.hexStringToHexInt('77ACA2')),
-                                        fontFamily: 'Poppins Medium',
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: height * 0.03,
-                                    ),
-
-                                    // SizedBox(
-                                    //   width: width,
-                                    //   height: height * 0.1,
-                                    //   child: TextField(
-                                    //     textCapitalization:
-                                    //     TextCapitalization.sentences,
-                                    //     onChanged: (value) {
-                                    //       setState(() {
-                                    //         var Totalcoin =
-                                    //             Get.find<HomeController>().coin *
-                                    //                 0.05;
-                                    //         valueName = value;
-                                    //         if (int.parse(value) > Totalcoin) {
-                                    //           print("SDFDFDFDF ${value}");
-                                    //           CommonDialog.showsnackbar(
-                                    //               "You can not use coin more then ${Totalcoin}");
-                                    //         } else {
-                                    //           print(value);
-                                    //           applycoin = double.parse(value);
-                                    //         }
-                                    //       });
-                                    //     },
-                                    //     keyboardType: TextInputType.number,
-                                    //     controller: _textFieldcoin,
-                                    //     decoration: const InputDecoration(
-                                    //         border: OutlineInputBorder(),
-                                    //         hintText: "Enter coin here.."),
-                                    //   ),
-                                    // ),
-
-                                    AnimatedBuilder(
-                                        animation: ezAnimation,
-                                        builder: (context, snapshot) {
-                                          return Center(
-                                            child: Container(
-                                              width: width * 0.3,
-                                              height: height * 0.1,
-                                              child: Image.asset(
-                                                "images/svgicons/coin.png",
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          );
-                                        }),
-
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-
-                                    Center(
-                                      child: FlatButton(
-                                        color: Color(
-                                            Utils.hexStringToHexInt('77ACA2')),
-                                        textColor: Colors.white,
-                                        child: Text('Use coin'),
-                                        onPressed: () async {
-                                          setState(() {
-                                            applycoin = double.parse(
-                                                "${Get
-                                                    .find<HomeController>()
-                                                    .coin * 0.10}");
-                                          });
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            actions: <Widget>[],
-                          );
-                        },
-                      );
-                    },
-                    child: SizedBox(
-                      width: width,
-                      height: height * 0.09,
-                      child: Material(
-                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                        child: Container(
-                            width: width,
-                            height: height * 0.09,
-                            padding: EdgeInsets.only(
-                                left: width * 0.03, right: width * 0.03),
-                            color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      'images/svgicons/bigoffer.svg',
-                                      fit: BoxFit.contain,
-                                      width: width * 0.06,
-                                      height: height * 0.04,
-                                    ),
-                                    Text(
-                                      ' Use Coin',
-                                      style: TextStyle(
-                                          color: Color(
-                                              Utils.hexStringToHexInt(
-                                                  '77ACA2')),
-                                          fontFamily: 'Poppins Medium',
-                                          fontSize: width * 0.04),
-                                    )
-                                  ],
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                  color: Color(
-                                      Utils.hexStringToHexInt('77ACA2')),
+                                /*TODO--${int.parse(totalPrice.toString()) - (applycouponPrice + applycoin)}*/
+                                Text(
+                                  " ₹${int.parse(totalPrice.toString())}",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: width * 0.05,
+                                      fontFamily: 'Poppins Medium'),
                                 )
                               ],
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Material(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12.0, right: 12.0),
-                          child: Column(
-                            children: <Widget>[
-
-                              Container(
-                                margin: EdgeInsets.only(right: width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.03),
-                                          child: Text('Services total',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: width * 0.04,
-                                                  fontFamily: 'Poppins Regular')),
-                                        )
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          right: width * 0.03),
-                                      child: Text(
-                                          'Rs. ${totalPrice.toString()}',
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: width * 0.03,
-                                              fontFamily: 'Poppins Regular')),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(right: width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.03),
-                                          child: Text('Taxes & Charges',
-                                              style: TextStyle(
-                                                  color: Color(
-                                                      Utils.hexStringToHexInt(
-                                                          '5E5E5E')),
-                                                  fontSize: width * 0.03,
-                                                  fontFamily: 'Poppins Regular')),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_drop_down_sharp,
-                                          size: width * 0.06,
-                                        )
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          right: width * 0.03),
-                                      child: Text('Rs. 0.0',
-                                          style: TextStyle(
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '5E5E5E')),
-                                              fontSize: width * 0.03,
-                                              fontFamily: 'Poppins Regular')),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: height * 0.02,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(right: width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.03),
-                                          child: Text('Coupon Discount',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: width * 0.04,
-                                                  fontFamily: 'Poppins Regular')),
-                                        )
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          right: width * 0.03),
-                                      child: Text(
-                                          applycouponPrice != 0.0
-                                              ? "-" + "${applycouponPrice}"
-                                              : "N/A",
-                                          style: TextStyle(
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '5E5E5E')),
-                                              fontSize: width * 0.03,
-                                              fontFamily: 'Poppins Regular')),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(right: width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: width * 0.03),
-                                          child: Text('Coin Applied',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: width * 0.04,
-                                                  fontFamily: 'Poppins Regular')),
-                                        )
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          right: width * 0.03),
-                                      child: Text(
-                                          applycoin != 0
-                                              ? "-" + "${applycoin}"
-                                              : "N/A",
-                                          style: TextStyle(
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '5E5E5E')),
-                                              fontSize: width * 0.03,
-                                              fontFamily: 'Poppins Regular')),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Divider(
-                          color: Color(Utils.hexStringToHexInt('5E5E5E')),
-                          thickness: 1,
-                        ),
-                        SizedBox(
-                          height: height * 0.02,
-                        ),
-
-
-                        Container(
-                            width: width,
-                            margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(18))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                            Row(
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    print(resultList.join(","));
-
-                                    salonControlller.addTocart(
-                                        context,
-                                        widget.data!.id.toString(),
-                                        resultList.join(","), "");
+                                    /*TODO---- offline payment (no coupon allied no coin applied)*/
+                                    bookService();
                                   },
                                   child: Container(
-                                    width: width - width * 0.2,
-                                    padding: EdgeInsets.all(10),
+                                    width: width * 0.3,
+                                    height: height * 0.08,
                                     decoration: BoxDecoration(
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
                                         border: Border.all(
                                             color: Color(
                                                 Utils.hexStringToHexInt(
@@ -1097,11 +1136,11 @@ class _OrderDetailState extends State<OrderDetail> {
                                             width: 2)),
                                     child: Center(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'Add to cart',
+                                            'Pay Later',
                                             style: TextStyle(
                                                 color: Color(
                                                     Utils.hexStringToHexInt(
@@ -1109,170 +1148,87 @@ class _OrderDetailState extends State<OrderDetail> {
                                                 fontFamily: 'Poppins Regular',
                                                 fontSize: width * 0.03),
                                           ),
+                                          Text(
+                                            'No Discount',
+                                            style: TextStyle(
+                                                color: Color(
+                                                    Utils.hexStringToHexInt(
+                                                        '77ACA2')),
+                                                fontFamily: 'Poppins Regular',
+                                                fontSize: width * 0.02),
+                                          )
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            )),
-
-                        Card(
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Container(
-                            width: width,
-                            height: height * 0.1 + height * 0.05,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(18))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      ' Bill Total',
-                                      style: TextStyle(
-                                          color: Color(
-                                              Utils.hexStringToHexInt(
-                                                  'A3A2A2')),
-                                          fontSize: width * 0.04,
-                                          fontFamily: 'Poppins Regular'),
-                                    ),
-                                    /*TODO--${int.parse(totalPrice.toString()) - (applycouponPrice + applycoin)}*/
-                                    Text(
-                                      " ₹${int.parse(totalPrice.toString())}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: width * 0.05,
-                                          fontFamily: 'Poppins Medium'),
-                                    )
-                                  ],
+                                const SizedBox(
+                                  width: 6,
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap: () {
-                                        /*TODO---- offline payment (no coupon allied no coin applied)*/
-                                        bookService();
-                                      },
-                                      child: Container(
-                                        width: width * 0.3,
-                                        height: height * 0.08,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            border: Border.all(
-                                                color: Color(
-                                                    Utils.hexStringToHexInt(
-                                                        '77ACA2')),
-                                                width: 2)),
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                'Pay Later',
-                                                style: TextStyle(
-                                                    color: Color(
-                                                        Utils.hexStringToHexInt(
-                                                            '77ACA2')),
-                                                    fontFamily: 'Poppins Regular',
-                                                    fontSize: width * 0.03),
-                                              ),
-                                              Text(
-                                                'No Discount',
-                                                style: TextStyle(
-                                                    color: Color(
-                                                        Utils.hexStringToHexInt(
-                                                            '77ACA2')),
-                                                    fontFamily: 'Poppins Regular',
-                                                    fontSize: width * 0.02),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 6,
-                                    ),
-                                    /*TODO---pass from here*/
+                                /*TODO---pass from here*/
 
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          var description = "";
-                                          widget.newarray!.forEach((element) {
-                                            description = description +
-                                                "," +
-                                                "${element.name.toString() +
-                                                    " " +
-                                                    element.price.toString()}";
-                                            print(description);
-                                          });
-                                          openCheckout(
-                                            widget.data!.name.toString(),
-                                            description,
-                                          );
-                                        });
-                                      },
-                                      child: Container(
-                                        width: width * 0.3,
-                                        height: height * 0.08,
-                                        margin: EdgeInsets.only(right: 5.0),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12)),
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    '77ACA2'))),
-                                        child: Center(
-                                          child: Column(
-                                            mainAxisAlignment:
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      var description = "";
+                                      widget.newarray!.forEach((element) {
+                                        description = description +
+                                            "," +
+                                            "${element.name.toString() + " " + element.price.toString()}";
+                                        print(description);
+                                      });
+                                      openCheckout(
+                                        widget.data!.name.toString(),
+                                        description,
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    width: width * 0.3,
+                                    height: height * 0.08,
+                                    margin: EdgeInsets.only(right: 5.0),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
+                                        color: Color(
+                                            Utils.hexStringToHexInt('77ACA2'))),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                'Pay now',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily: 'Poppins Regular',
-                                                    fontSize: width * 0.03),
-                                              ),
-                                              Text(
-                                                'Save ₹ ${applycouponPrice +
-                                                    applycoin}',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily: 'Poppins Regular',
-                                                    fontSize: width * 0.02),
-                                              )
-                                            ],
+                                        children: <Widget>[
+                                          Text(
+                                            'Pay now',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins Regular',
+                                                fontSize: width * 0.03),
                                           ),
-                                        ),
+                                          Text(
+                                            'Save ₹ ${applycouponPrice + applycoin}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Poppins Regular',
+                                                fontSize: width * 0.02),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 )
                               ],
-                            ),
-                          ),
+                            )
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  )
-                ],
-              ),
+                  ],
+                ),
+              )
             ],
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }

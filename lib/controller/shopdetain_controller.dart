@@ -3,13 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:untitled/model/AddRemoveFavouritePojo.dart';
-import 'package:untitled/model/ProfilePojo.dart';
-import 'package:untitled/model/ShopDetailPojo.dart';
-import 'package:untitled/screen/profile.dart';
 import 'dart:convert';
 
 import '../model/AddBookingPojo.dart';
+import '../model/AddRemoveFavouritePojo.dart';
+import '../model/ShopDetailPojo.dart';
 import '../screen/homepage.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
@@ -164,10 +162,11 @@ class ShopDetailController extends GetxController {
       "to_time": from_time + "",
       "amount": amount,
       "payment_type":"$payment_type",
-      "coin":"$coin",
+      "coin":coin==0.0?"":coin,
       "coupon_code":"$coupon_code",
       "transaction_id":"$transaction_id"
     };
+
     print("API HIT HIT HIT HIT");
     try {
       lodaer = true;

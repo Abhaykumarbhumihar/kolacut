@@ -10,6 +10,8 @@ import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 import 'dart:math';
 import 'dart:math' as math;
 
+import 'package:swipebuttonflutter/swipebuttonflutter.dart';
+
 class CoinPage extends StatefulWidget {
   const CoinPage({Key? key}) : super(key: key);
 
@@ -245,13 +247,12 @@ class _CoinPageState extends State<CoinPage> {
                                 appearance: CircularSliderAppearance(
                                     size: width * 0.8,
                                     customColors: CustomSliderColors(
-dotColor: Colors.amber,
+                                        dotColor: Colors.amber,
                                         trackColor: Color(
                                             Utils.hexStringToHexInt('#d6dfe9')),
                                         progressBarColor: Color(
                                             Utils.hexStringToHexInt('77ACA2'))),
                                     customWidths: CustomSliderWidths(
-
                                         progressBarWidth: 10,
                                         handlerSize: 10,
                                         trackWidth: 10)),
@@ -360,52 +361,108 @@ dotColor: Colors.amber,
                           SizedBox(
                             height: height * 0.03,
                           ),
-                          Container(
-                            width: width,
-                            height: height * 0.06,
-                            decoration: BoxDecoration(
-                                color: Color(Utils.hexStringToHexInt('77ACA2')),
-                                borderRadius:
-                                    BorderRadius.circular(width * 0.07)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  width: 44,
-                                  height: 44,
-                                  margin: EdgeInsets.all(2),
-                                  decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              'images/svgicons/circleback.png'),
-                                          fit: BoxFit.fill)),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.arrow_right_alt_outlined,
-                                      color: Color(
-                                          Utils.hexStringToHexInt('77ACA2')),
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Swipe to Add Money',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Poppins Medium',
-                                      fontSize: width * 0.03),
-                                ),
-                                Text(
-                                  '',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Poppins Medium',
-                                      fontSize: width * 0.04),
-                                )
-                              ],
+                          // Center(
+                          //     child: SliderButton(
+                          //   dismissible: true,
+                          //   buttonColor:
+                          //       Color(Utils.hexStringToHexInt('77ACA2')),
+                          //   backgroundColor:
+                          //       Color(Utils.hexStringToHexInt('77ACA2')),
+                          //   vibrationFlag: true,
+                          //   action: () {
+                          //     ///Do something here
+                          //     // Navigator.of(context).pop();
+                          //   },
+                          //   label: Text(
+                          //     'Want to earn more coins?',
+                          //     textAlign: TextAlign.center,
+                          //     style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontFamily: 'Poppins Medium',
+                          //         fontSize: width * 0.03),
+                          //   ),
+                          //   icon: Container(
+                          //     width: 74,
+                          //     height: 74,
+                          //     margin: EdgeInsets.all(2),
+                          //     decoration: const BoxDecoration(
+                          //         image: DecorationImage(
+                          //             image: AssetImage(
+                          //                 'images/svgicons/circleback.png'),
+                          //             fit: BoxFit.fill)),
+                          //     child: Center(
+                          //       child: Icon(
+                          //         Icons.arrow_right_alt_outlined,
+                          //         color:
+                          //             Color(Utils.hexStringToHexInt('77ACA2')),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // )),
+                          Center(
+                            child: SwipingButton(
+                              height: height * 0.06,
+                              iconColor:
+                                  Color(Utils.hexStringToHexInt('77ACA2')),
+                              swipeButtonColor: Colors.white,
+                              backgroundColor:
+                                  Color(Utils.hexStringToHexInt('77ACA2')),
+                              buttonTextStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Poppins Medium',
+                                  fontSize: width * 0.03),
+                              text: "Swipe to Add Money",
+                              onSwipeCallback: () {
+                                print("Called back");
+                              },
                             ),
                           ),
+                          // Container(
+                          //   width: width,
+                          //   height: height * 0.06,
+                          //   decoration: BoxDecoration(
+                          //       color: Color(Utils.hexStringToHexInt('77ACA2')),
+                          //       borderRadius:
+                          //           BorderRadius.circular(width * 0.07)),
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: <Widget>[
+                          //       Container(
+                          //         width: 44,
+                          //         height: 44,
+                          //         margin: EdgeInsets.all(2),
+                          //         decoration: const BoxDecoration(
+                          //             image: DecorationImage(
+                          //                 image: AssetImage(
+                          //                     'images/svgicons/circleback.png'),
+                          //                 fit: BoxFit.fill)),
+                          //         child: Center(
+                          //           child: Icon(
+                          //             Icons.arrow_right_alt_outlined,
+                          //             color: Color(
+                          //                 Utils.hexStringToHexInt('77ACA2')),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Text(
+                          //         'Swipe to Add Money',
+                          //         textAlign: TextAlign.center,
+                          //         style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontFamily: 'Poppins Medium',
+                          //             fontSize: width * 0.03),
+                          //       ),
+                          //       Text(
+                          //         '',
+                          //         style: TextStyle(
+                          //             color: Colors.white,
+                          //             fontFamily: 'Poppins Medium',
+                          //             fontSize: width * 0.04),
+                          //       )
+                          //     ],
+                          //   ),
+                          // ),
                           SizedBox(
                             height: height * 0.02,
                           ),

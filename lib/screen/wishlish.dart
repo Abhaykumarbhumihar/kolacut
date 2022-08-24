@@ -24,8 +24,10 @@ class _WishlistState extends State<Wishlist> {
   var email = "";
   var phone = "";
   var iamge = "";
+
   late SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
+  var session;
   @override
   Widget build(BuildContext context) {
     SharedPreferences.getInstance().then((SharedPreferences sp) {
@@ -34,11 +36,21 @@ class _WishlistState extends State<Wishlist> {
       var emailValue = sharedPreferences.getString("email");
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
+      var _sessss = sharedPreferences.getString("session");
+
       setState(() {
-        name = _testValue!;
-        email = emailValue!;
-        phone = _phoneValue!;
-        iamge = _imageValue!;
+        if(_testValue!=null){
+          session=_sessss;
+          name = _testValue!;
+          email = emailValue!;
+          phone = _phoneValue!;
+          iamge = _imageValue!;
+        }else{
+          name = "";
+          email ="";
+          phone ="";
+          iamge ="";
+        }
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
       // will be null if never previously saved
@@ -82,7 +94,7 @@ class _WishlistState extends State<Wishlist> {
               ],
             ),
             body:
-                GetBuilder<WishListController>(builder: (wishListControlller) {
+            session==null?Container(child: Text("Please login"),): GetBuilder<WishListController>(builder: (wishListControlller) {
               if (wishListControlller.lodaer) {
                 return Container();
               } else {

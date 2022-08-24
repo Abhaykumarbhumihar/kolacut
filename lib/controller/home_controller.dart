@@ -2,15 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/model/AdminCouponPojo.dart';
-import 'package:untitled/model/CartListPojo.dart';
-import 'package:untitled/model/CoinPojo.dart';
-import 'package:untitled/model/ProfilePojo.dart';
-import 'package:untitled/model/ShopDetailPojo.dart';
-import 'package:untitled/model/ShopLIstPojo.dart';
-import 'package:untitled/screen/profile.dart';
 
+
+import '../model/AdminCouponPojo.dart';
 import '../model/AdminServicePojo.dart';
+import '../model/CartListPojo.dart';
+import '../model/CoinPojo.dart';
+import '../model/ShopLIstPojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -39,17 +37,21 @@ class HomeController extends GetxController {
   void onReady() {
     //session_id
     super.onReady();
-    print("SDLKFJKLSDFJDSprofile");
+    getShopList();
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
-      var _testValue = sharedPreferences.getString("session");
-      print(sharedPreferences.getString("session"));
-      getShopList(_testValue);
-      getServiceList(_testValue);
-      getAdminCouponList(_testValue);
-      getCoin(_testValue);
+      try{
+        var _testValue = sharedPreferences.getString("session");
+        // print(sharedPreferences.getString("session"));
 
-      // getCartList(_testValue);
+
+        if (_testValue != null) {
+          //getServiceList(_testValue);
+          getAdminCouponList(_testValue);
+          getCoin(_testValue);
+          // getCartList(_testValue);
+        }
+      }catch(e){}
     });
 
     //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
@@ -134,23 +136,24 @@ class HomeController extends GetxController {
     }
   }
 
-  void getShopList(session_id) async {
+  void getShopList() async {
     Map map;
-    map = {"session_id": session_id};
+    map = {"session_id": "session_id"};
     try {
-      // CommonDialog.showLoading(title: "Please waitt...");
+   CommonDialog.showLoading(title: "Please waitt...");
       lodaer = true;
       final response = await APICall().postWithoutBody(AppConstant.SHOP_LIST);
-      Get.back();
+
       //print(response);
       if (shopListPojo.value.message == "No Data found") {
         CommonDialog.hideLoading();
         CommonDialog.showsnackbar("No Data found");
       } else {
         // Get.back();
+        CommonDialog.hideLoading();
         shopListPojo.value = shopLIstPojoFromJson(response);
         data = shopListPojo.value.staffDetail!;
-        // lodaer = false;
+        lodaer = false;
         update();
       }
     } catch (error) {

@@ -721,6 +721,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  swipebuttonflutter:
+    dependency: "direct main"
+    description:
+      name: swipebuttonflutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   table_calendar:
     dependency: "direct main"
     description:

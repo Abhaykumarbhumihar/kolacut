@@ -48,14 +48,16 @@ class _ProfilePageState extends State<ProfilePage> {
   var iamge = "";
   late SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
+
   List<DropdownMenuItem<String>> _createList() {
     return list
         .map<DropdownMenuItem<String>>(
-          (e) => DropdownMenuItem(
+          (e) =>
+          DropdownMenuItem(
             value: e,
             child: Text(e),
           ),
-        )
+    )
         .toList();
   }
 
@@ -63,15 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _nameController=TextEditingController();
-    emailcontroller=TextEditingController();
-    _phonecontroller=TextEditingController();
-    _dobController=TextEditingController();
+    _nameController = TextEditingController();
+    emailcontroller = TextEditingController();
+    _phonecontroller = TextEditingController();
+    _dobController = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("name");
@@ -88,8 +89,14 @@ class _ProfilePageState extends State<ProfilePage> {
       // will be null if never previously saved
       // print("SDFKLDFKDKLFKDLFKLDFKL  " + "${_testValue}");
     });
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return SafeArea(
       child: Container(
         width: width,
@@ -99,1348 +106,697 @@ class _ProfilePageState extends State<ProfilePage> {
                 image: AssetImage('images/svgicons/profilebackgound.png'),
                 fit: BoxFit.fill)),
         child: Scaffold(
-          resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomInset: true,
             key: scaffolKey,
-            drawer: SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
-          appBar: AppBar(
-            centerTitle: false,
-            elevation: 0.0,
-            backgroundColor: Color(Utils.hexStringToHexInt('77ACA2')),
-            leading: InkWell(
-              onTap: () {
-                scaffolKey.currentState!.openDrawer();
-              },
-              child: Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
-            ),
-            titleSpacing: 0,
-            title: Text(
-              'Profile',
-              style: TextStyle(
-                  fontFamily: 'Poppins Regular',
+            drawer: SideNavigatinPage(
+                "${name}", "${iamge}", "${email}", "${phone}"),
+            appBar: AppBar(
+              centerTitle: false,
+              elevation: 0.0,
+              backgroundColor: Color(Utils.hexStringToHexInt('77ACA2')),
+              leading: InkWell(
+                onTap: () {
+                  scaffolKey.currentState!.openDrawer();
+                },
+                child: Icon(
+                  Icons.menu,
                   color: Colors.white,
-                  fontSize: width * 0.04),
-            ),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: width * 0.01),
-                child: SvgPicture.asset(
-                  "images/svgicons/dissabledisco.svg",
                 ),
-              )
-            ],
-          ),
-          backgroundColor: Colors.transparent,
-          body:
-
-         GetBuilder<ProfileController>(builder: (profileController){
-
-             if(profileController.lodaer){
-               return Container();
-             }
-             else{
-               return  SingleChildScrollView(
-                 child:
-                 Column(
-                   mainAxisAlignment: MainAxisAlignment.start,
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: <Widget>[
-                     SizedBox(
-                       height: height * 0.07,
-                     ),
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                       children: <Widget>[
-                         CircleAvatar(
-                           radius: width * 0.2 - width * 0.06,
-                           backgroundImage: NetworkImage( profileController.profilePojo.value.data!.profileImage!),
-                         )
-                       ],
-                     ),
-                     SizedBox(
-                       height: height * 0.04,
-                     ),
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: <Widget>[
-                         Container(
-                           margin: EdgeInsets.only(left: width * 0.06),
-                           child: Text(
-                             'Personal Details',
-                             style: TextStyle(
-                                 color: Colors.black,
-                                 fontSize: width * 0.03,
-                                 fontFamily: 'Poppins Medium'),
-                           ),
-                         ),
-                         GestureDetector(
-                           onTap: () {
-                             Get.to(ProfileUpdate());
-
-                             //  _profileUpdate(context,width,height);
-                           },
-                           child: Container(
-                             margin: EdgeInsets.only(right: width * 0.02),
-                             width: width * 0.2,
-                             height: height * 0.03,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(width * 0.01),
-                                 color: Color(Utils.hexStringToHexInt('#ecfafb'))),
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: <Widget>[
-                                 Center(
-                                   child: SvgPicture.asset(
-                                     "images/svgicons/modify.svg",
-                                   ),
-                                 ),
-                                 Text(
-                                   'Modify',
-                                   style: TextStyle(
-                                       fontSize: width * 0.02,
-                                       fontFamily: 'Poppins Regular',
-                                       color:
-                                       Color(Utils.hexStringToHexInt('46D0D9'))),
-                                 )
-                               ],
-                             ),
-                           ),
-                         ),
-                       ],
-                     ),
-                     Container(
-                       margin: EdgeInsets.only(left: width * 0.06),
-                       child: SizedBox(
-                         width: width * 0.09,
-                         child: Divider(
-                           thickness: 3,
-                           color: Color(Utils.hexStringToHexInt('77ACA2')),
-                         ),
-                       ),
-                     ),
-                     Container(
-                       margin: EdgeInsets.only(left: width * 0.06),
-                       width: width,
-                       child: Column(
-                         children: <Widget>[
-                           Row(
-                             children: <Widget>[
-                               Text(
-                                 'Name',
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.03),
-                               ),
-                               SizedBox(
-                                 width: width * 0.06,
-                               ),
-                               Text(
-
-                                 profileController.profilePojo.value.data!.name.toString()+"" != "" ? profileController.profilePojo.value.data!.name.toString()+"" : "N/A",
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.04),
-                               )
-
-                             ],
-                           ),
-                           SizedBox(
-                             height: height * 0.01,
-                           ),
-                           Row(
-                             children: <Widget>[
-                               Text(
-                                 'Email',
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.03),
-                               ),
-                               SizedBox(
-                                 width: width * 0.06,
-                               ),
-                               Text(
-                                 profileController.profilePojo.value.data!.email.toString()+"" != "" ?  profileController.profilePojo.value.data!.email.toString()+"" : "N/A",
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.04),
-                               )
-                             ],
-                           ),
-                           SizedBox(
-                             height: height * 0.01,
-                           ),
-                           Row(
-                             children: <Widget>[
-                               Text(
-                                 'Contact',
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.03),
-                               ),
-                               SizedBox(
-                                 width: width * 0.04,
-                               ),
-                               Text(
-                                 profileController.profilePojo.value.data!.phone.toString()+"" != "" ?  profileController.profilePojo.value.data!.phone.toString()+"" : "N/A",
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.04),
-                               )
-                             ],
-                           ),
-                           SizedBox(
-                             height: height * 0.01,
-                           ),
-                           Row(
-                             children: <Widget>[
-                               Text(
-                                 'DOB',
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.03),
-                               ),
-                               SizedBox(
-                                 width: width * 0.06,
-                               ),
-                               Text(
-                                 " " +  profileController.profilePojo.value.data!.dob.toString()+"" != "" ? "  " +  profileController.profilePojo.value.data!.dob.toString()+"" : "N/A",
-                                 textAlign: TextAlign.left,
-                                 style: TextStyle(
-                                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                                     fontFamily: 'Poppins Regular',
-                                     fontSize: width * 0.04),
-                               )
-                             ],
-                           ),
-                         ],
-                       ),
-                     ),
-                     SizedBox(
-                       height: height * 0.02,
-                     ),
-                     Divider(
-                       thickness: 1,
-                     ),
-                     // Row(
-                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     //   children: <Widget>[
-                     //     Container(
-                     //       margin: EdgeInsets.only(left: width * 0.06),
-                     //       child: Text(
-                     //         'Leave Management',
-                     //         style: TextStyle(
-                     //             color: Colors.black,
-                     //             fontSize: width * 0.03,
-                     //             fontFamily: 'Poppins Medium'),
-                     //       ),
-                     //     ),
-                     //     Container(
-                     //       margin: EdgeInsets.only(right: width * 0.02),
-                     //       width: width * 0.2,
-                     //       height: height * 0.03,
-                     //       decoration: BoxDecoration(
-                     //           borderRadius: BorderRadius.circular(width * 0.01),
-                     //           color: Color(Utils.hexStringToHexInt('#ecfafb'))),
-                     //       child: Row(
-                     //         mainAxisAlignment: MainAxisAlignment.center,
-                     //         children: <Widget>[
-                     //           Center(
-                     //             child: SvgPicture.asset(
-                     //               "images/svgicons/modify.svg",
-                     //             ),
-                     //           ),
-                     //           Text(
-                     //             'Modify',
-                     //             style: TextStyle(
-                     //                 fontSize: width * 0.02,
-                     //                 fontFamily: 'Poppins Regular',
-                     //                 color:
-                     //                 Color(Utils.hexStringToHexInt('46D0D9'))),
-                     //           )
-                     //         ],
-                     //       ),
-                     //     ),
-                     //   ],
-                     // ),
-                     // Container(
-                     //   margin: EdgeInsets.only(left: width * 0.06),
-                     //   child: SizedBox(
-                     //     width: width * 0.09,
-                     //     child: Divider(
-                     //       thickness: 3,
-                     //       color: Color(Utils.hexStringToHexInt('77ACA2')),
-                     //     ),
-                     //   ),
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.01,
-                     // ),
-                     // Container(
-                     //   margin:
-                     //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
-                     //   child: Material(
-                     //     borderRadius: BorderRadius.circular(width * 0.04),
-                     //     elevation: 6,
-                     //     child: Container(
-                     //       width: width,
-                     //       height: height * 0.2 - height * 0.06,
-                     //       decoration: BoxDecoration(
-                     //         color: Colors.white,
-                     //         borderRadius: BorderRadius.circular(width * 0.04),
-                     //       ),
-                     //       child: Row(
-                     //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     //         crossAxisAlignment: CrossAxisAlignment.start,
-                     //         children: <Widget>[
-                     //           Row(
-                     //             children: <Widget>[
-                     //               Container(
-                     //                 margin: EdgeInsets.only(left: width * 0.02),
-                     //                 child: Column(
-                     //                   crossAxisAlignment: CrossAxisAlignment.start,
-                     //                   mainAxisAlignment: MainAxisAlignment.center,
-                     //                   children: <Widget>[
-                     //                     SizedBox(
-                     //                       height: height * 0.002,
-                     //                     ),
-                     //                     Container(
-                     //                       margin:
-                     //                       EdgeInsets.only(left: width * 0.01),
-                     //                       width: width * 0.2,
-                     //                       height: height * 0.03,
-                     //                       decoration: BoxDecoration(
-                     //                           borderRadius: BorderRadius.circular(
-                     //                               width * 0.01),
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               '#ecfafb'))),
-                     //                       child: Center(
-                     //                         child: Text(
-                     //                           'Available',
-                     //                           textAlign: TextAlign.center,
-                     //                           style: TextStyle(
-                     //                               color: Color(
-                     //                                   Utils.hexStringToHexInt(
-                     //                                       '46D0D9')),
-                     //                               fontFamily: 'Poppins Regular',
-                     //                               fontSize: width * 0.02),
-                     //                         ),
-                     //                       ),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.01,
-                     //                     ),
-                     //                     Text(
-                     //                       ' May 01, 2021',
-                     //                       style: TextStyle(
-                     //                           fontSize: width * 0.02,
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               '8D8D8D')),
-                     //                           fontFamily: 'Poppins Regular'),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.001,
-                     //                     ),
-                     //                     Text(
-                     //                       ' Emergency at the house',
-                     //                       style: TextStyle(
-                     //                           fontSize: width * 0.02,
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               'C4C4C4')),
-                     //                           fontFamily: 'Poppins Regular'),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.01,
-                     //                     )
-                     //                   ],
-                     //                 ),
-                     //               )
-                     //             ],
-                     //           ),
-                     //           Container(
-                     //             margin: EdgeInsets.only(right: width * 0.02),
-                     //             child: Column(
-                     //               crossAxisAlignment: CrossAxisAlignment.center,
-                     //               mainAxisAlignment: MainAxisAlignment.center,
-                     //               children: <Widget>[
-                     //                 Container(
-                     //                   width: width * 0.2 - width * 0.06,
-                     //                   height: height * 0.02,
-                     //                   decoration: BoxDecoration(
-                     //                       borderRadius:
-                     //                       BorderRadius.circular(width * 0.04),
-                     //                       color: Color(
-                     //                           Utils.hexStringToHexInt('46D0D9'))),
-                     //                 )
-                     //               ],
-                     //             ),
-                     //           )
-                     //         ],
-                     //       ),
-                     //     ),
-                     //   ),
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.01,
-                     // ),
-                     // Container(
-                     //   margin:
-                     //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
-                     //   child: Material(
-                     //     borderRadius: BorderRadius.circular(width * 0.04),
-                     //     elevation: 6,
-                     //     child: Container(
-                     //       width: width,
-                     //       height: height * 0.2 - height * 0.06,
-                     //       decoration: BoxDecoration(
-                     //         color: Colors.white,
-                     //         borderRadius: BorderRadius.circular(width * 0.04),
-                     //       ),
-                     //       child: Row(
-                     //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     //         crossAxisAlignment: CrossAxisAlignment.start,
-                     //         children: <Widget>[
-                     //           Row(
-                     //             children: <Widget>[
-                     //               Container(
-                     //                 margin: EdgeInsets.only(left: width * 0.02),
-                     //                 child: Column(
-                     //                   crossAxisAlignment: CrossAxisAlignment.start,
-                     //                   mainAxisAlignment: MainAxisAlignment.center,
-                     //                   children: <Widget>[
-                     //                     SizedBox(
-                     //                       height: height * 0.002,
-                     //                     ),
-                     //                     Container(
-                     //                       margin:
-                     //                       EdgeInsets.only(left: width * 0.01),
-                     //                       width: width * 0.2,
-                     //                       height: height * 0.03,
-                     //                       decoration: BoxDecoration(
-                     //                           borderRadius: BorderRadius.circular(
-                     //                               width * 0.01),
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               '#ecfafb'))),
-                     //                       child: Center(
-                     //                         child: Text(
-                     //                           'Available',
-                     //                           textAlign: TextAlign.center,
-                     //                           style: TextStyle(
-                     //                               color: Color(
-                     //                                   Utils.hexStringToHexInt(
-                     //                                       '46D0D9')),
-                     //                               fontFamily: 'Poppins Regular',
-                     //                               fontSize: width * 0.02),
-                     //                         ),
-                     //                       ),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.01,
-                     //                     ),
-                     //                     Text(
-                     //                       ' May 01, 2021',
-                     //                       style: TextStyle(
-                     //                           fontSize: width * 0.02,
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               '8D8D8D')),
-                     //                           fontFamily: 'Poppins Regular'),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.001,
-                     //                     ),
-                     //                     Text(
-                     //                       ' Emergency at the house',
-                     //                       style: TextStyle(
-                     //                           fontSize: width * 0.02,
-                     //                           color: Color(Utils.hexStringToHexInt(
-                     //                               'C4C4C4')),
-                     //                           fontFamily: 'Poppins Regular'),
-                     //                     ),
-                     //                     SizedBox(
-                     //                       height: height * 0.01,
-                     //                     )
-                     //                   ],
-                     //                 ),
-                     //               )
-                     //             ],
-                     //           ),
-                     //           Container(
-                     //             margin: EdgeInsets.only(right: width * 0.02),
-                     //             child: Column(
-                     //               crossAxisAlignment: CrossAxisAlignment.center,
-                     //               mainAxisAlignment: MainAxisAlignment.center,
-                     //               children: <Widget>[
-                     //                 Container(
-                     //                   width: width * 0.2 - width * 0.06,
-                     //                   height: height * 0.02,
-                     //                   decoration: BoxDecoration(
-                     //                       borderRadius:
-                     //                       BorderRadius.circular(width * 0.04),
-                     //                       color: Color(
-                     //                           Utils.hexStringToHexInt('46D0D9'))),
-                     //                 )
-                     //               ],
-                     //             ),
-                     //           )
-                     //         ],
-                     //       ),
-                     //     ),
-                     //   ),
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.02,
-                     // ),
-                     // Divider(
-                     //   thickness: 1,
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.02,
-                     // ),
-                     // Row(
-                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                     //   children: <Widget>[
-                     //     Container(
-                     //       margin: EdgeInsets.only(left: width * 0.06),
-                     //       child: Text(
-                     //         'Customer Feedbacks',
-                     //         style: TextStyle(
-                     //             color: Colors.black,
-                     //             fontSize: width * 0.03,
-                     //             fontFamily: 'Poppins Medium'),
-                     //       ),
-                     //     ),
-                     //   ],
-                     // ),
-                     // Container(
-                     //   margin: EdgeInsets.only(left: width * 0.06),
-                     //   child: SizedBox(
-                     //     width: width * 0.09,
-                     //     child: Divider(
-                     //       thickness: 3,
-                     //       color: Color(Utils.hexStringToHexInt('46D0D9')),
-                     //     ),
-                     //   ),
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.04,
-                     // ),
-                     // Container(
-                     //   margin:
-                     //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
-                     //   child: Column(
-                     //     crossAxisAlignment: CrossAxisAlignment.start,
-                     //     children: <Widget>[
-                     //       Text(
-                     //         'Sara Blush',
-                     //         style: TextStyle(
-                     //             color: Colors.black,
-                     //             fontSize: width * 0.03,
-                     //             fontFamily: 'Poppins Medium'),
-                     //       ),
-                     //       Row(
-                     //         children: <Widget>[
-                     //           RatingBarIndicator(
-                     //             rating: 2.75,
-                     //             itemBuilder: (context, index) => const Icon(
-                     //               Icons.star,
-                     //               color: Colors.amber,
-                     //             ),
-                     //             itemCount: 5,
-                     //             itemSize: width * 0.05,
-                     //             direction: Axis.horizontal,
-                     //           ),
-                     //           Text(
-                     //             ' 11/5/21',
-                     //             style: TextStyle(
-                     //                 fontFamily: 'Poppins Regular',
-                     //                 fontSize: width * 0.02,
-                     //                 color:
-                     //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
-                     //           )
-                     //         ],
-                     //       ),
-                     //       SizedBox(
-                     //         height: height * 0.01,
-                     //       ),
-                     //       AutoSizeText(
-                     //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
-                     //         style: TextStyle(
-                     //             fontSize: width * 0.02,
-                     //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                     //             fontFamily: 'Poppins Light'),
-                     //         maxLines: 5,
-                     //       ),
-                     //       SizedBox(
-                     //         height: height * 0.01,
-                     //       ),
-                     //       Divider(
-                     //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
-                     //         thickness: 1,
-                     //       )
-                     //     ],
-                     //   ),
-                     // ),
-                     // SizedBox(
-                     //   height: height * 0.02,
-                     // ),
-                     // Container(
-                     //   margin:
-                     //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
-                     //   child: Column(
-                     //     crossAxisAlignment: CrossAxisAlignment.start,
-                     //     children: <Widget>[
-                     //       Text(
-                     //         'Sara Blush',
-                     //         style: TextStyle(
-                     //             color: Colors.black,
-                     //             fontSize: width * 0.03,
-                     //             fontFamily: 'Poppins Medium'),
-                     //       ),
-                     //       Row(
-                     //         children: <Widget>[
-                     //           RatingBarIndicator(
-                     //             rating: 2.75,
-                     //             itemBuilder: (context, index) => const Icon(
-                     //               Icons.star,
-                     //               color: Colors.amber,
-                     //             ),
-                     //             itemCount: 5,
-                     //             itemSize: width * 0.05,
-                     //             direction: Axis.horizontal,
-                     //           ),
-                     //           Text(
-                     //             ' 11/5/21',
-                     //             style: TextStyle(
-                     //                 fontFamily: 'Poppins Regular',
-                     //                 fontSize: width * 0.02,
-                     //                 color:
-                     //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
-                     //           )
-                     //         ],
-                     //       ),
-                     //       SizedBox(
-                     //         height: height * 0.01,
-                     //       ),
-                     //       AutoSizeText(
-                     //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
-                     //         style: TextStyle(
-                     //             fontSize: width * 0.02,
-                     //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                     //             fontFamily: 'Poppins Light'),
-                     //         maxLines: 5,
-                     //       ),
-                     //       SizedBox(
-                     //         height: height * 0.01,
-                     //       ),
-                     //       Divider(
-                     //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
-                     //         thickness: 1,
-                     //       )
-                     //     ],
-                     //   ),
-                     // )
-                   ],
-                 ),
-               );
-             }
-         })
-        ),
-      ),
-    );
-  }
-
-void openDiaolog(width,height){
-  Get.bottomSheet(
-    Container(
-      width: width,
-      height: height,
-      color: Colors.red,
-      child: Column(
-        children: <Widget>[
-          Container(
-
-            width: width * 0.5,
-            height: height * 0.2,
-            child: Stack(
-              children: <Widget>[
+              ),
+              titleSpacing: 0,
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                    fontFamily: 'Poppins Regular',
+                    color: Colors.white,
+                    fontSize: width * 0.04),
+              ),
+              actions: <Widget>[
                 Container(
-                  width: width * 0.5,
-                  height: height * 0.2,
-                  child: imageFile == null
-                      ? Container(
-                    width: width * 0.5,
-                    height: height * 0.2,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'images/svgicons/profilehoto.png'),
-                            fit: BoxFit.contain)),
-                  )
-                      : Container(
-                    width: width * 0.5,
-                    height: height * 0.2,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: FileImage(imageFile),
-                            fit: BoxFit.fill)),
-                  ),
-                ),
-                Positioned(
-                  top: height * 0.1 + height * 0.04,
-                  right: width * 0.06,
-                  child: GestureDetector(
-                    onTap: () {
-                      _showImageChooser(context);
-                    },
-                    child: Container(
-                      width: width * 0.1,
-                      height: height * 0.06,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'images/svgicons/circleaddback.png'),
-                              fit: BoxFit.fill)),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'images/svgicons/adddd.svg',
-                          width: width * 0.02,
-                          height: height * 0.02,
-                        ),
-                      ),
-                    ),
+                  margin: EdgeInsets.only(right: width * 0.01),
+                  child: SvgPicture.asset(
+                    "images/svgicons/dissabledisco.svg",
                   ),
                 )
               ],
             ),
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          Text("Update profile Photo",
-              style: TextStyle(
-                color: Color(Utils.hexStringToHexInt('77ACA2')),
-                fontSize: width * 0.05,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins Medium',
-              ),
-              textAlign: TextAlign.end),
-          SizedBox(
-            height: height * 0.1,
-          ),
-          Utils().titleTextsemibold('Update profile', context),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          Center(
-            child: Text(
-              'Please enter the details below to update your profile.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color(Utils.hexStringToHexInt('7E7E7E')),
-                  fontFamily: 'Poppins Regular',
-                  fontSize: width * 0.03),
-            ),
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: width * 0.08, right: width * 0.08),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: width - 5,
-                  height: height * 0.1 - height * 0.04,
-                  padding: const EdgeInsets.only(left: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: Color(Utils.hexStringToHexInt('F4F4F4')),
+            backgroundColor: Colors.transparent,
+            body:
+
+            GetBuilder<ProfileController>(builder: (profileController) {
+              if (profileController.lodaer) {
+                return Container();
+              }
+              else {
+                return SingleChildScrollView(
+                  child:
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                  SizedBox(
+                  height: height * 0.07,
                   ),
-                  child: TextField(
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      textAlign: TextAlign.left,
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                          hintText: 'Name',
-                          hintStyle: TextStyle(
-                              color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                              fontFamily: 'Poppins Regular',
-                              fontSize: width * 0.03),
-                          border: InputBorder.none)),
-                ),
-                Container(
-                  width: width - 5,
-                  height: height * 0.1 - height * 0.04,
-                  margin: const EdgeInsets.only(top: 6),
-                  padding: const EdgeInsets.only(left: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: width * 0.2 - width * 0.06,
+                        backgroundImage: NetworkImage(profileController
+                            .profilePojo.value.data!.profileImage!),
+                      )
+                    ],
                   ),
-                  child: TextField(
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      textAlign: TextAlign.left,
-                      controller: emailcontroller,
-                      decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                              color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                              fontFamily: 'Poppins Regular',
-                              fontSize: width * 0.03),
-                          border: InputBorder.none)),
-                ),
-                Container(
-                  width: width - 5,
-                  height: height * 0.1 - height * 0.04,
-                  margin: const EdgeInsets.only(top: 6),
-                  padding: const EdgeInsets.only(left: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                  SizedBox(
+                    height: height * 0.04,
                   ),
-                  child: TextField(
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      textAlign: TextAlign.left,
-                      controller: _phonecontroller,
-                      decoration: InputDecoration(
-                          hintText: 'Phone',
-                          hintStyle: TextStyle(
-                              color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                              fontFamily: 'Poppins Regular',
-                              fontSize: width * 0.03),
-                          border: InputBorder.none)),
-                ),
-                Row(
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: Container(
-                        width: width - 5,
-                        height: height * 0.1 - height * 0.04,
-                        margin: const EdgeInsets.only(top: 6),
-                        padding: const EdgeInsets.only(left: 6),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                          const BorderRadius.all(Radius.circular(4)),
-                          color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              dob == "" ? "Date of birth" : dob,
-                              style: TextStyle(
-                                  color: Color(
-                                      Utils.hexStringToHexInt('A4A4A4')),
-                                  fontFamily: 'Poppins Regular',
-                                  fontSize: width * 0.03),
-                            ),
-                            const Icon(
-                              Icons.calendar_today,
-                              color: Colors.black,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Container(
-                      width: width - 5,
-                      height: height * 0.1 - height * 0.04,
-                      margin: const EdgeInsets.only(top: 6),
-                      padding: const EdgeInsets.only(left: 6),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(4)),
-                        color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                      ),
-                      child: DropdownButton(
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        hint: Text(
-                          "${showselectGender == "" ? "Gender" : showselectGender}",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: width * 0.06),
+                        child: Text(
+                          'Personal Details',
                           style: TextStyle(
-                              color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                              fontFamily: 'Poppins Regular',
-                              fontSize: width * 0.03),
+                              color: Colors.black,
+                              fontSize: width * 0.03,
+                              fontFamily: 'Poppins Medium'),
                         ),
-                        items: _createList(),
-                        onChanged: (value) {
-                          setState(() {
-                            showselectGender = value.toString();
-                            if (value == "Male") {
-                              genderSelect = "1";
-                              print(genderSelect);
-                            } else if (value == "Female") {
-                              genderSelect = "2";
-                              print(genderSelect);
-                            }
-                          });
-                        },
                       ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: height * 0.04,
-          ),
-          GestureDetector(
-            onTap: () {
-              CommonDialog.showsnackbar(date);
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(ProfileUpdate());
 
-              // authControlller.registerUser(
-              //     imageFile,
-              //     _nameController.text.toString(),
-              //     emailcontroller.text.toString(),
-              //     dob,
-              //     showselectGender,
-              //     _phonecontroller.text.toString(),
-              //     "android",
-              //     "sdfsdfsdfsdf");
-            },
-            child: Container(
-              width: width * 0.5,
-              height: height * 0.06,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(width * 0.08),
-                  color: Color(Utils.hexStringToHexInt('77ACA2'))),
-              child: Center(
-                child: Text(
-                  'Verify',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Poppins Semibold',
-                      fontSize: width * 0.04),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: height * 0.04,
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Future _profileUpdate(BuildContext context,width, height){
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext){
-        return SimpleDialog(
-            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-          title: Text("Profile update"),
-          children: <Widget>[
-            Container(
-              width: width,
-              height: height,
-              color: Colors.red,
-              child: Column(
-                children: <Widget>[
-                  Container(
-
-                    width: width * 0.5,
-                    height: height * 0.2,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          width: width * 0.5,
-                          height: height * 0.2,
-                          child: imageFile == null
-                              ? Container(
-                            width: width * 0.5,
-                            height: height * 0.2,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'images/svgicons/profilehoto.png'),
-                                    fit: BoxFit.contain)),
-                          )
-                              : Container(
-                            width: width * 0.5,
-                            height: height * 0.2,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: FileImage(imageFile),
-                                    fit: BoxFit.fill)),
-                          ),
-                        ),
-                        Positioned(
-                          top: height * 0.1 + height * 0.04,
-                          right: width * 0.06,
-                          child: GestureDetector(
-                            onTap: () {
-                              _showImageChooser(context);
-                            },
-                            child: Container(
-                              width: width * 0.1,
-                              height: height * 0.06,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'images/svgicons/circleaddback.png'),
-                                      fit: BoxFit.fill)),
-                              child: Center(
+                          //  _profileUpdate(context,width,height);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: width * 0.02),
+                          width: width * 0.2,
+                          height: height * 0.03,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(width * 0.01),
+                              color: Color(Utils.hexStringToHexInt('#ecfafb'))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Center(
                                 child: SvgPicture.asset(
-                                  'images/svgicons/adddd.svg',
-                                  width: width * 0.02,
-                                  height: height * 0.02,
+                                  "images/svgicons/modify.svg",
                                 ),
                               ),
-                            ),
+                              Text(
+                                'Modify',
+                                style: TextStyle(
+                                    fontSize: width * 0.02,
+                                    fontFamily: 'Poppins Regular',
+                                    color:
+                                    Color(Utils.hexStringToHexInt('46D0D9'))),
+                              )
+                            ],
                           ),
-                        )
-                      ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: width * 0.06),
+                    child: SizedBox(
+                      width: width * 0.09,
+                      child: Divider(
+                        thickness: 3,
+                        color: Color(Utils.hexStringToHexInt('77ACA2')),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Text("Update profile Photo",
+                  Container(
+                    margin: EdgeInsets.only(left: width * 0.06),
+                    width: width,
+                    child: Column(
+                      children: <Widget>[
+                    Row(
+                    children: <Widget>[
+                      Text(
+                      'Name',
+                      textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: Color(Utils.hexStringToHexInt('77ACA2')),
-                        fontSize: width * 0.05,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins Medium',
-                      ),
-                      textAlign: TextAlign.end),
-                  SizedBox(
-                    height: height * 0.1,
-                  ),
-                  Utils().titleTextsemibold('Update profile', context),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Center(
-                    child: Text(
-                      'Please enter the details below to update your profile.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('7E7E7E')),
+                          color: Color(Utils.hexStringToHexInt('A3A2A2')),
                           fontFamily: 'Poppins Regular',
                           fontSize: width * 0.03),
                     ),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: width * 0.08, right: width * 0.08),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: width - 5,
-                          height: height * 0.1 - height * 0.04,
-                          padding: const EdgeInsets.only(left: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                          ),
-                          child: TextField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                              textAlign: TextAlign.left,
-                              controller: _nameController,
-                              decoration: InputDecoration(
-                                  hintText: 'Name',
-                                  hintStyle: TextStyle(
-                                      color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                                      fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.03),
-                                  border: InputBorder.none)),
-                        ),
-                        Container(
-                          width: width - 5,
-                          height: height * 0.1 - height * 0.04,
-                          margin: const EdgeInsets.only(top: 6),
-                          padding: const EdgeInsets.only(left: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                          ),
-                          child: TextField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                              textAlign: TextAlign.left,
-                              controller: emailcontroller,
-                              decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(
-                                      color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                                      fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.03),
-                                  border: InputBorder.none)),
-                        ),
-                        Container(
-                          width: width - 5,
-                          height: height * 0.1 - height * 0.04,
-                          margin: const EdgeInsets.only(top: 6),
-                          padding: const EdgeInsets.only(left: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4)),
-                            color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                          ),
-                          child: TextField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                              textAlign: TextAlign.left,
-                              controller: _phonecontroller,
-                              decoration: InputDecoration(
-                                  hintText: 'Phone',
-                                  hintStyle: TextStyle(
-                                      color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                                      fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.03),
-                                  border: InputBorder.none)),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                _selectDate(context);
-                              },
-                              child: Container(
-                                width: width - 5,
-                                height: height * 0.1 - height * 0.04,
-                                margin: const EdgeInsets.only(top: 6),
-                                padding: const EdgeInsets.only(left: 6),
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(4)),
-                                  color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      dob == "" ? "Date of birth" : dob,
-                                      style: TextStyle(
-                                          color: Color(
-                                              Utils.hexStringToHexInt('A4A4A4')),
-                                          fontFamily: 'Poppins Regular',
-                                          fontSize: width * 0.03),
-                                    ),
-                                    const Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.black,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Container(
-                              width: width - 5,
-                              height: height * 0.1 - height * 0.04,
-                              margin: const EdgeInsets.only(top: 6),
-                              padding: const EdgeInsets.only(left: 6),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(4)),
-                                color: Color(Utils.hexStringToHexInt('F4F4F4')),
-                              ),
-                              child: DropdownButton(
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                hint: Text(
-                                  "${showselectGender == "" ? "Gender" : showselectGender}",
-                                  style: TextStyle(
-                                      color: Color(Utils.hexStringToHexInt('A4A4A4')),
-                                      fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.03),
-                                ),
-                                items: _createList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    showselectGender = value.toString();
-                                    if (value == "Male") {
-                                      genderSelect = "1";
-                                      print(genderSelect);
-                                    } else if (value == "Female") {
-                                      genderSelect = "2";
-                                      print(genderSelect);
-                                    }
-                                  });
-                                },
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+                    SizedBox(
+                      width: width * 0.06,
                     ),
+                    Text(
+
+                      profileController.profilePojo.value.data!.name
+                          .toString() + "" != "" ? profileController.profilePojo
+                          .value.data!.name.toString() + "" : "N/A",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                          fontFamily: 'Poppins Regular',
+                          fontSize: width * 0.04),
+                    )
+
+                    ],
                   ),
                   SizedBox(
-                    height: height * 0.04,
+                    height: height * 0.01,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      CommonDialog.showsnackbar(date);
-
-                      // authControlller.registerUser(
-                      //     imageFile,
-                      //     _nameController.text.toString(),
-                      //     emailcontroller.text.toString(),
-                      //     dob,
-                      //     showselectGender,
-                      //     _phonecontroller.text.toString(),
-                      //     "android",
-                      //     "sdfsdfsdfsdf");
-                    },
-                    child: Container(
-                      width: width * 0.5,
-                      height: height * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(width * 0.08),
-                          color: Color(Utils.hexStringToHexInt('77ACA2'))),
-                      child: Center(
-                        child: Text(
-                          'Verify',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Poppins Semibold',
-                              fontSize: width * 0.04),
-                        ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Email',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.03),
                       ),
-                    ),
+                      SizedBox(
+                        width: width * 0.06,
+                      ),
+                      Text(
+                        profileController.profilePojo.value.data!.email
+                            .toString() + "" != ""
+                            ? profileController.profilePojo.value.data!.email
+                            .toString() + ""
+                            : "N/A",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.04),
+                      )
+                    ],
                   ),
                   SizedBox(
-                    height: height * 0.04,
+                    height: height * 0.01,
                   ),
-                ],
-              ),
-            ),
-          ],
-        );
-      }
-    );
-}
-
-
-  AppBar appBarr(BuildContext context, width, height) {
-    return AppBar(
-      centerTitle: true,
-      backgroundColor: Color(Utils.hexStringToHexInt('46D0D9')),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: height * 0.05),
-            child: Text(' Crossing Republick, Ghaziabad',
-                style: TextStyle(
-                    fontSize: width * 0.03,
-                    fontFamily: 'Poppins Regular',
-                    color: Colors.black),
-                textAlign: TextAlign.center),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: width * 0.03,
-                height: height * 0.03,
-                child: SvgPicture.asset(
-                  "images/svgicons/mappin.svg",
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Contact',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.03),
+                      ),
+                      SizedBox(
+                        width: width * 0.04,
+                      ),
+                      Text(
+                        profileController.profilePojo.value.data!.phone
+                            .toString() + "" != ""
+                            ? profileController.profilePojo.value.data!.phone
+                            .toString() + ""
+                            : "N/A",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.04),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: height * 0.01,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'DOB',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.03),
+                      ),
+                      SizedBox(
+                        width: width * 0.06,
+                      ),
+                      Text(
+                        " " + profileController.profilePojo.value.data!.dob
+                            .toString() + "" != "" ? "  " + "${DateFormat.yMMMMd()
+                            .format(DateTime.parse(
+                            profileController.profilePojo.value.data!.dob
+                                .toString()))}"+"" : "N/A",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: Color(Utils.hexStringToHexInt('A3A2A2')),
+                              fontFamily: 'Poppins Regular',
+                              fontSize: width * 0.04),
+                        )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+              SizedBox(
+              height: height * 0.02,
               ),
-              Text(' Crossing Republick, Ghaziabad',
-                  style: TextStyle(
-                      fontSize: width * 0.02,
-                      fontFamily: 'Poppins Regular',
-                      color: Colors.black),
-                  textAlign: TextAlign.center),
-              IconButton(
-                icon: Icon(
-                  Icons.keyboard_arrow_down_sharp,
-                  size: width * 0.05,
-                  color: Colors.black,
-                ),
-                tooltip: 'Comment Icon',
-                onPressed: () {},
+              Divider(
+              thickness: 1,
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: <Widget>[
+              //     Container(
+              //       margin: EdgeInsets.only(left: width * 0.06),
+              //       child: Text(
+              //         'Leave Management',
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: width * 0.03,
+              //             fontFamily: 'Poppins Medium'),
+              //       ),
+              //     ),
+              //     Container(
+              //       margin: EdgeInsets.only(right: width * 0.02),
+              //       width: width * 0.2,
+              //       height: height * 0.03,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(width * 0.01),
+              //           color: Color(Utils.hexStringToHexInt('#ecfafb'))),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: <Widget>[
+              //           Center(
+              //             child: SvgPicture.asset(
+              //               "images/svgicons/modify.svg",
+              //             ),
+              //           ),
+              //           Text(
+              //             'Modify',
+              //             style: TextStyle(
+              //                 fontSize: width * 0.02,
+              //                 fontFamily: 'Poppins Regular',
+              //                 color:
+              //                 Color(Utils.hexStringToHexInt('46D0D9'))),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(left: width * 0.06),
+              //   child: SizedBox(
+              //     width: width * 0.09,
+              //     child: Divider(
+              //       thickness: 3,
+              //       color: Color(Utils.hexStringToHexInt('77ACA2')),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: height * 0.01,
+              // ),
+              // Container(
+              //   margin:
+              //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
+              //   child: Material(
+              //     borderRadius: BorderRadius.circular(width * 0.04),
+              //     elevation: 6,
+              //     child: Container(
+              //       width: width,
+              //       height: height * 0.2 - height * 0.06,
+              //       decoration: BoxDecoration(
+              //         color: Colors.white,
+              //         borderRadius: BorderRadius.circular(width * 0.04),
+              //       ),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: <Widget>[
+              //           Row(
+              //             children: <Widget>[
+              //               Container(
+              //                 margin: EdgeInsets.only(left: width * 0.02),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   mainAxisAlignment: MainAxisAlignment.center,
+              //                   children: <Widget>[
+              //                     SizedBox(
+              //                       height: height * 0.002,
+              //                     ),
+              //                     Container(
+              //                       margin:
+              //                       EdgeInsets.only(left: width * 0.01),
+              //                       width: width * 0.2,
+              //                       height: height * 0.03,
+              //                       decoration: BoxDecoration(
+              //                           borderRadius: BorderRadius.circular(
+              //                               width * 0.01),
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               '#ecfafb'))),
+              //                       child: Center(
+              //                         child: Text(
+              //                           'Available',
+              //                           textAlign: TextAlign.center,
+              //                           style: TextStyle(
+              //                               color: Color(
+              //                                   Utils.hexStringToHexInt(
+              //                                       '46D0D9')),
+              //                               fontFamily: 'Poppins Regular',
+              //                               fontSize: width * 0.02),
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     ),
+              //                     Text(
+              //                       ' May 01, 2021',
+              //                       style: TextStyle(
+              //                           fontSize: width * 0.02,
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               '8D8D8D')),
+              //                           fontFamily: 'Poppins Regular'),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.001,
+              //                     ),
+              //                     Text(
+              //                       ' Emergency at the house',
+              //                       style: TextStyle(
+              //                           fontSize: width * 0.02,
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               'C4C4C4')),
+              //                           fontFamily: 'Poppins Regular'),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     )
+              //                   ],
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(right: width * 0.02),
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: <Widget>[
+              //                 Container(
+              //                   width: width * 0.2 - width * 0.06,
+              //                   height: height * 0.02,
+              //                   decoration: BoxDecoration(
+              //                       borderRadius:
+              //                       BorderRadius.circular(width * 0.04),
+              //                       color: Color(
+              //                           Utils.hexStringToHexInt('46D0D9'))),
+              //                 )
+              //               ],
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: height * 0.01,
+              // ),
+              // Container(
+              //   margin:
+              //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
+              //   child: Material(
+              //     borderRadius: BorderRadius.circular(width * 0.04),
+              //     elevation: 6,
+              //     child: Container(
+              //       width: width,
+              //       height: height * 0.2 - height * 0.06,
+              //       decoration: BoxDecoration(
+              //         color: Colors.white,
+              //         borderRadius: BorderRadius.circular(width * 0.04),
+              //       ),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: <Widget>[
+              //           Row(
+              //             children: <Widget>[
+              //               Container(
+              //                 margin: EdgeInsets.only(left: width * 0.02),
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   mainAxisAlignment: MainAxisAlignment.center,
+              //                   children: <Widget>[
+              //                     SizedBox(
+              //                       height: height * 0.002,
+              //                     ),
+              //                     Container(
+              //                       margin:
+              //                       EdgeInsets.only(left: width * 0.01),
+              //                       width: width * 0.2,
+              //                       height: height * 0.03,
+              //                       decoration: BoxDecoration(
+              //                           borderRadius: BorderRadius.circular(
+              //                               width * 0.01),
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               '#ecfafb'))),
+              //                       child: Center(
+              //                         child: Text(
+              //                           'Available',
+              //                           textAlign: TextAlign.center,
+              //                           style: TextStyle(
+              //                               color: Color(
+              //                                   Utils.hexStringToHexInt(
+              //                                       '46D0D9')),
+              //                               fontFamily: 'Poppins Regular',
+              //                               fontSize: width * 0.02),
+              //                         ),
+              //                       ),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     ),
+              //                     Text(
+              //                       ' May 01, 2021',
+              //                       style: TextStyle(
+              //                           fontSize: width * 0.02,
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               '8D8D8D')),
+              //                           fontFamily: 'Poppins Regular'),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.001,
+              //                     ),
+              //                     Text(
+              //                       ' Emergency at the house',
+              //                       style: TextStyle(
+              //                           fontSize: width * 0.02,
+              //                           color: Color(Utils.hexStringToHexInt(
+              //                               'C4C4C4')),
+              //                           fontFamily: 'Poppins Regular'),
+              //                     ),
+              //                     SizedBox(
+              //                       height: height * 0.01,
+              //                     )
+              //                   ],
+              //                 ),
+              //               )
+              //             ],
+              //           ),
+              //           Container(
+              //             margin: EdgeInsets.only(right: width * 0.02),
+              //             child: Column(
+              //               crossAxisAlignment: CrossAxisAlignment.center,
+              //               mainAxisAlignment: MainAxisAlignment.center,
+              //               children: <Widget>[
+              //                 Container(
+              //                   width: width * 0.2 - width * 0.06,
+              //                   height: height * 0.02,
+              //                   decoration: BoxDecoration(
+              //                       borderRadius:
+              //                       BorderRadius.circular(width * 0.04),
+              //                       color: Color(
+              //                           Utils.hexStringToHexInt('46D0D9'))),
+              //                 )
+              //               ],
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: height * 0.02,
+              // ),
+              // Divider(
+              //   thickness: 1,
+              // ),
+              // SizedBox(
+              //   height: height * 0.02,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: <Widget>[
+              //     Container(
+              //       margin: EdgeInsets.only(left: width * 0.06),
+              //       child: Text(
+              //         'Customer Feedbacks',
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: width * 0.03,
+              //             fontFamily: 'Poppins Medium'),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(left: width * 0.06),
+              //   child: SizedBox(
+              //     width: width * 0.09,
+              //     child: Divider(
+              //       thickness: 3,
+              //       color: Color(Utils.hexStringToHexInt('46D0D9')),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: height * 0.04,
+              // ),
+              // Container(
+              //   margin:
+              //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: <Widget>[
+              //       Text(
+              //         'Sara Blush',
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: width * 0.03,
+              //             fontFamily: 'Poppins Medium'),
+              //       ),
+              //       Row(
+              //         children: <Widget>[
+              //           RatingBarIndicator(
+              //             rating: 2.75,
+              //             itemBuilder: (context, index) => const Icon(
+              //               Icons.star,
+              //               color: Colors.amber,
+              //             ),
+              //             itemCount: 5,
+              //             itemSize: width * 0.05,
+              //             direction: Axis.horizontal,
+              //           ),
+              //           Text(
+              //             ' 11/5/21',
+              //             style: TextStyle(
+              //                 fontFamily: 'Poppins Regular',
+              //                 fontSize: width * 0.02,
+              //                 color:
+              //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
+              //           )
+              //         ],
+              //       ),
+              //       SizedBox(
+              //         height: height * 0.01,
+              //       ),
+              //       AutoSizeText(
+              //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
+              //         style: TextStyle(
+              //             fontSize: width * 0.02,
+              //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+              //             fontFamily: 'Poppins Light'),
+              //         maxLines: 5,
+              //       ),
+              //       SizedBox(
+              //         height: height * 0.01,
+              //       ),
+              //       Divider(
+              //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
+              //         thickness: 1,
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: height * 0.02,
+              // ),
+              // Container(
+              //   margin:
+              //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: <Widget>[
+              //       Text(
+              //         'Sara Blush',
+              //         style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: width * 0.03,
+              //             fontFamily: 'Poppins Medium'),
+              //       ),
+              //       Row(
+              //         children: <Widget>[
+              //           RatingBarIndicator(
+              //             rating: 2.75,
+              //             itemBuilder: (context, index) => const Icon(
+              //               Icons.star,
+              //               color: Colors.amber,
+              //             ),
+              //             itemCount: 5,
+              //             itemSize: width * 0.05,
+              //             direction: Axis.horizontal,
+              //           ),
+              //           Text(
+              //             ' 11/5/21',
+              //             style: TextStyle(
+              //                 fontFamily: 'Poppins Regular',
+              //                 fontSize: width * 0.02,
+              //                 color:
+              //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
+              //           )
+              //         ],
+              //       ),
+              //       SizedBox(
+              //         height: height * 0.01,
+              //       ),
+              //       AutoSizeText(
+              //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
+              //         style: TextStyle(
+              //             fontSize: width * 0.02,
+              //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+              //             fontFamily: 'Poppins Light'),
+              //         maxLines: 5,
+              //       ),
+              //       SizedBox(
+              //         height: height * 0.01,
+              //       ),
+              //       Divider(
+              //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
+              //         thickness: 1,
+              //       )
+              //     ],
+              //   ),
+              // )
+              ],
               )
-            ],
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        //IconButton
-        IconButton(
-          iconSize: width * 0.07,
-          icon: const Icon(
-            CupertinoIcons.bell,
-            color: Colors.blue,
-          ),
-          tooltip: 'Setting Icon',
-          onPressed: () {},
-        ), //IconButton
-      ],
-      //<Widget>[]
-
-      elevation: 0.0,
-      leading: Builder(
-        builder: (context) => IconButton(
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-          tooltip: 'Menu Icon',
-          onPressed: () => Scaffold.of(context).openDrawer(),
+              ,
+              );
+            }
+            })
         ),
       ),
-      brightness: Brightness.dark,
     );
   }
 
-  Widget updateProfileView(width, height) {
-    print("DF SDF SDF SDF SDF SDF SDF SDF SDF 00");
-    return SizedBox(
-      width: width,
-      height: height,
-      child: Container(
-        child:
-        Column(
+  void openDiaolog(width, height) {
+    Get.bottomSheet(
+      Container(
+        width: width,
+        height: height,
+        color: Colors.red,
+        child: Column(
           children: <Widget>[
             Container(
+
               width: width * 0.5,
               height: height * 0.2,
               child: Stack(
@@ -1450,30 +806,30 @@ Future _profileUpdate(BuildContext context,width, height){
                     height: height * 0.2,
                     child: imageFile == null
                         ? Container(
-                            width: width * 0.5,
-                            height: height * 0.2,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'images/svgicons/profilehoto.png'),
-                                    fit: BoxFit.contain)),
-                          )
+                      width: width * 0.5,
+                      height: height * 0.2,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'images/svgicons/profilehoto.png'),
+                              fit: BoxFit.contain)),
+                    )
                         : Container(
-                            width: width * 0.5,
-                            height: height * 0.2,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: FileImage(imageFile),
-                                    fit: BoxFit.fill)),
-                          ),
+                      width: width * 0.5,
+                      height: height * 0.2,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: FileImage(imageFile),
+                              fit: BoxFit.fill)),
+                    ),
                   ),
                   Positioned(
                     top: height * 0.1 + height * 0.04,
                     right: width * 0.06,
                     child: GestureDetector(
                       onTap: () {
-                         _showImageChooser(context);
+                        _showImageChooser(context);
                       },
                       child: Container(
                         width: width * 0.1,
@@ -1606,7 +962,7 @@ Future _profileUpdate(BuildContext context,width, height){
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                            _selectDate(context);
+                          _selectDate(context);
                         },
                         child: Container(
                           width: width - 5,
@@ -1615,7 +971,7 @@ Future _profileUpdate(BuildContext context,width, height){
                           padding: const EdgeInsets.only(left: 6),
                           decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(4)),
+                            const BorderRadius.all(Radius.circular(4)),
                             color: Color(Utils.hexStringToHexInt('F4F4F4')),
                           ),
                           child: Row(
@@ -1647,13 +1003,699 @@ Future _profileUpdate(BuildContext context,width, height){
                         padding: const EdgeInsets.only(left: 6),
                         decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(4)),
+                          const BorderRadius.all(Radius.circular(4)),
                           color: Color(Utils.hexStringToHexInt('F4F4F4')),
                         ),
                         child: DropdownButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
                           hint: Text(
-                            "${showselectGender == "" ? "Gender" : showselectGender}",
+                            "${showselectGender == ""
+                                ? "Gender"
+                                : showselectGender}",
+                            style: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('A4A4A4')),
+                                fontFamily: 'Poppins Regular',
+                                fontSize: width * 0.03),
+                          ),
+                          items: _createList(),
+                          onChanged: (value) {
+                            setState(() {
+                              showselectGender = value.toString();
+                              if (value == "Male") {
+                                genderSelect = "1";
+                                print(genderSelect);
+                              } else if (value == "Female") {
+                                genderSelect = "2";
+                                print(genderSelect);
+                              }
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: height * 0.04,
+            ),
+            GestureDetector(
+              onTap: () {
+                CommonDialog.showsnackbar(date);
+
+                // authControlller.registerUser(
+                //     imageFile,
+                //     _nameController.text.toString(),
+                //     emailcontroller.text.toString(),
+                //     dob,
+                //     showselectGender,
+                //     _phonecontroller.text.toString(),
+                //     "android",
+                //     "sdfsdfsdfsdf");
+              },
+              child: Container(
+                width: width * 0.5,
+                height: height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(width * 0.08),
+                    color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                child: Center(
+                  child: Text(
+                    'Verify',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins Semibold',
+                        fontSize: width * 0.04),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.04,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future _profileUpdate(BuildContext context, width, height) {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext) {
+          return SimpleDialog(
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            title: Text("Profile update"),
+            children: <Widget>[
+              Container(
+                width: width,
+                height: height,
+                color: Colors.red,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+
+                      width: width * 0.5,
+                      height: height * 0.2,
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            width: width * 0.5,
+                            height: height * 0.2,
+                            child: imageFile == null
+                                ? Container(
+                              width: width * 0.5,
+                              height: height * 0.2,
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          'images/svgicons/profilehoto.png'),
+                                      fit: BoxFit.contain)),
+                            )
+                                : Container(
+                              width: width * 0.5,
+                              height: height * 0.2,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: FileImage(imageFile),
+                                      fit: BoxFit.fill)),
+                            ),
+                          ),
+                          Positioned(
+                            top: height * 0.1 + height * 0.04,
+                            right: width * 0.06,
+                            child: GestureDetector(
+                              onTap: () {
+                                _showImageChooser(context);
+                              },
+                              child: Container(
+                                width: width * 0.1,
+                                height: height * 0.06,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            'images/svgicons/circleaddback.png'),
+                                        fit: BoxFit.fill)),
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    'images/svgicons/adddd.svg',
+                                    width: width * 0.02,
+                                    height: height * 0.02,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Text("Update profile Photo",
+                        style: TextStyle(
+                          color: Color(Utils.hexStringToHexInt('77ACA2')),
+                          fontSize: width * 0.05,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins Medium',
+                        ),
+                        textAlign: TextAlign.end),
+                    SizedBox(
+                      height: height * 0.1,
+                    ),
+                    Utils().titleTextsemibold('Update profile', context),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Center(
+                      child: Text(
+                        'Please enter the details below to update your profile.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('7E7E7E')),
+                            fontFamily: 'Poppins Regular',
+                            fontSize: width * 0.03),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: width * 0.08, right: width * 0.08),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: width - 5,
+                            height: height * 0.1 - height * 0.04,
+                            padding: const EdgeInsets.only(left: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(4)),
+                              color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                            ),
+                            child: TextField(
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                textAlignVertical: TextAlignVertical.center,
+                                textAlign: TextAlign.left,
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                    hintText: 'Name',
+                                    hintStyle: TextStyle(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('A4A4A4')),
+                                        fontFamily: 'Poppins Regular',
+                                        fontSize: width * 0.03),
+                                    border: InputBorder.none)),
+                          ),
+                          Container(
+                            width: width - 5,
+                            height: height * 0.1 - height * 0.04,
+                            margin: const EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(left: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(4)),
+                              color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                            ),
+                            child: TextField(
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                textAlignVertical: TextAlignVertical.center,
+                                textAlign: TextAlign.left,
+                                controller: emailcontroller,
+                                decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('A4A4A4')),
+                                        fontFamily: 'Poppins Regular',
+                                        fontSize: width * 0.03),
+                                    border: InputBorder.none)),
+                          ),
+                          Container(
+                            width: width - 5,
+                            height: height * 0.1 - height * 0.04,
+                            margin: const EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(left: 6),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(4)),
+                              color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                            ),
+                            child: TextField(
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                                textAlignVertical: TextAlignVertical.center,
+                                textAlign: TextAlign.left,
+                                controller: _phonecontroller,
+                                decoration: InputDecoration(
+                                    hintText: 'Phone',
+                                    hintStyle: TextStyle(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('A4A4A4')),
+                                        fontFamily: 'Poppins Regular',
+                                        fontSize: width * 0.03),
+                                    border: InputBorder.none)),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  _selectDate(context);
+                                },
+                                child: Container(
+                                  width: width - 5,
+                                  height: height * 0.1 - height * 0.04,
+                                  margin: const EdgeInsets.only(top: 6),
+                                  padding: const EdgeInsets.only(left: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    const BorderRadius.all(Radius.circular(4)),
+                                    color: Color(
+                                        Utils.hexStringToHexInt('F4F4F4')),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        dob == "" ? "Date of birth" : dob,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A4A4A4')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
+                                      ),
+                                      const Icon(
+                                        Icons.calendar_today,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              Container(
+                                width: width - 5,
+                                height: height * 0.1 - height * 0.04,
+                                margin: const EdgeInsets.only(top: 6),
+                                padding: const EdgeInsets.only(left: 6),
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
+                                  color: Color(
+                                      Utils.hexStringToHexInt('F4F4F4')),
+                                ),
+                                child: DropdownButton(
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+                                  hint: Text(
+                                    "${showselectGender == ""
+                                        ? "Gender"
+                                        : showselectGender}",
+                                    style: TextStyle(
+                                        color: Color(
+                                            Utils.hexStringToHexInt('A4A4A4')),
+                                        fontFamily: 'Poppins Regular',
+                                        fontSize: width * 0.03),
+                                  ),
+                                  items: _createList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      showselectGender = value.toString();
+                                      if (value == "Male") {
+                                        genderSelect = "1";
+                                        print(genderSelect);
+                                      } else if (value == "Female") {
+                                        genderSelect = "2";
+                                        print(genderSelect);
+                                      }
+                                    });
+                                  },
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        CommonDialog.showsnackbar(date);
+
+                        // authControlller.registerUser(
+                        //     imageFile,
+                        //     _nameController.text.toString(),
+                        //     emailcontroller.text.toString(),
+                        //     dob,
+                        //     showselectGender,
+                        //     _phonecontroller.text.toString(),
+                        //     "android",
+                        //     "sdfsdfsdfsdf");
+                      },
+                      child: Container(
+                        width: width * 0.5,
+                        height: height * 0.06,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(width * 0.08),
+                            color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                        child: Center(
+                          child: Text(
+                            'Verify',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Poppins Semibold',
+                                fontSize: width * 0.04),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+    );
+  }
+
+
+  AppBar appBarr(BuildContext context, width, height) {
+    return AppBar(
+      centerTitle: true,
+      backgroundColor: Color(Utils.hexStringToHexInt('46D0D9')),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: height * 0.05),
+            child: Text(' Crossing Republick, Ghaziabad',
+                style: TextStyle(
+                    fontSize: width * 0.03,
+                    fontFamily: 'Poppins Regular',
+                    color: Colors.black),
+                textAlign: TextAlign.center),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: width * 0.03,
+                height: height * 0.03,
+                child: SvgPicture.asset(
+                  "images/svgicons/mappin.svg",
+                ),
+              ),
+              Text(' Crossing Republick, Ghaziabad',
+                  style: TextStyle(
+                      fontSize: width * 0.02,
+                      fontFamily: 'Poppins Regular',
+                      color: Colors.black),
+                  textAlign: TextAlign.center),
+              IconButton(
+                icon: Icon(
+                  Icons.keyboard_arrow_down_sharp,
+                  size: width * 0.05,
+                  color: Colors.black,
+                ),
+                tooltip: 'Comment Icon',
+                onPressed: () {},
+              )
+            ],
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        //IconButton
+        IconButton(
+          iconSize: width * 0.07,
+          icon: const Icon(
+            CupertinoIcons.bell,
+            color: Colors.blue,
+          ),
+          tooltip: 'Setting Icon',
+          onPressed: () {},
+        ), //IconButton
+      ],
+      //<Widget>[]
+
+      elevation: 0.0,
+      leading: Builder(
+        builder: (context) =>
+            IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              tooltip: 'Menu Icon',
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+      ),
+      brightness: Brightness.dark,
+    );
+  }
+
+  Widget updateProfileView(width, height) {
+    print("DF SDF SDF SDF SDF SDF SDF SDF SDF 00");
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Container(
+        child:
+        Column(
+          children: <Widget>[
+            Container(
+              width: width * 0.5,
+              height: height * 0.2,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    width: width * 0.5,
+                    height: height * 0.2,
+                    child: imageFile == null
+                        ? Container(
+                      width: width * 0.5,
+                      height: height * 0.2,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'images/svgicons/profilehoto.png'),
+                              fit: BoxFit.contain)),
+                    )
+                        : Container(
+                      width: width * 0.5,
+                      height: height * 0.2,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: FileImage(imageFile),
+                              fit: BoxFit.fill)),
+                    ),
+                  ),
+                  Positioned(
+                    top: height * 0.1 + height * 0.04,
+                    right: width * 0.06,
+                    child: GestureDetector(
+                      onTap: () {
+                        _showImageChooser(context);
+                      },
+                      child: Container(
+                        width: width * 0.1,
+                        height: height * 0.06,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'images/svgicons/circleaddback.png'),
+                                fit: BoxFit.fill)),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            'images/svgicons/adddd.svg',
+                            width: width * 0.02,
+                            height: height * 0.02,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Text("Update profile Photo",
+                style: TextStyle(
+                  color: Color(Utils.hexStringToHexInt('77ACA2')),
+                  fontSize: width * 0.05,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins Medium',
+                ),
+                textAlign: TextAlign.end),
+            SizedBox(
+              height: height * 0.1,
+            ),
+            Utils().titleTextsemibold('Update profile', context),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Center(
+              child: Text(
+                'Please enter the details below to update your profile.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Color(Utils.hexStringToHexInt('7E7E7E')),
+                    fontFamily: 'Poppins Regular',
+                    fontSize: width * 0.03),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: width * 0.08, right: width * 0.08),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: width - 5,
+                    height: height * 0.1 - height * 0.04,
+                    padding: const EdgeInsets.only(left: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                    ),
+                    child: TextField(
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        textAlign: TextAlign.left,
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                            hintText: 'Name',
+                            hintStyle: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('A4A4A4')),
+                                fontFamily: 'Poppins Regular',
+                                fontSize: width * 0.03),
+                            border: InputBorder.none)),
+                  ),
+                  Container(
+                    width: width - 5,
+                    height: height * 0.1 - height * 0.04,
+                    margin: const EdgeInsets.only(top: 6),
+                    padding: const EdgeInsets.only(left: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                    ),
+                    child: TextField(
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        textAlign: TextAlign.left,
+                        controller: emailcontroller,
+                        decoration: InputDecoration(
+                            hintText: 'Email',
+                            hintStyle: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('A4A4A4')),
+                                fontFamily: 'Poppins Regular',
+                                fontSize: width * 0.03),
+                            border: InputBorder.none)),
+                  ),
+                  Container(
+                    width: width - 5,
+                    height: height * 0.1 - height * 0.04,
+                    margin: const EdgeInsets.only(top: 6),
+                    padding: const EdgeInsets.only(left: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                    ),
+                    child: TextField(
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                        textAlign: TextAlign.left,
+                        controller: _phonecontroller,
+                        decoration: InputDecoration(
+                            hintText: 'Phone',
+                            hintStyle: TextStyle(
+                                color: Color(Utils.hexStringToHexInt('A4A4A4')),
+                                fontFamily: 'Poppins Regular',
+                                fontSize: width * 0.03),
+                            border: InputBorder.none)),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          width: width - 5,
+                          height: height * 0.1 - height * 0.04,
+                          margin: const EdgeInsets.only(top: 6),
+                          padding: const EdgeInsets.only(left: 6),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
+                            color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                dob == "" ? "Date of birth" : dob,
+                                style: TextStyle(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('A4A4A4')),
+                                    fontFamily: 'Poppins Regular',
+                                    fontSize: width * 0.03),
+                              ),
+                              const Icon(
+                                Icons.calendar_today,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Container(
+                        width: width - 5,
+                        height: height * 0.1 - height * 0.04,
+                        margin: const EdgeInsets.only(top: 6),
+                        padding: const EdgeInsets.only(left: 6),
+                        decoration: BoxDecoration(
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(4)),
+                          color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                        ),
+                        child: DropdownButton(
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          hint: Text(
+                            "${showselectGender == ""
+                                ? "Gender"
+                                : showselectGender}",
                             style: TextStyle(
                                 color: Color(Utils.hexStringToHexInt('A4A4A4')),
                                 fontFamily: 'Poppins Regular',
@@ -1742,7 +1784,10 @@ Future _profileUpdate(BuildContext context,width, height){
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           padding:
           const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
           margin: const EdgeInsets.only(top: 10),
