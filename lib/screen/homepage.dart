@@ -132,8 +132,9 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: scaffolKey,
-        drawer:
-            SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
+        drawer: session == null
+            ? SizedBox()
+            : SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
         appBar: appBarr(context, width, height),
         body: ListView(
           scrollDirection: Axis.vertical,
@@ -144,9 +145,9 @@ class _HomePageState extends State<HomePage> {
                       return Container();
                     } else {
                       var data = homeControlller.data;
-                      print("\n\n\n");
-                      print(data);
-                      print("\n\n\n");
+                      // print("\n\n\n");
+                      //  print(data);
+                      //print("\n\n\n");
 
                       var servicedata =
                           homeControlller.serviceList.value.serviceDetail;
@@ -210,10 +211,10 @@ class _HomePageState extends State<HomePage> {
                               height: height * 0.02,
                             ),
                             Utils().titleText('Services', context),
-                            // session == null
-                            //     ? Container()
-                            //     : servicelist(
-                            //         context, width, height, servicedata),
+                            session == null
+                                ? Container()
+                                : servicelist(
+                                    context, width, height, servicedata),
                             SizedBox(
                               height: height * 0.02,
                             ),
@@ -505,7 +506,7 @@ class _HomePageState extends State<HomePage> {
       centerTitle: true,
       leading: InkWell(
         onTap: () {
-          scaffolKey.currentState!.openDrawer();
+          session == null ? scaffolKey.currentState!.openDrawer() : null;
         },
         child: Icon(
           Icons.menu,

@@ -5,15 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/model/LoginOtp.dart';
+import 'package:untitled/model/RegisterPojo.dart';
+import 'package:untitled/model/VerifyOtp.dart';
+import 'package:untitled/screen/verifyOtp.dart';
+import 'package:untitled/services/ApiCall.dart';
+import 'package:untitled/utils/CommomDialog.dart';
+import 'package:untitled/utils/appconstant.dart';
+import 'package:untitled/screen/verifyOtp.dart';
 import 'package:get_storage/get_storage.dart';
-import '../model/LoginOtp.dart';
-import '../model/RegisterPojo.dart';
-import '../model/VerifyOtp.dart';
 import '../screen/homebottombar.dart';
-import '../screen/verifyOtp.dart';
-import '../services/ApiCall.dart';
-import '../utils/CommomDialog.dart';
-import '../utils/appconstant.dart';
 
 class AuthControlller extends GetxController {
   var veryfiOtp = VerifyOtp().obs;
@@ -30,7 +31,7 @@ class AuthControlller extends GetxController {
   }
 
   String sendData() {
-    print(message);
+   // print(message);
     return message;
   }
 
@@ -47,7 +48,7 @@ class AuthControlller extends GetxController {
       final response = await APICall().registerUrse(map, AppConstant.SEND_OTP);
       CommonDialog.hideLoading();
       print("SDF SDF SDF DF ");
-      print(response);
+      //print(response);
       final body = json.decode(response);
 
       if (body['status'] == 400) {

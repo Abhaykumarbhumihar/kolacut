@@ -57,6 +57,8 @@ dependencies:
   flutter_local_notifications: ^9.8.0+1
   firebase_core:
   swipebuttonflutter: ^1.0.0
+  slider_button: ^2.0.0
+  flutter_speedometer: ^1.0.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

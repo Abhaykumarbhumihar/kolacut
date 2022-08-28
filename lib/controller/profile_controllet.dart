@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:untitled/model/ProfilePojo.dart';
+import 'package:untitled/screen/profile.dart';
 
-
-import '../model/ProfilePojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -25,10 +25,12 @@ class ProfileController extends GetxController {
   void onReady() {
     //session_id
     super.onReady();
-    print("SDLKFJKLSDFJDSprofile");
+    //print("SDLKFJKLSDFJDSprofile");
     print(box.read('session'));
+    if (box.read('session') != null) {
+      getProfile(box.read('session'));
+    }
 
-    getProfile(box.read('session'));
     //getProfile("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
   }
 
@@ -41,7 +43,7 @@ class ProfileController extends GetxController {
       final response =
           await APICall().registerUrse(map, AppConstant.GET_PROFILE);
 
-      print(response);
+      //print(response);
 
       if (profilePojo.value.message == "No Data found") {
         CommonDialog.hideLoading();
@@ -66,7 +68,7 @@ class ProfileController extends GetxController {
       final response =
           await APICall().registerUrse(map, AppConstant.GET_PROFILE);
       //CommonDialog.hideLoading();
-      print(response);
+     // print(response);
 
       if (profilePojo.value.message == "No Data found") {
         CommonDialog.showsnackbar("No Data found");
@@ -89,7 +91,6 @@ class ProfileController extends GetxController {
     CommonDialog.showLoading(title: "Please waitt...");
     final response = await APICall().registerUpdateProfileMulti(
         box.read('session') + "",
-
         image,
         name,
         email,
@@ -104,10 +105,10 @@ class ProfileController extends GetxController {
     if (response != "null") {
       // CommonDialog.showsnackbar(response);
       print("kkjhjjhjkjkkjkj");
-      print(response);
+     // print(response);
       lodaer = false;
       getProfileupdate(box.read('session'));
-     // getProfileupdate("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
+      // getProfileupdate("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
       update();
     } else {
       CommonDialog.showsnackbar("Something error,Please try again...");

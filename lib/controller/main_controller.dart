@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../utils/CommomDialog.dart';
-
+import 'package:untitled/screen/verifyOtp.dart';
+import 'package:untitled/utils/CommomDialog.dart';
 
 class MainController extends GetxController {
   //  todo--notes *******

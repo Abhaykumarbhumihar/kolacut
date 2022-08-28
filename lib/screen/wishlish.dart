@@ -10,6 +10,7 @@ import 'package:untitled/screen/sidenavigation.dart';
 import '../controller/wishlist_controller.dart';
 import '../model/WishlistPojo.dart';
 import '../utils/Utils.dart';
+import 'login.dart';
 
 class Wishlist extends StatefulWidget {
   const Wishlist({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _WishlistState extends State<Wishlist> {
       setState(() {
         if(_testValue!=null){
           session=_sessss;
-          name = _testValue!;
+          name = _testValue;
           email = emailValue!;
           phone = _phoneValue!;
           iamge = _imageValue!;
@@ -62,7 +63,7 @@ class _WishlistState extends State<Wishlist> {
     return SafeArea(
         child: Scaffold(
             key: scaffolKey,
-            drawer:  SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
+            drawer:  session==null?SizedBox(): SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
             backgroundColor: Color(Utils.hexStringToHexInt('E5E5E5')),
             appBar: AppBar(
               backgroundColor: Colors.white,
@@ -72,7 +73,8 @@ class _WishlistState extends State<Wishlist> {
               centerTitle: false,
               leading: InkWell(
                 onTap: () {
-                  scaffolKey.currentState!.openDrawer();
+                  session==null? scaffolKey.currentState!.openDrawer():null;
+
                 },
                 child: Icon(
                   Icons.menu,
@@ -94,7 +96,40 @@ class _WishlistState extends State<Wishlist> {
               ],
             ),
             body:
-            session==null?Container(child: Text("Please login"),): GetBuilder<WishListController>(builder: (wishListControlller) {
+            session == null
+                ? Center(
+                child: Container(
+                  width: width,
+                  height: height,
+                  child: Center(
+                      child: Container(
+                        child: InkWell(
+                          onTap: (){
+                            Get.off(LoginPage());
+
+                          },
+                          child: Container(
+                            height: width*0.2,
+                            width: height*0.3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.0),
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            ),
+                            child: Center(
+                              child: Text("Continue with login",
+                                style: TextStyle(
+                                  color:
+                                  Colors.white,
+                                  fontSize: width * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins Semibold',
+                                ),),
+                            ),
+                          ),
+                        ),
+                      )),
+                ))
+                : GetBuilder<WishListController>(builder: (wishListControlller) {
               if (wishListControlller.lodaer) {
                 return Container();
               } else {

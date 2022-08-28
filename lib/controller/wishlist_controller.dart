@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:untitled/model/ProfilePojo.dart';
+import 'package:untitled/model/ShopDetailPojo.dart';
+import 'package:untitled/model/WishlistPojo.dart';
+import 'package:untitled/screen/profile.dart';
 
-import '../model/WishlistPojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -23,7 +26,7 @@ class WishListController extends GetxController {
   void onReady() {
     //session_id
     super.onReady();
-    print("SDLKFJKLSDFJDSprofile");
+    //print("SDLKFJKLSDFJDSprofile");
     print(box.read('session'));
     if(box.read('session')!=null){
       getWishList();
@@ -35,13 +38,13 @@ class WishListController extends GetxController {
     Map map;
     map = {"session_id": box.read('session')};
     //map = {"session_id": "TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm"};
-    print("API HIT HIT HIT HIT");
+   // print("API HIT HIT HIT HIT");
     try {
       CommonDialog.showLoading(title: "Please waitt...");
       final response = await APICall().registerUrse(map, AppConstant.WISHLIST);
-      print(response);
+      //print(response);
       if (wihlistlpojo.value.message == "No Data found") {
-        print(response);
+      //  print(response);
         CommonDialog.hideLoading();
         CommonDialog.showsnackbar("No Data found");
       } else {

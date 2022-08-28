@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:untitled/screen/cartlist.dart';
+import 'package:untitled/utils/CommomDialog.dart';
 import 'dart:convert';
 
 import '../controller/home_controller.dart';
-import '../utils/CommomDialog.dart';
 import '../utils/Utils.dart';
 import '../utils/appconstant.dart';
-import 'cartlist.dart';
 
 class SideNavigatinPage extends StatefulWidget {
   var s = "", s1 = "", s2 = "", s3 = "";

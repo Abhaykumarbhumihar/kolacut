@@ -3,11 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:untitled/model/AddRemoveFavouritePojo.dart';
+import 'package:untitled/model/ProfilePojo.dart';
+import 'package:untitled/model/ShopDetailPojo.dart';
+import 'package:untitled/screen/profile.dart';
 import 'dart:convert';
 
 import '../model/AddBookingPojo.dart';
-import '../model/AddRemoveFavouritePojo.dart';
-import '../model/ShopDetailPojo.dart';
 import '../screen/homepage.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
@@ -21,6 +23,7 @@ class ShopDetailController extends GetxController {
   var addRemoveFavourtePojo = AddRemoveFavouritePojo().obs;
   var addBookingPojo = AddBookingPojo().obs;
   var isFavourite = 0;
+  var bookingMessage = "";
 
   @override
   void onInit() {
@@ -42,6 +45,11 @@ class ShopDetailController extends GetxController {
     print("SDLKFJKLSDFJDSprofile");
     print(box.read('session'));
     // getShopDetail("0EX03NjgPziSlCcTiZdxAi1c3aT1r1SA",shopId);
+  }
+
+  String sendData() {
+    // print(message);
+    return bookingMessage;
   }
 
   void getShopDetail(shop_id) async {
@@ -117,7 +125,8 @@ class ShopDetailController extends GetxController {
     }
   }
 
-  void addTocart(BuildContext context, shop_id, sub_service_id,employee_id) async {
+  void addTocart(
+      BuildContext context, shop_id, sub_service_id, employee_id) async {
     Map map;
     //session_id:a9z55MMZSJKtxESDbbGlAgIOVRdxY9Pa
     // shop_id:1
@@ -126,12 +135,15 @@ class ShopDetailController extends GetxController {
       "session_id": box.read('session'),
       "shop_id": shop_id.toString() + "",
       "sub_service_id": sub_service_id.toString() + "",
-      "employee_id":"1"
+      "employee_id": employee_id.toString()+""
     };
     lodaer = true;
     CommonDialog.showLoading(title: "Please waitt...");
     final response = await APICall().registerUrse(map, AppConstant.ADD_TO_CART);
     final body = json.decode(response);
+    print("SDF SDF SDF SDF SDF SDF ");
+    print(response);
+    print("SDF SDF SDF SDF SDF SDF ");
     update();
     CommonDialog.hideLoading();
     if (body['message'] == "Data added successfully") {
@@ -145,10 +157,23 @@ class ShopDetailController extends GetxController {
     }
   }
 
-  void bookserVice(shop_idd, employee_id, service_id, sub_service_id, date,
-      from_time, booking_day, to_time, amount,payment_type,transaction_id,
-      coin,coupon_code) async {
+  void bookserVice(
+      shop_idd,
+      employee_id,
+      service_id,
+      sub_service_id,
+      date,
+      from_time,
+      booking_day,
+      to_time,
+      amount,
+      payment_type,
+      transaction_id,
+      coin,
+      coupon_code) async {
     Map map;
+    print("SDFSDFDSFDSFD");
+    print(coin);
 
     map = {
       "session_id": box.read('session'),
@@ -161,14 +186,14 @@ class ShopDetailController extends GetxController {
       "booking_day": booking_day.toString() + "",
       "to_time": from_time + "",
       "amount": amount,
-      "payment_type":"$payment_type",
-      "coin":coin==0.0?"":coin,
-      "coupon_code":"$coupon_code",
-      "transaction_id":"$transaction_id"
+      "payment_type": "$payment_type",
+      "coin": "${coin == 0.0 ? 0.0 : coin}",
+      "coupon_code": "$coupon_code",
+      "transaction_id": "$transaction_id"
     };
-
     print("API HIT HIT HIT HIT");
     try {
+      bookingMessage="";
       lodaer = true;
       CommonDialog.showLoading(title: "Please waitt...");
       final response =
@@ -180,6 +205,8 @@ class ShopDetailController extends GetxController {
       lodaer = false;
       if (response != "null") {
         addBookingPojo.value = addBookingPojoFromJson(response);
+        bookingMessage = addBookingPojo.value.message!;
+        update();
         CommonDialog.showsnackbar(addBookingPojo.value.message);
       } else {
         CommonDialog.showsnackbar("Error");

@@ -2,13 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/model/AdminCouponPojo.dart';
+import 'package:untitled/model/CartListPojo.dart';
+import 'package:untitled/model/CoinPojo.dart';
+import 'package:untitled/model/ProfilePojo.dart';
+import 'package:untitled/model/ShopDetailPojo.dart';
+import 'package:untitled/model/ShopLIstPojo.dart';
+import 'package:untitled/screen/profile.dart';
 
-
-import '../model/AdminCouponPojo.dart';
 import '../model/AdminServicePojo.dart';
-import '../model/CartListPojo.dart';
-import '../model/CoinPojo.dart';
-import '../model/ShopLIstPojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
@@ -43,10 +45,8 @@ class HomeController extends GetxController {
       try{
         var _testValue = sharedPreferences.getString("session");
         // print(sharedPreferences.getString("session"));
-
-
         if (_testValue != null) {
-          //getServiceList(_testValue);
+        getServiceList(_testValue);
           getAdminCouponList(_testValue);
           getCoin(_testValue);
           // getCartList(_testValue);
@@ -66,8 +66,8 @@ class HomeController extends GetxController {
       lodaer = true;
       final response =
           await APICall().registerUrse(map, AppConstant.SERVICE_LIST);
-      print(response);
-      print("kjkjkljljlkjlkljkljkljhjgyuyyghgh");
+     // print(response);
+      //print("kjkjkljljlkjlkljkljkljhjgyuyyghgh");
       if (serviceList.value.message == "No Data found") {
         //   CommonDialog.hideLoading();
         //  CommonDialog.showsnackbar("No Data found");
@@ -88,10 +88,10 @@ class HomeController extends GetxController {
     map = {"session_id": "$session_id"};
     try {
       // CommonDialog.showLoading(title: "Please waitt...");
-      lodaer = true;
+      //lodaer = true;
       final response =
           await APICall().getMethod(map, AppConstant.ADMIN_COUPON_LIST);
-      print(response);
+    //  print(response);
       print("ADMIN COUPON ");
       if (adminCouponList.value.message == "No Data found") {
         //   CommonDialog.hideLoading();
@@ -99,7 +99,6 @@ class HomeController extends GetxController {
       } else {
         //  CommonDialog.hideLoading();
         adminCouponList.value = adminCouponPojoFromJson(response);
-
         update();
         //lodaer = false;
       }
@@ -115,8 +114,8 @@ class HomeController extends GetxController {
       // CommonDialog.showLoading(title: "Please waitt...");
       // lodaer=true;
       final response = await APICall().registerUrse(map, AppConstant.COIN);
-      print(response);
-      print("COIND data ");
+   //   print(response);
+      //print("COIND data ");
       if (coinPojo.value.message == "No Data found") {
         //   CommonDialog.hideLoading();
         //  CommonDialog.showsnackbar("No Data found");

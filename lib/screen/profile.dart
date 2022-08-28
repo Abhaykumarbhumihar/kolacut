@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/controller/profile_controllet.dart';
+import 'package:untitled/screen/login.dart';
 import 'package:untitled/screen/profile_update.dart';
 
 import '../utils/CommomDialog.dart';
@@ -31,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _dobController,
       _phonecontroller;
   String date = "";
+  var session;
 
   // Initial Selected Value
   String dropdownvalue = 'Male';
@@ -52,12 +54,11 @@ class _ProfilePageState extends State<ProfilePage> {
   List<DropdownMenuItem<String>> _createList() {
     return list
         .map<DropdownMenuItem<String>>(
-          (e) =>
-          DropdownMenuItem(
+          (e) => DropdownMenuItem(
             value: e,
             child: Text(e),
           ),
-    )
+        )
         .toList();
   }
 
@@ -79,24 +80,27 @@ class _ProfilePageState extends State<ProfilePage> {
       var emailValue = sharedPreferences.getString("email");
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
+      var _sessss = sharedPreferences.getString("session");
+      session = _sessss;
       setState(() {
-        name = _testValue!;
-        email = emailValue!;
-        phone = _phoneValue!;
-        iamge = _imageValue!;
+        if (_testValue != null) {
+          name = _testValue!;
+          email = emailValue!;
+          phone = _phoneValue!;
+          iamge = _imageValue!;
+        } else {
+          name = "";
+          email = "";
+          phone = "";
+          iamge = "";
+        }
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
       // will be null if never previously saved
       // print("SDFKLDFKDKLFKDLFKLDFKL  " + "${_testValue}");
     });
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Container(
         width: width,
@@ -108,15 +112,19 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             key: scaffolKey,
-            drawer: SideNavigatinPage(
-                "${name}", "${iamge}", "${email}", "${phone}"),
+            drawer: session == null
+                ? SizedBox()
+                : SideNavigatinPage(
+                    "${name}", "${iamge}", "${email}", "${phone}"),
             appBar: AppBar(
               centerTitle: false,
               elevation: 0.0,
               backgroundColor: Color(Utils.hexStringToHexInt('77ACA2')),
               leading: InkWell(
                 onTap: () {
-                  scaffolKey.currentState!.openDrawer();
+                  session == null
+                      ? scaffolKey.currentState!.openDrawer()
+                      : null;
                 },
                 child: Icon(
                   Icons.menu,
@@ -141,648 +149,721 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             backgroundColor: Colors.transparent,
-            body:
+            body: session == null
+                ? Center(
+                    child: Container(
+                    width: width,
+                    height: height,
+                    child: Center(
+                        child: Container(
+                      child: InkWell(
+                        onTap: (){
+                          Get.off(LoginPage());
 
-            GetBuilder<ProfileController>(builder: (profileController) {
-              if (profileController.lodaer) {
-                return Container();
-              }
-              else {
-                return SingleChildScrollView(
-                  child:
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                  SizedBox(
-                  height: height * 0.07,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: width * 0.2 - width * 0.06,
-                        backgroundImage: NetworkImage(profileController
-                            .profilePojo.value.data!.profileImage!),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.04,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: width * 0.06),
-                        child: Text(
-                          'Personal Details',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: width * 0.03,
-                              fontFamily: 'Poppins Medium'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(ProfileUpdate());
-
-                          //  _profileUpdate(context,width,height);
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: width * 0.02),
-                          width: width * 0.2,
-                          height: height * 0.03,
+                          height: width*0.2,
+                          width: height*0.3,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(width * 0.01),
-                              color: Color(Utils.hexStringToHexInt('#ecfafb'))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Center(
-                                child: SvgPicture.asset(
-                                  "images/svgicons/modify.svg",
-                                ),
-                              ),
-                              Text(
-                                'Modify',
-                                style: TextStyle(
-                                    fontSize: width * 0.02,
-                                    fontFamily: 'Poppins Regular',
-                                    color:
-                                    Color(Utils.hexStringToHexInt('46D0D9'))),
-                              )
-                            ],
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Color(Utils.hexStringToHexInt('77ACA2')),
+                          ),
+                          child: Center(
+                            child: Text("Continue with login",
+                              style: TextStyle(
+                                color:
+                               Colors.white,
+                                fontSize: width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins Semibold',
+                              ),),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: width * 0.06),
-                    child: SizedBox(
-                      width: width * 0.09,
-                      child: Divider(
-                        thickness: 3,
-                        color: Color(Utils.hexStringToHexInt('77ACA2')),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: width * 0.06),
-                    width: width,
-                    child: Column(
-                      children: <Widget>[
-                    Row(
-                    children: <Widget>[
-                      Text(
-                      'Name',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                          fontFamily: 'Poppins Regular',
-                          fontSize: width * 0.03),
-                    ),
-                    SizedBox(
-                      width: width * 0.06,
-                    ),
-                    Text(
+                    )),
+                  ))
+                : GetBuilder<ProfileController>(builder: (profileController) {
+                    if (profileController.lodaer) {
+                      return Container();
+                    } else {
+                      return SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: height * 0.07,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: width * 0.2 - width * 0.06,
+                                  backgroundImage: NetworkImage(
+                                      profileController.profilePojo.value.data!
+                                          .profileImage!),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: height * 0.04,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(left: width * 0.06),
+                                  child: Text(
+                                    'Personal Details',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: width * 0.03,
+                                        fontFamily: 'Poppins Medium'),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(ProfileUpdate());
 
-                      profileController.profilePojo.value.data!.name
-                          .toString() + "" != "" ? profileController.profilePojo
-                          .value.data!.name.toString() + "" : "N/A",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                          fontFamily: 'Poppins Regular',
-                          fontSize: width * 0.04),
-                    )
-
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Email',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.03),
-                      ),
-                      SizedBox(
-                        width: width * 0.06,
-                      ),
-                      Text(
-                        profileController.profilePojo.value.data!.email
-                            .toString() + "" != ""
-                            ? profileController.profilePojo.value.data!.email
-                            .toString() + ""
-                            : "N/A",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.04),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Contact',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.03),
-                      ),
-                      SizedBox(
-                        width: width * 0.04,
-                      ),
-                      Text(
-                        profileController.profilePojo.value.data!.phone
-                            .toString() + "" != ""
-                            ? profileController.profilePojo.value.data!.phone
-                            .toString() + ""
-                            : "N/A",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.04),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.01,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'DOB',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.03),
-                      ),
-                      SizedBox(
-                        width: width * 0.06,
-                      ),
-                      Text(
-                        " " + profileController.profilePojo.value.data!.dob
-                            .toString() + "" != "" ? "  " + "${DateFormat.yMMMMd()
-                            .format(DateTime.parse(
-                            profileController.profilePojo.value.data!.dob
-                                .toString()))}"+"" : "N/A",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                              fontFamily: 'Poppins Regular',
-                              fontSize: width * 0.04),
-                        )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              SizedBox(
-              height: height * 0.02,
-              ),
-              Divider(
-              thickness: 1,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: <Widget>[
-              //     Container(
-              //       margin: EdgeInsets.only(left: width * 0.06),
-              //       child: Text(
-              //         'Leave Management',
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: width * 0.03,
-              //             fontFamily: 'Poppins Medium'),
-              //       ),
-              //     ),
-              //     Container(
-              //       margin: EdgeInsets.only(right: width * 0.02),
-              //       width: width * 0.2,
-              //       height: height * 0.03,
-              //       decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(width * 0.01),
-              //           color: Color(Utils.hexStringToHexInt('#ecfafb'))),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: <Widget>[
-              //           Center(
-              //             child: SvgPicture.asset(
-              //               "images/svgicons/modify.svg",
-              //             ),
-              //           ),
-              //           Text(
-              //             'Modify',
-              //             style: TextStyle(
-              //                 fontSize: width * 0.02,
-              //                 fontFamily: 'Poppins Regular',
-              //                 color:
-              //                 Color(Utils.hexStringToHexInt('46D0D9'))),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Container(
-              //   margin: EdgeInsets.only(left: width * 0.06),
-              //   child: SizedBox(
-              //     width: width * 0.09,
-              //     child: Divider(
-              //       thickness: 3,
-              //       color: Color(Utils.hexStringToHexInt('77ACA2')),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: height * 0.01,
-              // ),
-              // Container(
-              //   margin:
-              //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
-              //   child: Material(
-              //     borderRadius: BorderRadius.circular(width * 0.04),
-              //     elevation: 6,
-              //     child: Container(
-              //       width: width,
-              //       height: height * 0.2 - height * 0.06,
-              //       decoration: BoxDecoration(
-              //         color: Colors.white,
-              //         borderRadius: BorderRadius.circular(width * 0.04),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Row(
-              //             children: <Widget>[
-              //               Container(
-              //                 margin: EdgeInsets.only(left: width * 0.02),
-              //                 child: Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   mainAxisAlignment: MainAxisAlignment.center,
-              //                   children: <Widget>[
-              //                     SizedBox(
-              //                       height: height * 0.002,
-              //                     ),
-              //                     Container(
-              //                       margin:
-              //                       EdgeInsets.only(left: width * 0.01),
-              //                       width: width * 0.2,
-              //                       height: height * 0.03,
-              //                       decoration: BoxDecoration(
-              //                           borderRadius: BorderRadius.circular(
-              //                               width * 0.01),
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               '#ecfafb'))),
-              //                       child: Center(
-              //                         child: Text(
-              //                           'Available',
-              //                           textAlign: TextAlign.center,
-              //                           style: TextStyle(
-              //                               color: Color(
-              //                                   Utils.hexStringToHexInt(
-              //                                       '46D0D9')),
-              //                               fontFamily: 'Poppins Regular',
-              //                               fontSize: width * 0.02),
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.01,
-              //                     ),
-              //                     Text(
-              //                       ' May 01, 2021',
-              //                       style: TextStyle(
-              //                           fontSize: width * 0.02,
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               '8D8D8D')),
-              //                           fontFamily: 'Poppins Regular'),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.001,
-              //                     ),
-              //                     Text(
-              //                       ' Emergency at the house',
-              //                       style: TextStyle(
-              //                           fontSize: width * 0.02,
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               'C4C4C4')),
-              //                           fontFamily: 'Poppins Regular'),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.01,
-              //                     )
-              //                   ],
-              //                 ),
-              //               )
-              //             ],
-              //           ),
-              //           Container(
-              //             margin: EdgeInsets.only(right: width * 0.02),
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.center,
-              //               mainAxisAlignment: MainAxisAlignment.center,
-              //               children: <Widget>[
-              //                 Container(
-              //                   width: width * 0.2 - width * 0.06,
-              //                   height: height * 0.02,
-              //                   decoration: BoxDecoration(
-              //                       borderRadius:
-              //                       BorderRadius.circular(width * 0.04),
-              //                       color: Color(
-              //                           Utils.hexStringToHexInt('46D0D9'))),
-              //                 )
-              //               ],
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: height * 0.01,
-              // ),
-              // Container(
-              //   margin:
-              //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
-              //   child: Material(
-              //     borderRadius: BorderRadius.circular(width * 0.04),
-              //     elevation: 6,
-              //     child: Container(
-              //       width: width,
-              //       height: height * 0.2 - height * 0.06,
-              //       decoration: BoxDecoration(
-              //         color: Colors.white,
-              //         borderRadius: BorderRadius.circular(width * 0.04),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Row(
-              //             children: <Widget>[
-              //               Container(
-              //                 margin: EdgeInsets.only(left: width * 0.02),
-              //                 child: Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   mainAxisAlignment: MainAxisAlignment.center,
-              //                   children: <Widget>[
-              //                     SizedBox(
-              //                       height: height * 0.002,
-              //                     ),
-              //                     Container(
-              //                       margin:
-              //                       EdgeInsets.only(left: width * 0.01),
-              //                       width: width * 0.2,
-              //                       height: height * 0.03,
-              //                       decoration: BoxDecoration(
-              //                           borderRadius: BorderRadius.circular(
-              //                               width * 0.01),
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               '#ecfafb'))),
-              //                       child: Center(
-              //                         child: Text(
-              //                           'Available',
-              //                           textAlign: TextAlign.center,
-              //                           style: TextStyle(
-              //                               color: Color(
-              //                                   Utils.hexStringToHexInt(
-              //                                       '46D0D9')),
-              //                               fontFamily: 'Poppins Regular',
-              //                               fontSize: width * 0.02),
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.01,
-              //                     ),
-              //                     Text(
-              //                       ' May 01, 2021',
-              //                       style: TextStyle(
-              //                           fontSize: width * 0.02,
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               '8D8D8D')),
-              //                           fontFamily: 'Poppins Regular'),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.001,
-              //                     ),
-              //                     Text(
-              //                       ' Emergency at the house',
-              //                       style: TextStyle(
-              //                           fontSize: width * 0.02,
-              //                           color: Color(Utils.hexStringToHexInt(
-              //                               'C4C4C4')),
-              //                           fontFamily: 'Poppins Regular'),
-              //                     ),
-              //                     SizedBox(
-              //                       height: height * 0.01,
-              //                     )
-              //                   ],
-              //                 ),
-              //               )
-              //             ],
-              //           ),
-              //           Container(
-              //             margin: EdgeInsets.only(right: width * 0.02),
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.center,
-              //               mainAxisAlignment: MainAxisAlignment.center,
-              //               children: <Widget>[
-              //                 Container(
-              //                   width: width * 0.2 - width * 0.06,
-              //                   height: height * 0.02,
-              //                   decoration: BoxDecoration(
-              //                       borderRadius:
-              //                       BorderRadius.circular(width * 0.04),
-              //                       color: Color(
-              //                           Utils.hexStringToHexInt('46D0D9'))),
-              //                 )
-              //               ],
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: height * 0.02,
-              // ),
-              // Divider(
-              //   thickness: 1,
-              // ),
-              // SizedBox(
-              //   height: height * 0.02,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: <Widget>[
-              //     Container(
-              //       margin: EdgeInsets.only(left: width * 0.06),
-              //       child: Text(
-              //         'Customer Feedbacks',
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: width * 0.03,
-              //             fontFamily: 'Poppins Medium'),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Container(
-              //   margin: EdgeInsets.only(left: width * 0.06),
-              //   child: SizedBox(
-              //     width: width * 0.09,
-              //     child: Divider(
-              //       thickness: 3,
-              //       color: Color(Utils.hexStringToHexInt('46D0D9')),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: height * 0.04,
-              // ),
-              // Container(
-              //   margin:
-              //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: <Widget>[
-              //       Text(
-              //         'Sara Blush',
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: width * 0.03,
-              //             fontFamily: 'Poppins Medium'),
-              //       ),
-              //       Row(
-              //         children: <Widget>[
-              //           RatingBarIndicator(
-              //             rating: 2.75,
-              //             itemBuilder: (context, index) => const Icon(
-              //               Icons.star,
-              //               color: Colors.amber,
-              //             ),
-              //             itemCount: 5,
-              //             itemSize: width * 0.05,
-              //             direction: Axis.horizontal,
-              //           ),
-              //           Text(
-              //             ' 11/5/21',
-              //             style: TextStyle(
-              //                 fontFamily: 'Poppins Regular',
-              //                 fontSize: width * 0.02,
-              //                 color:
-              //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
-              //           )
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.01,
-              //       ),
-              //       AutoSizeText(
-              //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
-              //         style: TextStyle(
-              //             fontSize: width * 0.02,
-              //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-              //             fontFamily: 'Poppins Light'),
-              //         maxLines: 5,
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.01,
-              //       ),
-              //       Divider(
-              //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
-              //         thickness: 1,
-              //       )
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: height * 0.02,
-              // ),
-              // Container(
-              //   margin:
-              //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: <Widget>[
-              //       Text(
-              //         'Sara Blush',
-              //         style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: width * 0.03,
-              //             fontFamily: 'Poppins Medium'),
-              //       ),
-              //       Row(
-              //         children: <Widget>[
-              //           RatingBarIndicator(
-              //             rating: 2.75,
-              //             itemBuilder: (context, index) => const Icon(
-              //               Icons.star,
-              //               color: Colors.amber,
-              //             ),
-              //             itemCount: 5,
-              //             itemSize: width * 0.05,
-              //             direction: Axis.horizontal,
-              //           ),
-              //           Text(
-              //             ' 11/5/21',
-              //             style: TextStyle(
-              //                 fontFamily: 'Poppins Regular',
-              //                 fontSize: width * 0.02,
-              //                 color:
-              //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
-              //           )
-              //         ],
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.01,
-              //       ),
-              //       AutoSizeText(
-              //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
-              //         style: TextStyle(
-              //             fontSize: width * 0.02,
-              //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-              //             fontFamily: 'Poppins Light'),
-              //         maxLines: 5,
-              //       ),
-              //       SizedBox(
-              //         height: height * 0.01,
-              //       ),
-              //       Divider(
-              //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
-              //         thickness: 1,
-              //       )
-              //     ],
-              //   ),
-              // )
-              ],
-              )
-              ,
-              );
-            }
-            })
-        ),
+                                    //  _profileUpdate(context,width,height);
+                                  },
+                                  child: Container(
+                                    margin:
+                                        EdgeInsets.only(right: width * 0.02),
+                                    width: width * 0.2,
+                                    height: height * 0.03,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(width * 0.01),
+                                        color: Color(Utils.hexStringToHexInt(
+                                            '#ecfafb'))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Center(
+                                          child: SvgPicture.asset(
+                                            "images/svgicons/modify.svg",
+                                          ),
+                                        ),
+                                        Text(
+                                          'Modify',
+                                          style: TextStyle(
+                                              fontSize: width * 0.02,
+                                              fontFamily: 'Poppins Regular',
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '46D0D9'))),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: width * 0.06),
+                              child: SizedBox(
+                                width: width * 0.09,
+                                child: Divider(
+                                  thickness: 3,
+                                  color:
+                                      Color(Utils.hexStringToHexInt('77ACA2')),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: width * 0.06),
+                              width: width,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Name',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.06,
+                                      ),
+                                      Text(
+                                        profileController.profilePojo.value
+                                                        .data!.name
+                                                        .toString() +
+                                                    "" !=
+                                                ""
+                                            ? profileController.profilePojo
+                                                    .value.data!.name
+                                                    .toString() +
+                                                ""
+                                            : "N/A",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.04),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Email',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.06,
+                                      ),
+                                      Text(
+                                        profileController.profilePojo.value
+                                                        .data!.email
+                                                        .toString() +
+                                                    "" !=
+                                                ""
+                                            ? profileController.profilePojo
+                                                    .value.data!.email
+                                                    .toString() +
+                                                ""
+                                            : "N/A",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.04),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Contact',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.04,
+                                      ),
+                                      Text(
+                                        profileController.profilePojo.value
+                                                        .data!.phone
+                                                        .toString() +
+                                                    "" !=
+                                                ""
+                                            ? profileController.profilePojo
+                                                    .value.data!.phone
+                                                    .toString() +
+                                                ""
+                                            : "N/A",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.04),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: height * 0.01,
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'DOB',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.03),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.06,
+                                      ),
+                                      Text(
+                                        " " +
+                                                    profileController
+                                                        .profilePojo
+                                                        .value
+                                                        .data!
+                                                        .dob
+                                                        .toString() +
+                                                    "" !=
+                                                ""
+                                            ? "  " +
+                                                "${DateFormat.yMMMMd().format(DateTime.parse(profileController.profilePojo.value.data!.dob.toString()))}" +
+                                                ""
+                                            : "N/A",
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                            color: Color(
+                                                Utils.hexStringToHexInt(
+                                                    'A3A2A2')),
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.04),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: height * 0.02,
+                            ),
+                            Divider(
+                              thickness: 1,
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: <Widget>[
+                            //     Container(
+                            //       margin: EdgeInsets.only(left: width * 0.06),
+                            //       child: Text(
+                            //         'Leave Management',
+                            //         style: TextStyle(
+                            //             color: Colors.black,
+                            //             fontSize: width * 0.03,
+                            //             fontFamily: 'Poppins Medium'),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       margin: EdgeInsets.only(right: width * 0.02),
+                            //       width: width * 0.2,
+                            //       height: height * 0.03,
+                            //       decoration: BoxDecoration(
+                            //           borderRadius: BorderRadius.circular(width * 0.01),
+                            //           color: Color(Utils.hexStringToHexInt('#ecfafb'))),
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: <Widget>[
+                            //           Center(
+                            //             child: SvgPicture.asset(
+                            //               "images/svgicons/modify.svg",
+                            //             ),
+                            //           ),
+                            //           Text(
+                            //             'Modify',
+                            //             style: TextStyle(
+                            //                 fontSize: width * 0.02,
+                            //                 fontFamily: 'Poppins Regular',
+                            //                 color:
+                            //                 Color(Utils.hexStringToHexInt('46D0D9'))),
+                            //           )
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Container(
+                            //   margin: EdgeInsets.only(left: width * 0.06),
+                            //   child: SizedBox(
+                            //     width: width * 0.09,
+                            //     child: Divider(
+                            //       thickness: 3,
+                            //       color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.01,
+                            // ),
+                            // Container(
+                            //   margin:
+                            //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
+                            //   child: Material(
+                            //     borderRadius: BorderRadius.circular(width * 0.04),
+                            //     elevation: 6,
+                            //     child: Container(
+                            //       width: width,
+                            //       height: height * 0.2 - height * 0.06,
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.white,
+                            //         borderRadius: BorderRadius.circular(width * 0.04),
+                            //       ),
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //         crossAxisAlignment: CrossAxisAlignment.start,
+                            //         children: <Widget>[
+                            //           Row(
+                            //             children: <Widget>[
+                            //               Container(
+                            //                 margin: EdgeInsets.only(left: width * 0.02),
+                            //                 child: Column(
+                            //                   crossAxisAlignment: CrossAxisAlignment.start,
+                            //                   mainAxisAlignment: MainAxisAlignment.center,
+                            //                   children: <Widget>[
+                            //                     SizedBox(
+                            //                       height: height * 0.002,
+                            //                     ),
+                            //                     Container(
+                            //                       margin:
+                            //                       EdgeInsets.only(left: width * 0.01),
+                            //                       width: width * 0.2,
+                            //                       height: height * 0.03,
+                            //                       decoration: BoxDecoration(
+                            //                           borderRadius: BorderRadius.circular(
+                            //                               width * 0.01),
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               '#ecfafb'))),
+                            //                       child: Center(
+                            //                         child: Text(
+                            //                           'Available',
+                            //                           textAlign: TextAlign.center,
+                            //                           style: TextStyle(
+                            //                               color: Color(
+                            //                                   Utils.hexStringToHexInt(
+                            //                                       '46D0D9')),
+                            //                               fontFamily: 'Poppins Regular',
+                            //                               fontSize: width * 0.02),
+                            //                         ),
+                            //                       ),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.01,
+                            //                     ),
+                            //                     Text(
+                            //                       ' May 01, 2021',
+                            //                       style: TextStyle(
+                            //                           fontSize: width * 0.02,
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               '8D8D8D')),
+                            //                           fontFamily: 'Poppins Regular'),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.001,
+                            //                     ),
+                            //                     Text(
+                            //                       ' Emergency at the house',
+                            //                       style: TextStyle(
+                            //                           fontSize: width * 0.02,
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               'C4C4C4')),
+                            //                           fontFamily: 'Poppins Regular'),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.01,
+                            //                     )
+                            //                   ],
+                            //                 ),
+                            //               )
+                            //             ],
+                            //           ),
+                            //           Container(
+                            //             margin: EdgeInsets.only(right: width * 0.02),
+                            //             child: Column(
+                            //               crossAxisAlignment: CrossAxisAlignment.center,
+                            //               mainAxisAlignment: MainAxisAlignment.center,
+                            //               children: <Widget>[
+                            //                 Container(
+                            //                   width: width * 0.2 - width * 0.06,
+                            //                   height: height * 0.02,
+                            //                   decoration: BoxDecoration(
+                            //                       borderRadius:
+                            //                       BorderRadius.circular(width * 0.04),
+                            //                       color: Color(
+                            //                           Utils.hexStringToHexInt('46D0D9'))),
+                            //                 )
+                            //               ],
+                            //             ),
+                            //           )
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.01,
+                            // ),
+                            // Container(
+                            //   margin:
+                            //   EdgeInsets.only(left: width * 0.04, right: width * 0.04),
+                            //   child: Material(
+                            //     borderRadius: BorderRadius.circular(width * 0.04),
+                            //     elevation: 6,
+                            //     child: Container(
+                            //       width: width,
+                            //       height: height * 0.2 - height * 0.06,
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.white,
+                            //         borderRadius: BorderRadius.circular(width * 0.04),
+                            //       ),
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //         crossAxisAlignment: CrossAxisAlignment.start,
+                            //         children: <Widget>[
+                            //           Row(
+                            //             children: <Widget>[
+                            //               Container(
+                            //                 margin: EdgeInsets.only(left: width * 0.02),
+                            //                 child: Column(
+                            //                   crossAxisAlignment: CrossAxisAlignment.start,
+                            //                   mainAxisAlignment: MainAxisAlignment.center,
+                            //                   children: <Widget>[
+                            //                     SizedBox(
+                            //                       height: height * 0.002,
+                            //                     ),
+                            //                     Container(
+                            //                       margin:
+                            //                       EdgeInsets.only(left: width * 0.01),
+                            //                       width: width * 0.2,
+                            //                       height: height * 0.03,
+                            //                       decoration: BoxDecoration(
+                            //                           borderRadius: BorderRadius.circular(
+                            //                               width * 0.01),
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               '#ecfafb'))),
+                            //                       child: Center(
+                            //                         child: Text(
+                            //                           'Available',
+                            //                           textAlign: TextAlign.center,
+                            //                           style: TextStyle(
+                            //                               color: Color(
+                            //                                   Utils.hexStringToHexInt(
+                            //                                       '46D0D9')),
+                            //                               fontFamily: 'Poppins Regular',
+                            //                               fontSize: width * 0.02),
+                            //                         ),
+                            //                       ),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.01,
+                            //                     ),
+                            //                     Text(
+                            //                       ' May 01, 2021',
+                            //                       style: TextStyle(
+                            //                           fontSize: width * 0.02,
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               '8D8D8D')),
+                            //                           fontFamily: 'Poppins Regular'),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.001,
+                            //                     ),
+                            //                     Text(
+                            //                       ' Emergency at the house',
+                            //                       style: TextStyle(
+                            //                           fontSize: width * 0.02,
+                            //                           color: Color(Utils.hexStringToHexInt(
+                            //                               'C4C4C4')),
+                            //                           fontFamily: 'Poppins Regular'),
+                            //                     ),
+                            //                     SizedBox(
+                            //                       height: height * 0.01,
+                            //                     )
+                            //                   ],
+                            //                 ),
+                            //               )
+                            //             ],
+                            //           ),
+                            //           Container(
+                            //             margin: EdgeInsets.only(right: width * 0.02),
+                            //             child: Column(
+                            //               crossAxisAlignment: CrossAxisAlignment.center,
+                            //               mainAxisAlignment: MainAxisAlignment.center,
+                            //               children: <Widget>[
+                            //                 Container(
+                            //                   width: width * 0.2 - width * 0.06,
+                            //                   height: height * 0.02,
+                            //                   decoration: BoxDecoration(
+                            //                       borderRadius:
+                            //                       BorderRadius.circular(width * 0.04),
+                            //                       color: Color(
+                            //                           Utils.hexStringToHexInt('46D0D9'))),
+                            //                 )
+                            //               ],
+                            //             ),
+                            //           )
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.02,
+                            // ),
+                            // Divider(
+                            //   thickness: 1,
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.02,
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: <Widget>[
+                            //     Container(
+                            //       margin: EdgeInsets.only(left: width * 0.06),
+                            //       child: Text(
+                            //         'Customer Feedbacks',
+                            //         style: TextStyle(
+                            //             color: Colors.black,
+                            //             fontSize: width * 0.03,
+                            //             fontFamily: 'Poppins Medium'),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Container(
+                            //   margin: EdgeInsets.only(left: width * 0.06),
+                            //   child: SizedBox(
+                            //     width: width * 0.09,
+                            //     child: Divider(
+                            //       thickness: 3,
+                            //       color: Color(Utils.hexStringToHexInt('46D0D9')),
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.04,
+                            // ),
+                            // Container(
+                            //   margin:
+                            //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: <Widget>[
+                            //       Text(
+                            //         'Sara Blush',
+                            //         style: TextStyle(
+                            //             color: Colors.black,
+                            //             fontSize: width * 0.03,
+                            //             fontFamily: 'Poppins Medium'),
+                            //       ),
+                            //       Row(
+                            //         children: <Widget>[
+                            //           RatingBarIndicator(
+                            //             rating: 2.75,
+                            //             itemBuilder: (context, index) => const Icon(
+                            //               Icons.star,
+                            //               color: Colors.amber,
+                            //             ),
+                            //             itemCount: 5,
+                            //             itemSize: width * 0.05,
+                            //             direction: Axis.horizontal,
+                            //           ),
+                            //           Text(
+                            //             ' 11/5/21',
+                            //             style: TextStyle(
+                            //                 fontFamily: 'Poppins Regular',
+                            //                 fontSize: width * 0.02,
+                            //                 color:
+                            //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
+                            //           )
+                            //         ],
+                            //       ),
+                            //       SizedBox(
+                            //         height: height * 0.01,
+                            //       ),
+                            //       AutoSizeText(
+                            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
+                            //         style: TextStyle(
+                            //             fontSize: width * 0.02,
+                            //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                            //             fontFamily: 'Poppins Light'),
+                            //         maxLines: 5,
+                            //       ),
+                            //       SizedBox(
+                            //         height: height * 0.01,
+                            //       ),
+                            //       Divider(
+                            //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
+                            //         thickness: 1,
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: height * 0.02,
+                            // ),
+                            // Container(
+                            //   margin:
+                            //   EdgeInsets.only(left: width * 0.06, right: width * 0.03),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: <Widget>[
+                            //       Text(
+                            //         'Sara Blush',
+                            //         style: TextStyle(
+                            //             color: Colors.black,
+                            //             fontSize: width * 0.03,
+                            //             fontFamily: 'Poppins Medium'),
+                            //       ),
+                            //       Row(
+                            //         children: <Widget>[
+                            //           RatingBarIndicator(
+                            //             rating: 2.75,
+                            //             itemBuilder: (context, index) => const Icon(
+                            //               Icons.star,
+                            //               color: Colors.amber,
+                            //             ),
+                            //             itemCount: 5,
+                            //             itemSize: width * 0.05,
+                            //             direction: Axis.horizontal,
+                            //           ),
+                            //           Text(
+                            //             ' 11/5/21',
+                            //             style: TextStyle(
+                            //                 fontFamily: 'Poppins Regular',
+                            //                 fontSize: width * 0.02,
+                            //                 color:
+                            //                 Color(Utils.hexStringToHexInt('C4C4C4'))),
+                            //           )
+                            //         ],
+                            //       ),
+                            //       SizedBox(
+                            //         height: height * 0.01,
+                            //       ),
+                            //       AutoSizeText(
+                            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim facilisi rhoncus, vitae, id convallis eu nisl enim quam. Sed aenean molestie leo venenatis. Aliquet turpis nulla sodales aenean. Bibendum ut egestas massa sit.',
+                            //         style: TextStyle(
+                            //             fontSize: width * 0.02,
+                            //             color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                            //             fontFamily: 'Poppins Light'),
+                            //         maxLines: 5,
+                            //       ),
+                            //       SizedBox(
+                            //         height: height * 0.01,
+                            //       ),
+                            //       Divider(
+                            //         color: Color(Utils.hexStringToHexInt('C4C4C4')),
+                            //         thickness: 1,
+                            //       )
+                            //     ],
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      );
+                    }
+                  })),
       ),
     );
   }
@@ -796,7 +877,6 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           children: <Widget>[
             Container(
-
               width: width * 0.5,
               height: height * 0.2,
               child: Stack(
@@ -806,23 +886,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: height * 0.2,
                     child: imageFile == null
                         ? Container(
-                      width: width * 0.5,
-                      height: height * 0.2,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'images/svgicons/profilehoto.png'),
-                              fit: BoxFit.contain)),
-                    )
+                            width: width * 0.5,
+                            height: height * 0.2,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'images/svgicons/profilehoto.png'),
+                                    fit: BoxFit.contain)),
+                          )
                         : Container(
-                      width: width * 0.5,
-                      height: height * 0.2,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: FileImage(imageFile),
-                              fit: BoxFit.fill)),
-                    ),
+                            width: width * 0.5,
+                            height: height * 0.2,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: FileImage(imageFile),
+                                    fit: BoxFit.fill)),
+                          ),
                   ),
                   Positioned(
                     top: height * 0.1 + height * 0.04,
@@ -971,7 +1051,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: const EdgeInsets.only(left: 6),
                           decoration: BoxDecoration(
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(4)),
+                                const BorderRadius.all(Radius.circular(4)),
                             color: Color(Utils.hexStringToHexInt('F4F4F4')),
                           ),
                           child: Row(
@@ -1003,15 +1083,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.only(left: 6),
                         decoration: BoxDecoration(
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(4)),
+                              const BorderRadius.all(Radius.circular(4)),
                           color: Color(Utils.hexStringToHexInt('F4F4F4')),
                         ),
                         child: DropdownButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
                           hint: Text(
-                            "${showselectGender == ""
-                                ? "Gender"
-                                : showselectGender}",
+                            "${showselectGender == "" ? "Gender" : showselectGender}",
                             style: TextStyle(
                                 color: Color(Utils.hexStringToHexInt('A4A4A4')),
                                 fontFamily: 'Poppins Regular',
@@ -1096,7 +1174,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: <Widget>[
                     Container(
-
                       width: width * 0.5,
                       height: height * 0.2,
                       child: Stack(
@@ -1106,23 +1183,23 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: height * 0.2,
                             child: imageFile == null
                                 ? Container(
-                              width: width * 0.5,
-                              height: height * 0.2,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'images/svgicons/profilehoto.png'),
-                                      fit: BoxFit.contain)),
-                            )
+                                    width: width * 0.5,
+                                    height: height * 0.2,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'images/svgicons/profilehoto.png'),
+                                            fit: BoxFit.contain)),
+                                  )
                                 : Container(
-                              width: width * 0.5,
-                              height: height * 0.2,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: FileImage(imageFile),
-                                      fit: BoxFit.fill)),
-                            ),
+                                    width: width * 0.5,
+                                    height: height * 0.2,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: FileImage(imageFile),
+                                            fit: BoxFit.fill)),
+                                  ),
                           ),
                           Positioned(
                             top: height * 0.1 + height * 0.04,
@@ -1193,8 +1270,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: height * 0.1 - height * 0.04,
                             padding: const EdgeInsets.only(left: 6),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(4)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
                               color: Color(Utils.hexStringToHexInt('F4F4F4')),
                             ),
                             child: TextField(
@@ -1219,8 +1296,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             margin: const EdgeInsets.only(top: 6),
                             padding: const EdgeInsets.only(left: 6),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(4)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
                               color: Color(Utils.hexStringToHexInt('F4F4F4')),
                             ),
                             child: TextField(
@@ -1245,8 +1322,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             margin: const EdgeInsets.only(top: 6),
                             padding: const EdgeInsets.only(left: 6),
                             decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(4)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
                               color: Color(Utils.hexStringToHexInt('F4F4F4')),
                             ),
                             child: TextField(
@@ -1277,14 +1354,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   margin: const EdgeInsets.only(top: 6),
                                   padding: const EdgeInsets.only(left: 6),
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(4)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(4)),
                                     color: Color(
                                         Utils.hexStringToHexInt('F4F4F4')),
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
                                         dob == "" ? "Date of birth" : dob,
@@ -1312,17 +1389,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 margin: const EdgeInsets.only(top: 6),
                                 padding: const EdgeInsets.only(left: 6),
                                 decoration: BoxDecoration(
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(4)),
-                                  color: Color(
-                                      Utils.hexStringToHexInt('F4F4F4')),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4)),
+                                  color:
+                                      Color(Utils.hexStringToHexInt('F4F4F4')),
                                 ),
                                 child: DropdownButton(
                                   icon: const Icon(Icons.keyboard_arrow_down),
                                   hint: Text(
-                                    "${showselectGender == ""
-                                        ? "Gender"
-                                        : showselectGender}",
+                                    "${showselectGender == "" ? "Gender" : showselectGender}",
                                     style: TextStyle(
                                         color: Color(
                                             Utils.hexStringToHexInt('A4A4A4')),
@@ -1391,10 +1466,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ],
           );
-        }
-    );
+        });
   }
-
 
   AppBar appBarr(BuildContext context, width, height) {
     return AppBar(
@@ -1457,15 +1530,14 @@ class _ProfilePageState extends State<ProfilePage> {
 
       elevation: 0.0,
       leading: Builder(
-        builder: (context) =>
-            IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              tooltip: 'Menu Icon',
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
+        builder: (context) => IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+          tooltip: 'Menu Icon',
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
       ),
       brightness: Brightness.dark,
     );
@@ -1477,8 +1549,7 @@ class _ProfilePageState extends State<ProfilePage> {
       width: width,
       height: height,
       child: Container(
-        child:
-        Column(
+        child: Column(
           children: <Widget>[
             Container(
               width: width * 0.5,
@@ -1490,23 +1561,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: height * 0.2,
                     child: imageFile == null
                         ? Container(
-                      width: width * 0.5,
-                      height: height * 0.2,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'images/svgicons/profilehoto.png'),
-                              fit: BoxFit.contain)),
-                    )
+                            width: width * 0.5,
+                            height: height * 0.2,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'images/svgicons/profilehoto.png'),
+                                    fit: BoxFit.contain)),
+                          )
                         : Container(
-                      width: width * 0.5,
-                      height: height * 0.2,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: FileImage(imageFile),
-                              fit: BoxFit.fill)),
-                    ),
+                            width: width * 0.5,
+                            height: height * 0.2,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: FileImage(imageFile),
+                                    fit: BoxFit.fill)),
+                          ),
                   ),
                   Positioned(
                     top: height * 0.1 + height * 0.04,
@@ -1655,7 +1726,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: const EdgeInsets.only(left: 6),
                           decoration: BoxDecoration(
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(4)),
+                                const BorderRadius.all(Radius.circular(4)),
                             color: Color(Utils.hexStringToHexInt('F4F4F4')),
                           ),
                           child: Row(
@@ -1687,15 +1758,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: const EdgeInsets.only(left: 6),
                         decoration: BoxDecoration(
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(4)),
+                              const BorderRadius.all(Radius.circular(4)),
                           color: Color(Utils.hexStringToHexInt('F4F4F4')),
                         ),
                         child: DropdownButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
                           hint: Text(
-                            "${showselectGender == ""
-                                ? "Gender"
-                                : showselectGender}",
+                            "${showselectGender == "" ? "Gender" : showselectGender}",
                             style: TextStyle(
                                 color: Color(Utils.hexStringToHexInt('A4A4A4')),
                                 fontFamily: 'Poppins Regular',
@@ -1784,12 +1853,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return Stack(
       children: <Widget>[
         Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
+          width: MediaQuery.of(context).size.width,
           padding:
-          const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+              const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
           margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
@@ -1888,7 +1954,7 @@ class _ProfilePageState extends State<ProfilePage> {
       if (image != null) {
         /*todo---this is for use image rotation stop*/
         File rotatedImage =
-        await FlutterExifRotation.rotateAndSaveImage(path: image.path);
+            await FlutterExifRotation.rotateAndSaveImage(path: image.path);
 
         setState(() {
           imageFile = rotatedImage;
@@ -1904,7 +1970,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (picture != null) {
       File rotatedImage =
-      await FlutterExifRotation.rotateAndSaveImage(path: picture.path);
+          await FlutterExifRotation.rotateAndSaveImage(path: picture.path);
       setState(() {
         imageFile = rotatedImage;
         print(imageFile);

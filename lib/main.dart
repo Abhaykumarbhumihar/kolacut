@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
-    print(session);
+    //print(session);
     if(session!=null){
       Get.put<HomeController>(HomeController());
     }

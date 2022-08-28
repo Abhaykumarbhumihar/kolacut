@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
-import '../utils/appconstant.dart';
+import 'package:untitled/model/VerifyOtp.dart';
+import 'package:untitled/utils/CommomDialog.dart';
+import 'package:untitled/utils/appconstant.dart';
 
 class APICall {
   final apiBaseUri = "http://bltechno.atwebpages.com/index.php/Dashboard";
@@ -20,6 +21,10 @@ class APICall {
 headers: mainheader,
       body: map
     );
+    print("============\n\n");
+    print(response.body);
+    print(response.statusCode);
+    print("============\n\n");
     if (response.statusCode == 200) {
 
       var jsonString = response.body;

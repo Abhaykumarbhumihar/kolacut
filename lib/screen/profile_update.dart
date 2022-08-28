@@ -7,12 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:untitled/screen/homebottombar.dart';
+import 'package:untitled/screen/homepage.dart';
+import 'package:untitled/utils/CommomDialog.dart';
+import 'package:untitled/utils/Utils.dart';
 import 'package:intl/intl.dart';
 import '../controller/auth_controller.dart';
 import '../controller/profile_controllet.dart';
-import '../utils/CommomDialog.dart';
-import '../utils/Utils.dart';
 
 class ProfileUpdate extends StatefulWidget {
   const ProfileUpdate({Key? key}) : super(key: key);

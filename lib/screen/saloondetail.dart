@@ -5,17 +5,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:untitled/screen/coin.dart';
+import 'package:untitled/screen/orderdetail.dart';
+import 'package:untitled/screen/profile_update.dart';
+import 'package:untitled/utils/CommomDialog.dart';
+import 'package:untitled/utils/Utils.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/shopdetain_controller.dart';
 import '../model/ShopDetailPojo.dart';
-import '../utils/CommomDialog.dart';
-import '../utils/Utils.dart';
-import 'orderdetail.dart';
 
 class SaloonDetail extends StatefulWidget {
   var id = 0;
@@ -70,6 +72,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    tempArray.clear();
+    //a
+    selectEmployeeId = "";
+    selectDate = "";
+    selectDay = "";
+    timeSelected = "";
     final today = DateTime.now();
     final monthAgo = DateTime(today.year, today.month - 1, today.day);
     for (int i = 0; i <= today.difference(monthAgo).inDays; i++) {
@@ -104,7 +112,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
         } else {
           var a = salonControlller.shopDetailpojo.value.data;
           salonControlller.isFavourite = a!.isFavorite!;
-          print("${a.isFavorite.toString()}" + "sdfsdfsdfsd");
+          // print("${a.isFavorite.toString()}" + "sdfsdfsdfsd");
           return Container(
             width: width,
             height: height,
@@ -469,8 +477,6 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                                       tempArray
                                                                           .length;
                                                                   i++) {
-
-
                                                                 print(tempArray[
                                                                             i]
                                                                         .name
@@ -676,6 +682,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           return GestureDetector(
                             onTap: () {
                               _isSelected(position);
+                              print(a.emploeyee![position].id.toString());
                               selectEmployeeId =
                                   a.emploeyee![position].id.toString();
                             },

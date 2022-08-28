@@ -11,6 +11,8 @@ import 'package:untitled/utils/CommomDialog.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
+import 'login.dart';
+
 class TableBasicsExample extends StatefulWidget {
   const TableBasicsExample({Key? key}) : super(key: key);
 
@@ -27,7 +29,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
   late SharedPreferences sharedPreferences;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
-
+  var session;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -42,11 +44,21 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
       var emailValue = sharedPreferences.getString("email");
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
+      var _sessss = sharedPreferences.getString("session");
       setState(() {
-        name = _testValue!;
-        email = emailValue!;
-        phone = _phoneValue!;
-        iamge = _imageValue!;
+        session=_sessss;
+        if(_testValue!=null){
+          name = _testValue!;
+          email = emailValue!;
+          phone = _phoneValue!;
+          iamge = _imageValue!;
+        }else{
+          name = "";
+          email ="";
+          phone ="";
+          iamge ="";
+        }
+
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
       // will be null if never previously saved
@@ -61,7 +73,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: scaffolKey,
-      drawer: SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
+      drawer: session==null?SizedBox(): SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
@@ -70,7 +82,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
         centerTitle: false,
         leading: InkWell(
           onTap: () {
-            scaffolKey.currentState!.openDrawer();
+            session==null? scaffolKey.currentState!.openDrawer():null;
           },
           child: Icon(
             Icons.menu,
@@ -85,7 +97,41 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
               fontSize: width * 0.04),
         ),
       ),
-      body: GetBuilder<BookingController>(builder: (bookingController) {
+      body:
+      session == null
+          ? Center(
+          child: Container(
+            width: width,
+            height: height,
+            child: Center(
+                child: Container(
+                  child: InkWell(
+                    onTap: (){
+                      Get.off(LoginPage());
+
+                    },
+                    child: Container(
+                      height: width*0.2,
+                      width: height*0.3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: Color(Utils.hexStringToHexInt('77ACA2')),
+                      ),
+                      child: Center(
+                        child: Text("Continue with login",
+                          style: TextStyle(
+                            color:
+                            Colors.white,
+                            fontSize: width * 0.05,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins Semibold',
+                          ),),
+                      ),
+                    ),
+                  ),
+                )),
+          ))
+          :GetBuilder<BookingController>(builder: (bookingController) {
         if (bookingController.lodaer) {
           return Container();
         } else {
@@ -489,27 +535,6 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                       fontSize: width * 0.03)),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Transaction",
-                                style: TextStyle(
-                                    fontFamily: 'Poppins Regular',
-                                    color: Color(
-                                        Utils.hexStringToHexInt('C4C4C4')),
-                                    fontSize: width * 0.03),
-                              ),
-                              Text(
-                                "${slotDetail.transactionId}",
-                                style: TextStyle(
-                                    fontFamily: 'Poppins Regular',
-                                    color: Color(
-                                        Utils.hexStringToHexInt('C4C4C4')),
-                                    fontSize: width * 0.03),
-                              ),
-                            ],
-                          ),
                           LimitedBox(
                             maxHeight: height * 0.3,
                             child: ListView.builder(
@@ -522,13 +547,13 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                       width: width,
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
                                                 "${slotDetail.service![position].name}",

@@ -6,15 +6,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/model/ShopDetailPojo.dart';
+import 'package:untitled/screen/HomeScreen.dart';
 import 'package:untitled/screen/homebottombar.dart';
 import 'package:untitled/screen/homepage.dart';
 import 'package:untitled/utils/CommomDialog.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../controller/BookingController.dart';
 import '../controller/home_controller.dart';
 import '../controller/shopdetain_controller.dart';
 import 'coin.dart';
+import 'yourbooking.dart';
 
 class OrderDetail extends StatefulWidget {
   List<ServiceService>? newarray;
@@ -49,8 +52,10 @@ class _OrderDetailState extends State<OrderDetail> {
   var applycouponPrice = 0.0;
   var applycouponcode = "";
   var total_price = 0;
+
   TextEditingController _textFieldcoin = TextEditingController();
   EzAnimation ezAnimation = EzAnimation(50.0, 200.0, Duration(seconds: 5));
+  BookingController bookingController = Get.put(BookingController());
 
   _OrderDetailState(
       tempArray, a, selectDate, selectEmpid, selectDay, selectSlot);
@@ -77,14 +82,16 @@ class _OrderDetailState extends State<OrderDetail> {
         "$totalPrice",
         "Offline",
         "",
-        "",
+        0.0,
         "");
   }
+
   String getTimeString(int value) {
     final int hour = value ~/ 60;
     final int minutes = value % 60;
     return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
   }
+
   void bookServiceOnline(transactionid, coin, coupone) {
     salonControlller.bookserVice(
         widget.data!.id.toString(),
@@ -99,7 +106,7 @@ class _OrderDetailState extends State<OrderDetail> {
         "Online",
         transactionid,
         coin,
-        coupone);
+        coupone + "");
   }
 
   @override
@@ -1041,12 +1048,11 @@ class _OrderDetailState extends State<OrderDetail> {
                             GestureDetector(
                               onTap: () {
                                 print(resultList.join(","));
-
                                 salonControlller.addTocart(
                                     context,
                                     widget.data!.id.toString(),
                                     resultList.join(","),
-                                    "");
+                                    widget.selectEmpid.toString()+"");
                               },
                               child: Container(
                                 width: width - width * 0.2,
@@ -1122,6 +1128,31 @@ class _OrderDetailState extends State<OrderDetail> {
                                   onTap: () {
                                     /*TODO---- offline payment (no coupon allied no coin applied)*/
                                     bookService();
+
+                                    Future.delayed(
+                                        const Duration(milliseconds: 2000), () {
+                                      setState(() {
+                                        if (salonControlller.sendData() ==
+                                            "Booking added successfully") {
+                                          bookingController
+                                              .getBookingList1(context);
+                                          // Navigator.pushReplacement(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           TableBasicsExample()),
+                                          // );
+
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HomePage()),
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                        }
+                                      });
+                                    });
                                   },
                                   child: Container(
                                     width: width * 0.3,
@@ -1177,10 +1208,38 @@ class _OrderDetailState extends State<OrderDetail> {
                                             "${element.name.toString() + " " + element.price.toString()}";
                                         print(description);
                                       });
-                                      openCheckout(
-                                        widget.data!.name.toString(),
-                                        description,
-                                      );
+                                      bookServiceOnline("898899887", applycoin,
+                                          applycouponcode);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 2000),
+                                          () {
+                                        setState(() {
+                                          if (salonControlller.sendData() ==
+                                              "Booking added successfully") {
+                                            bookingController
+                                                .getBookingList1(context);
+                                            // Navigator.pushReplacement(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           TableBasicsExample()),
+                                            // );
+
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            HomePage()),
+                                                    (Route<dynamic> route) =>
+                                                        false);
+                                          }
+                                        });
+                                      });
+
+                                      // openCheckout(
+                                      //   widget.data!.name.toString(),
+                                      //   description,
+                                      // );
                                     });
                                   },
                                   child: Container(
