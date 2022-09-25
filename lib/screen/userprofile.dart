@@ -61,7 +61,7 @@ class _UserProfileState extends State<UserProfile> {
           centerTitle: false,
           leading: InkWell(
             onTap: () {
-             // session==null? scaffolKey.currentState!.openDrawer():null;
+              //session !=null? scaffolKey.currentState!.openDrawer():null;
             },
             child: Icon(
               Icons.menu,

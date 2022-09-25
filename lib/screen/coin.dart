@@ -1,10 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_circle_chart/flutter_circle_chart.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:untitled/controller/home_controller.dart';
+import 'package:untitled/screen/homepage.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 import 'dart:math';
@@ -12,6 +21,8 @@ import 'dart:math' as math;
 import 'package:slider_button/slider_button.dart';
 import 'package:swipebuttonflutter/swipebuttonflutter.dart';
 import 'package:flutter_speedometer/flutter_speedometer.dart';
+import '../utils/CommomDialog.dart';
+import '../utils/appconstant.dart';
 import 'login.dart';
 
 class CoinPage extends StatefulWidget {
@@ -26,6 +37,7 @@ class _CoinPageState extends State<CoinPage> {
   var outBedTime;
   late SharedPreferences sharedPreferences;
   var session;
+  final box = GetStorage();
 
   void _updateLabels(int init, int end, int c) {
     setState(() {
@@ -61,11 +73,23 @@ class _CoinPageState extends State<CoinPage> {
         });
   }
 
+  var isLoading=true;
+  Future<void> start() async {
+    foo();
+  }
+
+  void foo() {
+    Future.delayed(Duration(seconds: 3), () async {
+      // do something here
+      isLoading=false;
+      // do stuff
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-
+    start();
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("session");
@@ -74,9 +98,9 @@ class _CoinPageState extends State<CoinPage> {
       });
       print(sharedPreferences.getString("session"));
       if (_testValue != null) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          Get.find<HomeController>().getCoin(_testValue);
-        });
+        // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        //   Get.find<HomeController>().getCoin(_testValue);
+        // });
       }
     });
 
@@ -91,7 +115,7 @@ class _CoinPageState extends State<CoinPage> {
               centerTitle: false,
               leading: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.maybePop(context);
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -115,7 +139,8 @@ class _CoinPageState extends State<CoinPage> {
                         child: Container(
                       child: InkWell(
                         onTap: () {
-                          Get.off(LoginPage());
+
+                          Get.offAll(LoginPage());
                         },
                         child: Container(
                           height: width * 0.2,
@@ -186,15 +211,23 @@ class _CoinPageState extends State<CoinPage> {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  ' View Details',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins Medium',
-                                      fontSize: width * 0.03,
-                                      color: Color(
-                                          Utils.hexStringToHexInt('77ACA2'))),
+                                InkWell(
+                                  onTap: () {
+                                    CommonDialog.showErrorDialog1(
+                                        title: "Coins Detail",
+                                        description:
+                                            "You have earn coin with app refer, you can use only 100 coin at a time.");
+                                  },
+                                  child: Text(
+                                    ' View Details',
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins Medium',
+                                        fontSize: width * 0.03,
+                                        color: Color(
+                                            Utils.hexStringToHexInt('77ACA2'))),
+                                  ),
                                 ),
-                                Center(
+                                isLoading?Container():   Center(
                                   child: Speedometer(
                                     backgroundColor: Colors.white,
                                     size: 250,
@@ -466,6 +499,34 @@ class _CoinPageState extends State<CoinPage> {
                                 //     ),
                                 //   ),
                                 // )),
+                                // FlatButton(onPressed: ()async
+                                // {
+                                //   print("Called back");
+                                //   Map map = {
+                                //     "session_id": box.read('session'),
+                                //   };
+                                //   print(map);
+                                //   var apiUrl = Uri.parse(
+                                //       AppConstant.BASE_URL +
+                                //           AppConstant.REFER_TO_FRIEND);
+                                //   print(apiUrl);
+                                //   print(map);
+                                //   final response = await http.post(
+                                //     apiUrl,
+                                //     body: map,
+                                //   );
+                                //   print(response.body);
+                                //   var data = response.body;
+                                //   final body = json.decode(response.body);
+                                //   if (body['message'] != "") {
+                                //     CommonDialog.showsnackbar(
+                                //         body['message'] +
+                                //             "your code is \n" +
+                                //             body['referel_code']);
+                                //     showLoaderDialog(
+                                //         context, body['referel_code']);
+                                //   }
+                                // }, child: Text("Want to earn more coin")),
                                 Center(
                                   child: SwipingButton(
                                     height: height * 0.06,
@@ -479,8 +540,34 @@ class _CoinPageState extends State<CoinPage> {
                                         fontFamily: 'Poppins Medium',
                                         fontSize: width * 0.03),
                                     text: "Want to earn more coins?",
-                                    onSwipeCallback: () {
+                                    onSwipeCallback: () async {
                                       print("Called back");
+                                      Map map = {
+                                        "session_id": box.read('session'),
+                                      };
+                                      print(map);
+                                      var apiUrl = Uri.parse(
+                                          AppConstant.BASE_URL +
+                                              AppConstant.REFER_TO_FRIEND);
+                                      print(apiUrl);
+                                      print(map);
+                                      final response = await http.post(
+                                        apiUrl,
+                                        body: map,
+                                      );
+                                      print(response.body);
+                                      var data = response.body;
+                                      final body = json.decode(response.body);
+                                      if (body['message'] != "") {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => CoinPage()),
+                                        );
+                                        showLoaderDialog(
+                                            context, body['referel_code']);
+                                      }
                                     },
                                   ),
                                 ),
@@ -550,5 +637,387 @@ class _CoinPageState extends State<CoinPage> {
                       );
                     }
                   })));
+  }
+
+  showLoaderDialog1(BuildContext context, code) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
+    AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.5 - height * 0.05,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(
+                MediaQuery.of(context).size.width * 0.04)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => HomePage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(width * 0.06),
+                        child: SvgPicture.asset(
+                            'images/svgicons/eva_close-circle-fill.svg'),
+                      ),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: width * 0.03),
+                  child: Center(
+                    child: Text(
+                      'Refer and Earn.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins Medium',
+                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: width * 0.01),
+                  child: Text(
+                    'Invite your firends using your referral\ncode givn below and earn more\ncoins',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins Regular',
+                        fontSize: MediaQuery.of(context).size.width * 0.03),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    width: width,
+                    height: height * 0.1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: width - width * 0.5,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomLeft: Radius.circular(12.0),
+                            ),
+                            border: Border.all(
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+
+                              //                   <--- border color
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "$code",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins Medium'),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 78,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12.0),
+                            ),
+                            border: Border.all(
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+
+                              //                   <--- border color
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: InkWell(
+                              onTap: () {
+                                Clipboard.setData(ClipboardData(text: "$code"));
+                              },
+                              child: Text(
+                                "COPY",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Poppins Medium'),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 12, right: 12),
+                  child: Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Row(
+                      children: const [
+                        Expanded(
+                          child: Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text('OR'),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.black,
+                            thickness: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: IconButton(
+                    iconSize: 34,
+                    icon: Icon(
+                      Icons.share,
+                      color: Color(Utils.hexStringToHexInt('77ACA2')),
+                    ),
+                    // the method which is called
+                    // when button is pressed
+                    onPressed: () {
+                      // Navigator.pop(context);
+                      Share.share('Intall this app and get benifits $code',
+                          subject: 'Kolacut!');
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showLoaderDialog(BuildContext context, code) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            content: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.5 - height * 0.05,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey, width: 2),
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.04)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              // Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (BuildContext context) => HomePage()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(width * 0.06),
+                              child: SvgPicture.asset(
+                                  'images/svgicons/eva_close-circle-fill.svg'),
+                            ),
+                          )
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: width * 0.03),
+                        child: Center(
+                          child: Text(
+                            'Refer and Earn.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Poppins Medium',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.04),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: width * 0.01),
+                        child: Text(
+                          'Invite your firends using your referral\ncode givn below and earn more\ncoins',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins Regular',
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.03),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          width: width,
+                          height: height * 0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: width - width * 0.5,
+                                height: 38,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    bottomLeft: Radius.circular(12.0),
+                                  ),
+                                  border: Border.all(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('77ACA2')),
+
+                                    //                   <--- border color
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "$code",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Poppins Medium'),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 78,
+                                height: 38,
+                                decoration: BoxDecoration(
+                                  color:
+                                      Color(Utils.hexStringToHexInt('77ACA2')),
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(12),
+                                    bottomRight: Radius.circular(12.0),
+                                  ),
+                                  border: Border.all(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('77ACA2')),
+
+                                    //                   <--- border color
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                          ClipboardData(text: "$code"));
+                                    },
+                                    child: Text(
+                                      "COPY",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Poppins Medium'),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 12, right: 12),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.0),
+                          child: Row(
+                            children: const [
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.black,
+                                  thickness: 1,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text('OR'),
+                              ),
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.black,
+                                  thickness: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: IconButton(
+                          iconSize: 34,
+                          icon: Icon(
+                            Icons.share,
+                            color: Color(Utils.hexStringToHexInt('77ACA2')),
+                          ),
+                          // the method which is called
+                          // when button is pressed
+                          onPressed: () {
+                            // Navigator.pop(context);
+                            Share.share(
+                                'Intall this app and get benifits $code',
+                                subject: 'Kolacut!');
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

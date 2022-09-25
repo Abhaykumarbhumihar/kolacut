@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _dobController,
       _phonecontroller;
   String date = "";
-  var session;
+  var session="";
 
   // Initial Selected Value
   String dropdownvalue = 'Male';
@@ -81,9 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
       var _sessss = sharedPreferences.getString("session");
-      session = _sessss;
+
       setState(() {
-        if (_testValue != null) {
+        if (_sessss != null) {
+          session = _sessss;
           name = _testValue!;
           email = emailValue!;
           phone = _phoneValue!;
@@ -106,14 +107,16 @@ class _ProfilePageState extends State<ProfilePage> {
         width: width,
         height: height,
         decoration: const BoxDecoration(
+            color: Colors.white,
+
             image: DecorationImage(
                 image: AssetImage('images/svgicons/profilebackgound.png'),
                 fit: BoxFit.fill)),
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             key: scaffolKey,
-            drawer: session == null
-                ? SizedBox()
+            drawer: session == null||session==""
+                ? Container()
                 : SideNavigatinPage(
                     "${name}", "${iamge}", "${email}", "${phone}"),
             appBar: AppBar(
@@ -122,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
               backgroundColor: Color(Utils.hexStringToHexInt('77ACA2')),
               leading: InkWell(
                 onTap: () {
-                  session == null
+                  session != ""
                       ? scaffolKey.currentState!.openDrawer()
                       : null;
                 },
@@ -149,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             backgroundColor: Colors.transparent,
-            body: session == null
+            body: session == null||session==""
                 ? Center(
                     child: Container(
                     width: width,
@@ -158,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Container(
                       child: InkWell(
                         onTap: (){
-                          Get.off(LoginPage());
+                          Get.offAll(LoginPage());
 
                         },
                         child: Container(
@@ -975,7 +978,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: const BorderRadius.all(Radius.circular(4)),
                       color: Color(Utils.hexStringToHexInt('F4F4F4')),
                     ),
-                    child: TextField(
+                    child:
+                    TextField(
                         style: const TextStyle(
                           color: Colors.black,
                         ),

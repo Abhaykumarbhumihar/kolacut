@@ -31,7 +31,7 @@ class AuthControlller extends GetxController {
   }
 
   String sendData() {
-   // print(message);
+    // print(message);
     return message;
   }
 
@@ -54,12 +54,10 @@ class AuthControlller extends GetxController {
       if (body['status'] == 400) {
         CommonDialog.showsnackbar("No user found");
       } else {
-
-
         loginPojo.value = loginOtpFromJson(response);
 
         CommonDialog.showsnackbar(loginPojo.value.otp.toString());
-        Get.to(const VerifyOtpPage(), arguments: phoneno);
+        Get.off(const VerifyOtpPage(), arguments: phoneno);
       }
     } catch (error) {
       if (kDebugMode) {
@@ -95,13 +93,17 @@ class AuthControlller extends GetxController {
         CommonDialog.showsnackbar(registerPojo.value.message);
         final prefs = await SharedPreferences.getInstance();
 
-        await prefs.setString('session', registerPojo.value.data!.token.toString());
+        await prefs.setString(
+            'session', registerPojo.value.data!.token.toString());
         await prefs.setString('name', registerPojo.value.data!.name.toString());
-        await prefs.setString('email', registerPojo.value.data!.email.toString());
-        await prefs.setString('phoneno', registerPojo.value.data!.phone.toString());
-        await prefs.setString('image', registerPojo.value.data!.profileImage.toString());
+        await prefs.setString(
+            'email', registerPojo.value.data!.email.toString());
+        await prefs.setString(
+            'phoneno', registerPojo.value.data!.phone.toString());
+        await prefs.setString(
+            'image', registerPojo.value.data!.profileImage.toString());
         box.write('session', registerPojo.value.data?.token);
-        Get.off(MainPage());
+        Get.offAll(MainPage());
       }
 
       //  Get.to(VerifyOtpPage());
@@ -113,24 +115,22 @@ class AuthControlller extends GetxController {
     }
   }
 
-  void registerUser(
-      image, name, email, dob, gender, phone, device_type, device_token,context) async {
+  void registerUser(image, name, email, dob, gender, phone, device_type,
+      device_token, context) async {
     CommonDialog.showLoading(title: "Please waitt...");
     final response = await APICall().registerUserMulti(
         image, name, email, dob, gender, phone, device_type, device_token);
     print("jjhjkjjhkjkhkjhkhkhkjjkhkhkkhhkjkjjk");
 
     Navigator.pop(context);
-    if(response!=null){
+    if (response != null) {
       final body = json.decode(response);
-      if(body["status"]==200){
+      if (body["status"] == 200) {
         CommonDialog.showsnackbar(body["message"]);
         Navigator.pop(context);
-      }else{
+      } else {
         CommonDialog.showsnackbar(body["message"]);
-
       }
-
     }
 
     // if (response != "null") {

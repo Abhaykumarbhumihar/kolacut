@@ -19,5 +19,7 @@
    static const ADD_TO_CART="public/api/add-cart";
    static const GET_CART_LIST='public/api/get-cart';
    static const DELTE_CART="public/api/delete-cart";
+   static const SLOT_TIME="public/api/employee-slot";
+   static const NOTIFICAITON="public/api/user-notification";
 
 }

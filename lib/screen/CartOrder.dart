@@ -12,9 +12,12 @@ import 'package:untitled/utils/CommomDialog.dart';
 import '../controller/BookingController.dart';
 import '../controller/home_controller.dart';
 import '../controller/shopdetain_controller.dart';
+import '../model/SlotPojo.dart';
 import '../utils/Utils.dart';
+import '../utils/appconstant.dart';
 import 'coin.dart';
 import 'homepage.dart';
+import 'package:http/http.dart' as http;
 
 class CartOrder extends StatefulWidget {
   SlotDetail? slotDetail;
@@ -43,17 +46,22 @@ class _CartOrderState extends State<CartOrder> {
   var selectDate = "";
   var selectDay = "";
   var total_price = 0;
+  var slotpojo = SlotPojo();
+  int isSlotSelected = 1;
+
   List priceList = [];
   late SharedPreferences sharedPreferences;
   var coin = 0;
   var applycoin = 0.0;
   var applycouponPrice = 0.0;
   var applycouponCode = "";
+  var serviceTime = 0;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -62,17 +70,29 @@ class _CartOrderState extends State<CartOrder> {
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("session");
       print(sharedPreferences.getString("session"));
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Get.find<HomeController>().getCoin(_testValue);
-      });
+      // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      //   Get.find<HomeController>().getCoin(_testValue);
+      // });
     });
     print("COIN IS ${Get.find<HomeController>().coin}");
     coin = Get.find<HomeController>().coin;
-    widget.slotDetail!.service!.forEach((element) {
+    widget.slotDetail?.service!.forEach((element) {
+      serviceTime += int.parse(element.time!);
       //totalPrice = totalPrice + int.parse(element.price.toString());
       total_price += int.parse(element.price.toString());
       //  print(element.name.toString() + "  " + element.price.toString());
       resultList.add(element.id);
+    });
+    Future.delayed(const Duration(milliseconds: 800), () {
+      getSlot(serviceTime);
+    });
+  }
+
+  _isSelectedSlot(int index) {
+    //pass the selected index to here and set to 'isSelected'
+    setState(() {
+      print("CHUSDFSD");
+      isSlotSelected = index;
     });
   }
 
@@ -122,12 +142,12 @@ class _CartOrderState extends State<CartOrder> {
                             )
                           ],
                         ),
-                        SvgPicture.asset(
-                          'images/svgicons/appcupon.svg',
-                          fit: BoxFit.contain,
-                          width: 24,
-                          height: 24,
-                        )
+                        // SvgPicture.asset(
+                        //   'images/svgicons/appcupon.svg',
+                        //   fit: BoxFit.contain,
+                        //   width: 24,
+                        //   height: 24,
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -161,12 +181,17 @@ class _CartOrderState extends State<CartOrder> {
                       children: <Widget>[
                         DatePicker(
                           DateTime.now(),
+                          height: 100,
+                          daysCount: 30,
                           initialSelectedDate: DateTime.now(),
                           selectionColor:
-                              Color(Utils.hexStringToHexInt('77ACA2')),
-                          selectedTextColor: Colors.white,
-                          monthTextStyle:
-                              TextStyle(color: Colors.white, fontSize: 0.0),
+                          Color(Utils.hexStringToHexInt('77ACA2')),
+                          selectedTextColor: Colors.black,
+                          monthTextStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: width * 0.03,
+                            fontFamily: 'Poppins Medium',
+                          ),
                           onDateChange: (date) {
                             // New date selected
                             setState(() {
@@ -212,32 +237,66 @@ class _CartOrderState extends State<CartOrder> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    InkWell(
-                      onTap: () {
-                        slotSelected = "Morning";
-                        timeSelected = "10:00 AM - 12:00 PM";
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: width * 0.02),
-                        padding: EdgeInsets.only(
-                            left: width * 0.02,
-                            right: width * 0.02,
-                            top: width * 0.02,
-                            bottom: width * 0.02),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                color:
-                                    Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                width: 1)),
-                        child: Text(
-                          '10:00 AM - 12:00 PM',
-                          style: TextStyle(
-                              fontSize: width * 0.03,
-                              color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                        ),
-                      ),
-                    ),
+                    slotpojo != null
+                        ? SizedBox(
+                            width: width,
+                            height: 40,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount:
+                                    slotpojo.notificationDetail?[0] != null
+                                        ? slotpojo.notificationDetail![0]
+                                            .morning!.length
+                                        : 0,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Morning";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail![0].morning![position]}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Morning" &&
+                                                  isSlotSelected == position
+                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '#8D8D8D')),
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail![0].morning![position]}',
+                                          style: TextStyle(
+                                              fontSize: width * 0.03,
+                                              color: slotSelected == "Morning" &&
+                                                  isSlotSelected == position
+                                                  ?   Colors.white
+                                                  : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                        : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
                     ),
@@ -251,66 +310,67 @@ class _CartOrderState extends State<CartOrder> {
                     SizedBox(
                       height: height * 0.01,
                     ),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              slotSelected = "Afternoon";
-                              timeSelected = "10:00 AM - 12:00 PM";
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(left: width * 0.02),
-                              padding: EdgeInsets.only(
-                                  left: width * 0.02,
-                                  right: width * 0.02,
-                                  top: width * 0.02,
-                                  bottom: width * 0.02),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#8D8D8D')),
-                                      width: 1)),
-                              child: Text(
-                                '10:00 AM - 12:00 PM',
-                                style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D'))),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                slotSelected = "Afternoon";
-                                timeSelected = "10:00 AM - 12:00 PM";
-                              });
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(left: width * 0.01),
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02,
-                                    top: width * 0.02,
-                                    bottom: width * 0.02),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Color(
-                                            Utils.hexStringToHexInt('#8D8D8D')),
-                                        width: 1)),
-                                child: Text(
-                                  '10:00 AM - 12:00 PM',
-                                  style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#8D8D8D'))),
-                                )),
-                          ),
-                        ])),
+
+                    slotpojo != null
+                        ? SizedBox(
+                            width: width,
+                            height: 40,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount:
+                                    slotpojo.notificationDetail?[0] != null
+                                        ? slotpojo.notificationDetail![0]
+                                            .afternoon!.length
+                                        : 0,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Afternoon";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail![0].morning![position]}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Afternoon" &&
+                                                  isSlotSelected == position
+                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '#8D8D8D')),
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail![0].afternoon![position]}',
+                                          style: TextStyle(
+                                              fontSize: width * 0.03,
+                                              color: slotSelected == "Afternoon" &&
+                                                  isSlotSelected == position
+                                                  ?   Colors.white
+                                                  : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                        : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
                     ),
@@ -325,57 +385,66 @@ class _CartOrderState extends State<CartOrder> {
                       height: 6,
                     ),
 
-                    SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              slotSelected = "Evening";
-                              timeSelected = "10:00 AM - 12:00 PM";
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(left: width * 0.02),
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02,
-                                    top: width * 0.02,
-                                    bottom: width * 0.02),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Color(
-                                            Utils.hexStringToHexInt('#8D8D8D')),
-                                        width: 1)),
-                                child: Text(
-                                  '10:00 AM - 12:00 PM',
-                                  style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#8D8D8D'))),
-                                )),
-                          ),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(left: width * 0.01),
-                              padding: EdgeInsets.only(
-                                  left: width * 0.02,
-                                  right: width * 0.02,
-                                  top: width * 0.02,
-                                  bottom: width * 0.02),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#8D8D8D')),
-                                      width: 1)),
-                              child: Text(
-                                '10:00 AM - 12:00 PM',
-                                style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D'))),
-                              )),
-                        ])),
+                    slotpojo != null
+                        ? SizedBox(
+                            width: width,
+                            height: 40,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount:
+                                    slotpojo.notificationDetail?[0] != null
+                                        ? slotpojo.notificationDetail![0]
+                                            .evening!.length
+                                        : 0,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Evening";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail![0].evening![position]}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Evening" &&
+                                                  isSlotSelected == position
+                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '#8D8D8D')),
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail![0].evening![position]}',
+                                          style: TextStyle(
+                                              fontSize: width * 0.03,
+                                              color: slotSelected == "Evening" &&
+                                                  isSlotSelected == position
+                                                  ?   Colors.white
+                                                  : Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                        : SizedBox(),
                     ///////
                     SizedBox(
                       height: height * 0.04,
@@ -540,7 +609,7 @@ class _CartOrderState extends State<CartOrder> {
                           false; // Declare your variable outside the builder
 
                       bool showmainList = true;
-print( widget.slotDetail!.coupon!.length);
+                      print(widget.slotDetail!.coupon!.length);
                       return AlertDialog(
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -554,9 +623,7 @@ print( widget.slotDetail!.coupon!.length);
                               ),
                             ),
                             IconButton(
-                              onPressed: () => {
-
-                                Navigator.pop(context)},
+                              onPressed: () => {Navigator.pop(context)},
                               icon: Icon(Icons.cancel_outlined),
                             ),
                           ],
@@ -583,9 +650,8 @@ print( widget.slotDetail!.coupon!.length);
                                             margin: EdgeInsets.all(6),
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.all(
-                                                        Radius.circular(8)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8)),
                                                 border: Border.all(
                                                     color: Colors.grey,
                                                     width: 1)),
@@ -593,8 +659,7 @@ print( widget.slotDetail!.coupon!.length);
                                               children: <Widget>[
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceAround,
@@ -614,8 +679,8 @@ print( widget.slotDetail!.coupon!.length);
                                                                       .size
                                                                       .height *
                                                                   0.02,
-                                                              color: Colors
-                                                                  .black),
+                                                              color:
+                                                                  Colors.black),
                                                         ),
                                                         SizedBox(
                                                           height: 8,
@@ -655,8 +720,7 @@ print( widget.slotDetail!.coupon!.length);
                                                         Container(
                                                           padding: EdgeInsets
                                                               .symmetric(
-                                                                  vertical:
-                                                                      2.0,
+                                                                  vertical: 2.0,
                                                                   horizontal:
                                                                       10.0),
                                                           color: Color(Utils
@@ -672,8 +736,8 @@ print( widget.slotDetail!.coupon!.length);
                                                                       .size
                                                                       .height *
                                                                   0.01,
-                                                              color: Colors
-                                                                  .white,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                           ),
                                                         )
@@ -685,8 +749,7 @@ print( widget.slotDetail!.coupon!.length);
                                                   alignment:
                                                       Alignment.centerRight,
                                                   child: IconButton(
-                                                      tooltip:
-                                                          "Applied coupon",
+                                                      tooltip: "Applied coupon",
                                                       onPressed: () {
                                                         print(widget
                                                             .slotDetail!
@@ -694,19 +757,19 @@ print( widget.slotDetail!.coupon!.length);
                                                             .price
                                                             .toString());
                                                         applycouponCode =
-                                                            applycouponCode = widget
-                                                                .slotDetail!
-                                                                .coupon![
-                                                                    position]
-                                                                .couponCode
-                                                                .toString();
+                                                            applycouponCode =
+                                                                widget
+                                                                    .slotDetail!
+                                                                    .coupon![
+                                                                        position]
+                                                                    .couponCode
+                                                                    .toString();
                                                         double.parse(widget
                                                             .slotDetail!
                                                             .coupon![position]
                                                             .price
                                                             .toString());
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
                                                       },
                                                       icon: Icon(
                                                         CupertinoIcons
@@ -771,6 +834,249 @@ print( widget.slotDetail!.coupon!.length);
               SizedBox(
                 height: 10,
               ),
+
+              InkWell(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      bool showSublist =
+                      false; // Declare your variable outside the builder
+
+                      bool showmainList = true;
+
+                      return AlertDialog(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Use coupon',
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.black,
+                                fontFamily: 'Poppins Medium',
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => {Navigator.pop(context)},
+                              icon: Icon(Icons.cancel_outlined),
+                            ),
+                          ],
+                        ),
+                        content: StatefulBuilder(
+                          // You need this, notice the parameters below:
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Container(
+                              width: width,
+                              height: height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                  Flexible(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: Get.find<HomeController>().adminCouponList
+                                            .value
+                                            .couponDetail
+                                            ?.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, position) {
+                                          return Container(
+                                              width: width * 0.4 + width * 0.05,
+                                              height: height * 0.12,
+                                              margin: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                    children: <Widget>[
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  ${Get.find<HomeController>().adminCouponList
+                                                                .value
+                                                                .couponDetail![position].couponName}',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Regular',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.02,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          // Text(
+                                                          //   '  Upto 50% off via UPI',
+                                                          //   style: TextStyle(
+                                                          //       fontFamily:
+                                                          //       'Poppins Light',
+                                                          //       fontSize: MediaQuery.of(
+                                                          //           context)
+                                                          //           .size
+                                                          //           .height *
+                                                          //           0.01,
+                                                          //       color: Color(Utils
+                                                          //           .hexStringToHexInt(
+                                                          //           'A4A4A4'))),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  Use Code ',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.01,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                    'A4A4A4'))),
+                                                          ),
+                                                          Container(
+                                                            padding: const EdgeInsets
+                                                                .symmetric(
+                                                                vertical:
+                                                                2.0,
+                                                                horizontal:
+                                                                10.0),
+                                                            color: Color(Utils
+                                                                .hexStringToHexInt(
+                                                                '#46D0D9')),
+                                                            child: Text(
+                                                              '${Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].couponCode}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.01,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                    Alignment.centerRight,
+                                                    child: IconButton(
+                                                        tooltip:
+                                                        "Applied coupon",
+                                                        onPressed: () {
+                                                          print(Get.find<HomeController>().adminCouponList
+                                                              .value
+                                                              .couponDetail![position].price.toString());
+                                                          applycouponPrice =
+                                                              double.parse(Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].price.toString());
+                                                          applycouponCode =
+                                                              Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].couponCode.toString();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon: Icon(
+                                                          CupertinoIcons
+                                                              .tag_circle,
+                                                          size: width * 0.05,
+                                                          color: Colors.cyan,
+                                                        )),
+                                                  ),
+                                                ],
+                                              ));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: SizedBox(
+                  width: width,
+                  height: height * 0.09,
+                  child: Material(
+                    color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                    child: Container(
+                        width: width,
+                        height: height * 0.09,
+                        padding: EdgeInsets.only(
+                            left: width * 0.03, right: width * 0.03),
+                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  'images/svgicons/bigoffer.svg',
+                                  fit: BoxFit.contain,
+                                  width: width * 0.06,
+                                  height: height * 0.04,
+                                ),
+                                Text(
+                                  ' Use Kolacut Cupons',
+                                  style: TextStyle(
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
+                                      fontFamily: 'Poppins Medium',
+                                      fontSize: width * 0.04),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            )
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
               InkWell(
                 onTap: () {
                   var Totalcoin = Get.find<HomeController>().coin * 0.10;
@@ -824,7 +1130,7 @@ print( widget.slotDetail!.coupon!.length);
                                 //   ),
                                 // ),
                                 Text(
-                                  ' ${Get.find<HomeController>().coin * 0.10} coin applied  .',
+                                  ' ${Get.find<HomeController>().coin>100? 100 : 00} coin applied  .',
                                   style: TextStyle(
                                     fontSize: 8.0,
                                     color: Color(
@@ -893,8 +1199,18 @@ print( widget.slotDetail!.coupon!.length);
                                     child: Text('Use coin'),
                                     onPressed: () async {
                                       setState(() {
-                                        applycoin = double.parse(
-                                            "${Get.find<HomeController>().coin * 0.10}");
+
+                                        /*100 coin =10 rupees*/
+                                        /*ek baar me only 25% coin use kr skta hai*/
+
+                                        if(Get.find<HomeController>().coin>100){
+                                         // applycoin = Get.find<HomeController>().coin - 100;
+                                          applycoin=10;
+                                        }else{
+                                          CommonDialog.showsnackbar("Need minimum 100 coin for use");
+                                        }
+                                        // applycoin = double.parse(
+                                        //     "${Get.find<HomeController>().coin * 0.25}");
                                       });
                                       Navigator.pop(context);
                                     },
@@ -1247,6 +1563,7 @@ print( widget.slotDetail!.coupon!.length);
                                 GestureDetector(
                                   onTap: () {
                                     /*TODO---- offline payment (no coupon allied no coin applied)*/
+                                    bookService(context);
                                   },
                                   child: Container(
                                     width: width * 0.3,
@@ -1305,31 +1622,32 @@ print( widget.slotDetail!.coupon!.length);
                                       });
                                       //TODO--checkout screen
 
-                                      bookServiceOnline("898899887", applycoin,
-                                          applycouponCode);
-                                      Future.delayed(
-                                          const Duration(milliseconds: 2000),
-                                          () {
-                                        setState(() {
-                                          if (salonControlller.sendData() ==
-                                              "Booking added successfully") {
-                                            bookingController
-                                                .getBookingList1(context);
+                                      // bookServiceOnline(context,"898899887", applycoin,
+                                      //     applycouponCode);
 
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            HomePage()),
-                                                    (Route<dynamic> route) =>
-                                                        false);
-                                          }
-                                        });
-                                      });
-                                      // openCheckout(
-                                      //   widget.slotDetail!.shopName.toString(),
-                                      //   description,
-                                      // );
+                                      // Future.delayed(
+                                      //     const Duration(milliseconds: 2000),
+                                      //     () {
+                                      //   setState(() {
+                                      //     if (salonControlller.sendData() ==
+                                      //         "Booking added successfully") {
+                                      //       bookingController
+                                      //           .getBookingList1(context);
+                                      //
+                                      //       Navigator.of(context)
+                                      //           .pushAndRemoveUntil(
+                                      //               MaterialPageRoute(
+                                      //                   builder: (context) =>
+                                      //                       HomePage()),
+                                      //               (Route<dynamic> route) =>
+                                      //                   false);
+                                      //     }
+                                      //   });
+                                      // });
+                                        openCheckout(
+                                        widget.slotDetail!.shopName.toString(),
+                                        description,
+                                      );
                                     });
                                   },
                                   child: Container(
@@ -1397,6 +1715,27 @@ print( widget.slotDetail!.coupon!.length);
     );
   }
 
+  void getSlot(slottime) async {
+    slotSelected = "";
+    isSlotSelected = 1;
+    Map map = {
+      "service_time": slottime.toString(),
+    };
+
+    print(map);
+    var apiUrl = Uri.parse(AppConstant.BASE_URL + AppConstant.SLOT_TIME);
+    print(apiUrl);
+    print(map);
+    final response = await http.post(
+      apiUrl,
+      body: map,
+    );
+    setState(() {
+      slotpojo = slotPojoFromJson(response.body);
+    });
+    print(response.body);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -1428,7 +1767,7 @@ print( widget.slotDetail!.coupon!.length);
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
-    bookServiceOnline("${response.paymentId}", applycoin, applycouponCode);
+    bookServiceOnline(context,"${response.paymentId}", applycoin, applycouponCode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -1461,37 +1800,51 @@ print( widget.slotDetail!.coupon!.length);
         "",
         0.0,
         "");*/
-  void bookService(coin, coupon) {
-    salonControlller.bookserVice(
-        widget.slotDetail!.shopId.toString(),
-        "",
-        "3",
-        resultList.join(","),
-        selectDate,
-        slotSelected,
-        selectDay,
-        "",
-        "$total_price",
-        "Offline",
-        "",
-        0.0,
-        "");
+  void bookService(BuildContext context) {
+    if (selectDay == "") {
+      CommonDialog.showsnackbar("Please select date");
+    } else if (slotSelected == "") {
+      CommonDialog.showsnackbar("Please select slot");
+    } else {
+      salonControlller.bookserVice(
+        context,
+          widget.slotDetail!.shopId.toString(),
+          "",
+          "3",
+          resultList.join(","),
+          selectDate,
+          slotSelected,
+          selectDay,
+          timeSelected,
+          "$total_price",
+          "Offline",
+          "",
+          0.0,
+          "");
+    }
   }
 
-  void bookServiceOnline(transactionID, coin, coupon) {
-    salonControlller.bookserVice(
-        widget.slotDetail!.shopId.toString(),
-        widget.slotDetail!.employeeId.toString() + "",
-        "3",
-        resultList.join(","),
-        selectDate,
-        slotSelected,
-        selectDay,
-        "",
-        "${int.parse(total_price.toString()) - (applycouponPrice + applycoin)}",
-        "Online",
-        transactionID,
-        coin,
-        coupon + "");
+  void bookServiceOnline(BuildContext context,transactionID, coin, coupon) {
+    if (selectDay == "") {
+      CommonDialog.showsnackbar("Please select date");
+    } else if (slotSelected == "") {
+      CommonDialog.showsnackbar("Please select slot");
+    } else {
+      salonControlller.bookserVice(
+        context,
+          widget.slotDetail!.shopId.toString(),
+          widget.slotDetail!.employeeId.toString() + "",
+          "3",
+          resultList.join(","),
+          selectDate,
+          slotSelected,
+          selectDay,
+          timeSelected,
+          "${int.parse(total_price.toString()) - (applycouponPrice + applycoin)}",
+          "Online",
+          transactionID,
+          coin,
+          coupon + "");
+    }
   }
 }

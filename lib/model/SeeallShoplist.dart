@@ -255,19 +255,27 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
                                                           0.01),
                                                   child:
                                                   RatingBarIndicator(
-                                                    rating: 2.75,
+                                                    rating:data[
+                                                    position]
+                                                        .rating!=null? data[
+                                                    position]
+                                                        .rating!
+                                                        .toDouble():1.0,
                                                     itemBuilder:
                                                         (context,
                                                         index) =>
-                                                        Icon(
-                                                          Icons.star,
-                                                          color:
-                                                          Colors.amber,
-                                                        ),
-                                                    itemCount: 5,
-                                                    itemSize: 18.0,
-                                                    direction:
-                                                    Axis.horizontal,
+                                                    const Icon(
+                                                      Icons
+                                                          .star,
+                                                      color: Colors
+                                                          .amber,
+                                                    ),
+                                                    itemCount:
+                                                    5,
+                                                    itemSize:
+                                                    18.0,
+                                                    direction: Axis
+                                                        .horizontal,
                                                   ),
                                                 ),
                                               ],

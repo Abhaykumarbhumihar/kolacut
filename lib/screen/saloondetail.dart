@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:untitled/model/SlotPojo.dart';
 import 'package:untitled/screen/coin.dart';
 import 'package:untitled/screen/orderdetail.dart';
 import 'package:untitled/screen/profile_update.dart';
@@ -15,9 +17,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:http/http.dart' as http;
 import '../controller/shopdetain_controller.dart';
 import '../model/ShopDetailPojo.dart';
+import '../utils/appconstant.dart';
 
 class SaloonDetail extends StatefulWidget {
   var id = 0;
@@ -37,18 +40,27 @@ class _SaloonDetailState extends State<SaloonDetail> {
     this.shopid = id;
   }
 
+  int isSlotSelected = 1;
   var slotSelected = "";
   var timeSelected = "";
   var selectEmployeeId = "";
   var selectDate = "";
   var selectDay = "";
   int isSelected =
-      1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
+      -1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
 
   _isSelected(int index) {
     //pass the selected index to here and set to 'isSelected'
     setState(() {
       isSelected = index;
+    });
+  }
+
+  _isSelectedSlot(int index) {
+    //pass the selected index to here and set to 'isSelected'
+    setState(() {
+      print("CHUSDFSD");
+      isSlotSelected = index;
     });
   }
 
@@ -64,14 +76,16 @@ class _SaloonDetailState extends State<SaloonDetail> {
 
   final List<DateTime> days = [];
   List<SamleClass> data = [];
-
+  List<SlotPojo> slotPojo = [];
   List<String> userChecked = [];
   List<ServiceService> tempArray = [];
+  var slotpojo = SlotPojo();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getSlot("24");
     tempArray.clear();
     //a
     selectEmployeeId = "";
@@ -83,10 +97,31 @@ class _SaloonDetailState extends State<SaloonDetail> {
     for (int i = 0; i <= today.difference(monthAgo).inDays; i++) {
       days.add(monthAgo.add(Duration(days: i)));
     }
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       salonControlller.getShopDetail(shopid.toString());
     });
+
+  }
+
+  void getSlot(slottime) async {
+    slotSelected = "";
+    isSlotSelected = 1;
+    Map map = {
+      "service_time": slottime,
+    };
+
+    print(map);
+    var apiUrl = Uri.parse(AppConstant.BASE_URL + AppConstant.SLOT_TIME);
+    print(apiUrl);
+    print(map);
+    final response = await http.post(
+      apiUrl,
+      body: map,
+    );
+    setState(() {
+      slotpojo = slotPojoFromJson(response.body);
+    });
+    print(response.body);
   }
 
   @override
@@ -286,25 +321,23 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     height: height * 0.02,
                   ),
 /*Todo-----best offer view*/
-                  bestoffer(context),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
+                  bestoffer(context,a),
+
                   SizedBox(
                     width: width,
-                    height: height * 0.16,
+                    height: height*0.09,
                     child: ListView.builder(
-                        itemCount: 5,
+                        itemCount: a.coupon!.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, position) {
                           return Container(
                             width: width * 0.4 + width * 0.05,
-                            height: height * 0.12,
-                            margin: EdgeInsets.all(6),
+                            height: height * 0.1,
+                            margin: EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(6)),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: Column(
@@ -315,7 +348,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      ' Upto 50% Off',
+                                      ' ${a.coupon![position].couponName}',
                                       style: TextStyle(
                                           fontFamily: 'Poppins Regular',
                                           fontSize: MediaQuery.of(context)
@@ -327,17 +360,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     SizedBox(
                                       height: 8,
                                     ),
-                                    Text(
-                                      '  Upto 50% off via UPI',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins Light',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.01,
-                                          color: Color(Utils.hexStringToHexInt(
-                                              'A4A4A4'))),
-                                    ),
+                                    // Text(
+                                    //   '  Upto 50% off via UPI',
+                                    //   style: TextStyle(
+                                    //       fontFamily: 'Poppins Light',
+                                    //       fontSize: MediaQuery.of(context)
+                                    //               .size
+                                    //               .height *
+                                    //           0.01,
+                                    //       color: Color(Utils.hexStringToHexInt(
+                                    //           'A4A4A4'))),
+                                    // ),
                                   ],
                                 ),
                                 Row(
@@ -359,7 +392,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                       color: Color(
                                           Utils.hexStringToHexInt('#46D0D9')),
                                       child: Text(
-                                        'UPI50',
+                                        '${a.coupon![position].couponCode}',
                                         style: TextStyle(
                                           fontFamily: 'Poppins Light',
                                           fontSize: MediaQuery.of(context)
@@ -377,9 +410,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           );
                         }),
                   ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
+
                   Divider(
                     thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
@@ -405,157 +436,164 @@ class _SaloonDetailState extends State<SaloonDetail> {
                             child: GestureDetector(
                               onTap: () {
                                 showDialog(
+                                  barrierDismissible: false,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      insetPadding: EdgeInsets.symmetric(
-                                        horizontal: 50.0,
-                                        vertical: 100.0,
-                                      ),
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            "Select your services ",
-                                            style: TextStyle(
-                                                fontSize: width * 0.03),
-                                          ),
-                                          IconButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            icon: Icon(Icons.cancel_outlined),
-                                          ),
-                                        ],
-                                      ),
-                                      content: StatefulBuilder(
-                                        // You need this, notice the parameters below:
-                                        builder: (BuildContext context,
-                                            StateSetter setState) {
-                                          return Container(
-                                            width: width,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Flexible(
-                                                  child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount: a
-                                                          .services![index]
-                                                          .service!
-                                                          .length,
-                                                      itemBuilder:
-                                                          (context, position) {
-                                                        return InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              if (tempArray.contains(a
+                                    return WillPopScope(
+                                      onWillPop: () async {
+                                        return false;
+                                      },
+                                      child: AlertDialog(
+                                        insetPadding: EdgeInsets.symmetric(
+                                          horizontal: 50.0,
+                                          vertical: 100.0,
+                                        ),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(
+                                              "Select your services ",
+                                              style: TextStyle(
+                                                  fontSize: width * 0.03),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                var time = 0;
+                                                tempArray.forEach((element) {
+                                                  time +=
+                                                      int.parse(element.time!);
+                                                });
+                                                print(time);
+                                                Navigator.pop(context);
+                                                getSlot(time.toString() + "");
+                                              },
+                                              icon: Icon(Icons.cancel_outlined),
+                                            ),
+                                          ],
+                                        ),
+                                        content: StatefulBuilder(
+                                          // You need this, notice the parameters below:
+                                          builder: (BuildContext context,
+                                              StateSetter setState) {
+                                            return Container(
+                                              width: width,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Flexible(
+                                                    child: ListView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount: a
+                                                            .services![index]
+                                                            .service!
+                                                            .length,
+                                                        itemBuilder: (context,
+                                                            position) {
+                                                          return InkWell(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                if (tempArray.contains(a
+                                                                        .services![
+                                                                            index]
+                                                                        .service![
+                                                                    position])) {
+                                                                  print(
+                                                                      "SDF SDF SDF DSF ");
+                                                                  tempArray.remove(a
                                                                       .services![
                                                                           index]
-                                                                      .service![
-                                                                  position])) {
-                                                                print(
-                                                                    "SDF SDF SDF DSF ");
-                                                                tempArray.remove(a
-                                                                        .services![
-                                                                            index]
-                                                                        .service![
-                                                                    position]);
-                                                              } else {
-                                                                print(
-                                                                    "sdfsdfsdfsdfsdfsd ");
-                                                                tempArray.add(a
-                                                                        .services![
-                                                                            index]
-                                                                        .service![
-                                                                    position]);
-                                                              }
+                                                                      .service![position]);
+                                                                } else {
+                                                                  print(
+                                                                      "sdfsdfsdfsdfsdfsd ");
+                                                                  tempArray.add(a
+                                                                      .services![
+                                                                          index]
+                                                                      .service![position]);
+                                                                }
 
-                                                              for (var i = 0;
-                                                                  i <
-                                                                      tempArray
-                                                                          .length;
-                                                                  i++) {
-                                                                print(tempArray[
-                                                                            i]
-                                                                        .name
-                                                                        .toString() +
-                                                                    "  " +
-                                                                    tempArray[i]
-                                                                        .price
-                                                                        .toString());
-                                                              }
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 6.0,
-                                                                    right: 6.0,
-                                                                    top: 2.0,
-                                                                    bottom:
-                                                                        1.0),
-                                                            child: Card(
-                                                              child: Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            4.0),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .center,
-                                                                      children: <
-                                                                          Widget>[
-                                                                        Text(
-                                                                          a.services![index].service![position]
-                                                                              .name
-                                                                              .toString(),
-                                                                          style: TextStyle(
-                                                                              fontSize: width * 0.03,
-                                                                              fontFamily: "Poppins Semibold",
-                                                                              color: Colors.black),
-                                                                        ),
-                                                                        Text("Price: " + a.services![index].service![position].price.toString(),
+                                                                for (var i = 0;
+                                                                    i <
+                                                                        tempArray
+                                                                            .length;
+                                                                    i++) {
+                                                                  print(tempArray[
+                                                                              i]
+                                                                          .name
+                                                                          .toString() +
+                                                                      "  " +
+                                                                      tempArray[
+                                                                              i]
+                                                                          .price
+                                                                          .toString());
+                                                                }
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 6.0,
+                                                                      right:
+                                                                          6.0,
+                                                                      top: 2.0,
+                                                                      bottom:
+                                                                          1.0),
+                                                              child: Card(
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Text(
+                                                                            a.services![index].service![position].name.toString(),
                                                                             style: TextStyle(
                                                                                 fontSize: width * 0.03,
                                                                                 fontFamily: "Poppins Semibold",
-                                                                                color: Colors.black)),
-                                                                        Text("Time :" + a.services![index].service![position].time.toString(),
-                                                                            style: TextStyle(
-                                                                                fontSize: width * 0.03,
-                                                                                fontFamily: "Poppins Semibold",
-                                                                                color: Colors.black))
-                                                                      ],
-                                                                    ),
-                                                                    Icon(tempArray.contains(a.services![index].service![
-                                                                            position])
-                                                                        ? Icons
-                                                                            .remove_circle_outline
-                                                                        : Icons
-                                                                            .add),
-                                                                  ],
+                                                                                color: Colors.black),
+                                                                          ),
+                                                                          Text(
+                                                                              "Price: " + a.services![index].service![position].price.toString(),
+                                                                              style: TextStyle(fontSize: width * 0.03, fontFamily: "Poppins Semibold", color: Colors.black)),
+                                                                          Text(
+                                                                              "Time :" + a.services![index].service![position].time.toString(),
+                                                                              style: TextStyle(fontSize: width * 0.03, fontFamily: "Poppins Semibold", color: Colors.black))
+                                                                        ],
+                                                                      ),
+                                                                      Icon(tempArray.contains(a.services![index].service![
+                                                                              position])
+                                                                          ? Icons
+                                                                              .remove_circle_outline
+                                                                          : Icons
+                                                                              .add),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      }),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                                          );
+                                                        }),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     );
                                   },
@@ -641,14 +679,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     SizedBox(
                                       height: height * 0.003,
                                     ),
-                                    Center(
-                                      child: Text(
-                                        a.services![index].serviceTitle
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontFamily: 'Poppins Regular',
-                                            color: Colors.black,
-                                            fontSize: width * 0.03),
+                                    Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Center(
+                                        child: Text(
+                                          a.services![index].serviceTitle
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins Regular',
+                                              color: Colors.black,
+                                              fontSize: width * 0.04),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -669,7 +710,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
 
                   Container(
                     height: a.emploeyee!.length > 0
-                        ? height * 0.3 + height * 0.03
+                        ? height * 0.3 - height * 0.04
                         : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -682,7 +723,6 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           return GestureDetector(
                             onTap: () {
                               _isSelected(position);
-                              print(a.emploeyee![position].id.toString());
                               selectEmployeeId =
                                   a.emploeyee![position].id.toString();
                             },
@@ -694,9 +734,10 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                       top: 12, left: width * 0.02),
                                   child: Card(
                                     elevation: 20,
+                                    shadowColor: Colors.transparent,
                                     child: Container(
-                                      width: width * 0.4 + width * 0.04,
-                                      //   height: height * 0.4 - height * 0.04,
+                                      width: width * 0.4 - width * 0.03,
+                                       // height: height * 0.3,
                                       padding: EdgeInsets.only(
                                           top: height * 0.02,
                                           bottom: height * 0.02),
@@ -713,7 +754,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           SizedBox(
-                                            height: 12,
+                                            height: 8,
                                           ),
                                           CircleAvatar(
                                             radius: width * 0.1 + width * 0.03,
@@ -875,30 +916,58 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  InkWell(
-                    onTap: () {
-                      slotSelected = "Morning";
-                      timeSelected = "10:00 AM - 12:00 PM";
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: width * 0.02),
-                      padding: EdgeInsets.only(
-                          left: width * 0.02,
-                          right: width * 0.02,
-                          top: width * 0.02,
-                          bottom: width * 0.02),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                              color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                              width: 1)),
-                      child: Text(
-                        '10:00 AM - 12:00 PM',
-                        style: TextStyle(
-                            fontSize: width * 0.03,
-                            color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
-                      ),
-                    ),
+                  SizedBox(
+                    width: width,
+                    height: 40,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:
+                            slotpojo.notificationDetail![0].morning!.length,
+                        itemBuilder: (context, position) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                slotSelected = "Morning";
+                                timeSelected =
+                                    "${slotpojo.notificationDetail![0].morning![position]}";
+                                _isSelectedSlot(position);
+                              });
+                            },
+                            child: Container(
+                              width: width * 0.3,
+                              margin: EdgeInsets.only(
+                                  left: width * 0.02, right: width * 0.02),
+                              padding: EdgeInsets.only(
+                                  left: width * 0.02,
+                                  right: width * 0.02,
+                                  top: width * 0.02,
+                                  bottom: width * 0.02),
+                              decoration: BoxDecoration(
+                                  color: slotSelected == "Morning" &&
+                                          isSlotSelected == position
+                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      : Colors.white,
+                                  border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                      color: Color(
+                                          Utils.hexStringToHexInt('#8D8D8D')),
+                                      width: 1)),
+                              child: Center(
+                                child: Text(
+                                  '${slotpojo.notificationDetail![0].morning![position]}',
+                                  style: TextStyle(
+                                      fontSize: width * 0.03,
+                                      color: slotSelected == "Morning" &&
+                                          isSlotSelected == position
+                                          ?   Colors.white
+                                          : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                   ),
                   SizedBox(
                     height: height * 0.01,
@@ -913,66 +982,60 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            slotSelected = "Afternoon";
-                            timeSelected = "10:00 AM - 12:00 PM";
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: width * 0.02),
-                            padding: EdgeInsets.only(
-                                left: width * 0.02,
-                                right: width * 0.02,
-                                top: width * 0.02,
-                                bottom: width * 0.02),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D')),
-                                    width: 1)),
-                            child: Text(
-                              '10:00 AM - 12:00 PM',
-                              style: TextStyle(
-                                  fontSize: width * 0.03,
-                                  color: Color(
-                                      Utils.hexStringToHexInt('#8D8D8D'))),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: width * 0.02,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              slotSelected = "Afternoon";
-                              timeSelected = "10:00 AM - 12:00 PM";
-                            });
-                          },
-                          child: Container(
-                              margin: EdgeInsets.only(left: width * 0.01),
+
+                  SizedBox(
+                    width: width,
+                    height: 40,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:
+                            slotpojo.notificationDetail![0].afternoon!.length,
+                        itemBuilder: (context, position) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                slotSelected = "Afternoon";
+                                timeSelected =
+                                    "${slotpojo.notificationDetail![0].morning![position]}";
+                                _isSelectedSlot(position);
+                              });
+                            },
+                            child: Container(
+                              width: width * 0.3,
+                              margin: EdgeInsets.only(
+                                  left: width * 0.02, right: width * 0.02),
                               padding: EdgeInsets.only(
                                   left: width * 0.02,
                                   right: width * 0.02,
                                   top: width * 0.02,
                                   bottom: width * 0.02),
                               decoration: BoxDecoration(
+                                  color: slotSelected == "Afternoon" &&
+                                          isSlotSelected == position
+                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      : Colors.white,
                                   border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
                                       color: Color(
                                           Utils.hexStringToHexInt('#8D8D8D')),
                                       width: 1)),
-                              child: Text(
-                                '10:00 AM - 12:00 PM',
-                                style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D'))),
-                              )),
-                        ),
-                      ])),
+                              child: Center(
+                                child: Text(
+                                  '${slotpojo.notificationDetail![0].afternoon![position]}',
+                                  style: TextStyle(
+                                      fontSize: width * 0.03,
+                                      color: slotSelected == "Afternoon" &&
+                                          isSlotSelected == position
+                                          ?   Colors.white
+                                          : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
                   SizedBox(
                     height: height * 0.01,
                   ),
@@ -987,57 +1050,59 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     height: 6,
                   ),
 
-                  SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            slotSelected = "Evening";
-                            timeSelected = "10:00 AM - 12:00 PM";
-                          },
-                          child: Container(
-                              margin: EdgeInsets.only(left: width * 0.02),
+                  SizedBox(
+                    width: width,
+                    height: 40,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:
+                            slotpojo.notificationDetail![0].evening!.length,
+                        itemBuilder: (context, position) {
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                slotSelected = "Evening";
+                                timeSelected =
+                                    "${slotpojo.notificationDetail![0].evening![position]}";
+                                _isSelectedSlot(position);
+                              });
+                            },
+                            child: Container(
+                              width: width * 0.3,
+                              margin: EdgeInsets.only(
+                                  left: width * 0.02, right: width * 0.02),
                               padding: EdgeInsets.only(
                                   left: width * 0.02,
                                   right: width * 0.02,
                                   top: width * 0.02,
                                   bottom: width * 0.02),
                               decoration: BoxDecoration(
+                                  color: slotSelected == "Evening" &&
+                                          isSlotSelected == position
+                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      : Colors.white,
                                   border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
                                       color: Color(
                                           Utils.hexStringToHexInt('#8D8D8D')),
                                       width: 1)),
-                              child: Text(
-                                '10:00 AM - 12:00 PM',
-                                style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D'))),
-                              )),
-                        ),
-                        SizedBox(
-                          width: width * 0.02,
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(left: width * 0.01),
-                            padding: EdgeInsets.only(
-                                left: width * 0.02,
-                                right: width * 0.02,
-                                top: width * 0.02,
-                                bottom: width * 0.02),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('#8D8D8D')),
-                                    width: 1)),
-                            child: Text(
-                              '10:00 AM - 12:00 PM',
-                              style: TextStyle(
-                                  fontSize: width * 0.03,
-                                  color: Color(
-                                      Utils.hexStringToHexInt('#8D8D8D'))),
-                            )),
-                      ])),
+                              child: Center(
+                                child: Text(
+                                  '${slotpojo.notificationDetail![0].evening![position]}',
+                                  style: TextStyle(
+                                      fontSize: width * 0.03,
+                                      color: slotSelected == "Evening" &&
+                                          isSlotSelected == position
+                                          ?   Colors.white
+                                          : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
 
                   const SizedBox(
                     height: 12,
@@ -1063,6 +1128,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 if (tempArray.isEmpty) {
                                   CommonDialog.showsnackbar(
                                       "Please select your services");
+                                } else if (slotSelected == "") {
+                                  CommonDialog.showsnackbar(
+                                      "Please select  slot");
+                                } else if (selectDate == "") {
+                                  CommonDialog.showsnackbar(
+                                      "Please select  date");
                                 } else {
                                   Navigator.push(
                                     context,
@@ -1073,6 +1144,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             selectEmployeeId.toString() + "",
                                             selectDate + "",
                                             selectDay + "",
+                                            slotSelected+"",
                                             timeSelected + "")),
                                   );
                                 }
@@ -1216,7 +1288,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
       ownerimage, ownername, List<DataService>? services) {
     return Container(
         width: width,
-        height: height * 0.2 + height * 0.04,
+        height: height * 0.2 + height * 0.06,
         color: Colors.white,
         margin: EdgeInsets.only(left: width * 0.04, top: height * 0.02),
         child: Stack(
@@ -1682,7 +1754,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
     );
   }
 
-  Widget bestoffer(BuildContext context) {
+  Widget bestoffer(BuildContext context,a) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -1694,7 +1766,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
               color: Colors.black),
         ),
         Text(
-          '5 offers  ',
+          '${a.coupon!.length} offers    ',
           style: TextStyle(
               fontFamily: 'Poppins Regular',
               fontSize: MediaQuery.of(context).size.height * 0.01,

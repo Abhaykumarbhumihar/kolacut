@@ -11,6 +11,7 @@ import 'package:untitled/screen/profile.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
+import 'home_controller.dart';
 
 class BookingController extends GetxController {
   var bookingPojo = MyBookingPojo().obs;
@@ -81,6 +82,8 @@ class BookingController extends GetxController {
       } else {
         bookingPojo.value = myBookingPojoFromJson(response);
         lodaer = false;
+        Get.find<HomeController>().getCoin1(box.read('session'));
+
         update();
       }
       lodaer = false;

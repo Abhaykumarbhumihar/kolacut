@@ -43,6 +43,7 @@ class StaffDetail {
     this.longitude,
     this.shopLogo,
     this.service,
+    this.rating
   });
 
   int? shopId;
@@ -51,6 +52,7 @@ class StaffDetail {
   String? latitude;
   String? longitude;
   String? shopLogo;
+  int? rating;
   List<Service>? service;
 
   factory StaffDetail.fromJson(Map<String, dynamic> json) => StaffDetail(
@@ -59,6 +61,7 @@ class StaffDetail {
         location: json["location"],
         latitude: json["latitude"],
         longitude: json["longitude"],
+    rating: json["rating"],
         shopLogo: json["shop_logo"],
         service:
             List<Service>.from(json["service"].map((x) => Service.fromJson(x))),
@@ -70,6 +73,7 @@ class StaffDetail {
         "location": location,
         "latitude": latitude,
         "longitude": longitude,
+    "rating": rating,
         "shop_logo": shopLogo,
         "service": List<dynamic>.from(service!.map((x) => x.toJson())),
       };

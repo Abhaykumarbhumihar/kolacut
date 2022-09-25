@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/screen/notification.dart';
 import 'package:untitled/screen/register.dart';
 import 'package:untitled/screen/saloondetail.dart';
 import 'package:untitled/screen/sidenavigation.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:untitled/utils/CommomDialog.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:geolocator/geolocator.dart';
 import '../controller/home_controller.dart';
@@ -34,6 +36,37 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   int isSelected =
       1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
+  bool _isLoading = true;
+
+  var name = "";
+  var email = "";
+  var phone = "";
+  var iamge = "";
+  var session = "";
+  late SharedPreferences sharedPreferences;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    String apiKey = "AIzaSyAIFnj6QxWUHPj3M086GFxMBPJrR6NePE8";
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+    googlePlace = GooglePlace(apiKey);
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  _isSelected(int index) {
+    //pass the selected index to here and set to 'isSelected'
+    setState(() {
+      isSelected = index;
+    });
+  }
 
   _getAddressFromLatLng() async {
     try {
@@ -50,31 +83,6 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       print(e);
     }
-  }
-
-  var name = "";
-  var email = "";
-  var phone = "";
-  var iamge = "";
-  var session;
-  late SharedPreferences sharedPreferences;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    String apiKey = "AIzaSyA8BbLiH2vnQ4dvm9ygAgED1KW2tCYnYMo";
-    googlePlace = GooglePlace(apiKey);
-    super.initState();
-    _getCurrentLocation();
-  }
-
-  _isSelected(int index) {
-    //pass the selected index to here and set to 'isSelected'
-    setState(() {
-      isSelected = index;
-    });
   }
 
   _getCurrentLocation() {
@@ -94,6 +102,33 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void autoCompleteSearch(String value) async {
+    var result = await googlePlace.autocomplete.get(value);
+    if (result != null && result.predictions != null && mounted) {
+      setState(() {
+        predictions = result.predictions!;
+      });
+    }
+  }
+
+  void getDetils(String placeId) async {
+    var result = await this.googlePlace.details.get(placeId);
+    if (result != null && result.result != null && mounted) {
+      setState(() {
+        var detailsResult = result.result!;
+        print(detailsResult.name);
+        print(detailsResult.formattedAddress);
+        print(detailsResult.adrAddress);
+        print(detailsResult.scope);
+        print(detailsResult.name);
+        _currentAddress = detailsResult.name!;
+
+        //print(detailsResult.geometry!.location!.lat);
+        //print( detailsResult.geometry!.location!.lat);
+      });
+    }
+  }
+
 //flutter build apk --split-per-abi --no-sound-null-safety
   @override
   Widget build(BuildContext context) {
@@ -105,20 +140,21 @@ class _HomePageState extends State<HomePage> {
       var _phoneValue = sharedPreferences.getString("phoneno");
       var _sessss = sharedPreferences.getString("session");
       setState(() {
-        session = _sessss;
-        // if(_testValue!=null){
-        //   homeControlller.sessiooo.value =
-        //   sharedPreferences.getString("session") as String;
-        //   name = _testValue;
-        //   email = emailValue!;
-        //   phone = _phoneValue!;
-        //   iamge = _imageValue!;
-        // }else{
-        //   name = "";
-        //   email ="";
-        //   phone ="";
-        //   iamge ="";
-        // }
+
+        if (_sessss != null) {
+          session = _sessss;
+          homeControlller.sessiooo.value =
+              sharedPreferences.getString("session") as String;
+          name = _testValue!;
+          email = emailValue!;
+          phone = _phoneValue!;
+          iamge = _imageValue!;
+        } else {
+          name = "";
+          email = "";
+          phone = "";
+          iamge = "";
+        }
 
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
@@ -136,11 +172,12 @@ class _HomePageState extends State<HomePage> {
             ? SizedBox()
             : SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
         appBar: appBarr(context, width, height),
-        body: ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            homeControlller != null
-                ? GetBuilder<HomeController>(builder: (homeControlller) {
+        body: _isLoading
+            ? Container()
+            : ListView(
+                scrollDirection: Axis.vertical,
+                children: <Widget>[
+                  GetBuilder<HomeController>(builder: (homeControlller) {
                     if (homeControlller.lodaer) {
                       return Container();
                     } else {
@@ -166,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                   fontFamily: 'Poppins Regular',
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.02,
+                                      MediaQuery.of(context).size.width * 0.03,
                                   color: Color(
                                       Utils.hexStringToHexInt('#cfcfcf'))),
                             ),
@@ -175,27 +212,23 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                   fontFamily: 'Poppins Medium',
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                      MediaQuery.of(context).size.width * 0.04,
                                   color: Color(
                                       Utils.hexStringToHexInt('#154f84'))),
                             ),
                             filterContainer(context, width, height),
                             searchHint(context),
-                            session == null
-                                ? Container()
-                                : SizedBox(
+                            session == null||session==""
+                                ? Container():SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.2,
+                                        0.2-height*0.05,
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemCount: homeControlller
-                                                .adminCouponList
-                                                .value
-                                                .couponDetail!
-                                                .isNotEmpty
-                                            ? homeControlller.adminCouponList
-                                                .value.couponDetail!.length
-                                            : null,
+                                            .adminCouponList
+                                            .value
+                                            .couponDetail
+                                            ?.length,
                                         itemBuilder: (context, position) {
                                           return OfferWidger(
                                               context,
@@ -210,8 +243,9 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(
                               height: height * 0.02,
                             ),
-                            Utils().titleText('Services', context),
-                            session == null
+                            session == null||session==""
+                                ? Container(): Utils().titleText('Services', context),
+                            session == null||session==""
                                 ? Container()
                                 : servicelist(
                                     context, width, height, servicedata),
@@ -230,22 +264,27 @@ class _HomePageState extends State<HomePage> {
                                     return GestureDetector(
                                         onTap: () {
                                           print(data[position].shopId!);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SaloonDetail(data[position]
-                                                        .shopId!)),
-                                          );
+                                          if(session == null||session==""){
+                                            CommonDialog.showsnackbar("Please login for use all features");
+                                          }else{
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SaloonDetail(data[position]
+                                                          .shopId!)),
+                                            );
+                                          }
                                         },
                                         child: Container(
                                           width: width,
-                                          height: height * 0.2,
+                                          height: height * 0.2-height*0.06,
                                           margin: EdgeInsets.only(
                                               top: height * 0.001,
                                               bottom: height * 0.001),
-                                          color: Colors.white,
+                                          color: Colors.transparent,
                                           child: Card(
+
                                             child: Stack(
                                               clipBehavior: Clip.none,
                                               children: <Widget>[
@@ -255,17 +294,15 @@ class _HomePageState extends State<HomePage> {
                                                     Container(
                                                       child: Expanded(
                                                         flex: 3,
-                                                        child: Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 8),
+                                                        child:
+
+                                                        Container(
                                                             height: MediaQuery.of(
                                                                             context)
                                                                         .size
                                                                         .height *
                                                                     0.2 -
-                                                                height * 0.04,
+                                                                height * 0.03,
                                                             decoration:
                                                                 BoxDecoration(
                                                                     borderRadius: const BorderRadius
@@ -373,12 +410,16 @@ class _HomePageState extends State<HomePage> {
                                                                           0.01),
                                                                   child:
                                                                       RatingBarIndicator(
-                                                                    rating:
-                                                                        2.75,
+                                                                    rating: data[position].rating !=
+                                                                            null
+                                                                        ? data[position]
+                                                                            .rating!
+                                                                            .toDouble()
+                                                                        : 1.0,
                                                                     itemBuilder:
                                                                         (context,
                                                                                 index) =>
-                                                                            Icon(
+                                                                            const Icon(
                                                                       Icons
                                                                           .star,
                                                                       color: Colors
@@ -415,7 +456,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 // /*TODO--femina text*/
                                                 Positioned(
-                                                  top: height * 0.02,
+                                                  top: height * 0.01,
                                                   left: width * 0.3 +
                                                       width * 0.03,
                                                   child: Text(
@@ -436,7 +477,7 @@ class _HomePageState extends State<HomePage> {
 
                                                 /*TODO---address*/
                                                 Positioned(
-                                                  top: height * 0.05,
+                                                  top: height * 0.03,
                                                   left: width * 0.3 +
                                                       width * 0.03,
                                                   child: Text(
@@ -467,38 +508,10 @@ class _HomePageState extends State<HomePage> {
                       );
                     }
                   })
-                : Container()
-          ],
-        ),
+                ],
+              ),
       ),
     );
-  }
-
-  void getDetils(String placeId) async {
-    var result = await this.googlePlace.details.get(placeId);
-    if (result != null && result.result != null && mounted) {
-      setState(() {
-        var detailsResult = result.result!;
-        print(detailsResult.name);
-        print(detailsResult.formattedAddress);
-        print(detailsResult.adrAddress);
-        print(detailsResult.scope);
-        print(detailsResult.name);
-        _currentAddress = detailsResult.name!;
-
-        //print(detailsResult.geometry!.location!.lat);
-        //print( detailsResult.geometry!.location!.lat);
-      });
-    }
-  }
-
-  void autoCompleteSearch(String value) async {
-    var result = await googlePlace.autocomplete.get(value);
-    if (result != null && result.predictions != null && mounted) {
-      setState(() {
-        predictions = result.predictions!;
-      });
-    }
   }
 
   AppBar appBarr(BuildContext context, width, height) {
@@ -506,7 +519,7 @@ class _HomePageState extends State<HomePage> {
       centerTitle: true,
       leading: InkWell(
         onTap: () {
-          session == null ? scaffolKey.currentState!.openDrawer() : null;
+          session != "" ? scaffolKey.currentState!.openDrawer() : null;
         },
         child: Icon(
           Icons.menu,
@@ -551,9 +564,11 @@ class _HomePageState extends State<HomePage> {
                     content: StatefulBuilder(
                       // You need this, notice the parameters below:
                       builder: (BuildContext context, StateSetter setState) {
-                        return Container(
-                          width: width,
-                          height: height,
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: 0.5,
+                            maxHeight: height * 0.4,
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -587,9 +602,11 @@ class _HomePageState extends State<HomePage> {
                                   }
                                 },
                               ),
-                              Container(
-                                width: width,
-                                height: height * 0.4,
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minHeight: 0.5,
+                                  maxHeight: height * 0.3,
+                                ),
                                 child: ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: predictions.length,
@@ -678,7 +695,16 @@ class _HomePageState extends State<HomePage> {
             color: Color(Utils.hexStringToHexInt('#77ACA2')),
           ),
           tooltip: 'Setting Icon',
-          onPressed: () {},
+          onPressed: () {
+            if(session == null||session==""){
+              CommonDialog.showsnackbar("Please login for use this");
+            }else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NotificationPage()),
+              );
+            }
+          },
         ), //IconButton
       ],
       //<Widget>[]
@@ -743,11 +769,11 @@ class _HomePageState extends State<HomePage> {
                 // ),
               ],
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.06,
-              height: MediaQuery.of(context).size.height * 0.06,
-              child: SvgPicture.asset('images/svgicons/filter.svg'),
-            )
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.06,
+            //   height: MediaQuery.of(context).size.height * 0.06,
+            //   child: SvgPicture.asset('images/svgicons/filter.svg'),
+            // )
           ],
         ));
   }
@@ -797,61 +823,80 @@ class _HomePageState extends State<HomePage> {
 
   Widget OfferWidger(
       BuildContext context, width, height, CouponDetail couponDetail) {
-    return Container(
-      width: MediaQuery.of(context).size.width - width * 0.2,
-      height: MediaQuery.of(context).size.height * 0.2,
-      margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.02, left: 12),
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          color: Color(Utils.hexStringToHexInt('#77ACA2'))),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SvgPicture.asset(
-            'images/svgicons/offericon.svg',
-            width: width * 0.04,
-            height: height * 0.04,
+    return Stack(
+      children:[
+        Container(
+          width: MediaQuery.of(context).size.width - width * 0.4,
+          height: MediaQuery.of(context).size.height * 0.1,
+          margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.02, left: 12),
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              color: Color(Utils.hexStringToHexInt('#77ACA2'))),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SvgPicture.asset(
+                'images/svgicons/offericon.svg',
+                width: width * 0.04,
+                height: height * 0.04,
+              ),
+              const SizedBox(
+                width: 6,
+              ),
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '${couponDetail.couponName}',
+                      style: TextStyle(
+                          color: Color(Utils.hexStringToHexInt('FFFFFF')),
+                          fontFamily: 'Poppins Medium',
+                          fontSize: MediaQuery.of(context).size.width * 0.04),
+                    ),
+                    // Text(
+                    //   'Get 50% discount on your first booking at your favourite salon',
+                    //   textAlign: TextAlign.left,
+                    //   style: TextStyle(
+                    //       color: Color(Utils.hexStringToHexInt('FFFFFF')),
+                    //       fontFamily: 'Poppins Light',
+                    //       fontSize: width * 0.03),
+                    // ),
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Text(
+                      'Use Code : ${couponDetail.couponCode}',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Poppins Medium',
+                          fontSize: MediaQuery.of(context).size.height * 0.02),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
-          const SizedBox(
-            width: 6,
-          ),
-          Flexible(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '${couponDetail.couponName}',
-                  style: TextStyle(
-                      color: Color(Utils.hexStringToHexInt('FFFFFF')),
-                      fontFamily: 'Poppins Medium',
-                      fontSize: MediaQuery.of(context).size.width * 0.04),
-                ),
-                Text(
-                  'Get 50% discount on your first booking at your favourite salon',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: Color(Utils.hexStringToHexInt('FFFFFF')),
-                      fontFamily: 'Poppins Light',
-                      fontSize: width * 0.03),
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                Text(
-                  'Use Code : ${couponDetail.couponCode}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Poppins Medium',
-                      fontSize: MediaQuery.of(context).size.height * 0.02),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+        ),
+           Positioned(
+               top:height*0.07,
+               right: 0,
+               child:
+           Container(
+             width: width*0.2-width*0.06,
+             height: height*0.09,
+             decoration: BoxDecoration(
+               // Image.asset('images/svgicons/circlecoupon.png')
+               image: DecorationImage(
+                 image: AssetImage('images/svgicons/circlecoupon.png')
+               )
+             ),
+           ))
+      ]
+
     );
   }
 
@@ -885,17 +930,18 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: const EdgeInsets.only(left: 6, right: 6),
+                    margin: const EdgeInsets.only(left: 6, right: 6,top: 4),
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: height * 0.08,
+
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                     child: Center(
                       child: Image.network(
                         serviceDetail[position].serviceImage.toString(),
-                        width: MediaQuery.of(context).size.width * 0.1 + 4,
-                        height: MediaQuery.of(context).size.height * 0.1 + 4,
+                        width: MediaQuery.of(context).size.width * 0.2-width*0.04 ,
+                        height: MediaQuery.of(context).size.height * 0.2 ,
                         // color: isSelected != null &&
                         //         isSelected ==
                         //             position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
@@ -917,8 +963,8 @@ class _HomePageState extends State<HomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'Hair Cut',
-                        fontSize: MediaQuery.of(context).size.width * 0.03),
+                        fontFamily: 'Poppins Regular',
+                        fontSize: MediaQuery.of(context).size.width * 0.05),
                   )
                 ],
               ),

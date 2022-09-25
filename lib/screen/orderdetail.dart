@@ -26,22 +26,24 @@ class OrderDetail extends StatefulWidget {
   var selectDate = "";
   var selectDay = "";
   var selectSlot = "";
+  var timeslot="";
 
   // const OrderDetail(List<SubService> tempArray, Data a,  {Key? key}) : super(key: key){}
 
   OrderDetail(List<ServiceService> tempArray, Data a, String selectEmpid,
-      String selectDate, String selectDay, String selectSlot) {
+      String selectDate, String selectDay, String selectSlot, String timeSlot) {
     this.newarray = tempArray;
     this.data = a;
     this.selectDate = selectDate;
     this.selectEmpid = selectEmpid;
     this.selectDay = selectDay;
     this.selectSlot = selectSlot;
+    this.timeslot=timeSlot;
   }
 
   @override
   State<OrderDetail> createState() => _OrderDetailState(
-      newarray, data, selectDate, selectEmpid, selectDay, selectSlot);
+      newarray, data, selectDate, selectEmpid, selectDay, selectSlot,timeslot);
 }
 
 class _OrderDetailState extends State<OrderDetail> {
@@ -58,7 +60,7 @@ class _OrderDetailState extends State<OrderDetail> {
   BookingController bookingController = Get.put(BookingController());
 
   _OrderDetailState(
-      tempArray, a, selectDate, selectEmpid, selectDay, selectSlot);
+      tempArray, a, selectDate, selectEmpid, selectDay, selectSlot,timeslot);
 
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   late SharedPreferences sharedPreferences;
@@ -69,8 +71,9 @@ class _OrderDetailState extends State<OrderDetail> {
   var totalPrice = 0;
   var sub_serviceid = "";
 
-  void bookService() {
+  void bookService(BuildContext context) {
     salonControlller.bookserVice(
+      context,
         widget.data!.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
@@ -78,7 +81,7 @@ class _OrderDetailState extends State<OrderDetail> {
         widget.selectDate.toString(),
         widget.selectSlot.toString(),
         widget.selectDay.toString(),
-        "",
+        widget.timeslot.toString(),
         "$totalPrice",
         "Offline",
         "",
@@ -92,8 +95,9 @@ class _OrderDetailState extends State<OrderDetail> {
     return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
   }
 
-  void bookServiceOnline(transactionid, coin, coupone) {
+  void bookServiceOnline(BuildContext context,transactionid, coin, coupone) {
     salonControlller.bookserVice(
+      context,
         widget.data!.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
@@ -101,7 +105,7 @@ class _OrderDetailState extends State<OrderDetail> {
         widget.selectDate.toString(),
         widget.selectSlot.toString(),
         widget.selectDay.toString(),
-        "",
+        widget.timeslot.toString(),
         "${int.parse(totalPrice.toString()) - (applycouponPrice + applycoin)}",
         "Online",
         transactionid,
@@ -122,7 +126,9 @@ class _OrderDetailState extends State<OrderDetail> {
       var _testValue = sharedPreferences.getString("session");
       print(sharedPreferences.getString("session"));
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        Get.find<HomeController>().getCoin(_testValue);
+        Get.find<HomeController>().getCoin1(_testValue);
+      //  Get.find<HomeController>().getAdminCouponList(_testValue);
+
       });
     });
     print("COIN IS ${Get.find<HomeController>().coin}");
@@ -170,7 +176,7 @@ class _OrderDetailState extends State<OrderDetail> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
-    bookServiceOnline("${response.paymentId}", applycoin, applycouponcode);
+    bookServiceOnline(context,"${response.paymentId}", applycoin, applycouponcode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -234,12 +240,12 @@ class _OrderDetailState extends State<OrderDetail> {
                             )
                           ],
                         ),
-                        SvgPicture.asset(
-                          'images/svgicons/appcupon.svg',
-                          fit: BoxFit.contain,
-                          width: 24,
-                          height: 24,
-                        )
+                        // SvgPicture.asset(
+                        //   'images/svgicons/appcupon.svg',
+                        //   fit: BoxFit.contain,
+                        //   width: 24,
+                        //   height: 24,
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -466,7 +472,7 @@ class _OrderDetailState extends State<OrderDetail> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              'Use coupon',
+                              'Use shop coupon',
                               style: TextStyle(
                                 fontSize: width * 0.04,
                                 color: Colors.black,
@@ -694,6 +700,247 @@ class _OrderDetailState extends State<OrderDetail> {
               ),
               InkWell(
                 onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      bool showSublist =
+                      false; // Declare your variable outside the builder
+
+                      bool showmainList = true;
+
+                      return AlertDialog(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Use coupon',
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.black,
+                                fontFamily: 'Poppins Medium',
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () => {Navigator.pop(context)},
+                              icon: Icon(Icons.cancel_outlined),
+                            ),
+                          ],
+                        ),
+                        content: StatefulBuilder(
+                          // You need this, notice the parameters below:
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            return Container(
+                              width: width,
+                              height: height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                  Flexible(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: Get.find<HomeController>().adminCouponList
+                                            .value
+                                            .couponDetail
+                                            ?.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, position) {
+                                          return Container(
+                                              width: width * 0.4 + width * 0.05,
+                                              height: height * 0.12,
+                                              margin: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                    children: <Widget>[
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  ${Get.find<HomeController>().adminCouponList
+                                                                .value
+                                                                .couponDetail![position].couponName}',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Regular',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.02,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          // Text(
+                                                          //   '  Upto 50% off via UPI',
+                                                          //   style: TextStyle(
+                                                          //       fontFamily:
+                                                          //       'Poppins Light',
+                                                          //       fontSize: MediaQuery.of(
+                                                          //           context)
+                                                          //           .size
+                                                          //           .height *
+                                                          //           0.01,
+                                                          //       color: Color(Utils
+                                                          //           .hexStringToHexInt(
+                                                          //           'A4A4A4'))),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  Use Code ',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.01,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                    'A4A4A4'))),
+                                                          ),
+                                                          Container(
+                                                            padding: const EdgeInsets
+                                                                .symmetric(
+                                                                vertical:
+                                                                2.0,
+                                                                horizontal:
+                                                                10.0),
+                                                            color: Color(Utils
+                                                                .hexStringToHexInt(
+                                                                '#46D0D9')),
+                                                            child: Text(
+                                                              '${Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].couponCode}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .height *
+                                                                    0.01,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                    Alignment.centerRight,
+                                                    child: IconButton(
+                                                        tooltip:
+                                                        "Applied coupon",
+                                                        onPressed: () {
+                                                          print(Get.find<HomeController>().adminCouponList
+                                                              .value
+                                                              .couponDetail![position].price.toString());
+                                                          applycouponPrice =
+                                                              double.parse(Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].price.toString());
+                                                          applycouponcode =
+                                                              Get.find<HomeController>().adminCouponList
+                                                                  .value
+                                                                  .couponDetail![position].couponCode.toString();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        icon: Icon(
+                                                          CupertinoIcons
+                                                              .tag_circle,
+                                                          size: width * 0.05,
+                                                          color: Colors.cyan,
+                                                        )),
+                                                  ),
+                                                ],
+                                              ));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: SizedBox(
+                  width: width,
+                  height: height * 0.09,
+                  child: Material(
+                    color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                    child: Container(
+                        width: width,
+                        height: height * 0.09,
+                        padding: EdgeInsets.only(
+                            left: width * 0.03, right: width * 0.03),
+                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  'images/svgicons/bigoffer.svg',
+                                  fit: BoxFit.contain,
+                                  width: width * 0.06,
+                                  height: height * 0.04,
+                                ),
+                                Text(
+                                  ' Use Kolacut Cupons',
+                                  style: TextStyle(
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
+                                      fontFamily: 'Poppins Medium',
+                                      fontSize: width * 0.04),
+                                )
+                              ],
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Color(Utils.hexStringToHexInt('77ACA2')),
+                            )
+                          ],
+                        )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
                   var Totalcoin = Get.find<HomeController>().coin * 0.10;
                   showDialog(
                     context: context,
@@ -745,7 +992,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 //   ),
                                 // ),
                                 Text(
-                                  ' ${Get.find<HomeController>().coin * 0.10} coin applied  .',
+                                  ' ${Get.find<HomeController>().coin>100? 100 : 00} coin applied  .',
                                   style: TextStyle(
                                     fontSize: 8.0,
                                     color: Color(
@@ -814,8 +1061,15 @@ class _OrderDetailState extends State<OrderDetail> {
                                     child: Text('Use coin'),
                                     onPressed: () async {
                                       setState(() {
-                                        applycoin = double.parse(
-                                            "${Get.find<HomeController>().coin * 0.10}");
+
+                                        if(Get.find<HomeController>().coin>100){
+                                          // applycoin = Get.find<HomeController>().coin - 100;
+                                          applycoin=10;
+                                        }else{
+                                          CommonDialog.showsnackbar("Need minimum 100 coin for use");
+                                        }
+                                        // applycoin = double.parse(
+                                        //     "${Get.find<HomeController>().coin * 0.10}");
                                       });
                                       Navigator.pop(context);
                                     },
@@ -1048,11 +1302,12 @@ class _OrderDetailState extends State<OrderDetail> {
                             GestureDetector(
                               onTap: () {
                                 print(resultList.join(","));
+
                                 salonControlller.addTocart(
                                     context,
                                     widget.data!.id.toString(),
                                     resultList.join(","),
-                                    widget.selectEmpid.toString()+"");
+                                    "");
                               },
                               child: Container(
                                 width: width - width * 0.2,
@@ -1127,32 +1382,32 @@ class _OrderDetailState extends State<OrderDetail> {
                                 GestureDetector(
                                   onTap: () {
                                     /*TODO---- offline payment (no coupon allied no coin applied)*/
-                                    bookService();
+                                    bookService(context);
 
-                                    Future.delayed(
-                                        const Duration(milliseconds: 2000), () {
-                                      setState(() {
-                                        if (salonControlller.sendData() ==
-                                            "Booking added successfully") {
-                                          bookingController
-                                              .getBookingList1(context);
-                                          // Navigator.pushReplacement(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           TableBasicsExample()),
-                                          // );
-
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomePage()),
-                                                  (Route<dynamic> route) =>
-                                                      false);
-                                        }
-                                      });
-                                    });
+                                    // Future.delayed(
+                                    //     const Duration(milliseconds: 2000), () {
+                                    //   setState(() {
+                                    //     if (salonControlller.sendData() ==
+                                    //         "Booking added successfully") {
+                                    //       bookingController
+                                    //           .getBookingList1(context);
+                                    //       // Navigator.pushReplacement(
+                                    //       //   context,
+                                    //       //   MaterialPageRoute(
+                                    //       //       builder: (context) =>
+                                    //       //           TableBasicsExample()),
+                                    //       // );
+                                    //
+                                    //       Navigator.of(context)
+                                    //           .pushAndRemoveUntil(
+                                    //               MaterialPageRoute(
+                                    //                   builder: (context) =>
+                                    //                       HomePage()),
+                                    //               (Route<dynamic> route) =>
+                                    //                   false);
+                                    //     }
+                                    //   });
+                                    // });
                                   },
                                   child: Container(
                                     width: width * 0.3,
@@ -1208,38 +1463,38 @@ class _OrderDetailState extends State<OrderDetail> {
                                             "${element.name.toString() + " " + element.price.toString()}";
                                         print(description);
                                       });
-                                      bookServiceOnline("898899887", applycoin,
-                                          applycouponcode);
-                                      Future.delayed(
-                                          const Duration(milliseconds: 2000),
-                                          () {
-                                        setState(() {
-                                          if (salonControlller.sendData() ==
-                                              "Booking added successfully") {
-                                            bookingController
-                                                .getBookingList1(context);
-                                            // Navigator.pushReplacement(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //       builder: (context) =>
-                                            //           TableBasicsExample()),
-                                            // );
+                                      // bookServiceOnline(context,"898899887", applycoin,
+                                      //     applycouponcode);
+                                      // Future.delayed(
+                                      //     const Duration(milliseconds: 2000),
+                                      //     () {
+                                      //   setState(() {
+                                      //     if (salonControlller.sendData() ==
+                                      //         "Booking added successfully") {
+                                      //       bookingController
+                                      //           .getBookingList1(context);
+                                      //       // Navigator.pushReplacement(
+                                      //       //   context,
+                                      //       //   MaterialPageRoute(
+                                      //       //       builder: (context) =>
+                                      //       //           TableBasicsExample()),
+                                      //       // );
+                                      //
+                                      //       Navigator.of(context)
+                                      //           .pushAndRemoveUntil(
+                                      //               MaterialPageRoute(
+                                      //                   builder: (context) =>
+                                      //                       HomePage()),
+                                      //               (Route<dynamic> route) =>
+                                      //                   false);
+                                      //     }
+                                      //   });
+                                      // });
 
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            HomePage()),
-                                                    (Route<dynamic> route) =>
-                                                        false);
-                                          }
-                                        });
-                                      });
-
-                                      // openCheckout(
-                                      //   widget.data!.name.toString(),
-                                      //   description,
-                                      // );
+                                      openCheckout(
+                                        widget.data!.name.toString(),
+                                        description,
+                                      );
                                     });
                                   },
                                   child: Container(

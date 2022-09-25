@@ -32,7 +32,6 @@ class _MyCartListState extends State<MyCartList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -53,7 +52,7 @@ class _MyCartListState extends State<MyCartList> {
               centerTitle: false,
               leading: InkWell(
                 onTap: () {
-                 Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -146,7 +145,7 @@ class _MyCartListState extends State<MyCartList> {
                                     },
                                     child: Container(
                                       width: width,
-                                      height: height * 0.2,
+                                      height: height * 0.2-height*0.06,
                                       margin: EdgeInsets.only(
                                           top: height * 0.001,
                                           bottom: height * 0.001),
@@ -162,9 +161,7 @@ class _MyCartListState extends State<MyCartList> {
                                                   child: Expanded(
                                                     flex: 3,
                                                     child: Container(
-                                                        margin:
-                                                            const EdgeInsets.only(
-                                                                left: 8),
+
                                                         height:
                                                             MediaQuery.of(context)
                                                                         .size

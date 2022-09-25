@@ -45,7 +45,12 @@ class SlotDetail {
     this.fromTime,
     this.toTime,
     this.date,
+    this.status,
     this.service,
+    this.coupon_code,
+    this.coin,
+    this.transaction_id,
+    this.payment_type,
   });
 
   int? id;
@@ -56,36 +61,51 @@ class SlotDetail {
   String? bookingDay;
   String? fromTime;
   String? toTime;
+  String? status;
   DateTime? date;
+  String? coupon_code;
+  String? payment_type;
+  String? coin;
+  String? transaction_id;
+
+
   List<Service>? service;
 
   factory SlotDetail.fromJson(Map<String, dynamic> json) => SlotDetail(
-        id: json["id"],
-        bookingId: json["booking_id"],
-        userName: json["user_name"],
-        shopName: json["shop_name"],
-        userImage: json["user_image"],
-        bookingDay: json["booking_day"],
-        fromTime: json["from_time"],
-        toTime: json["to_time"],
-        date: DateTime.parse(json["date"]),
-        service:
-            List<Service>.from(json["service"].map((x) => Service.fromJson(x))),
-      );
+    id: json["id"],
+    bookingId: json["booking_id"],
+    userName: json["user_name"],
+    shopName: json["shop_name"],
+    userImage: json["user_image"],
+    bookingDay: json["booking_day"],
+    coupon_code: json["coupon_code"],
+    coin: json["coin"],
+    payment_type: json["payment_type"],
+    transaction_id: json["transaction_id"],
+    fromTime: json["from_time"],
+    status: json["status"],
+    toTime: json["to_time"],
+    date: DateTime.parse(json["date"]),
+    service: List<Service>.from(json["service"].map((x) => Service.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "booking_id": bookingId,
-        "user_name": userName,
-        "shop_name": shopName,
-        "user_image": userImage,
-        "booking_day": bookingDay,
-        "from_time": fromTime,
-        "to_time": toTime,
-        "date":
-            "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
-        "service": List<dynamic>.from(service!.map((x) => x.toJson())),
-      };
+    "id": id,
+    "booking_id": bookingId,
+    "user_name": userName,
+    "shop_name": shopName,
+    "user_image": userImage,
+    "booking_day": bookingDay,
+    "from_time": fromTime,
+    "status": status,
+    "to_time": toTime,
+    "coupon_code": coupon_code,
+    "coin": coin,
+    "payment_type": payment_type,
+    "transaction_id": transaction_id,
+    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
+    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+  };
 }
 
 class Service {
@@ -100,14 +120,14 @@ class Service {
   String? price;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
-        id: json["id"],
-        name: json["name"],
-        price: json["price"],
-      );
+    id: json["id"],
+    name: json["name"],
+    price: json["price"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "price": price,
-      };
+    "id": id,
+    "name": name,
+    "price": price,
+  };
 }

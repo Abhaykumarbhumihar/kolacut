@@ -101,23 +101,23 @@ class _RegisterPageState extends State<ProfileUpdate> {
                       height: height * 0.2,
                       child: imageFile == null
                           ? Container(
-                              width: width * 0.5,
-                              height: height * 0.2,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'images/svgicons/profilehoto.png'),
-                                      fit: BoxFit.contain)),
-                            )
+                        width: width * 0.5,
+                        height: height * 0.2,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    'images/svgicons/profilehoto.png'),
+                                fit: BoxFit.contain)),
+                      )
                           : Container(
-                              width: width * 0.5,
-                              height: height * 0.2,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: FileImage(imageFile),
-                                      fit: BoxFit.fill)),
-                            ),
+                        width: width * 0.5,
+                        height: height * 0.2,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: FileImage(imageFile),
+                                fit: BoxFit.fill)),
+                      ),
                     ),
                     Positioned(
                       top: height * 0.1 + height * 0.04,
@@ -133,7 +133,7 @@ class _RegisterPageState extends State<ProfileUpdate> {
                               image: DecorationImage(
                                   image: AssetImage(
                                       'images/svgicons/circleaddback.png'),
-                                  fit: BoxFit.fill)),
+                                  fit: BoxFit.contain)),
                           child: Center(
                             child: SvgPicture.asset(
                               'images/svgicons/adddd.svg',
@@ -377,7 +377,6 @@ class _RegisterPageState extends State<ProfileUpdate> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: height * 0.04,
               ),
@@ -538,8 +537,8 @@ class _RegisterPageState extends State<ProfileUpdate> {
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(1975),
+      lastDate: DateTime.now(),
     );
     if (selected != null && selected != "") {
       setState(() {

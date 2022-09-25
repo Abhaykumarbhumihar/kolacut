@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late TextEditingController emailcontroller,
       _nameController,
       _dobController,
-      _phonecontroller;
+      _phonecontroller,_refferalcontroller;
   String date = "";
 
   // Initial Selected Value
@@ -59,6 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _nameController = TextEditingController();
     _dobController = TextEditingController();
     _phonecontroller = TextEditingController();
+    _refferalcontroller=TextEditingController();
   }
 
   @override
@@ -132,12 +133,13 @@ class _RegisterPageState extends State<RegisterPage> {
                               image: DecorationImage(
                                   image: AssetImage(
                                       'images/svgicons/circleaddback.png'),
-                                  fit: BoxFit.fill)),
+                                  fit: BoxFit.contain)),
                           child: Center(
                             child: SvgPicture.asset(
                               'images/svgicons/adddd.svg',
                               width: width * 0.02,
                               height: height * 0.02,
+
                             ),
                           ),
                         ),
@@ -341,7 +343,33 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         )
                       ],
-                    )
+                    ),
+                    Container(
+                      width: width - 5,
+                      height: height * 0.1 - height * 0.04,
+                      margin: const EdgeInsets.only(top: 6),
+                      padding: const EdgeInsets.only(left: 6),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(4)),
+                        color: Color(Utils.hexStringToHexInt('F4F4F4')),
+                      ),
+                      child: TextField(
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                          textAlignVertical: TextAlignVertical.center,
+                          textAlign: TextAlign.left,
+                          controller: _refferalcontroller,
+                          decoration: InputDecoration(
+                              hintText: 'Enter code if you have',
+                              hintStyle: TextStyle(
+                                  color:
+                                  Color(Utils.hexStringToHexInt('A4A4A4')),
+                                  fontFamily: 'Poppins Regular',
+                                  fontSize: width * 0.03),
+                              border: InputBorder.none)),
+                    ),
                   ],
                 ),
               ),
@@ -569,8 +597,8 @@ class _RegisterPageState extends State<RegisterPage> {
     final DateTime? selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(1975),
+      lastDate: DateTime.now(),
     );
     if (selected != null && selected != "") {
       setState(() {

@@ -28,7 +28,8 @@ class _WishlistState extends State<Wishlist> {
 
   late SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
-  var session;
+  var session = "";
+
   @override
   Widget build(BuildContext context) {
     SharedPreferences.getInstance().then((SharedPreferences sp) {
@@ -40,17 +41,17 @@ class _WishlistState extends State<Wishlist> {
       var _sessss = sharedPreferences.getString("session");
 
       setState(() {
-        if(_testValue!=null){
-          session=_sessss;
-          name = _testValue;
+        if (_sessss != null) {
+          session = _sessss;
+          name = _testValue!;
           email = emailValue!;
           phone = _phoneValue!;
           iamge = _imageValue!;
-        }else{
+        } else {
           name = "";
-          email ="";
-          phone ="";
-          iamge ="";
+          email = "";
+          phone = "";
+          iamge = "";
         }
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
@@ -63,8 +64,11 @@ class _WishlistState extends State<Wishlist> {
     return SafeArea(
         child: Scaffold(
             key: scaffolKey,
-            drawer:  session==null?SizedBox(): SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
-            backgroundColor: Color(Utils.hexStringToHexInt('E5E5E5')),
+            drawer: session != ""
+                ? SideNavigatinPage(
+                    "${name}", "${iamge}", "${email}", "${phone}")
+                : SizedBox(),
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0.0,
@@ -73,8 +77,7 @@ class _WishlistState extends State<Wishlist> {
               centerTitle: false,
               leading: InkWell(
                 onTap: () {
-                  session==null? scaffolKey.currentState!.openDrawer():null;
-
+                  session != "" ? scaffolKey.currentState!.openDrawer() : null;
                 },
                 child: Icon(
                   Icons.menu,
@@ -95,73 +98,74 @@ class _WishlistState extends State<Wishlist> {
                 // )
               ],
             ),
-            body:
-            session == null
+            body: session == null||session==""
                 ? Center(
-                child: Container(
-                  width: width,
-                  height: height,
-                  child: Center(
-                      child: Container(
-                        child: InkWell(
-                          onTap: (){
-                            Get.off(LoginPage());
-
-                          },
-                          child: Container(
-                            height: width*0.2,
-                            width: height*0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              color: Color(Utils.hexStringToHexInt('77ACA2')),
-                            ),
-                            child: Center(
-                              child: Text("Continue with login",
-                                style: TextStyle(
-                                  color:
-                                  Colors.white,
-                                  fontSize: width * 0.05,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins Semibold',
-                                ),),
+                    child: Container(
+                    width: width,
+                    height: height,
+                    child: Center(
+                        child: Container(
+                      child: InkWell(
+                        onTap: () {
+                          Get.offAll(LoginPage());
+                        },
+                        child: Container(
+                          height: width * 0.2,
+                          width: height * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Color(Utils.hexStringToHexInt('77ACA2')),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Continue with login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins Semibold',
+                              ),
                             ),
                           ),
                         ),
-                      )),
-                ))
-                : GetBuilder<WishListController>(builder: (wishListControlller) {
-              if (wishListControlller.lodaer) {
-                return Container();
-              } else {
-                return RefreshIndicator(
-                  onRefresh: () async{
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      wishListControlller.getWishList();
-                    });
-                  },
-                  child: Container(
-                    width: width,
-                    height: height,
-                    child: SizedBox(
-                      width: width,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: wishListControlller
-                              .wihlistlpojo.value.staffDetail!.length,
-                          itemBuilder: (context, position) {
-                            return wishlist(
-                                context,
-                                width,
-                                height,
-                                wishListControlller
-                                    .wihlistlpojo.value.staffDetail![position]);
-                          }),
-                    ),
-                  ),
-                );
-              }
-            })));
+                      ),
+                    )),
+                  ))
+                : GetBuilder<WishListController>(
+                    builder: (wishListControlller) {
+                    if (wishListControlller.lodaer) {
+                      return Container();
+                    } else {
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          WidgetsBinding.instance
+                              .addPostFrameCallback((timeStamp) {
+                            wishListControlller.getWishList();
+                          });
+                        },
+                        child: Container(
+                          width: width,
+                          height: height,
+                          child: SizedBox(
+                            width: width,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: wishListControlller
+                                    .wihlistlpojo.value.staffDetail!.length,
+                                itemBuilder: (context, position) {
+                                  return wishlist(
+                                      context,
+                                      width,
+                                      height,
+                                      wishListControlller.wihlistlpojo.value
+                                          .staffDetail![position]);
+                                }),
+                          ),
+                        ),
+                      );
+                    }
+                  })));
   }
 
   Widget wishlist(
@@ -176,7 +180,7 @@ class _WishlistState extends State<Wishlist> {
       },
       child: Container(
         width: width,
-        height: height * 0.2,
+        height: height * 0.2-height*0.06,
         margin: EdgeInsets.only(top: height * 0.001, bottom: height * 0.001),
         color: Colors.white,
         child: Card(
@@ -190,7 +194,7 @@ class _WishlistState extends State<Wishlist> {
                     child: Expanded(
                       flex: 3,
                       child: Container(
-                          margin: EdgeInsets.only(left: 8),
+
                           height: MediaQuery.of(context).size.height * 0.2 -
                               height * 0.04,
                           decoration: BoxDecoration(
@@ -276,15 +280,27 @@ class _WishlistState extends State<Wishlist> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: height * 0.01),
-                                child: RatingBarIndicator(
-                                  rating: 2.75,
-                                  itemBuilder: (context, index) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
+                             child:   RatingBarIndicator(
+                                  rating:  staffDetail.rating !=
+                                      null
+                                      ?  staffDetail.rating!
+                                      .toDouble()
+                                      : 1.0,
+                                  itemBuilder:
+                                      (context,
+                                      index) =>
+                                  const Icon(
+                                    Icons
+                                        .star,
+                                    color: Colors
+                                        .amber,
                                   ),
-                                  itemCount: 5,
-                                  itemSize: 18.0,
-                                  direction: Axis.horizontal,
+                                  itemCount:
+                                  5,
+                                  itemSize:
+                                  18.0,
+                                  direction: Axis
+                                      .horizontal,
                                 ),
                               ),
                             ],
@@ -308,7 +324,7 @@ class _WishlistState extends State<Wishlist> {
               ),
               // /*TODO--femina text*/
               Positioned(
-                top: height * 0.02,
+                top: height * 0.01,
                 left: width * 0.3 + width * 0.03,
                 child: Text(
                   staffDetail.shopName.toString(),
@@ -321,7 +337,7 @@ class _WishlistState extends State<Wishlist> {
 
               /*TODO---address*/
               Positioned(
-                top: height * 0.05,
+                top: height * 0.03,
                 left: width * 0.3 + width * 0.03,
                 child: Text(
                   staffDetail.location.toString(),
