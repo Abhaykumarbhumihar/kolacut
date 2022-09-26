@@ -379,9 +379,6 @@ class _RegisterPageState extends State<RegisterPage> {
               GestureDetector(
                 onTap: () {
                   if (validate()) {
-
-
-
                     authControlller.registerUser(
                         imageFile,
                         _nameController.text.toString(),
@@ -391,6 +388,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         _phonecontroller.text.toString(),
                         "android",
                         "sdfsdfsdfsdf",
+                    "",
                     context);
                   }
                 },

@@ -113,12 +113,17 @@ class _VerifyPageState extends State<VerifyOtpPage> {
               SizedBox(
                 height: height * 0.03,
               ),
-              Text(
-                'Resend the OTP',
-                style: TextStyle(
-                    color: Color(Utils.hexStringToHexInt('77ACA2')),
-                    fontFamily: 'Poppins Regular',
-                    fontSize: width * 0.03),
+              InkWell(
+                onTap: (){
+                  authControlller.resendOtp();
+                },
+                child: Text(
+                  'Resend the OTP',
+                  style: TextStyle(
+                      color: Color(Utils.hexStringToHexInt('77ACA2')),
+                      fontFamily: 'Poppins Regular',
+                      fontSize: width * 0.03),
+                ),
               ),
               SizedBox(
                 height: height * 0.03,

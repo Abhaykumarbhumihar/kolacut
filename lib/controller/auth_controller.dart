@@ -67,6 +67,32 @@ class AuthControlller extends GetxController {
     }
   }
 
+  void resendOtp() async {
+    Map map;
+    map = {"phone": phoneno};
+    try {
+      CommonDialog.showLoading(title: "Please waitt...");
+      final response = await APICall().registerUrse(map, AppConstant.SEND_OTP);
+      CommonDialog.hideLoading();
+      print("SDF SDF SDF DF ");
+      //print(response);
+      final body = json.decode(response);
+
+      if (body['status'] == 400) {
+        CommonDialog.showsnackbar("No user found");
+      } else {
+        loginPojo.value = loginOtpFromJson(response);
+
+        CommonDialog.showsnackbar(loginPojo.value.otp.toString());
+        Get.off(const VerifyOtpPage(), arguments: phoneno);
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      CommonDialog.hideLoading();
+    }
+  }
   void verifyOtp(otp) async {
     Map map;
     print(phoneno);
@@ -116,9 +142,9 @@ class AuthControlller extends GetxController {
   }
 
   void registerUser(image, name, email, dob, gender, phone, device_type,
-      device_token, context) async {
+      device_token,referel_code, context) async {
     CommonDialog.showLoading(title: "Please waitt...");
-    final response = await APICall().registerUserMulti(
+    final response = await APICall().registerUserMulti(referel_code,
         image, name, email, dob, gender, phone, device_type, device_token);
     print("jjhjkjjhkjkhkjhkhkhkjjkhkhkkhhkjkjjk");
 

@@ -1787,26 +1787,15 @@ class _CartOrderState extends State<CartOrder> {
         toastLength: Toast.LENGTH_SHORT); */
   }
 
-/*    widget.data!.id.toString(),
-        widget.selectEmpid.toString() + "",
-        "3",
-        resultList.join(","),
-        widget.selectDate.toString(),
-        widget.selectSlot.toString(),
-        widget.selectDay.toString(),
-        "",
-        "$totalPrice",
-        "Offline",
-        "",
-        0.0,
-        "");*/
+
   void bookService(BuildContext context) {
     if (selectDay == "") {
       CommonDialog.showsnackbar("Please select date");
     } else if (slotSelected == "") {
       CommonDialog.showsnackbar("Please select slot");
     } else {
-      salonControlller.bookserVice(
+      salonControlller.bookserVicecart(
+      widget.slotDetail!.id.toString(),
         context,
           widget.slotDetail!.shopId.toString(),
           "",
@@ -1830,7 +1819,8 @@ class _CartOrderState extends State<CartOrder> {
     } else if (slotSelected == "") {
       CommonDialog.showsnackbar("Please select slot");
     } else {
-      salonControlller.bookserVice(
+      salonControlller.bookserVicecart(
+          widget.slotDetail!.id.toString(),
         context,
           widget.slotDetail!.shopId.toString(),
           widget.slotDetail!.employeeId.toString() + "",

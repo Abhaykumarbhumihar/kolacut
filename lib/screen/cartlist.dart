@@ -73,7 +73,7 @@ class _MyCartListState extends State<MyCartList> {
                     if (homeControlller.lodaer) {
                       return Container();
                     } else {
-                      var data = homeControlller.cartListPjo.value;
+                     // var data = homeControlller.cartListPjo.value;
 
                       return SizedBox(
                         width: width,
@@ -81,9 +81,7 @@ class _MyCartListState extends State<MyCartList> {
                         child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: data.slotDetail!.isNotEmpty
-                                ? data.slotDetail!.length
-                                : null,
+                            itemCount: homeControlller.cartListPjo.value.slotDetail!.length,
                             itemBuilder: (context, position) {
                               return Dismissible(
                                 direction: DismissDirection.endToStart,
@@ -180,7 +178,7 @@ class _MyCartListState extends State<MyCartList> {
                                                                             12)),
                                                                 image:
                                                                     DecorationImage(
-                                                                  image: NetworkImage(data
+                                                                  image: NetworkImage( homeControlller.cartListPjo.value
                                                                       .slotDetail![
                                                                           position]
                                                                       .userImage
@@ -230,7 +228,7 @@ class _MyCartListState extends State<MyCartList> {
                                                                       scrollDirection:
                                                                           Axis
                                                                               .horizontal,
-                                                                      itemCount: data
+                                                                      itemCount:  homeControlller.cartListPjo.value
                                                                           .slotDetail![
                                                                               position]
                                                                           .service!
@@ -269,7 +267,7 @@ class _MyCartListState extends State<MyCartList> {
                                                                                 decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
                                                                                 child: Center(
                                                                                     child: Text(
-                                                                                  data.slotDetail![position].service![index].name.toString(),
+                                                                                      homeControlller.cartListPjo.value.slotDetail![position].service![index].name.toString(),
                                                                                   style: TextStyle(fontSize: width * 0.03),
                                                                                 )),
                                                                               )
@@ -303,7 +301,7 @@ class _MyCartListState extends State<MyCartList> {
                                               top: height * 0.02,
                                               left: width * 0.3 + width * 0.03,
                                               child: Text(
-                                                data.slotDetail![position]
+                                                homeControlller.cartListPjo.value.slotDetail![position]
                                                     .shopName
                                                     .toString(),
                                                 style: TextStyle(
@@ -323,7 +321,7 @@ class _MyCartListState extends State<MyCartList> {
                                               top: height * 0.05,
                                               left: width * 0.3 + width * 0.03,
                                               child: Text(
-                                                data.slotDetail![position]
+                                                homeControlller.cartListPjo.value.slotDetail![position]
                                                     .userName
                                                     .toString(),
                                                 style: TextStyle(

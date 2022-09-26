@@ -16,6 +16,7 @@
    static const ADMIN_COUPON_LIST="public/api/get-coupon";
    static const COIN="public/api/get-coin";
    static const REFER_TO_FRIEND="public/api/refer-friend";
+   static const DELET_ACCOUNT="public/api/user-delete";
    static const ADD_TO_CART="public/api/add-cart";
    static const GET_CART_LIST='public/api/get-cart';
    static const DELTE_CART="public/api/delete-cart";

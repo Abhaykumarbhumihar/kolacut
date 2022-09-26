@@ -28,6 +28,7 @@ class ShopDetailController extends GetxController {
   var isFavourite = 0;
   var bookingMessage = "";
   BookingController bookingController = Get.put(BookingController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   void onInit() {
@@ -222,43 +223,12 @@ class ShopDetailController extends GetxController {
         );
         bookingController.getBookingList1(context);
 
-        // Future.delayed(
-        //     const Duration(milliseconds: 2000),
-        //         () {
-        //           //
-        //           // if ( bookingMessage.==
-        //           //     "Booking added successfully") {
-        //           //   bookingController
-        //           //       .getBookingList1(context);
-        //           //   // Navigator.pushReplacement(
-        //           //   //   context,
-        //           //   //   MaterialPageRoute(
-        //           //   //       builder: (context) =>
-        //           //   //           TableBasicsExample()),
-        //           //   // );
-        //           //
-        //           //   Navigator.of(context)
-        //           //       .pushAndRemoveUntil(
-        //           //       MaterialPageRoute(
-        //           //           builder: (context) =>
-        //           //               HomePage()),
-        //           //           (Route<dynamic> route) =>
-        //           //       false);
-        //           // }
-        //     });
+
 
       } else {
         CommonDialog.showsnackbar("Error");
       }
-      // if (shopDetailpojo.value.message == "No Data found") {
-      //   print(response);
-      //   CommonDialog.hideLoading();
-      //   CommonDialog.showsnackbar("No Data found");
-      // } else {
-      //   CommonDialog.hideLoading();
-      // //  shopDetailpojo.value = shopDetailPojoFromJson(response);
-      //
-      // }
+
     } catch (error) {
       print(error);
       print("ERROR  ERROR   ERROR   ERROR  ");
@@ -266,8 +236,9 @@ class ShopDetailController extends GetxController {
     }
   }
 
-  void bookserViceCart(
+  void bookserVicecart(
       cartid,
+      context,
       shop_idd,
       employee_id,
       service_id,
@@ -286,6 +257,7 @@ class ShopDetailController extends GetxController {
     print(coin);
 
     map = {
+      "cart_id":cartid+"",
       "session_id": box.read('session'),
       "shop_id": shop_idd.toString() + "",
       "employee_id": employee_id.toString() + "",
@@ -293,9 +265,8 @@ class ShopDetailController extends GetxController {
       "sub_service_id": sub_service_id.toString() + "",
       "date": date.toString() + "",
       "from_time": from_time + "",
-      "cart_id": cartid.toString() + "",
       "booking_day": booking_day.toString() + "",
-      "to_time": from_time + "",
+      "to_time": to_time + "",
       "amount": amount,
       "payment_type": "$payment_type",
       "coin": "${coin == 0.0 ? 0.0 : coin}",
@@ -308,7 +279,7 @@ class ShopDetailController extends GetxController {
       lodaer = true;
       CommonDialog.showLoading(title: "Please waitt...");
       final response =
-          await APICall().registerUrse(map, AppConstant.BOOK_SERVICE);
+      await APICall().registerUrse(map, AppConstant.BOOK_SERVICE);
       print("response  response   response   response  ");
       print(response);
       update();
@@ -319,22 +290,23 @@ class ShopDetailController extends GetxController {
         bookingMessage = addBookingPojo.value.message!;
         update();
         CommonDialog.showsnackbar(addBookingPojo.value.message);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => TableBasicsExample()),
+        );
+        bookingController.getBookingList1(context);
+        homeController.getCartList(box.read('session'));
+
       } else {
         CommonDialog.showsnackbar("Error");
       }
-      // if (shopDetailpojo.value.message == "No Data found") {
-      //   print(response);
-      //   CommonDialog.hideLoading();
-      //   CommonDialog.showsnackbar("No Data found");
-      // } else {
-      //   CommonDialog.hideLoading();
-      // //  shopDetailpojo.value = shopDetailPojoFromJson(response);
-      //
-      // }
+
     } catch (error) {
       print(error);
       print("ERROR  ERROR   ERROR   ERROR  ");
       CommonDialog.hideLoading();
     }
   }
+
 }

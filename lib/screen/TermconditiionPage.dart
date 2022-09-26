@@ -60,7 +60,7 @@ class _TermConditionPageState extends State<TermConditionPage> {
          actions: <Widget>[],
        ),
        body: WebView(
-         initialUrl: 'https://flutter.dev',
+         initialUrl: 'http://kolacut.kvpscampuscare.com/public/user-terms',
          javascriptMode: JavascriptMode.disabled,
        ),
      ));

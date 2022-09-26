@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   int isSelected =
       1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
   bool _isLoading = true;
+  String apiKey = "AIzaSyAIFnj6QxWUHPj3M086GFxMBPJrR6NePE8";
 
   var name = "";
   var email = "";
@@ -50,14 +51,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    String apiKey = "AIzaSyAIFnj6QxWUHPj3M086GFxMBPJrR6NePE8";
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
         _isLoading = false;
       });
     });
-    googlePlace = GooglePlace(apiKey);
+
     super.initState();
+    googlePlace = GooglePlace(apiKey);
     _getCurrentLocation();
   }
 
@@ -86,11 +87,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   _getCurrentLocation() {
+    debugPrint("KLKDFKDFKDJSFLKDSKFDSKFLKDJSFKLDFKLDKFKDLFKLD");
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
+        debugPrint("${_currentPosition} ++++++++");
         if (kDebugMode) {
           print(_currentPosition);
         }
@@ -112,20 +115,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getDetils(String placeId) async {
+
     var result = await this.googlePlace.details.get(placeId);
-    if (result != null && result.result != null && mounted) {
+    print(result);
+    if (result != null && result.result != null ) {
+      print("opopoopoppopopopoopo");
       setState(() {
         var detailsResult = result.result!;
-        print(detailsResult.name);
-        print(detailsResult.formattedAddress);
-        print(detailsResult.adrAddress);
-        print(detailsResult.scope);
-        print(detailsResult.name);
         _currentAddress = detailsResult.name!;
-
-        //print(detailsResult.geometry!.location!.lat);
+        print(detailsResult.geometry!.location!.lat);
         //print( detailsResult.geometry!.location!.lat);
       });
+    }else{
+      print("KJKJKJKJKJKJKKJ");
     }
   }
 
@@ -538,7 +540,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(' ${_currentAddress != null ? _currentAddress : ""}',
               style: TextStyle(
-                  fontSize: 6,
+                  fontSize: 8,
                   fontFamily: 'Poppins Regular',
                   color: Colors.black),
               textAlign: TextAlign.center),
@@ -553,12 +555,6 @@ class _HomePageState extends State<HomePage> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  bool showSublist =
-                      false; // Declare your variable outside the builder
-
-                  bool showmainList = true;
-                  var mainlistPosition = 0;
-                  var bntname = "Add";
                   return AlertDialog(
                     title: Text("Search your location"),
                     content: StatefulBuilder(
@@ -632,15 +628,7 @@ class _HomePageState extends State<HomePage> {
                                               predictions[index].placeId!);
                                           Navigator.pop(context);
                                         });
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => DetailsPage(
-                                        //       placeId: predictions[index].placeId.toString(),
-                                        //       googlePlace: googlePlace, key: null,
-                                        //     ),
-                                        //   ),
-                                        // );
+
                                       },
                                     );
                                   },

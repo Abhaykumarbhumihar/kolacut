@@ -76,7 +76,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
               children: [
                 Container(
                     width: width,
-                    height: height * 0.3,
+                    height: height * 0.3-height*0.09,
                     decoration: BoxDecoration(
                         color: Color(Utils.hexStringToHexInt('77ACA2')),
                         borderRadius: BorderRadius.only(
@@ -217,10 +217,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                       color: Colors.grey,
                     ),
 
-                    const Divider(
-                      height: 1.0,
-                      color: Colors.grey,
-                    ),
                     ListTile(
                       leading: Icon(
                         CupertinoIcons.cart,
@@ -361,10 +357,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                       },
                       trailing: const Icon(Icons.keyboard_arrow_right),
                     ),
-                    Divider(
-                      height: 1.0,
-                      color: Colors.grey,
-                    ),
                     const Divider(
                       height: 1.0,
                       color: Colors.grey,
@@ -378,115 +370,6 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
 
                       onTap: () async {
                         _showDialog(context);
-                        // Navigator.pop(context);
-                        // // CommonDialog.showLoading(title: "Please wait");
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => CoinPage()),
-                        // );
-                        // Map map = {
-                        //   "session_id": box.read('session'),
-                        // };
-                        // print(map);
-                        // var apiUrl = Uri.parse(
-                        //     AppConstant.BASE_URL + AppConstant.REFER_TO_FRIEND);
-                        // print(apiUrl);
-                        // print(map);
-                        // final response = await http.post(
-                        //   apiUrl,
-                        //   body: map,
-                        // );
-                        // print(response.body);
-                        // var data = response.body;
-                        // final body = json.decode(response.body);
-                        // setState(() {
-                        //   if (body['message'] != "") {
-                        //     CommonDialog.showsnackbar(body['message'] +
-                        //         "your code is \n" +
-                        //         body['referel_code']);
-                        //     showLoaderDialog(context, body['referel_code']);
-                        //   }
-                        // });
-
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //     var valueName = "";
-                        //     var valuePrice = "";
-                        //     return AlertDialog(
-                        //       title: Row(
-                        //         mainAxisAlignment:
-                        //             MainAxisAlignment.spaceBetween,
-                        //         children: <Widget>[
-                        //           const Text(
-                        //             'Refer to your friend',
-                        //             style: TextStyle(fontSize: 12.0),
-                        //           ),
-                        //           IconButton(
-                        //             onPressed: () => Navigator.pop(context),
-                        //             icon: Icon(Icons.cancel_outlined),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       content: Container(
-                        //         width: 200,
-                        //         child: SingleChildScrollView(
-                        //           child: Column(
-                        //             mainAxisAlignment: MainAxisAlignment.start,
-                        //             crossAxisAlignment:
-                        //                 CrossAxisAlignment.center,
-                        //             children: <Widget>[
-                        //               SizedBox(
-                        //                 height: height * 0.03,
-                        //               ),
-                        //               SizedBox(
-                        //                 height: 10,
-                        //               ),
-                        //               FlatButton(
-                        //                 color: Color(
-                        //                     Utils.hexStringToHexInt('77ACA2')),
-                        //                 textColor: Colors.white,
-                        //                 child: Text('OK'),
-                        //                 onPressed: () async {
-                        //                   showLoaderDialog(context);
-                        //                   // Map map = {
-                        //                   //   "session_id": box.read('session'),
-                        //                   // };
-                        //                   // print(map);
-                        //                   // var apiUrl = Uri.parse(
-                        //                   //     AppConstant.BASE_URL +
-                        //                   //         AppConstant.REFER_TO_FRIEND);
-                        //                   // print(apiUrl);
-                        //                   // print(map);
-                        //                   // final response = await http.post(
-                        //                   //   apiUrl,
-                        //                   //   body: map,
-                        //                   // );
-                        //                   // print(response.body);
-                        //                   // var data = response.body;
-                        //                   // final body =
-                        //                   //     json.decode(response.body);
-                        //                   // CommonDialog.showsnackbar(
-                        //                   //     body['message'] +
-                        //                   //         "your code is \n" +
-                        //                   //         body['referel_code']);
-                        //                   // Navigator.pop(context);
-                        //                   //
-                        //                   // showLoaderDialog(context);
-                        //                   // Share.share(
-                        //                   //     'Intall this app and get benifits ${body['referel_code']}',
-                        //                   //     subject: 'Kolacut!');
-                        //                 },
-                        //               ),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       actions: <Widget>[],
-                        //     );
-                        //   },
-                        // );
-                        // Navigator.pop(context);
                       },
                       trailing: const Icon(Icons.keyboard_arrow_right),
                     ),
@@ -586,8 +469,34 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
             content: Text('Do you want to delete your account?'),
             actions: [
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.of(context).pop();
+                  Map map = {
+                    "session_id": box.read('session'),
+                  };
+                  print(map);
+                  var apiUrl = Uri.parse(
+                      AppConstant.BASE_URL + AppConstant.DELET_ACCOUNT);
+                  print(apiUrl);
+                  print(map);
+                  final response = await http.post(
+                    apiUrl,
+                    body: map,
+                  );
+                  print(response.body);
+                  var data = response.body;
+                  final body = json.decode(response.body);
+                  setState(()async {
+                    if (body['message'] != "") {
+                      CommonDialog.showsnackbar(body['message']);
+                      SharedPreferences prefrences =
+                          await SharedPreferences.getInstance();
+                      await prefrences.remove("session");
+                      box.remove('session');
+                      Get.offAll(LoginPage());
+                      //showLoaderDialog(context, body['referel_code']);
+                    }
+                  });
                 },
                 child: Text('YES', style: TextStyle(color: Colors.black),),
               ),

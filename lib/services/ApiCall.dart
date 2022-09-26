@@ -102,7 +102,7 @@ print(response.statusCode);
     }
   }
 
-  Future<String> registerUserMulti(
+  Future<String> registerUserMulti(referel_code,
       image, name, email, dob, gender, phone, device_type, device_token) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse(AppConstant.BASE_URL + AppConstant.REGISTER));
@@ -112,6 +112,7 @@ print(response.statusCode);
         filename: image.path.split("/").last));
 
     request.fields['name'] = name;
+    request.fields['referel_code'] = referel_code+"";
     request.fields['email'] = email;
     request.fields['dob'] = "" + dob;
     request.fields['gender'] = gender;
