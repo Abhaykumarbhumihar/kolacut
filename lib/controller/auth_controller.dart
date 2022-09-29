@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/model/LoginOtp.dart';
@@ -11,6 +13,7 @@ import 'package:untitled/model/VerifyOtp.dart';
 import 'package:untitled/screen/verifyOtp.dart';
 import 'package:untitled/services/ApiCall.dart';
 import 'package:untitled/utils/CommomDialog.dart';
+import 'package:untitled/utils/Utils.dart';
 import 'package:untitled/utils/appconstant.dart';
 import 'package:untitled/screen/verifyOtp.dart';
 import 'package:get_storage/get_storage.dart';
@@ -116,9 +119,11 @@ class AuthControlller extends GetxController {
         CommonDialog.showsnackbar("Wrong OTP");
       } else {
         registerPojo.value = registerPojoFromJson(response);
-        CommonDialog.showsnackbar(registerPojo.value.message);
-        final prefs = await SharedPreferences.getInstance();
+       // CommonDialog.showsnackbar(registerPojo.value.message);
 
+
+        final prefs = await SharedPreferences.getInstance();
+Utils.SESSION=registerPojo.value.data!.token.toString();
         await prefs.setString(
             'session', registerPojo.value.data!.token.toString());
         await prefs.setString('name', registerPojo.value.data!.name.toString());
@@ -163,5 +168,63 @@ class AuthControlller extends GetxController {
     //   registerPojo.value = registerPojoFromJson(response);
     //   CommonDialog.showsnackbar(registerPojo.value.message ?? "");
     // }
+  }
+
+  showLoaderDialog(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
+    AlertDialog alert = AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      content:
+      Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.3,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey, width: 2),
+            borderRadius: BorderRadius.circular(
+                MediaQuery.of(context).size.width * 0.04)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(width * 0.06),
+                  child: SvgPicture.asset(
+                      'images/svgicons/eva_close-circle-fill.svg'),
+                  width: width * 0.08,
+                  height: height * 0.05,
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: width * 0.06),
+              child: Text(
+                'Verification Successful',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Poppins Medium',
+                    fontSize: MediaQuery.of(context).size.width * 0.04),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

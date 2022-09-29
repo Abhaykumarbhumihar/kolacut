@@ -553,19 +553,19 @@ class _CartOrderState extends State<CartOrder> {
                                   );
                                 }),
                           ),
-                          SizedBox(
-                            height: height * 0.05,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                'images/svgicons/addmoreservices.svg',
-                                width: width * 0.01,
-                                height: height * 0.02,
-                              ),
-                            ],
-                          ),
+                          // SizedBox(
+                          //   height: height * 0.05,
+                          // ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     SvgPicture.asset(
+                          //       'images/svgicons/addmoreservices.svg',
+                          //       width: width * 0.01,
+                          //       height: height * 0.02,
+                          //     ),
+                          //   ],
+                          // ),
                           Divider(
                             thickness: 2,
                             color: Color(Utils.hexStringToHexInt('E5E5E5')),
@@ -718,9 +718,10 @@ class _CartOrderState extends State<CartOrder> {
                                                                       'A4A4A4'))),
                                                         ),
                                                         Container(
-                                                          padding: EdgeInsets
+                                                          padding: const EdgeInsets
                                                               .symmetric(
                                                                   vertical: 2.0,
+
                                                                   horizontal:
                                                                       10.0),
                                                           color: Color(Utils
@@ -756,6 +757,10 @@ class _CartOrderState extends State<CartOrder> {
                                                             .coupon![position]
                                                             .price
                                                             .toString());
+                                                        applycouponPrice =
+                                                            double.parse(widget!.slotDetail!
+                                                                .coupon![position]
+                                                                .price.toString());
                                                         applycouponCode =
                                                             applycouponCode =
                                                                 widget
@@ -928,20 +933,8 @@ class _CartOrderState extends State<CartOrder> {
                                                           const SizedBox(
                                                             height: 8,
                                                           ),
-                                                          // Text(
-                                                          //   '  Upto 50% off via UPI',
-                                                          //   style: TextStyle(
-                                                          //       fontFamily:
-                                                          //       'Poppins Light',
-                                                          //       fontSize: MediaQuery.of(
-                                                          //           context)
-                                                          //           .size
-                                                          //           .height *
-                                                          //           0.01,
-                                                          //       color: Color(Utils
-                                                          //           .hexStringToHexInt(
-                                                          //           'A4A4A4'))),
-                                                          // ),
+
+
                                                         ],
                                                       ),
                                                       Row(
@@ -1009,8 +1002,10 @@ class _CartOrderState extends State<CartOrder> {
                                                               Get.find<HomeController>().adminCouponList
                                                                   .value
                                                                   .couponDetail![position].couponCode.toString();
+
                                                           Navigator.pop(
                                                               context);
+                                                          CommonDialog.showsnackbar(applycouponPrice);
                                                         },
                                                         icon: Icon(
                                                           CupertinoIcons
@@ -1055,7 +1050,7 @@ class _CartOrderState extends State<CartOrder> {
                                   height: height * 0.04,
                                 ),
                                 Text(
-                                  ' Use Kolacut Cupons',
+                                  ' Use Kolacut Coupons',
                                   style: TextStyle(
                                       color: Color(
                                           Utils.hexStringToHexInt('77ACA2')),
@@ -1743,9 +1738,11 @@ class _CartOrderState extends State<CartOrder> {
   }
 
   void openCheckout(shopname, description) async {
+    var newprice=double.parse(total_price.toString())-(applycouponPrice + applycoin);
+
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
-      'amount': total_price,
+      'amount': newprice*100,
       'name': '${widget.slotDetail!.shopName}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
@@ -1775,6 +1772,7 @@ class _CartOrderState extends State<CartOrder> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
+    CommonDialog.showsnackbar( "ERROR: " + response.code.toString() + " - " + response.message!);
     /* Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
         toastLength: Toast.LENGTH_SHORT); */

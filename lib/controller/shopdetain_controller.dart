@@ -48,7 +48,7 @@ class ShopDetailController extends GetxController {
     //session_id
     super.onReady();
     print("SDLKFJKLSDFJDSprofile");
-    print(box.read('session'));
+   // print(box.read('session'));
     // getShopDetail("0EX03NjgPziSlCcTiZdxAi1c3aT1r1SA",shopId);
   }
 
@@ -66,10 +66,10 @@ class ShopDetailController extends GetxController {
       CommonDialog.showLoading(title: "Please waitt...");
       final response =
           await APICall().registerUrse(map, AppConstant.SHOP_DETAIL);
-      print("response  response   response   response  ");
-      print(response);
+     // print("response  response   response   response  ");
+      //print(response);
       if (shopDetailpojo.value.message == "No Data found") {
-        print(response);
+        //print(response);
         CommonDialog.hideLoading();
         CommonDialog.showsnackbar("No Data found");
       } else {

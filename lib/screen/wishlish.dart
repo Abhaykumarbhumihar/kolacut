@@ -184,6 +184,9 @@ class _WishlistState extends State<Wishlist> {
         margin: EdgeInsets.only(top: height * 0.001, bottom: height * 0.001),
         color: Colors.white,
         child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.circular(12)),
           child: Stack(
             clipBehavior: Clip.none,
             children: <Widget>[
@@ -316,7 +319,7 @@ class _WishlistState extends State<Wishlist> {
                           child: Icon(
                             Icons.keyboard_arrow_right_outlined,
                             size: 34,
-                            color: Colors.blue,
+                            color: Colors.black,
                           ),
                         )),
                   )

@@ -124,7 +124,7 @@ class _OrderDetailState extends State<OrderDetail> {
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("session");
-      print(sharedPreferences.getString("session"));
+     // print(sharedPreferences.getString("session"));
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Get.find<HomeController>().getCoin1(_testValue);
       //  Get.find<HomeController>().getAdminCouponList(_testValue);
@@ -152,9 +152,11 @@ class _OrderDetailState extends State<OrderDetail> {
   }
 
   void openCheckout(shopname, description) async {
+    var newprice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
+    print(newprice);
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
-      'amount': totalPrice,
+      'amount': newprice*100,
       'name': '${shopname}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
@@ -184,6 +186,7 @@ class _OrderDetailState extends State<OrderDetail> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
+    CommonDialog.showsnackbar("ERROR: " + response.code.toString() + " - " + response.message!);
     /* Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -918,7 +921,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                   height: height * 0.04,
                                 ),
                                 Text(
-                                  ' Use Kolacut Cupons',
+                                  ' Use Kolacut Coupons',
                                   style: TextStyle(
                                       color: Color(
                                           Utils.hexStringToHexInt('77ACA2')),
@@ -1490,7 +1493,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                       //     }
                                       //   });
                                       // });
-
+//applycouponPrice + applycoin
+                                 // var newPrice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
                                       openCheckout(
                                         widget.data!.name.toString(),
                                         description,

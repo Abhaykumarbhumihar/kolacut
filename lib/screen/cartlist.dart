@@ -43,7 +43,7 @@ class _MyCartListState extends State<MyCartList> {
         child: Scaffold(
             key: scaffolKey,
             // drawer:  SideNavigatinPage("${name}", "${iamge}", "${email}", "${phone}"),
-            backgroundColor: Color(Utils.hexStringToHexInt('E5E5E5')),
+            backgroundColor: Colors.white,
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0.0,
@@ -149,6 +149,9 @@ class _MyCartListState extends State<MyCartList> {
                                           bottom: height * 0.001),
                                       color: Colors.white,
                                       child: Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(12)),
                                         child: Stack(
                                           clipBehavior: Clip.none,
                                           children: <Widget>[
@@ -290,7 +293,7 @@ class _MyCartListState extends State<MyCartList> {
                                                           Icons
                                                               .keyboard_arrow_right_outlined,
                                                           size: 34,
-                                                          color: Colors.blue,
+                                                          color: Colors.black,
                                                         ),
                                                       )),
                                                 )

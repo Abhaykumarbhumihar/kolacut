@@ -207,7 +207,8 @@ class _LoginPageState extends State<LoginPage> {
                     authControlller.login(emailcontroller.text.toString());
                   }
                 },
-                child: Container(
+                child:
+                Container(
                   width: width * 0.5,
                   height: height * 0.06,
                   decoration: BoxDecoration(

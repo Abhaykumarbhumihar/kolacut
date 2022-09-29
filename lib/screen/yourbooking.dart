@@ -256,13 +256,11 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                                     width, height, context, newlist),
                                               ),
                                             ),
-                                            barrierDismissible: false,
+                                          //  barrierDismissible: false,
                                           );
                                         }else{
                                           CommonDialog.showsnackbar("No data found for this date");
                                         }
-
-
                                       },
                                       calendarBuilders: CalendarBuilders(
                                         defaultBuilder: (ctx, day, focusedDay) {
@@ -555,7 +553,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
           return Container(
             width: width,
             padding: EdgeInsets.all(width * 0.03),
-            margin: EdgeInsets.all(width * 0.03),
+            margin: EdgeInsets.all(width * 0.01),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(width * 0.02)),
                 border: Border.all(color: Colors.black26, width: 2)),
@@ -602,7 +600,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                               fontSize: width * 0.03,
                               fontFamily: 'Poppins Regular'),
                         ),
-                        Text('${slotDetail[position]..bookingId}',
+                        Text('${slotDetail[position].bookingId}',
                             style: TextStyle(
                                 fontSize: width * 0.02,
                                 fontFamily: 'Poppins Regular',

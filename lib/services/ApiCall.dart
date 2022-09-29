@@ -20,30 +20,13 @@ class APICall {
     print(map);
     final response = await http.post(apiUrl, headers: mainheader, body: map);
     final body = json.decode(response.body);
-print(response.statusCode);
-    print(response.statusCode);
 
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
-
-    print(response.statusCode);
 
 
     if (response.statusCode == 200) {
       var jsonString = response.body;
-      print(response.statusCode);
-       print(response.body);
+      //print(response.statusCode);
+       //print(response.body);
       return jsonString;
     }else if(response.statusCode==403){
       SharedPreferences prefrences = await SharedPreferences.getInstance();
@@ -93,9 +76,9 @@ print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
       var jsonString = response.body;
-      print(response.statusCode);
-      print("SDFDSFDFDFDF");
-      print(response.body);
+     // print(response.statusCode);
+      //print("SDFDSFDFDFDF");
+      //print(response.body);
       return jsonString;
     } else {
       return "null";

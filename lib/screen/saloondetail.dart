@@ -710,7 +710,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
 
                   Container(
                     height: a.emploeyee!.length > 0
-                        ? height * 0.3 - height * 0.04
+                        ? height * 0.3 - height * 0.03
                         : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,
@@ -1302,7 +1302,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       name,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.width * 0.04,
+                          fontSize: MediaQuery.of(context).size.height * 0.02,
                           fontFamily: 'Poppins Regular'),
                     ),
                     SizedBox(
@@ -1352,13 +1352,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       ],
                     ),
                     SizedBox(
-                      height: height * 0.02,
+                      height: height * 0.01,
                     ),
                     Text(
                       'Services',
                       style: TextStyle(
                           fontFamily: 'Poppins Regular',
-                          fontSize: MediaQuery.of(context).size.height * 0.03,
+                          fontSize: MediaQuery.of(context).size.height * 0.02,
                           color: Colors.black),
                     ),
                     SizedBox(

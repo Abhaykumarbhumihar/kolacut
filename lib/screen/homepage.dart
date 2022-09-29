@@ -115,10 +115,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getDetils(String placeId) async {
-
     var result = await this.googlePlace.details.get(placeId);
     print(result);
-    if (result != null && result.result != null ) {
+    if (result != null && result.result != null) {
       print("opopoopoppopopopoopo");
       setState(() {
         var detailsResult = result.result!;
@@ -126,7 +125,7 @@ class _HomePageState extends State<HomePage> {
         print(detailsResult.geometry!.location!.lat);
         //print( detailsResult.geometry!.location!.lat);
       });
-    }else{
+    } else {
       print("KJKJKJKJKJKJKKJ");
     }
   }
@@ -142,7 +141,6 @@ class _HomePageState extends State<HomePage> {
       var _phoneValue = sharedPreferences.getString("phoneno");
       var _sessss = sharedPreferences.getString("session");
       setState(() {
-
         if (_sessss != null) {
           session = _sessss;
           homeControlller.sessiooo.value =
@@ -187,7 +185,6 @@ class _HomePageState extends State<HomePage> {
                       // print("\n\n\n");
                       //  print(data);
                       //print("\n\n\n");
-
                       var servicedata =
                           homeControlller.serviceList.value.serviceDetail;
                       return Container(
@@ -220,10 +217,13 @@ class _HomePageState extends State<HomePage> {
                             ),
                             filterContainer(context, width, height),
                             searchHint(context),
-                            session == null||session==""
-                                ? Container():SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.2-height*0.05,
+                            session == null || session == ""
+                                ? Container()
+                                : ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: 0.01,
+                                maxHeight: height * 0.2-height*0.07,
+                              ),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemCount: homeControlller
@@ -242,51 +242,55 @@ class _HomePageState extends State<HomePage> {
                                                   .couponDetail![position]);
                                         }),
                                   ),
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
-                            session == null||session==""
-                                ? Container(): Utils().titleText('Services', context),
-                            session == null||session==""
+                            session == null || session == ""
+                                ? Container()
+                                : Utils().titleText('Services', context),
+                            session == null || session == ""
                                 ? Container()
                                 : servicelist(
                                     context, width, height, servicedata),
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
+
                             seeall(context),
-                            SizedBox(
-                              width: width,
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: 0.5,
+                                maxHeight: height * 0.4,
+                              ),
                               child: ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
                                   itemCount: data.length,
                                   itemBuilder: (context, position) {
-                                    return GestureDetector(
+                                    return
+                                      GestureDetector(
                                         onTap: () {
                                           print(data[position].shopId!);
-                                          if(session == null||session==""){
-                                            CommonDialog.showsnackbar("Please login for use all features");
-                                          }else{
+                                          if (session == null ||
+                                              session == "") {
+                                            CommonDialog.showsnackbar(
+                                                "Please login for use all features");
+                                          } else {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      SaloonDetail(data[position]
-                                                          .shopId!)),
+                                                      SaloonDetail(
+                                                          data[position]
+                                                              .shopId!)),
                                             );
                                           }
                                         },
                                         child: Container(
                                           width: width,
-                                          height: height * 0.2-height*0.06,
+                                          height: height * 0.2 - height * 0.06,
                                           margin: EdgeInsets.only(
                                               top: height * 0.001,
                                               bottom: height * 0.001),
                                           color: Colors.transparent,
                                           child: Card(
-
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
                                             child: Stack(
                                               clipBehavior: Clip.none,
                                               children: <Widget>[
@@ -296,9 +300,7 @@ class _HomePageState extends State<HomePage> {
                                                     Container(
                                                       child: Expanded(
                                                         flex: 3,
-                                                        child:
-
-                                                        Container(
+                                                        child: Container(
                                                             height: MediaQuery.of(
                                                                             context)
                                                                         .size
@@ -450,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                                                                   .keyboard_arrow_right_outlined,
                                                               size: 34,
                                                               color:
-                                                                  Colors.blue,
+                                                                  Colors.black,
                                                             ),
                                                           )),
                                                     )
@@ -540,7 +542,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(' ${_currentAddress != null ? _currentAddress : ""}',
               style: TextStyle(
-                  fontSize: 8,
+                  fontSize: width * 0.02,
                   fontFamily: 'Poppins Regular',
                   color: Colors.black),
               textAlign: TextAlign.center),
@@ -569,15 +571,15 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               TextField(
-                                decoration: const InputDecoration(
+                                decoration:  InputDecoration(
                                   labelText: "Search",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Colors.blue,
+                                      color: Color(Utils.hexStringToHexInt('77ACA2')),
                                       width: 2.0,
                                     ),
                                   ),
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Colors.black54,
                                       width: 2.0,
@@ -609,9 +611,10 @@ class _HomePageState extends State<HomePage> {
                                   itemBuilder: (context, index) {
                                     return ListTile(
                                       leading: CircleAvatar(
+                                        backgroundColor: Colors.white60,
                                         child: Icon(
                                           Icons.pin_drop,
-                                          color: Colors.black,
+                                          color: Color(Utils.hexStringToHexInt('77ACA2')),
                                         ),
                                       ),
                                       title: Text(
@@ -628,7 +631,6 @@ class _HomePageState extends State<HomePage> {
                                               predictions[index].placeId!);
                                           Navigator.pop(context);
                                         });
-
                                       },
                                     );
                                   },
@@ -684,9 +686,9 @@ class _HomePageState extends State<HomePage> {
           ),
           tooltip: 'Setting Icon',
           onPressed: () {
-            if(session == null||session==""){
+            if (session == null || session == "") {
               CommonDialog.showsnackbar("Please login for use this");
-            }else {
+            } else {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => NotificationPage()),
@@ -706,7 +708,7 @@ class _HomePageState extends State<HomePage> {
   Widget filterContainer(BuildContext context, width, height) {
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.08,
+        height: MediaQuery.of(context).size.height * 0.06,
         margin: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
         padding: const EdgeInsets.only(left: 12, right: 12),
         decoration: BoxDecoration(
@@ -770,7 +772,7 @@ class _HomePageState extends State<HomePage> {
     var list = ["makeup", "Hair cut", "Cosmetics", "Trimming"];
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.05,
+      height: MediaQuery.of(context).size.height * 0.04,
       child: ListView.builder(
           itemCount: list.length,
           shrinkWrap: true,
@@ -811,153 +813,151 @@ class _HomePageState extends State<HomePage> {
 
   Widget OfferWidger(
       BuildContext context, width, height, CouponDetail couponDetail) {
-    return Stack(
-      children:[
-        Container(
-          width: MediaQuery.of(context).size.width - width * 0.4,
-          height: MediaQuery.of(context).size.height * 0.1,
-          margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.02, left: 12),
-          decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              color: Color(Utils.hexStringToHexInt('#77ACA2'))),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SvgPicture.asset(
-                'images/svgicons/offericon.svg',
-                width: width * 0.04,
-                height: height * 0.04,
+    return Stack(children: [
+      Container(
+        width: MediaQuery.of(context).size.width - width * 0.4,
+        height: MediaQuery.of(context).size.height * 0.1,
+        margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.02, left: 12),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            color: Color(Utils.hexStringToHexInt('#77ACA2'))),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SvgPicture.asset(
+              'images/svgicons/offericon.svg',
+              width: width * 0.04,
+              height: height * 0.04,
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    '${couponDetail.couponName}',
+                    style: TextStyle(
+                        color: Color(Utils.hexStringToHexInt('FFFFFF')),
+                        fontFamily: 'Poppins Medium',
+                        fontSize: MediaQuery.of(context).size.width * 0.04),
+                  ),
+                  // Text(
+                  //   'Get 50% discount on your first booking at your favourite salon',
+                  //   textAlign: TextAlign.left,
+                  //   style: TextStyle(
+                  //       color: Color(Utils.hexStringToHexInt('FFFFFF')),
+                  //       fontFamily: 'Poppins Light',
+                  //       fontSize: width * 0.03),
+                  // ),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
+                  Text(
+                    'Use Code : ${couponDetail.couponCode}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins Medium',
+                        fontSize: MediaQuery.of(context).size.height * 0.02),
+                  ),
+                ],
               ),
-              const SizedBox(
-                width: 6,
-              ),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '${couponDetail.couponName}',
-                      style: TextStyle(
-                          color: Color(Utils.hexStringToHexInt('FFFFFF')),
-                          fontFamily: 'Poppins Medium',
-                          fontSize: MediaQuery.of(context).size.width * 0.04),
-                    ),
-                    // Text(
-                    //   'Get 50% discount on your first booking at your favourite salon',
-                    //   textAlign: TextAlign.left,
-                    //   style: TextStyle(
-                    //       color: Color(Utils.hexStringToHexInt('FFFFFF')),
-                    //       fontFamily: 'Poppins Light',
-                    //       fontSize: width * 0.03),
-                    // ),
-                    SizedBox(
-                      height: height * 0.02,
-                    ),
-                    Text(
-                      'Use Code : ${couponDetail.couponCode}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins Medium',
-                          fontSize: MediaQuery.of(context).size.height * 0.02),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-           Positioned(
-               top:height*0.07,
-               right: 0,
-               child:
-           Container(
-             width: width*0.2-width*0.06,
-             height: height*0.09,
-             decoration: BoxDecoration(
-               // Image.asset('images/svgicons/circlecoupon.png')
-               image: DecorationImage(
-                 image: AssetImage('images/svgicons/circlecoupon.png')
-               )
-             ),
-           ))
-      ]
-
-    );
+      ),
+      Positioned(
+          top: height * 0.07,
+          right: 0,
+          child: Container(
+            width: width * 0.2 - width * 0.06,
+            height: height * 0.09,
+            decoration: BoxDecoration(
+                // Image.asset('images/svgicons/circlecoupon.png')
+                image: DecorationImage(
+                    image: AssetImage('images/svgicons/circlecoupon.png'))),
+          ))
+    ]);
   }
 
   Widget servicelist(
       BuildContext context, width, height, List<ServiceDetail>? serviceDetail) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: height * 0.2 - height * 0.06,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: 0.05,
+        maxHeight: height * 0.2 - height * 0.09,
+      ),
+
       child: ListView.builder(
         itemCount: serviceDetail!.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, position) {
           double scale = 1;
-          return Container(
-            margin: const EdgeInsets.only(left: 5, right: 5),
-            width: MediaQuery.of(context).size.width * 0.2,
-            height: height * 0.06,
-            decoration: BoxDecoration(
-              color: isSelected != null &&
-                      isSelected ==
-                          position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
-                  ? Color(Utils.hexStringToHexInt('77ACA2'))
-                  : Colors.transparent,
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                _isSelected(position);
-                debugPrint("Click working");
-              },
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(left: 6, right: 6,top: 4),
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: height * 0.08,
-
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    child: Center(
-                      child: Image.network(
-                        serviceDetail[position].serviceImage.toString(),
-                        width: MediaQuery.of(context).size.width * 0.2-width*0.04 ,
-                        height: MediaQuery.of(context).size.height * 0.2 ,
-                        // color: isSelected != null &&
-                        //         isSelected ==
-                        //             position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
-                        //     ? Colors.white
-                        //     : Color(
-                        //         Utils.hexStringToHexInt('77ACA2'),
-                        //       ),
-                        fit: isSelected != null &&
-                                isSelected ==
-                                    position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
-                            ? BoxFit.contain
-                            : null,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                  Text(
-                    serviceDetail[position].serviceTitle.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins Regular',
-                        fontSize: MediaQuery.of(context).size.width * 0.05),
-                  )
-                ],
+          return
+            Center(
+              child: Container(
+              margin: const EdgeInsets.only(left: 5, right: 5),
+              width: MediaQuery.of(context).size.width * 0.2-width*0.04,
+              height: height * 0.1,
+              decoration: BoxDecoration(
+                color: isSelected != null &&
+                        isSelected ==
+                            position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
+                    ? Color(Utils.hexStringToHexInt('77ACA2'))
+                    : Colors.transparent,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-            ),
-          );
+              child: GestureDetector(
+                onTap: () {
+                  _isSelected(position);
+                  debugPrint("Click working");
+                },
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                     margin: const EdgeInsets.only(left: 6, right: 6, top: 6),
+                        width: MediaQuery.of(context).size.width * 0.2-width*0.04,
+                        height: height * 0.05,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        ),
+                        child: Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              serviceDetail[position].serviceImage.toString(),
+                              width: MediaQuery.of(context).size.width * 0.2 -
+                                  width * 0.04,
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              fit: isSelected != null &&
+                                      isSelected ==
+                                          position //set condition like this. voila! if isSelected and list index matches it will colored as white else orange.
+                                  ? BoxFit.cover
+                                  : null,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      Text(
+                        serviceDetail[position].serviceTitle.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Poppins Regular',
+                            fontSize: MediaQuery.of(context).size.width * 0.03),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+          ),
+            );
         },
       ),
     );
