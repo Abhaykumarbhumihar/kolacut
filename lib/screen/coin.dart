@@ -280,375 +280,380 @@ var session="";
             ),
             content: Container(
               width: MediaQuery.of(context).size.width,
-             height: MediaQuery.of(context).size.height * 0.7+height*0.06,
+
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey, width: 2),
                   borderRadius: BorderRadius.circular(
                       MediaQuery.of(context).size.width * 0.04)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              // Navigator.pushReplacement(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (BuildContext context) => HomePage()));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(width * 0.06),
-                              child: SvgPicture.asset(
-                                  'images/svgicons/eva_close-circle-fill.svg'),
-                            ),
-                          )
-                        ],
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: width * 0.03),
-                        child: Center(
-                          child: Text(
-                            'Refer and Earn.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Poppins Medium',
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.04),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: width * 0.01),
-                        child: Text(
-                          'Invite your friends using your referral\ncode givn below and earn more\ncoins',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Poppins Regular',
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03),
-                        ),
-                      ),
-                      Center(
-                        child: Container(
-                          width: width,
-                          height: height * 0.1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                width: width - width * 0.5,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(12),
-                                    bottomLeft: Radius.circular(12.0),
-                                  ),
-                                  border: Border.all(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('77ACA2')),
+              child:
+             ListView(
+               children: <Widget>[
+                 Column(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: <Widget>[
+                     Column(
+                       children: <Widget>[
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.end,
+                           children: <Widget>[
+                             GestureDetector(
+                               onTap: () {
+                                 Navigator.pop(context);
+                                 // Navigator.pushReplacement(
+                                 //     context,
+                                 //     MaterialPageRoute(
+                                 //         builder: (BuildContext context) => HomePage()));
+                               },
+                               child: Container(
+                                 margin: EdgeInsets.all(width * 0.06),
+                                 child: SvgPicture.asset(
+                                     'images/svgicons/eva_close-circle-fill.svg'),
+                               ),
+                             )
+                           ],
+                         ),
+                         Container(
+                           margin: EdgeInsets.only(bottom: width * 0.03),
+                           child: Center(
+                             child: Text(
+                               'Refer and Earn.',
+                               textAlign: TextAlign.center,
+                               style: TextStyle(
+                                   color: Colors.black,
+                                   fontFamily: 'Poppins Medium',
+                                   fontSize:
+                                   MediaQuery.of(context).size.width * 0.04),
+                             ),
+                           ),
+                         ),
+                         Container(
+                           margin: EdgeInsets.only(bottom: width * 0.01),
+                           child: Text(
+                             'Invite your friends using your referral\ncode givn below and earn more\ncoins',
+                             textAlign: TextAlign.center,
+                             style: TextStyle(
+                                 color: Colors.black,
+                                 fontFamily: 'Poppins Regular',
+                                 fontSize:
+                                 MediaQuery.of(context).size.width * 0.03),
+                           ),
+                         ),
+                         Center(
+                           child: Container(
+                             width: width,
+                             height: height * 0.1,
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: <Widget>[
+                                 Container(
+                                   width: width - width * 0.5,
+                                   height: 38,
+                                   decoration: BoxDecoration(
+                                     borderRadius: const BorderRadius.only(
+                                       topLeft: Radius.circular(12),
+                                       bottomLeft: Radius.circular(12.0),
+                                     ),
+                                     border: Border.all(
+                                       color: Color(
+                                           Utils.hexStringToHexInt('77ACA2')),
 
-                                    //                   <--- border color
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "$code",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'Poppins Medium'),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 78,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('77ACA2')),
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(12),
-                                    bottomRight: Radius.circular(12.0),
-                                  ),
-                                  border: Border.all(
-                                    color: Color(
-                                        Utils.hexStringToHexInt('77ACA2')),
+                                       //                   <--- border color
+                                       width: 1.0,
+                                     ),
+                                   ),
+                                   child: Center(
+                                     child: Text(
+                                       "$code",
+                                       style: TextStyle(
+                                           color: Colors.black,
+                                           fontFamily: 'Poppins Medium'),
+                                     ),
+                                   ),
+                                 ),
+                                 Container(
+                                   width: 78,
+                                   height: 38,
+                                   decoration: BoxDecoration(
+                                     color:
+                                     Color(Utils.hexStringToHexInt('77ACA2')),
+                                     borderRadius: BorderRadius.only(
+                                       topRight: Radius.circular(12),
+                                       bottomRight: Radius.circular(12.0),
+                                     ),
+                                     border: Border.all(
+                                       color: Color(
+                                           Utils.hexStringToHexInt('77ACA2')),
 
-                                    //                   <--- border color
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: InkWell(
-                                    onTap: () {
-                                      Clipboard.setData(
-                                          ClipboardData(text: "$code"));
-                                    },
-                                    child: Text(
-                                      "COPY",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Poppins Medium'),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 12, right: 12),
-                        child: Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Row(
-                            children: const [
-                              Expanded(
-                                child: Divider(
-                                  color: Colors.black,
-                                  thickness: 1,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text('OR'),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  color: Colors.black,
-                                  thickness: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Center(
-                        child: IconButton(
-                          iconSize: 34,
-                          icon: Icon(
-                            Icons.share,
-                            color: Color(Utils.hexStringToHexInt('77ACA2')),
-                          ),
-                          // the method which is called
-                          // when button is pressed
-                          onPressed: () {
-                            // Navigator.pop(context);
-                            Share.share(
-                                'Intall this app and get benifits $code',
-                                subject: 'Kolacut!');
-                          },
-                        ),
-                      ),
-                      Text(
-                        'How it work?',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins Medium',
-                            fontSize: MediaQuery.of(context).size.width * 0.04),
-                      ),
-                      Row(
-                        children: <Widget>[
+                                       //                   <--- border color
+                                       width: 1.0,
+                                     ),
+                                   ),
+                                   child: Center(
+                                     child: InkWell(
+                                       onTap: () {
+                                         Clipboard.setData(
+                                             ClipboardData(text: "$code"));
+                                       },
+                                       child: Text(
+                                         "COPY",
+                                         style: TextStyle(
+                                             color: Colors.white,
+                                             fontFamily: 'Poppins Medium'),
+                                       ),
+                                     ),
+                                   ),
+                                 )
+                               ],
+                             ),
+                           ),
+                         ),
+                         Container(
+                           margin: EdgeInsets.only(left: 12, right: 12),
+                           child: Padding(
+                             padding: EdgeInsets.all(4.0),
+                             child: Row(
+                               children: const [
+                                 Expanded(
+                                   child: Divider(
+                                     color: Colors.black,
+                                     thickness: 1,
+                                   ),
+                                 ),
+                                 Padding(
+                                   padding: EdgeInsets.all(8.0),
+                                   child: Text('OR'),
+                                 ),
+                                 Expanded(
+                                   child: Divider(
+                                     color: Colors.black,
+                                     thickness: 1,
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                         ),
+                         Center(
+                           child: IconButton(
+                             iconSize: 34,
+                             icon: Icon(
+                               Icons.share,
+                               color: Color(Utils.hexStringToHexInt('77ACA2')),
+                             ),
+                             // the method which is called
+                             // when button is pressed
+                             onPressed: () {
+                               // Navigator.pop(context);
+                               Share.share(
+                                   'Intall this app and get benifits $code',
+                                   subject: 'Kolacut!');
+                             },
+                           ),
+                         ),
+                         Text(
+                           'How it work?',
+                           textAlign: TextAlign.start,
+                           style: TextStyle(
+                               color: Colors.black,
+                               fontFamily: 'Poppins Medium',
+                               fontSize: MediaQuery.of(context).size.width * 0.04),
+                         ),
+                         Row(
+                           children: <Widget>[
 
-                          Center(
-                            child: IconButton(
-                              iconSize: 34,
-                              icon: Icon(
-                                Icons.share,
-                                color: Color(Utils.hexStringToHexInt('77ACA2')),
-                              ),
-                              // the method which is called
-                              // when button is pressed
-                              onPressed: () {
-                                // Navigator.pop(context);
+                             Center(
+                               child: IconButton(
+                                 iconSize: 34,
+                                 icon: Icon(
+                                   Icons.share,
+                                   color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                 ),
+                                 // the method which is called
+                                 // when button is pressed
+                                 onPressed: () {
+                                   // Navigator.pop(context);
 
-                              },
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              'Share the referral link with your friends and family.',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins Medium',
-                                  fontSize: MediaQuery.of(context).size.width * 0.04),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
+                                 },
+                               ),
+                             ),
+                             Flexible(
+                               child: Text(
+                                 'Share the referral link with your friends and family.',
+                                 textAlign: TextAlign.start,
+                                 style: TextStyle(
+                                     color: Colors.black,
+                                     fontFamily: 'Poppins Medium',
+                                     fontSize: MediaQuery.of(context).size.width * 0.04),
+                               ),
+                             ),
+                           ],
+                         ),
+                         Row(
+                           children: <Widget>[
 
-                          Center(
-                            child: IconButton(
-                              iconSize: 34,
-                              icon: Icon(
-                                Icons.account_circle_rounded,
-                                color: Color(Utils.hexStringToHexInt('77ACA2')),
-                              ),
-                              // the method which is called
-                              // when button is pressed
-                              onPressed: () {
-                                // Navigator.pop(context);
+                             Center(
+                               child: IconButton(
+                                 iconSize: 34,
+                                 icon: Icon(
+                                   Icons.account_circle_rounded,
+                                   color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                 ),
+                                 // the method which is called
+                                 // when button is pressed
+                                 onPressed: () {
+                                   // Navigator.pop(context);
 
-                              },
-                            ),
-                          ),
+                                 },
+                               ),
+                             ),
 
-                          Flexible(
-                            child: Text(
-                              'Your firend sign up with the same link',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins Medium',
-                                  fontSize: MediaQuery.of(context).size.width * 0.04),
-                            ),
-                          ),
-                        ],
-                      ),
+                             Flexible(
+                               child: Text(
+                                 'Your friend sign up with the same link',
+                                 textAlign: TextAlign.start,
+                                 style: TextStyle(
+                                     color: Colors.black,
+                                     fontFamily: 'Poppins Medium',
+                                     fontSize: MediaQuery.of(context).size.width * 0.04),
+                               ),
+                             ),
+                           ],
+                         ),
 
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
+                         Row(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: <Widget>[
 
-                          Center(
-                            child: IconButton(
-                              iconSize: 34,
-                              icon: Icon(
-                                Icons.card_giftcard_outlined,
-                                color: Color(Utils.hexStringToHexInt('77ACA2')),
-                              ),
-                              // the method which is called
-                              // when button is pressed
-                              onPressed: () {
-                                // Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                          Flexible(
-                            child: Text(
-                              'Your friend gets 500 coins on sign up.you get 500 coins after completion of service within 30 days.'
-                                  'You can earn uptp 5000 coins which will be converted into rupees',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Poppins Medium',
-                                  fontSize: MediaQuery.of(context).size.width * 0.04),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // Text(
-                      //   'How it work?',
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //       color: Colors.black,
-                      //       fontFamily: 'Poppins Medium',
-                      //       fontSize: MediaQuery.of(context).size.width * 0.04),
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //
-                      //     Center(
-                      //       child: IconButton(
-                      //         iconSize: 34,
-                      //         icon: Icon(
-                      //           Icons.account_circle_rounded,
-                      //           color: Color(Utils.hexStringToHexInt('77ACA2')),
-                      //         ),
-                      //         // the method which is called
-                      //         // when button is pressed
-                      //         onPressed: () {
-                      //           // Navigator.pop(context);
-                      //
-                      //         },
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       'Your firend sign up with the same link',
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(
-                      //           color: Colors.black,
-                      //           fontFamily: 'Poppins Medium',
-                      //           fontSize: MediaQuery.of(context).size.width * 0.04),
-                      //     ),
-                      //   ],
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //
-                      //     Center(
-                      //       child: IconButton(
-                      //         iconSize: 34,
-                      //         icon: Icon(
-                      //           Icons.share,
-                      //           color: Color(Utils.hexStringToHexInt('77ACA2')),
-                      //         ),
-                      //         // the method which is called
-                      //         // when button is pressed
-                      //         onPressed: () {
-                      //           // Navigator.pop(context);
-                      //
-                      //         },
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       'How it work?',
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(
-                      //           color: Colors.black,
-                      //           fontFamily: 'Poppins Medium',
-                      //           fontSize: MediaQuery.of(context).size.width * 0.04),
-                      //     ),
-                      //   ],
-                      // ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: <Widget>[
-                      //
-                      //     Center(
-                      //       child: IconButton(
-                      //         iconSize: 34,
-                      //         icon: Icon(
-                      //           Icons.card_giftcard_outlined,
-                      //           color: Color(Utils.hexStringToHexInt('77ACA2')),
-                      //         ),
-                      //         // the method which is called
-                      //         // when button is pressed
-                      //         onPressed: () {
-                      //           // Navigator.pop(context);
-                      //         },
-                      //       ),
-                      //     ),
-                      //     Flexible(
-                      //       child: Text(
-                      //         'Your fried gets 500 coins on sign up.you get 500 coins after completion of service within 30 days.'
-                      //             'You can earn uptp 5000 coins which will be converted into rupees',
-                      //         textAlign: TextAlign.start,
-                      //         style: TextStyle(
-                      //             color: Colors.black,
-                      //             fontFamily: 'Poppins Medium',
-                      //             fontSize: MediaQuery.of(context).size.width * 0.04),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )
-                    ],
-                  )
-                ],
-              ),
+                             Center(
+                               child: IconButton(
+                                 iconSize: 34,
+                                 icon: Icon(
+                                   Icons.card_giftcard_outlined,
+                                   color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                 ),
+                                 // the method which is called
+                                 // when button is pressed
+                                 onPressed: () {
+                                   // Navigator.pop(context);
+                                 },
+                               ),
+                             ),
+                             Flexible(
+                               child: Text(
+                                 'Your friend gets 500 coins on sign up. you get 500 coins after completion of service within 30 days.'
+                                     'You can earn upto 500 coins which will be converted into rupees',
+                                 textAlign: TextAlign.start,
+                                 style: TextStyle(
+                                     color: Colors.black,
+                                     fontFamily: 'Poppins Medium',
+                                     fontSize: MediaQuery.of(context).size.width * 0.04),
+                               ),
+                             ),
+                           ],
+                         ),
+                         // Text(
+                         //   'How it work?',
+                         //   textAlign: TextAlign.center,
+                         //   style: TextStyle(
+                         //       color: Colors.black,
+                         //       fontFamily: 'Poppins Medium',
+                         //       fontSize: MediaQuery.of(context).size.width * 0.04),
+                         // ),
+                         // Row(
+                         //   children: <Widget>[
+                         //
+                         //     Center(
+                         //       child: IconButton(
+                         //         iconSize: 34,
+                         //         icon: Icon(
+                         //           Icons.account_circle_rounded,
+                         //           color: Color(Utils.hexStringToHexInt('77ACA2')),
+                         //         ),
+                         //         // the method which is called
+                         //         // when button is pressed
+                         //         onPressed: () {
+                         //           // Navigator.pop(context);
+                         //
+                         //         },
+                         //       ),
+                         //     ),
+                         //     Text(
+                         //       'Your firend sign up with the same link',
+                         //       textAlign: TextAlign.center,
+                         //       style: TextStyle(
+                         //           color: Colors.black,
+                         //           fontFamily: 'Poppins Medium',
+                         //           fontSize: MediaQuery.of(context).size.width * 0.04),
+                         //     ),
+                         //   ],
+                         // ),
+                         // Row(
+                         //   children: <Widget>[
+                         //
+                         //     Center(
+                         //       child: IconButton(
+                         //         iconSize: 34,
+                         //         icon: Icon(
+                         //           Icons.share,
+                         //           color: Color(Utils.hexStringToHexInt('77ACA2')),
+                         //         ),
+                         //         // the method which is called
+                         //         // when button is pressed
+                         //         onPressed: () {
+                         //           // Navigator.pop(context);
+                         //
+                         //         },
+                         //       ),
+                         //     ),
+                         //     Text(
+                         //       'How it work?',
+                         //       textAlign: TextAlign.center,
+                         //       style: TextStyle(
+                         //           color: Colors.black,
+                         //           fontFamily: 'Poppins Medium',
+                         //           fontSize: MediaQuery.of(context).size.width * 0.04),
+                         //     ),
+                         //   ],
+                         // ),
+                         // Row(
+                         //   crossAxisAlignment: CrossAxisAlignment.start,
+                         //   children: <Widget>[
+                         //
+                         //     Center(
+                         //       child: IconButton(
+                         //         iconSize: 34,
+                         //         icon: Icon(
+                         //           Icons.card_giftcard_outlined,
+                         //           color: Color(Utils.hexStringToHexInt('77ACA2')),
+                         //         ),
+                         //         // the method which is called
+                         //         // when button is pressed
+                         //         onPressed: () {
+                         //           // Navigator.pop(context);
+                         //         },
+                         //       ),
+                         //     ),
+                         //     Flexible(
+                         //       child: Text(
+                         //         'Your fried gets 500 coins on sign up.you get 500 coins after completion of service within 30 days.'
+                         //             'You can earn uptp 5000 coins which will be converted into rupees',
+                         //         textAlign: TextAlign.start,
+                         //         style: TextStyle(
+                         //             color: Colors.black,
+                         //             fontFamily: 'Poppins Medium',
+                         //             fontSize: MediaQuery.of(context).size.width * 0.04),
+                         //       ),
+                         //     ),
+                         //   ],
+                         // )
+                       ],
+                     )
+                   ],
+                 ),
+               ],
+             )
             ),
           ),
         );

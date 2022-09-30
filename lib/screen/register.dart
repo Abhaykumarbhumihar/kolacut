@@ -418,10 +418,10 @@ class _RegisterPageState extends State<RegisterPage> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const MainPage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainPage()),
+                    );
                   },
                   child: Container(
                     child: Text("SKIP",
