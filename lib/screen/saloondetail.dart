@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/model/SlotPojo.dart';
 import 'package:untitled/screen/coin.dart';
 import 'package:untitled/screen/orderdetail.dart';
@@ -80,7 +81,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
   List<String> userChecked = [];
   List<ServiceService> tempArray = [];
   var slotpojo = SlotPojo();
-
+  var session = "";
+  late SharedPreferences sharedPreferences;
   @override
   void initState() {
     // TODO: implement initState
@@ -127,6 +129,18 @@ class _SaloonDetailState extends State<SaloonDetail> {
   @override
   Widget build(BuildContext context) {
     print(shopid);
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+
+      var _sessss = sharedPreferences.getString("session");
+      setState(() {
+        if (_sessss != null) {
+          session = _sessss;
+
+        }
+      });
+
+    });
     salonControlller.shopId.value = shopid.toString();
     // for(int i=0;i<=days.length;i++){
     //  // debugPrint(days[i].day.toString()+"  "+days[i].month.toString()+" "+days[i].year.toString());
@@ -200,7 +214,14 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    salonControlller.addRemoveFavourite(shopid);
+                                    if (session == null ||
+                                        session == "") {
+                                      CommonDialog.showsnackbar(
+                                          "Please login for use all features");
+                                    }else{
+                                      salonControlller.addRemoveFavourite(shopid);
+                                    }
+
                                     //   print( salonControlller.isFavourite);
                                   },
                                   child: Container(
@@ -1125,13 +1146,19 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-                                if (tempArray.isEmpty) {
+
+                                if (session == null ||
+                                    session == "") {
+                                  CommonDialog.showsnackbar(
+                                      "Please login for use all features");
+                                } else if (tempArray.isEmpty) {
                                   CommonDialog.showsnackbar(
                                       "Please select your services");
                                 } else if (slotSelected == "") {
                                   CommonDialog.showsnackbar(
                                       "Please select  slot");
-                                } else if (selectDate == "") {
+                                }
+                                else if (selectDate == "") {
                                   CommonDialog.showsnackbar(
                                       "Please select  date");
                                 } else {

@@ -19,13 +19,14 @@ class APICall {
     print(apiUrl);
     print(map);
     final response = await http.post(apiUrl, headers: mainheader, body: map);
+   print(response);
     final body = json.decode(response.body);
 
 
 
     if (response.statusCode == 200) {
       var jsonString = response.body;
-      //print(response.statusCode);
+      print(response.statusCode);
        //print(response.body);
       return jsonString;
     }else if(response.statusCode==403){
@@ -47,6 +48,7 @@ class APICall {
     };
     var apiUrl = Uri.parse(AppConstant.BASE_URL + url);
     print(apiUrl);
+
     final response = await http.post(
       apiUrl,
       headers: mainheader,
@@ -54,9 +56,10 @@ class APICall {
     if (response.statusCode == 200) {
       var jsonString = response.body;
       print(response.statusCode);
-      // print(response.body);
+     print(response.body);
       return jsonString;
     } else {
+      print("ERRROR");
       return "null";
     }
   }

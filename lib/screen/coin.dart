@@ -43,7 +43,7 @@ var session="";
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("session");
       setState(() {
-        session = _testValue!!;
+        session = _testValue!;
       });
      // print(sharedPreferences.getString("session"));
       if (_testValue != null) {

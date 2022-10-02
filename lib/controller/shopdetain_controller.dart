@@ -59,7 +59,7 @@ class ShopDetailController extends GetxController {
 
   void getShopDetail(shop_id) async {
     Map map;
-    map = {"session_id": box.read('session'), "shop_id": shop_id.toString()};
+    map = {"shop_id": shop_id.toString()};
     print("API HIT HIT HIT HIT");
     try {
       lodaer = true;
@@ -178,7 +178,9 @@ class ShopDetailController extends GetxController {
       payment_type,
       transaction_id,
       coin,
-      coupon_code) async {
+      coupon_code,
+      coupon_type,
+      total_priecwithutdedcution) async {
     Map map;
     print("SDFSDFDSFDSFD");
     print(coin);
@@ -188,6 +190,8 @@ class ShopDetailController extends GetxController {
       "shop_id": shop_idd.toString() + "",
       "employee_id": employee_id.toString() + "",
       "service_id": service_id.toString() + "",
+      "coupon_type":coupon_type+"",
+      "total_price":total_priecwithutdedcution,
       "sub_service_id": sub_service_id.toString() + "",
       "date": date.toString() + "",
       "from_time": from_time + "",
@@ -251,7 +255,10 @@ class ShopDetailController extends GetxController {
       payment_type,
       transaction_id,
       coin,
-      coupon_code) async {
+      coupon_code,
+      coupon_type,
+      total_priecwithutdedcution
+      ) async {
     Map map;
     print("SDFSDFDSFDSFD");
     print(coin);
@@ -266,6 +273,8 @@ class ShopDetailController extends GetxController {
       "date": date.toString() + "",
       "from_time": from_time + "",
       "booking_day": booking_day.toString() + "",
+      "coupon_type":coupon_type+"",
+      "total_price":total_priecwithutdedcution,
       "to_time": to_time + "",
       "amount": amount,
       "payment_type": "$payment_type",

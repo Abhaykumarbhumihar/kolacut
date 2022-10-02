@@ -3,6 +3,7 @@
 //     final shopLIstPojo = shopLIstPojoFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
 
 ShopLIstPojo shopLIstPojoFromJson(String str) =>
     ShopLIstPojo.fromJson(json.decode(str));

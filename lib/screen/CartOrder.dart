@@ -56,7 +56,7 @@ class _CartOrderState extends State<CartOrder> {
   var applycouponPrice = 0.0;
   var applycouponCode = "";
   var serviceTime = 0;
-
+  var coupontype ="";
   @override
   void initState() {
     // TODO: implement initState
@@ -757,8 +757,9 @@ class _CartOrderState extends State<CartOrder> {
                                                             .coupon![position]
                                                             .price
                                                             .toString());
+                                                        coupontype="Shop Coupon";
                                                         applycouponPrice =
-                                                            double.parse(widget!.slotDetail!
+                                                            double.parse(widget.slotDetail!
                                                                 .coupon![position]
                                                                 .price.toString());
                                                         applycouponCode =
@@ -994,6 +995,7 @@ class _CartOrderState extends State<CartOrder> {
                                                           print(Get.find<HomeController>().adminCouponList
                                                               .value
                                                               .couponDetail![position].price.toString());
+                                                          coupontype="Kolacut Coupon";
                                                           applycouponPrice =
                                                               double.parse(Get.find<HomeController>().adminCouponList
                                                                   .value
@@ -1807,7 +1809,7 @@ class _CartOrderState extends State<CartOrder> {
           "Offline",
           "",
           0.0,
-          "");
+          "","","");
     }
   }
 
@@ -1832,7 +1834,10 @@ class _CartOrderState extends State<CartOrder> {
           "Online",
           transactionID,
           coin,
-          coupon + "");
+          coupon + "",
+          coupontype+"",
+          total_price.toString()
+      );
     }
   }
 }

@@ -42,8 +42,9 @@ class HomeController extends GetxController {
         var _testValue = sharedPreferences.getString("session");
         // print(sharedPreferences.getString("session"));
         if (_testValue != null) {
+          print(_testValue+"sdfdsfdsfsdfsdfsdfdsfd");
           getShopList1(_testValue);
-
+          //getServiceList(_testValue);
           // getCartList(_testValue);
 
         } else {
@@ -72,8 +73,8 @@ class HomeController extends GetxController {
       //lodaer = true;
       final response =
           await APICall().registerUrse(map, AppConstant.SERVICE_LIST);
-      // print(response);
-      //print("kjkjkljljlkjlkljkljkljhjgyuyyghgh");
+      print(response);
+      print("kjkjkljljlkjlkljkljkljhjgyuyyghgh");
       if (serviceList.value.message == "No Data found") {
         //   CommonDialog.hideLoading();
         //  CommonDialog.showsnackbar("No Data found");
@@ -85,6 +86,7 @@ class HomeController extends GetxController {
         //  lodaer = false;
       }
     } catch (error) {
+      print(error);
       //CommonDialog.hideLoading();
     }
   }
@@ -211,8 +213,14 @@ class HomeController extends GetxController {
       } else {
         // Get.back();
         // CommonDialog.hideLoading();
-        shopListPojo.value = shopLIstPojoFromJson(response);
-        data = shopListPojo.value.staffDetail!;
+        print("98988989899889988");
+        try{
+          shopListPojo.value = shopLIstPojoFromJson(response);
+          print("7777777777777777777");
+          data = shopListPojo.value.staffDetail!;
+        }catch(e){
+          print(e);
+        }
         // lodaer = false;
         getServiceList(_testValue);
         update();

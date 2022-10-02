@@ -265,20 +265,14 @@ class _HomePageState extends State<HomePage> {
                                       GestureDetector(
                                         onTap: () {
                                           print(data[position].shopId!);
-                                          if (session == null ||
-                                              session == "") {
-                                            CommonDialog.showsnackbar(
-                                                "Please login for use all features");
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SaloonDetail(
-                                                          data[position]
-                                                              .shopId!)),
-                                            );
-                                          }
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SaloonDetail(
+                                                        data[position]
+                                                            .shopId!)),
+                                          );
                                         },
                                         child: Container(
                                           width: width,
@@ -416,9 +410,7 @@ class _HomePageState extends State<HomePage> {
                                                                       RatingBarIndicator(
                                                                     rating: data[position].rating !=
                                                                             null
-                                                                        ? data[position]
-                                                                            .rating!
-                                                                            .toDouble()
+                                                                        ? data[position].rating!.toDouble()
                                                                         : 1.0,
                                                                     itemBuilder:
                                                                         (context,

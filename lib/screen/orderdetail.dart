@@ -54,7 +54,7 @@ class _OrderDetailState extends State<OrderDetail> {
   var applycouponPrice = 0.0;
   var applycouponcode = "";
   var total_price = 0;
-
+var coupontype="";
   TextEditingController _textFieldcoin = TextEditingController();
   EzAnimation ezAnimation = EzAnimation(50.0, 200.0, Duration(seconds: 5));
   BookingController bookingController = Get.put(BookingController());
@@ -86,7 +86,8 @@ class _OrderDetailState extends State<OrderDetail> {
         "Offline",
         "",
         0.0,
-        "");
+        "",
+    "","");
   }
 
   String getTimeString(int value) {
@@ -95,7 +96,7 @@ class _OrderDetailState extends State<OrderDetail> {
     return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
   }
 
-  void bookServiceOnline(BuildContext context,transactionid, coin, coupone) {
+  void bookServiceOnline(BuildContext context,transactionid, coin, coupone,) {
     salonControlller.bookserVice(
       context,
         widget.data!.id.toString(),
@@ -110,7 +111,10 @@ class _OrderDetailState extends State<OrderDetail> {
         "Online",
         transactionid,
         coin,
-        coupone + "");
+        coupone + "",
+        coupontype+"",
+        totalPrice.toString()
+    );
   }
 
   @override
@@ -615,6 +619,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                         tooltip:
                                                             "Applied coupon",
                                                         onPressed: () {
+                                                          coupontype="Shop Coupon";
                                                           print(widget
                                                               .data!
                                                               .coupon![position]
@@ -864,6 +869,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                         tooltip:
                                                         "Applied coupon",
                                                         onPressed: () {
+                                                          coupontype="Kolacut Coupon";
                                                           print(Get.find<HomeController>().adminCouponList
                                                               .value
                                                               .couponDetail![position].price.toString());
