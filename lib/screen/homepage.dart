@@ -167,6 +167,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
         key: scaffolKey,
         drawer: session == null
             ? SizedBox()
@@ -182,14 +183,11 @@ class _HomePageState extends State<HomePage> {
                       return Container();
                     } else {
                       var data = homeControlller.data;
-                      // print("\n\n\n");
-                      //  print(data);
-                      //print("\n\n\n");
                       var servicedata =
                           homeControlller.serviceList.value.serviceDetail;
                       return Container(
                         width: MediaQuery.of(context).size.width,
-                        color: Color(Utils.hexStringToHexInt('#fbfbfc')),
+                        //  color: Color(Utils.hexStringToHexInt('#fbfbfc')),
                         margin: const EdgeInsets.only(left: 12, right: 12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                   fontFamily: 'Poppins Regular',
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.03,
+                                      MediaQuery.of(context).size.width * 0.05,
                                   color: Color(
                                       Utils.hexStringToHexInt('#cfcfcf'))),
                             ),
@@ -211,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                   fontFamily: 'Poppins Medium',
                                   fontSize:
-                                      MediaQuery.of(context).size.width * 0.04,
+                                      MediaQuery.of(context).size.width * 0.05,
                                   color: Color(
                                       Utils.hexStringToHexInt('#154f84'))),
                             ),
@@ -220,10 +218,10 @@ class _HomePageState extends State<HomePage> {
                             session == null || session == ""
                                 ? Container()
                                 : ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: 0.01,
-                                maxHeight: height * 0.2-height*0.07,
-                              ),
+                                    constraints: BoxConstraints(
+                                      minHeight: 0.01,
+                                      maxHeight: height * 0.2 - height * 0.07,
+                                    ),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         itemCount: homeControlller
@@ -249,29 +247,27 @@ class _HomePageState extends State<HomePage> {
                                 ? Container()
                                 : servicelist(
                                     context, width, height, servicedata),
-
                             seeall(context),
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: 0.5,
                                 maxHeight: height * 0.4,
                               ),
-                              child: ListView.builder(
+                              child:
+                              ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   itemCount: data.length,
                                   itemBuilder: (context, position) {
-                                    return
-                                      GestureDetector(
+                                    return GestureDetector(
                                         onTap: () {
                                           print(data[position].shopId!);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SaloonDetail(
-                                                        data[position]
-                                                            .shopId!)),
+                                                    SaloonDetail(data[position]
+                                                        .shopId!)),
                                           );
                                         },
                                         child: Container(
@@ -322,116 +318,144 @@ class _HomePageState extends State<HomePage> {
                                                                     ))),
                                                       ),
                                                     ),
+                                                    //SizedBox(width: 4.0,),
                                                     Container(
                                                       child: Expanded(
                                                         flex: 5,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceAround,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: <Widget>[
-                                                            Column(
-                                                              children: <
-                                                                  Widget>[],
-                                                            ),
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: <
-                                                                  Widget>[
-                                                                Text(""),
-                                                                SizedBox(
-                                                                  height:
-                                                                      height *
-                                                                          0.03,
-                                                                ),
-                                                                SizedBox(
-                                                                  height: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .height *
-                                                                      0.04,
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          scrollDirection: Axis
-                                                                              .horizontal,
-                                                                          itemCount: data[position]
-                                                                              .service!
-                                                                              .length,
-                                                                          itemBuilder:
-                                                                              (context, index) {
-                                                                            return Container(
-                                                                              margin: EdgeInsets.only(left: 4, right: 4),
-                                                                              padding: EdgeInsets.all(4),
-                                                                              color: Color(Utils.hexStringToHexInt('E5E5E5')),
-                                                                              child: Row(
-                                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                children: <Widget>[
-                                                                                  Container(
-                                                                                    margin: EdgeInsets.only(top: 5),
-                                                                                    child: Center(
-                                                                                      child: SvgPicture.asset(
-                                                                                        'images/svgicons/tagsvg.svg',
-                                                                                        fit: BoxFit.contain,
-                                                                                        width: 24,
-                                                                                        height: 24,
-                                                                                      ),
+                                                        child: Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  left: 6.0,top: 3.0,bottom: 3.0),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: <Widget>[
+                                                             Stack(
+                                                               clipBehavior: Clip.none,
+                                                               children: <Widget>[
+                                                                 // // /*TODO--femina text*/
+                                                                 Text(
+                                                                   data[position]
+                                                                       .shopName
+                                                                       .toString(),
+                                                                   style: TextStyle(
+                                                                       color: Colors
+                                                                           .black,
+                                                                       fontSize: MediaQuery.of(context)
+                                                                           .size
+                                                                           .width *
+                                                                           0.05,
+                                                                       fontFamily:
+                                                                       'Poppins Regular'),
+                                                                 ),
+                                                                 //*TODO---address*/
+                                                                 Positioned(
+                                                                   top: 20,
+                                                                   child: Text(
+                                                                     data[position]
+                                                                         .location
+                                                                         .toString(),
+                                                                     style: TextStyle(
+                                                                         color: Color(
+                                                                             Utils.hexStringToHexInt(
+                                                                                 'A3A2A2')),
+                                                                         fontSize: MediaQuery.of(context)
+                                                                             .size
+                                                                             .width *
+                                                                             0.03,
+                                                                         fontFamily:
+                                                                         'Poppins Regular'),
+                                                                   ),
+                                                                 ),
+                                                               ],
+                                                             ),
+                                                              SizedBox(height: 2.0,),
+                                                              SizedBox(
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.03,
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        scrollDirection:
+                                                                            Axis
+                                                                                .horizontal,
+                                                                        itemCount: data[position]
+                                                                            .service!
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return Container(
+                                                                            margin:
+                                                                                EdgeInsets.only(right: 4),
+                                                                            // padding:
+                                                                            //     EdgeInsets.all(2),
+                                                                            color:
+                                                                                Color(Utils.hexStringToHexInt('E5E5E5')),
+                                                                            child:
+                                                                                Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: <Widget>[
+                                                                                Container(
+                                                                                  margin: EdgeInsets.only(top: 5),
+                                                                                  child: Center(
+                                                                                    child: SvgPicture.asset(
+                                                                                      'images/svgicons/tagsvg.svg',
+                                                                                      fit: BoxFit.contain,
+                                                                                      width: 20,
+                                                                                      height: 20,
                                                                                     ),
                                                                                   ),
-                                                                                  Container(
-                                                                                    padding: EdgeInsets.only(right: 4),
-                                                                                    decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
-                                                                                    child: Center(
-                                                                                        child: Text(
-                                                                                      data[position].service![index].serviceTitle.toString(),
-                                                                                      style: TextStyle(fontSize: width * 0.03),
-                                                                                    )),
-                                                                                  )
-                                                                                ],
-                                                                              ),
-                                                                            );
-                                                                          }),
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets.only(
-                                                                      top: height *
-                                                                          0.01),
-                                                                  child:
-                                                                      RatingBarIndicator(
-                                                                    rating: data[position].rating !=
-                                                                            null
-                                                                        ? data[position].rating!.toDouble()
-                                                                        : 1.0,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                                index) =>
-                                                                            const Icon(
-                                                                      Icons
-                                                                          .star,
-                                                                      color: Colors
-                                                                          .amber,
-                                                                    ),
-                                                                    itemCount:
-                                                                        5,
-                                                                    itemSize:
-                                                                        18.0,
-                                                                    direction: Axis
-                                                                        .horizontal,
+                                                                                ),
+                                                                                Container(
+                                                                                  padding: EdgeInsets.only(right: 4),
+                                                                                  decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
+                                                                                  child: Center(
+                                                                                      child: Text(
+                                                                                    data[position].service![index].serviceTitle.toString(),
+                                                                                    style: TextStyle(fontSize: width * 0.03),
+                                                                                  )),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          );
+                                                                        }),
+                                                              ),
+                                                              Container(
+                                                                child:
+                                                                    RatingBarIndicator(
+                                                                  rating: data[position]
+                                                                              .rating !=
+                                                                          null
+                                                                      ? data[position]
+                                                                          .rating!
+                                                                          .toDouble()
+                                                                      : 1.0,
+                                                                  itemBuilder: (context,
+                                                                          index) =>
+                                                                      const Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .amber,
                                                                   ),
+                                                                  itemCount: 5,
+                                                                  itemSize:
+                                                                      14.0,
+                                                                  direction: Axis
+                                                                      .horizontal,
                                                                 ),
-                                                              ],
-                                                            )
-                                                          ],
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -450,49 +474,6 @@ class _HomePageState extends State<HomePage> {
                                                     )
                                                   ],
                                                 ),
-                                                // /*TODO--femina text*/
-                                                Positioned(
-                                                  top: height * 0.01,
-                                                  left: width * 0.3 +
-                                                      width * 0.03,
-                                                  child: Text(
-                                                    data[position]
-                                                        .shopName
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.03,
-                                                        fontFamily:
-                                                            'Poppins Regular'),
-                                                  ),
-                                                ),
-
-                                                /*TODO---address*/
-                                                Positioned(
-                                                  top: height * 0.03,
-                                                  left: width * 0.3 +
-                                                      width * 0.03,
-                                                  child: Text(
-                                                    data[position]
-                                                        .location
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        color: Color(Utils
-                                                            .hexStringToHexInt(
-                                                                'A3A2A2')),
-                                                        fontSize: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.03,
-                                                        fontFamily:
-                                                            'Poppins Regular'),
-                                                  ),
-                                                )
                                               ],
                                             ),
                                           ),
@@ -513,6 +494,7 @@ class _HomePageState extends State<HomePage> {
   AppBar appBarr(BuildContext context, width, height) {
     return AppBar(
       centerTitle: true,
+
       leading: InkWell(
         onTap: () {
           session != "" ? scaffolKey.currentState!.openDrawer() : null;
@@ -563,11 +545,12 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               TextField(
-                                decoration:  InputDecoration(
+                                decoration: InputDecoration(
                                   labelText: "Search",
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
                                       width: 2.0,
                                     ),
                                   ),
@@ -606,7 +589,8 @@ class _HomePageState extends State<HomePage> {
                                         backgroundColor: Colors.white60,
                                         child: Icon(
                                           Icons.pin_drop,
-                                          color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '77ACA2')),
                                         ),
                                       ),
                                       title: Text(
@@ -640,7 +624,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-
+      elevation: 0.0,
       actions: <Widget>[
         //IconButton
         // Row(
@@ -691,7 +675,6 @@ class _HomePageState extends State<HomePage> {
       ],
       //<Widget>[]
       backgroundColor: Colors.white,
-      elevation: 50.0,
 
       brightness: Brightness.dark,
     );
@@ -700,63 +683,69 @@ class _HomePageState extends State<HomePage> {
   Widget filterContainer(BuildContext context, width, height) {
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.06,
+        height: MediaQuery.of(context).size.height * 0.07,
         margin: EdgeInsets.only(top: height * 0.02, bottom: height * 0.02),
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        //padding: const EdgeInsets.all(6.0),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
           color: Colors.white,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(
-                  CupertinoIcons.search,
-                  color: Color(Utils.hexStringToHexInt('#77aca2')),
-                  size: MediaQuery.of(context).size.width * 0.06,
-                ),
-                Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    height: MediaQuery.of(context).size.height * 0.06,
-                    child: TextField(
-                        autocorrect: true,
-                        autofocus: false,
-                        style: TextStyle(
-                            fontFamily: 'Poppins Semibold',
-                            fontSize: MediaQuery.of(context).size.width * 0.03,
-                            color: Color(Utils.hexStringToHexInt('77ACA2'))),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'What are you looking for?',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Poppins Semibold',
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.03,
-                              color: Color(Utils.hexStringToHexInt('77ACA2'))),
-                        ),
-                        onChanged: (value) {
-                          homeControlller.filterEmplist(value);
-                        }),
+        child: Card(
+          elevation: 1.0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const SizedBox(
+                    width: 4.0,
                   ),
-                ),
-                // Text(
-                //   'What are you looking for?',
-                //   style: TextStyle(
-                //       fontFamily: 'Poppins Semibold',
-                //       fontSize: MediaQuery.of(context).size.width * 0.03,
-                //       color: Color(Utils.hexStringToHexInt('77ACA2'))),
-                // ),
-              ],
-            ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width * 0.06,
-            //   height: MediaQuery.of(context).size.height * 0.06,
-            //   child: SvgPicture.asset('images/svgicons/filter.svg'),
-            // )
-          ],
+                  Icon(
+                    CupertinoIcons.search,
+                    color: Color(Utils.hexStringToHexInt('#77aca2')),
+                    size: MediaQuery.of(context).size.width * 0.06,
+                  ),
+                  SizedBox(
+                    width: 6.0,
+                  ),
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      child: TextField(
+                          autocorrect: true,
+                          autofocus: false,
+                          style: TextStyle(
+                              fontFamily: 'Poppins Regular',
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05,
+                              color: Color(Utils.hexStringToHexInt('77ACA2'))),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'What are you looking for?',
+                            hintStyle: TextStyle(
+                                fontFamily: 'Poppins Regular',
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                color:
+                                    Color(Utils.hexStringToHexInt('77ACA2'))),
+                          ),
+                          onChanged: (value) {
+                            homeControlller.filterEmplist(value);
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width * 0.06,
+              //   height: MediaQuery.of(context).size.height * 0.06,
+              //   child: SvgPicture.asset('images/svgicons/filter.svg'),
+              // )
+            ],
+          ),
         ));
   }
 
@@ -778,12 +767,12 @@ class _HomePageState extends State<HomePage> {
                     .filterEmplist(list[position].toString().toLowerCase());
               },
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.3,
-                margin: const EdgeInsets.only(left: 6, right: 6),
+                width: MediaQuery.of(context).size.width * 0.3 - 5,
+                margin: const EdgeInsets.only(left: 4, right: 4),
                 decoration: BoxDecoration(
                     border: Border.all(
                       color: Color(Utils.hexStringToHexInt('#e5e5e5')),
-                      width: 2,
+                      width: 1,
                     ),
                     borderRadius:
                         const BorderRadius.all(const Radius.circular(6))),
@@ -883,17 +872,15 @@ class _HomePageState extends State<HomePage> {
         minHeight: 0.05,
         maxHeight: height * 0.2 - height * 0.09,
       ),
-
       child: ListView.builder(
         itemCount: serviceDetail!.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, position) {
           double scale = 1;
-          return
-            Center(
-              child: Container(
+          return Center(
+            child: Container(
               margin: const EdgeInsets.only(left: 5, right: 5),
-              width: MediaQuery.of(context).size.width * 0.2-width*0.04,
+              width: MediaQuery.of(context).size.width * 0.2 - width * 0.04,
               height: height * 0.1,
               decoration: BoxDecoration(
                 color: isSelected != null &&
@@ -912,8 +899,10 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                     margin: const EdgeInsets.only(left: 6, right: 6, top: 6),
-                        width: MediaQuery.of(context).size.width * 0.2-width*0.04,
+                        margin:
+                            const EdgeInsets.only(left: 6, right: 6, top: 6),
+                        width: MediaQuery.of(context).size.width * 0.2 -
+                            width * 0.04,
                         height: height * 0.05,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -935,7 +924,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Text(
                         serviceDetail[position].serviceTitle.toString(),
                         textAlign: TextAlign.center,
@@ -948,8 +938,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-          ),
-            );
+            ),
+          );
         },
       ),
     );

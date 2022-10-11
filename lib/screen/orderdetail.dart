@@ -26,7 +26,7 @@ class OrderDetail extends StatefulWidget {
   var selectDate = "";
   var selectDay = "";
   var selectSlot = "";
-  var timeslot="";
+  var timeslot = "";
 
   // const OrderDetail(List<SubService> tempArray, Data a,  {Key? key}) : super(key: key){}
 
@@ -38,12 +38,12 @@ class OrderDetail extends StatefulWidget {
     this.selectEmpid = selectEmpid;
     this.selectDay = selectDay;
     this.selectSlot = selectSlot;
-    this.timeslot=timeSlot;
+    this.timeslot = timeSlot;
   }
 
   @override
   State<OrderDetail> createState() => _OrderDetailState(
-      newarray, data, selectDate, selectEmpid, selectDay, selectSlot,timeslot);
+      newarray, data, selectDate, selectEmpid, selectDay, selectSlot, timeslot);
 }
 
 class _OrderDetailState extends State<OrderDetail> {
@@ -54,13 +54,13 @@ class _OrderDetailState extends State<OrderDetail> {
   var applycouponPrice = 0.0;
   var applycouponcode = "";
   var total_price = 0;
-var coupontype="";
+  var coupontype = "";
   TextEditingController _textFieldcoin = TextEditingController();
   EzAnimation ezAnimation = EzAnimation(50.0, 200.0, Duration(seconds: 5));
   BookingController bookingController = Get.put(BookingController());
 
   _OrderDetailState(
-      tempArray, a, selectDate, selectEmpid, selectDay, selectSlot,timeslot);
+      tempArray, a, selectDate, selectEmpid, selectDay, selectSlot, timeslot);
 
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   late SharedPreferences sharedPreferences;
@@ -73,7 +73,7 @@ var coupontype="";
 
   void bookService(BuildContext context) {
     salonControlller.bookserVice(
-      context,
+        context,
         widget.data!.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
@@ -87,7 +87,8 @@ var coupontype="";
         "",
         0.0,
         "",
-    "","");
+        "",
+        "");
   }
 
   String getTimeString(int value) {
@@ -96,9 +97,14 @@ var coupontype="";
     return '${hour.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}';
   }
 
-  void bookServiceOnline(BuildContext context,transactionid, coin, coupone,) {
+  void bookServiceOnline(
+    BuildContext context,
+    transactionid,
+    coin,
+    coupone,
+  ) {
     salonControlller.bookserVice(
-      context,
+        context,
         widget.data!.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
@@ -112,9 +118,8 @@ var coupontype="";
         transactionid,
         coin,
         coupone + "",
-        coupontype+"",
-        totalPrice.toString()
-    );
+        coupontype + "",
+        totalPrice.toString());
   }
 
   @override
@@ -128,11 +133,10 @@ var coupontype="";
     SharedPreferences.getInstance().then((SharedPreferences sp) {
       sharedPreferences = sp;
       var _testValue = sharedPreferences.getString("session");
-     // print(sharedPreferences.getString("session"));
+      // print(sharedPreferences.getString("session"));
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         Get.find<HomeController>().getCoin1(_testValue);
-      //  Get.find<HomeController>().getAdminCouponList(_testValue);
-
+        //  Get.find<HomeController>().getAdminCouponList(_testValue);
       });
     });
     print("COIN IS ${Get.find<HomeController>().coin}");
@@ -156,11 +160,12 @@ var coupontype="";
   }
 
   void openCheckout(shopname, description) async {
-    var newprice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
+    var newprice =
+        double.parse(totalPrice.toString()) - (applycouponPrice + applycoin);
     print(newprice);
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
-      'amount': newprice*100,
+      'amount': newprice * 100,
       'name': '${shopname}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
@@ -182,7 +187,8 @@ var coupontype="";
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
-    bookServiceOnline(context,"${response.paymentId}", applycoin, applycouponcode);
+    bookServiceOnline(
+        context, "${response.paymentId}", applycoin, applycouponcode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -190,7 +196,8 @@ var coupontype="";
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
-    CommonDialog.showsnackbar("ERROR: " + response.code.toString() + " - " + response.message!);
+    CommonDialog.showsnackbar(
+        "ERROR: " + response.code.toString() + " - " + response.message!);
     /* Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -211,7 +218,7 @@ var coupontype="";
     return SafeArea(
         child: Scaffold(
       resizeToAvoidBottomInset: true,
-      //  backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       body: ListView(
         children: <Widget>[
           Column(
@@ -242,7 +249,7 @@ var coupontype="";
                               '${widget.data!.name.toString()}',
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: width * 0.04,
+                                  fontSize: width * 0.06,
                                   fontFamily: 'Poppins Regular'),
                             )
                           ],
@@ -264,15 +271,15 @@ var coupontype="";
                       child: Row(
                         children: <Widget>[
                           Container(
-                            width: 24,
-                            height: 24,
+                            width: 20,
+                            height: 20,
                             child: SvgPicture.asset(
                               "images/svgicons/mappin.svg",
                             ),
                           ),
                           Text(' ${widget.data!.address.toString()}',
                               style: TextStyle(
-                                  fontSize: width * 0.03,
+                                  fontSize: width * 0.04,
                                   fontFamily: 'Poppins Regular',
                                   color: Color(
                                       Utils.hexStringToHexInt('#77ACA2'))),
@@ -305,6 +312,7 @@ var coupontype="";
                       height: height * 0.02,
                     ),
                     Container(
+                      margin: EdgeInsets.only(left: width*0.1+width*0.04,right: width*0.03),
                       width: width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -326,15 +334,12 @@ var coupontype="";
                         ],
                       ),
                     ),
-                    SizedBox(height: height * 0.02),
+                    SizedBox(height: height * 0.01),
                     Material(
-                      elevation: 1,
+                      elevation:0,
                       color: Colors.white,
                       child: Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
                           SizedBox(
                             width: width,
                             child: ListView.builder(
@@ -343,8 +348,9 @@ var coupontype="";
                                 itemBuilder: (context, position) {
                                   return Container(
                                     margin:
-                                        EdgeInsets.only(right: width * 0.03),
+                                        EdgeInsets.only(right: width * 0.03,bottom: 3.0),
                                     child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -376,8 +382,8 @@ var coupontype="";
                                                 });
                                               },
                                               child: Container(
-                                                width: width * 0.08,
-                                                height: height * 0.04,
+                                                width: width * 0.09,
+                                                height: height * 0.05,
                                                 child: SvgPicture.asset(
                                                   "images/svgicons/checktick.svg",
                                                 ),
@@ -385,12 +391,12 @@ var coupontype="";
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(
-                                                  left: width * 0.03),
+                                                  left: width * 0.03,bottom: 1.0),
                                               child: Text(
                                                   '${widget.newarray![position].name}',
                                                   style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: width * 0.04,
+                                                      fontSize: width * 0.05,
                                                       fontFamily:
                                                           'Poppins Regular')),
                                             )
@@ -403,7 +409,7 @@ var coupontype="";
                                               'Rs. ${widget.newarray![position].price}',
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: width * 0.03,
+                                                  fontSize: width * 0.04,
                                                   fontFamily:
                                                       'Poppins Regular')),
                                         )
@@ -463,6 +469,9 @@ var coupontype="";
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               InkWell(
                 onTap: () {
@@ -619,7 +628,8 @@ var coupontype="";
                                                         tooltip:
                                                             "Applied coupon",
                                                         onPressed: () {
-                                                          coupontype="Shop Coupon";
+                                                          coupontype =
+                                                              "Shop Coupon";
                                                           print(widget
                                                               .data!
                                                               .coupon![position]
@@ -664,12 +674,12 @@ var coupontype="";
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
                         width: width,
-                        height: height * 0.09,
+                        height: height * 0.07,
                         padding: EdgeInsets.only(
                             left: width * 0.03, right: width * 0.03),
                         color: Color(Utils.hexStringToHexInt('#dbe8e5')),
@@ -712,7 +722,7 @@ var coupontype="";
                     context: context,
                     builder: (BuildContext context) {
                       bool showSublist =
-                      false; // Declare your variable outside the builder
+                          false; // Declare your variable outside the builder
 
                       bool showmainList = true;
 
@@ -744,11 +754,11 @@ var coupontype="";
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-
                                   Flexible(
                                     child: ListView.builder(
                                         shrinkWrap: true,
-                                        itemCount: Get.find<HomeController>().adminCouponList
+                                        itemCount: Get.find<HomeController>()
+                                            .adminCouponList
                                             .value
                                             .couponDetail
                                             ?.length,
@@ -761,8 +771,8 @@ var coupontype="";
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(8)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(8)),
                                                   border: Border.all(
                                                       color: Colors.grey,
                                                       width: 1)),
@@ -770,28 +780,26 @@ var coupontype="";
                                                 children: <Widget>[
                                                   Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
+                                                        MainAxisAlignment
+                                                            .spaceAround,
                                                     children: <Widget>[
                                                       Column(
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: <Widget>[
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList
-                                                                .value
-                                                                .couponDetail![position].couponName}',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Regular',
+                                                                    'Poppins Regular',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .height *
+                                                                            context)
+                                                                        .size
+                                                                        .height *
                                                                     0.02,
                                                                 color: Colors
                                                                     .black),
@@ -821,37 +829,36 @@ var coupontype="";
                                                             '  Use Code ',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Light',
+                                                                    'Poppins Light',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .height *
+                                                                            context)
+                                                                        .size
+                                                                        .height *
                                                                     0.01,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
-                                                                    'A4A4A4'))),
+                                                                        'A4A4A4'))),
                                                           ),
                                                           Container(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                2.0,
-                                                                horizontal:
-                                                                10.0),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        2.0,
+                                                                    horizontal:
+                                                                        10.0),
                                                             color: Color(Utils
                                                                 .hexStringToHexInt(
-                                                                '#46D0D9')),
+                                                                    '#46D0D9')),
                                                             child: Text(
-                                                              '${Get.find<HomeController>().adminCouponList
-                                                                  .value
-                                                                  .couponDetail![position].couponCode}',
+                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponCode}',
                                                               style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Light',
+                                                                    'Poppins Light',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .height *
+                                                                            context)
+                                                                        .size
+                                                                        .height *
                                                                     0.01,
                                                                 color: Colors
                                                                     .white,
@@ -864,23 +871,39 @@ var coupontype="";
                                                   ),
                                                   Align(
                                                     alignment:
-                                                    Alignment.centerRight,
+                                                        Alignment.centerRight,
                                                     child: IconButton(
                                                         tooltip:
-                                                        "Applied coupon",
+                                                            "Applied coupon",
                                                         onPressed: () {
-                                                          coupontype="Kolacut Coupon";
-                                                          print(Get.find<HomeController>().adminCouponList
+                                                          coupontype =
+                                                              "Kolacut Coupon";
+                                                          print(Get.find<
+                                                                  HomeController>()
+                                                              .adminCouponList
                                                               .value
-                                                              .couponDetail![position].price.toString());
-                                                          applycouponPrice =
-                                                              double.parse(Get.find<HomeController>().adminCouponList
+                                                              .couponDetail![
+                                                                  position]
+                                                              .price
+                                                              .toString());
+                                                          applycouponPrice = double
+                                                              .parse(Get.find<
+                                                                      HomeController>()
+                                                                  .adminCouponList
                                                                   .value
-                                                                  .couponDetail![position].price.toString());
-                                                          applycouponcode =
-                                                              Get.find<HomeController>().adminCouponList
-                                                                  .value
-                                                                  .couponDetail![position].couponCode.toString();
+                                                                  .couponDetail![
+                                                                      position]
+                                                                  .price
+                                                                  .toString());
+                                                          applycouponcode = Get
+                                                                  .find<
+                                                                      HomeController>()
+                                                              .adminCouponList
+                                                              .value
+                                                              .couponDetail![
+                                                                  position]
+                                                              .couponCode
+                                                              .toString();
                                                           Navigator.pop(
                                                               context);
                                                         },
@@ -906,12 +929,12 @@ var coupontype="";
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
                         width: width,
-                        height: height * 0.09,
+                        height: height * 0.07,
                         padding: EdgeInsets.only(
                             left: width * 0.03, right: width * 0.03),
                         color: Color(Utils.hexStringToHexInt('#dbe8e5')),
@@ -1001,7 +1024,7 @@ var coupontype="";
                                 //   ),
                                 // ),
                                 Text(
-                                  ' ${Get.find<HomeController>().coin>100? 100 : 00} coin applied  .',
+                                  ' ${Get.find<HomeController>().coin > 100 ? 100 : 00} coin applied  .',
                                   style: TextStyle(
                                     fontSize: 8.0,
                                     color: Color(
@@ -1070,12 +1093,13 @@ var coupontype="";
                                     child: Text('Use coin'),
                                     onPressed: () async {
                                       setState(() {
-
-                                        if(Get.find<HomeController>().coin>100){
+                                        if (Get.find<HomeController>().coin >
+                                            100) {
                                           // applycoin = Get.find<HomeController>().coin - 100;
-                                          applycoin=10;
-                                        }else{
-                                          CommonDialog.showsnackbar("Need minimum 100 coin for use");
+                                          applycoin = 10;
+                                        } else {
+                                          CommonDialog.showsnackbar(
+                                              "Need minimum 100 coin for use");
                                         }
                                         // applycoin = double.parse(
                                         //     "${Get.find<HomeController>().coin * 0.10}");
@@ -1095,12 +1119,12 @@ var coupontype="";
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
                         width: width,
-                        height: height * 0.09,
+                        height: height * 0.07,
                         padding: EdgeInsets.only(
                             left: width * 0.03, right: width * 0.03),
                         color: Color(Utils.hexStringToHexInt('#dbe8e5')),
@@ -1161,7 +1185,7 @@ var coupontype="";
                                       child: Text('Services total',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1171,14 +1195,15 @@ var coupontype="";
                                   child: Text('Rs. ${totalPrice.toString()}',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.05,
                                           fontFamily: 'Poppins Regular')),
                                 )
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 6.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1207,17 +1232,15 @@ var coupontype="";
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 )
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1229,7 +1252,7 @@ var coupontype="";
                                       child: Text('Coupon Discount',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1243,17 +1266,15 @@ var coupontype="";
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 2,
-                          ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1265,7 +1286,7 @@ var coupontype="";
                                       child: Text('Coin Applied',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1279,7 +1300,7 @@ var coupontype="";
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 ),
                               ],
@@ -1289,11 +1310,11 @@ var coupontype="";
                       ),
                     ),
                     SizedBox(
-                      height: 2,
+                      height: 5,
                     ),
                     Divider(
                       color: Color(Utils.hexStringToHexInt('5E5E5E')),
-                      thickness: 1,
+                      thickness: 0.5,
                     ),
                     SizedBox(
                       height: height * 0.02,
@@ -1355,7 +1376,8 @@ var coupontype="";
                       ),
                       child: Container(
                         width: width,
-                        height: height * 0.1 + height * 0.05,
+                        height: height * 0.1 ,
+                        margin: EdgeInsets.only(bottom: 10.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius:
@@ -1500,7 +1522,7 @@ var coupontype="";
                                       //   });
                                       // });
 //applycouponPrice + applycoin
-                                 // var newPrice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
+                                      // var newPrice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
                                       openCheckout(
                                         widget.data!.name.toString(),
                                         description,
@@ -1546,6 +1568,7 @@ var coupontype="";
                         ),
                       ),
                     ),
+                    SizedBox(height: 10.0,)
                   ],
                 ),
               )

@@ -55,6 +55,7 @@ class Data {
     this.services,
     this.emploeyee,
     this.coupon,
+    this.rating
   });
 
   int? id;
@@ -78,6 +79,7 @@ class Data {
   List<DataService>? services;
   List<Emploeyee>? emploeyee;
   List<Coupon>? coupon;
+  int? rating;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -101,6 +103,7 @@ class Data {
     services: List<DataService>.from(json["services"].map((x) => DataService.fromJson(x))),
     emploeyee: List<Emploeyee>.from(json["emploeyee"].map((x) => Emploeyee.fromJson(x))),
     coupon: List<Coupon>.from(json["coupon"].map((x) => Coupon.fromJson(x))),
+    rating: json["rating"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -125,6 +128,7 @@ class Data {
     "services": List<dynamic>.from(services!.map((x) => x.toJson())),
     "emploeyee": List<dynamic>.from(emploeyee!.map((x) => x.toJson())),
     "coupon": List<dynamic>.from(coupon!.map((x) => x.toJson())),
+    "rating": rating,
   };
 }
 

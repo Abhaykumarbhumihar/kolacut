@@ -83,6 +83,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
   var slotpojo = SlotPojo();
   var session = "";
   late SharedPreferences sharedPreferences;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -102,7 +103,6 @@ class _SaloonDetailState extends State<SaloonDetail> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       salonControlller.getShopDetail(shopid.toString());
     });
-
   }
 
   void getSlot(slottime) async {
@@ -136,10 +136,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
       setState(() {
         if (_sessss != null) {
           session = _sessss;
-
         }
       });
-
     });
     salonControlller.shopId.value = shopid.toString();
     // for(int i=0;i<=days.length;i++){
@@ -214,12 +212,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    if (session == null ||
-                                        session == "") {
+                                    if (session == null || session == "") {
                                       CommonDialog.showsnackbar(
                                           "Please login for use all features");
-                                    }else{
-                                      salonControlller.addRemoveFavourite(shopid);
+                                    } else {
+                                      salonControlller
+                                          .addRemoveFavourite(shopid);
                                     }
 
                                     //   print( salonControlller.isFavourite);
@@ -324,7 +322,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       a.address.toString(),
                       a.ownerProfileImage.toString(),
                       a.ownerName.toString(),
-                      a.services),
+                      a.services,
+                      a.rating),
                   Divider(
                     thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
@@ -342,11 +341,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     height: height * 0.02,
                   ),
 /*Todo-----best offer view*/
-                  bestoffer(context,a),
+                  bestoffer(context, a),
 
                   SizedBox(
                     width: width,
-                    height: height*0.09,
+                    height: height * 0.09,
                     child: ListView.builder(
                         itemCount: a.coupon!.length,
                         scrollDirection: Axis.horizontal,
@@ -758,7 +757,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     shadowColor: Colors.transparent,
                                     child: Container(
                                       width: width * 0.4 - width * 0.03,
-                                       // height: height * 0.3,
+                                      // height: height * 0.3,
                                       padding: EdgeInsets.only(
                                           top: height * 0.02,
                                           bottom: height * 0.02),
@@ -967,7 +966,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               decoration: BoxDecoration(
                                   color: slotSelected == "Morning" &&
                                           isSlotSelected == position
-                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
                                       : Colors.white,
                                   border: Border.all(
                                       //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -978,11 +977,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 child: Text(
                                   '${slotpojo.notificationDetail![0].morning![position]}',
                                   style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: slotSelected == "Morning" &&
-                                          isSlotSelected == position
-                                          ?   Colors.white
-                                          : Colors.black,
+                                    fontSize: width * 0.03,
+                                    color: slotSelected == "Morning" &&
+                                            isSlotSelected == position
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -1034,7 +1033,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               decoration: BoxDecoration(
                                   color: slotSelected == "Afternoon" &&
                                           isSlotSelected == position
-                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
                                       : Colors.white,
                                   border: Border.all(
                                       //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -1045,11 +1044,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 child: Text(
                                   '${slotpojo.notificationDetail![0].afternoon![position]}',
                                   style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: slotSelected == "Afternoon" &&
-                                          isSlotSelected == position
-                                          ?   Colors.white
-                                          : Colors.black,
+                                    fontSize: width * 0.03,
+                                    color: slotSelected == "Afternoon" &&
+                                            isSlotSelected == position
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -1101,7 +1100,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               decoration: BoxDecoration(
                                   color: slotSelected == "Evening" &&
                                           isSlotSelected == position
-                                      ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
                                       : Colors.white,
                                   border: Border.all(
                                       //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -1112,11 +1111,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 child: Text(
                                   '${slotpojo.notificationDetail![0].evening![position]}',
                                   style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: slotSelected == "Evening" &&
-                                          isSlotSelected == position
-                                          ?   Colors.white
-                                          : Colors.black,
+                                    fontSize: width * 0.03,
+                                    color: slotSelected == "Evening" &&
+                                            isSlotSelected == position
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -1146,9 +1145,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-
-                                if (session == null ||
-                                    session == "") {
+                                if (session == null || session == "") {
                                   CommonDialog.showsnackbar(
                                       "Please login for use all features");
                                 } else if (tempArray.isEmpty) {
@@ -1157,8 +1154,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 } else if (slotSelected == "") {
                                   CommonDialog.showsnackbar(
                                       "Please select  slot");
-                                }
-                                else if (selectDate == "") {
+                                } else if (selectDate == "") {
                                   CommonDialog.showsnackbar(
                                       "Please select  date");
                                 } else {
@@ -1171,7 +1167,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             selectEmployeeId.toString() + "",
                                             selectDate + "",
                                             selectDay + "",
-                                            slotSelected+"",
+                                            slotSelected + "",
                                             timeSelected + "")),
                                   );
                                 }
@@ -1312,7 +1308,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
   }
 
   Widget profiledes(BuildContext context, width, height, name, address,
-      ownerimage, ownername, List<DataService>? services) {
+      ownerimage, ownername, List<DataService>? services, rating) {
     return Container(
         width: width,
         height: height * 0.2 + height * 0.06,
@@ -1451,7 +1447,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   right: width * 0.3 - 6,
                   // alignment: Alignment.topLeft,
                   child: Text(
-                    '4',
+                    '${rating}',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: width * 0.07,
@@ -1523,7 +1519,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   left: width * 0.6 + width * 0.05,
                   // alignment: Alignment.topLeft,
                   child: RatingBarIndicator(
-                    rating: 2.75,
+                    rating: rating != null ? rating!.toDouble() : 1.0,
                     itemBuilder: (context, index) => Icon(
                       Icons.star,
                       color: Colors.amber,
@@ -1781,7 +1777,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
     );
   }
 
-  Widget bestoffer(BuildContext context,a) {
+  Widget bestoffer(BuildContext context, a) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[

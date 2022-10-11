@@ -17,7 +17,7 @@ static String SESSION="";
       text,
       style: TextStyle(
           fontFamily: 'Poppins Regular',
-          fontSize: MediaQuery.of(context).size.height * 0.02,
+          fontSize: MediaQuery.of(context).size.height * 0.03,
           color: Colors.black),
     );
   }

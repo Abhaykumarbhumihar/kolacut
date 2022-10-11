@@ -156,11 +156,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Color(Utils.hexStringToHexInt('77ACA2')),
                     fontSize: width * 0.05,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins Medium',
+                    fontFamily: 'Poppins Regular',
                   ),
                   textAlign: TextAlign.end),
               SizedBox(
-                height: height * 0.1,
+                height: height * 0.08,
               ),
               Utils().titleTextsemibold('Register Now', context),
               SizedBox(
@@ -181,37 +181,43 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Container(
                 margin:
-                    EdgeInsets.only(left: width * 0.08, right: width * 0.08),
+                    EdgeInsets.only(left: width * 0.09, right: width * 0.09),
                 child: Column(
                   children: <Widget>[
                     Container(
                       width: width - 5,
-                      height: height * 0.1 - height * 0.04,
+                      height: height * 0.1 - height * 0.05,
                       padding: const EdgeInsets.only(left: 6),
                       decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4)),
                         color: Color(Utils.hexStringToHexInt('F4F4F4')),
                       ),
-                      child: TextField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.left,
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                              hintText: 'Name',
-                              hintStyle: TextStyle(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('A4A4A4')),
-                                  fontFamily: 'Poppins Regular',
-                                  fontSize: width * 0.03),
-                              border: InputBorder.none)),
+                      //alignment: Alignment.topCenter,
+                      child: Align(
+                        //alignment: Alignment.topCenter,
+                        child: TextField(
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.left, // Align horizontally
+                            textAlignVertical: TextAlignVertical.center, // Align vertically
+                            controller: _nameController,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                hintText: 'Name',
+                                hintStyle: TextStyle(
+                                    color:
+                                        Color(Utils.hexStringToHexInt('A4A4A4')),
+                                    fontFamily: 'Poppins Regular',
+                                    fontSize: width * 0.03),
+                                border: InputBorder.none)),
+                      ),
                     ),
                     Container(
                       width: width - 5,
-                      height: height * 0.1 - height * 0.04,
+                      height: height * 0.1 - height * 0.05,
                       margin: const EdgeInsets.only(top: 6),
                       padding: const EdgeInsets.only(left: 6),
                       decoration: BoxDecoration(
@@ -219,25 +225,29 @@ class _RegisterPageState extends State<RegisterPage> {
                             const BorderRadius.all(Radius.circular(4)),
                         color: Color(Utils.hexStringToHexInt('F4F4F4')),
                       ),
-                      child: TextField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.left,
-                          controller: emailcontroller,
-                          decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: TextStyle(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('A4A4A4')),
-                                  fontFamily: 'Poppins Regular',
-                                  fontSize: width * 0.03),
-                              border: InputBorder.none)),
+                      child: Align(
+                        child: TextField(
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                            //textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.left,
+                            controller: emailcontroller,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                hintText: 'Email',
+                                hintStyle: TextStyle(
+                                    color:
+                                        Color(Utils.hexStringToHexInt('A4A4A4')),
+                                    fontFamily: 'Poppins Regular',
+                                    fontSize: width * 0.03),
+                                border: InputBorder.none)),
+                      ),
                     ),
                     Container(
                       width: width - 5,
-                      height: height * 0.1 - height * 0.04,
+                      height: height * 0.1 - height * 0.05,
                       margin: const EdgeInsets.only(top: 6),
                       padding: const EdgeInsets.only(left: 6),
                       decoration: BoxDecoration(
@@ -245,21 +255,25 @@ class _RegisterPageState extends State<RegisterPage> {
                             const BorderRadius.all(Radius.circular(4)),
                         color: Color(Utils.hexStringToHexInt('F4F4F4')),
                       ),
-                      child: TextField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.left,
-                          controller: _phonecontroller,
-                          decoration: InputDecoration(
-                              hintText: 'Phone',
-                              hintStyle: TextStyle(
-                                  color:
-                                      Color(Utils.hexStringToHexInt('A4A4A4')),
-                                  fontFamily: 'Poppins Regular',
-                                  fontSize: width * 0.03),
-                              border: InputBorder.none)),
+                      child: Align(
+                        child: TextField(
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                           // textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.left,
+                            controller: _phonecontroller,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                hintText: 'Phone',
+                                hintStyle: TextStyle(
+                                    color:
+                                        Color(Utils.hexStringToHexInt('A4A4A4')),
+                                    fontFamily: 'Poppins Regular',
+                                    fontSize: width * 0.03),
+                                border: InputBorder.none)),
+                      ),
                     ),
                     Row(
                       children: <Widget>[
@@ -271,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: Container(
                               width: width - 5,
-                              height: height * 0.1 - height * 0.04,
+                              height: height * 0.1 - height * 0.05,
                               margin: const EdgeInsets.only(top: 6),
                               padding: const EdgeInsets.only(left: 6),
                               decoration: BoxDecoration(
@@ -291,9 +305,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                         fontFamily: 'Poppins Regular',
                                         fontSize: width * 0.03),
                                   ),
-                                  const Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black,
+                                  Container(
+                                    width: 20,
+                                    height: 20,
+                                    margin: EdgeInsets.only(right: 4.0),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage('images/svgicons/dobn.png')
+                                      )
+                                    ),
+                                    // child: const Icon(
+                                    //
+                                    //   Icons.calendar_today,
+                                    //   color: Colors.black,
+                                    //   size:18,
+                                    // ),
                                   )
                                 ],
                               ),
@@ -307,7 +333,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           flex: 1,
                           child: Container(
                             width: width - 5,
-                            height: height * 0.1 - height * 0.04,
+                            height: height * 0.1 - height * 0.05,
                             margin: const EdgeInsets.only(top: 6),
                             padding: const EdgeInsets.only(left: 6),
                             decoration: BoxDecoration(
@@ -317,7 +343,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             child:
                             DropdownButton(
-                              icon: const Icon(Icons.keyboard_arrow_down),
+                              icon: Container(
+                                  margin: EdgeInsets.only(left: width*0.1+8),
+                                  child: const Icon(Icons.keyboard_arrow_down)),
                               hint: Text(
                                 "${showselectGender == "" ? "Gender" : showselectGender}",
                                 style: TextStyle(
@@ -326,6 +354,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     fontFamily: 'Poppins Regular',
                                     fontSize: width * 0.03),
                               ),
+                              underline: SizedBox(),
+                              isExpanded: false,
                               items: _createList(),
                               onChanged: (value) {
                                 setState(() {
@@ -346,7 +376,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     Container(
                       width: width - 5,
-                      height: height * 0.1 - height * 0.04,
+                      height: height * 0.1 - height * 0.05,
                       margin: const EdgeInsets.only(top: 6),
                       padding: const EdgeInsets.only(left: 6),
                       decoration: BoxDecoration(
@@ -354,21 +384,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         const BorderRadius.all(Radius.circular(4)),
                         color: Color(Utils.hexStringToHexInt('F4F4F4')),
                       ),
-                      child: TextField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.left,
-                          controller: _refferalcontroller,
-                          decoration: InputDecoration(
-                              hintText: 'Enter code if you have',
-                              hintStyle: TextStyle(
-                                  color:
-                                  Color(Utils.hexStringToHexInt('A4A4A4')),
-                                  fontFamily: 'Poppins Regular',
-                                  fontSize: width * 0.03),
-                              border: InputBorder.none)),
+                      child: Align(
+                        child: TextField(
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                            //textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.left,
+                            controller: _refferalcontroller,
+                            decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                isDense: true,
+                                hintText: 'Enter code if you have',
+                                hintStyle: TextStyle(
+                                    color:
+                                    Color(Utils.hexStringToHexInt('A4A4A4')),
+                                    fontFamily: 'Poppins Regular',
+                                    fontSize: width * 0.03),
+                                border: InputBorder.none)),
+                      ),
                     ),
                   ],
                 ),
@@ -410,7 +444,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               SizedBox(
-                height: height * 0.04,
+                height: height * 0.03,
               ),
               SizedBox(
                 height: height * 0.02,
@@ -424,7 +458,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     );
                   },
                   child: Container(
-                    child: Text("SKIP",
+                    child: Text("Skip",
                         style: TextStyle(
                           color: Color(Utils.hexStringToHexInt('77ACA2')),
                           fontSize: width * 0.04,
