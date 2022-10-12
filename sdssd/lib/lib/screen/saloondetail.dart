@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,22 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:untitled/model/SlotPojo.dart';
 import 'package:untitled/screen/coin.dart';
 import 'package:untitled/screen/orderdetail.dart';
 import 'package:untitled/screen/profile_update.dart';
-import 'package:untitled/utils/CommomDialog.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
+
 import '../controller/shopdetain_controller.dart';
 import '../model/ShopDetailPojo.dart';
-import '../utils/appconstant.dart';
 
 class SaloonDetail extends StatefulWidget {
   var id = 0;
@@ -41,14 +35,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
     this.shopid = id;
   }
 
-  int isSlotSelected = 1;
   var slotSelected = "";
   var timeSelected = "";
   var selectEmployeeId = "";
   var selectDate = "";
   var selectDay = "";
   int isSelected =
-      -1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
+      1; // changed bool to int and set value to -1 on first time if you don't select anything otherwise set 0 to set first one as selected.
 
   _isSelected(int index) {
     //pass the selected index to here and set to 'isSelected'
@@ -57,88 +50,33 @@ class _SaloonDetailState extends State<SaloonDetail> {
     });
   }
 
-  _isSelectedSlot(int index) {
-    //pass the selected index to here and set to 'isSelected'
-    setState(() {
-      print("CHUSDFSD");
-      isSlotSelected = index;
-    });
-  }
-
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   bool valuefirst = false;
-  var time = 0;
-
-  String durationToString(int minutes) {
-    var d = Duration(minutes: minutes);
-    List<String> parts = d.toString().split(':');
-    return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')}';
-  }
 
   final List<DateTime> days = [];
   List<SamleClass> data = [];
-  List<SlotPojo> slotPojo = [];
+
   List<String> userChecked = [];
-  List<ServiceService> tempArray = [];
-  var slotpojo = SlotPojo();
-  var session = "";
-  late SharedPreferences sharedPreferences;
+  List<SubService> tempArray = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSlot("24");
-    tempArray.clear();
-    //a
-    selectEmployeeId = "";
-    selectDate = "";
-    selectDay = "";
-    timeSelected = "";
     final today = DateTime.now();
     final monthAgo = DateTime(today.year, today.month - 1, today.day);
     for (int i = 0; i <= today.difference(monthAgo).inDays; i++) {
       days.add(monthAgo.add(Duration(days: i)));
     }
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       salonControlller.getShopDetail(shopid.toString());
     });
   }
 
-  void getSlot(slottime) async {
-    slotSelected = "";
-    isSlotSelected = 1;
-    Map map = {
-      "service_time": slottime,
-    };
-
-    print(map);
-    var apiUrl = Uri.parse(AppConstant.BASE_URL + AppConstant.SLOT_TIME);
-    print(apiUrl);
-    print(map);
-    final response = await http.post(
-      apiUrl,
-      body: map,
-    );
-    setState(() {
-      slotpojo = slotPojoFromJson(response.body);
-    });
-    print(response.body);
-  }
-
   @override
   Widget build(BuildContext context) {
     print(shopid);
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      sharedPreferences = sp;
-
-      var _sessss = sharedPreferences.getString("session");
-      setState(() {
-        if (_sessss != null) {
-          session = _sessss;
-        }
-      });
-    });
     salonControlller.shopId.value = shopid.toString();
     // for(int i=0;i<=days.length;i++){
     //  // debugPrint(days[i].day.toString()+"  "+days[i].month.toString()+" "+days[i].year.toString());
@@ -158,8 +96,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
           return Container();
         } else {
           var a = salonControlller.shopDetailpojo.value.data;
-          salonControlller.isFavourite = a!.isFavorite!;
-          // print("${a.isFavorite.toString()}" + "sdfsdfsdfsd");
+          salonControlller.isFavourite=a!.ifFavourite!;
+          print( "${a.ifFavourite.toString()}"+"sdfsdfsdfsd");
           return Container(
             width: width,
             height: height,
@@ -212,14 +150,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
-                                    if (session == null || session == "") {
-                                      CommonDialog.showsnackbar(
-                                          "Please login for use all features");
-                                    } else {
-                                      salonControlller
-                                          .addRemoveFavourite(shopid);
-                                    }
-
+                                    salonControlller.addRemoveFavourite(shopid);
                                     //   print( salonControlller.isFavourite);
                                   },
                                   child: Container(
@@ -235,10 +166,10 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     ),
                                     child: Center(
                                       child: Icon(
-                                        salonControlller.isFavourite == 1
+                                        salonControlller.isFavourite==1
                                             ? CupertinoIcons.heart_fill
                                             : CupertinoIcons.heart,
-                                        color: salonControlller.isFavourite == 1
+                                        color: salonControlller.isFavourite==1
                                             ? Colors.red
                                             : Colors.black,
                                         size: 24,
@@ -246,29 +177,22 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () async {
-                                    Share.share(
-                                        'check out my website https://example.com',
-                                        subject: 'Look what I made!');
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.all(width * 0.05),
-                                    width: width * 0.1,
-                                    height: height * 0.1,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                            'images/svgicons/whitecircle.png'),
-                                      ),
+                                Container(
+                                  margin: EdgeInsets.all(width * 0.05),
+                                  width: width * 0.1,
+                                  height: height * 0.1,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'images/svgicons/whitecircle.png'),
                                     ),
-                                    child: Icon(
-                                      CupertinoIcons
-                                          .arrowshape_turn_up_right_fill,
-                                      color: Colors.black,
-                                      size: 24,
-                                    ),
+                                  ),
+                                  child: Icon(
+                                    CupertinoIcons
+                                        .arrowshape_turn_up_right_fill,
+                                    color: Colors.black,
+                                    size: 24,
                                   ),
                                 )
                               ],
@@ -289,11 +213,11 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                 margin: const EdgeInsets.only(
                                     bottom: 6, left: 6, right: 6),
                                 width: width * 0.3,
-                                height: height * 0.04,
+                                height: height * 0.06,
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                        BorderRadius.all(Radius.circular(12))),
                                 child: Center(
                                   child: Text(
                                     'View on map',
@@ -322,10 +246,9 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       a.address.toString(),
                       a.ownerProfileImage.toString(),
                       a.ownerName.toString(),
-                      a.services,
-                      a.rating),
+                      a.services),
                   Divider(
-                    thickness: 1,
+                    thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
                   ),
                   SizedBox(
@@ -334,32 +257,32 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   description(context, width, height, a.description.toString(),
                       a.amenties.toString(), a.timeSlot),
                   Divider(
-                    thickness: 1,
+                    thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
                   ),
                   SizedBox(
                     height: height * 0.02,
                   ),
 /*Todo-----best offer view*/
-                  Container(
-                      margin: EdgeInsets.only(left: 4.0),
-                      child: bestoffer(context, a)),
-
+                  bestoffer(context),
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
                   SizedBox(
                     width: width,
-                    height: height * 0.1+height*0.01,
+                    height: height * 0.16,
                     child: ListView.builder(
-                        itemCount: a.coupon!.length,
+                        itemCount: 5,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, position) {
                           return Container(
-                            width: width * 0.4 + width * 0.02,
-                            height: height * 0.2,
-                            margin: EdgeInsets.all(8),
+                            width: width * 0.4 + width * 0.05,
+                            height: height * 0.12,
+                            margin: EdgeInsets.all(6),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
+                                    BorderRadius.all(Radius.circular(8)),
                                 border:
                                     Border.all(color: Colors.grey, width: 1)),
                             child: Column(
@@ -370,7 +293,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      ' ${a.coupon![position].couponName}',
+                                      ' Upto 50% Off',
                                       style: TextStyle(
                                           fontFamily: 'Poppins Regular',
                                           fontSize: MediaQuery.of(context)
@@ -379,22 +302,21 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                               0.02,
                                           color: Colors.black),
                                     ),
-
+                                    SizedBox(
+                                      height: 8,
+                                    ),
                                     Text(
-                                      '  Upto ${a.coupon![position].percentage}% off via UPI',
+                                      '  Upto 50% off via UPI',
                                       style: TextStyle(
                                           fontFamily: 'Poppins Light',
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .width *
-                                              0.03,
+                                                  .height *
+                                              0.01,
                                           color: Color(Utils.hexStringToHexInt(
                                               'A4A4A4'))),
                                     ),
                                   ],
-                                ),
-                                SizedBox(
-                                  height: 5,
                                 ),
                                 Row(
                                   children: <Widget>[
@@ -404,8 +326,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                           fontFamily: 'Poppins Light',
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .width *
-                                              0.03,
+                                                  .height *
+                                              0.01,
                                           color: Color(Utils.hexStringToHexInt(
                                               'A4A4A4'))),
                                     ),
@@ -415,13 +337,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                       color: Color(
                                           Utils.hexStringToHexInt('#46D0D9')),
                                       child: Text(
-                                        '${a.coupon![position].couponCode}',
+                                        'UPI50',
                                         style: TextStyle(
                                           fontFamily: 'Poppins Light',
                                           fontSize: MediaQuery.of(context)
                                                   .size
-                                                  .width *
-                                              0.03,
+                                                  .height *
+                                              0.01,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -433,27 +355,24 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           );
                         }),
                   ),
-
+                  SizedBox(
+                    height: height * 0.02,
+                  ),
                   Divider(
-                    thickness: 1,
+                    thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 6,
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: 6.0),
-                      child: seeall(context)),
+                  seeall(context),
 
                   Container(
-                    margin: EdgeInsets.only(left: 10.0,right: 10.0),
                     width: width,
                     child: GridView.count(
                       crossAxisCount: 3,
                       crossAxisSpacing: 6.0,
                       shrinkWrap: true,
-                      primary: true,
-                      physics: new NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 10.0,
                       children: List.generate(
                         a.services!.length,
@@ -462,164 +381,133 @@ class _SaloonDetailState extends State<SaloonDetail> {
                             child: GestureDetector(
                               onTap: () {
                                 showDialog(
-                                  barrierDismissible: false,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return WillPopScope(
-                                      onWillPop: () async {
-                                        return false;
-                                      },
-                                      child: AlertDialog(
-                                        insetPadding: EdgeInsets.symmetric(
-                                          horizontal: 50.0,
-                                          vertical: 100.0,
-                                        ),
-                                        title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              "Select your services ",
-                                              style: TextStyle(
-                                                  fontSize: width * 0.03),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                var time = 0;
-                                                tempArray.forEach((element) {
-                                                  time +=
-                                                      int.parse(element.time!);
-                                                });
-                                                print(time);
-                                                Navigator.pop(context);
-                                                getSlot(time.toString() + "");
-                                              },
-                                              icon: Icon(Icons.cancel_outlined),
-                                            ),
-                                          ],
-                                        ),
-                                        content: StatefulBuilder(
-                                          // You need this, notice the parameters below:
-                                          builder: (BuildContext context,
-                                              StateSetter setState) {
-                                            return Container(
-                                              width: width,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Flexible(
-                                                    child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount: a
-                                                            .services![index]
-                                                            .service!
-                                                            .length,
-                                                        itemBuilder: (context,
-                                                            position) {
-                                                          return InkWell(
-                                                            onTap: () {
-                                                              setState(() {
-                                                                if (tempArray.contains(a
+                                    bool showSublist =
+                                        false; // Declare your variable outside the builder
+
+                                    bool showmainList = true;
+                                    var mainlistPosition = 0;
+                                    var bntname = "Add";
+                                    return AlertDialog(
+                                      title: Text("Select your services"),
+                                      content: StatefulBuilder(
+                                        // You need this, notice the parameters below:
+                                        builder: (BuildContext context,
+                                            StateSetter setState) {
+                                          return Container(
+                                            width: width,
+                                            height: height,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: width,
+                                                  height: height * 0.4,
+                                                  child: ListView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount: a
+                                                          .services![index]
+                                                          .subServices!
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, position) {
+                                                        return InkWell(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              if (tempArray.contains(a
+                                                                      .services![
+                                                                          index]
+                                                                      .subServices![
+                                                                  position])) {
+                                                                print(
+                                                                    "SDF SDF SDF DSF ");
+                                                                tempArray.remove(a
                                                                         .services![
                                                                             index]
-                                                                        .service![
-                                                                    position])) {
-                                                                  print(
-                                                                      "SDF SDF SDF DSF ");
-                                                                  tempArray.remove(a
-                                                                      .services![
-                                                                          index]
-                                                                      .service![position]);
-                                                                } else {
-                                                                  print(
-                                                                      "sdfsdfsdfsdfsdfsd ");
-                                                                  tempArray.add(a
-                                                                      .services![
-                                                                          index]
-                                                                      .service![position]);
-                                                                }
+                                                                        .subServices![
+                                                                    position]);
+                                                              } else {
+                                                                print(
+                                                                    "sdfsdfsdfsdfsdfsd ");
+                                                                tempArray.add(a
+                                                                        .services![
+                                                                            index]
+                                                                        .subServices![
+                                                                    position]);
+                                                              }
 
-                                                                for (var i = 0;
-                                                                    i <
-                                                                        tempArray
-                                                                            .length;
-                                                                    i++) {
-                                                                  print(tempArray[
-                                                                              i]
-                                                                          .name
-                                                                          .toString() +
-                                                                      "  " +
-                                                                      tempArray[
-                                                                              i]
-                                                                          .price
-                                                                          .toString());
-                                                                }
-                                                              });
-                                                            },
-                                                            child: Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 6.0,
-                                                                      right:
-                                                                          6.0,
-                                                                      top: 2.0,
-                                                                      bottom:
-                                                                          1.0),
-                                                              child: Card(
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              4.0),
-                                                                  child: Row(
+                                                              for (var i = 0;
+                                                                  i <
+                                                                      tempArray
+                                                                          .length;
+                                                                  i++) {
+                                                                print(tempArray[
+                                                                            i]
+                                                                        .name
+                                                                        .toString() +
+                                                                    "  " +
+                                                                    tempArray[i]
+                                                                        .price
+                                                                        .toString());
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            height:
+                                                                height * 0.1,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6.0),
+                                                            child: Card(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Column(
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Text(
-                                                                            a.services![index].service![position].name.toString(),
-                                                                            style: TextStyle(
-                                                                                fontSize: width * 0.03,
-                                                                                fontFamily: "Poppins Semibold",
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                          Text(
-                                                                              "Price: " + a.services![index].service![position].price.toString(),
-                                                                              style: TextStyle(fontSize: width * 0.03, fontFamily: "Poppins Semibold", color: Colors.black)),
-                                                                          Text(
-                                                                              "Time :" + a.services![index].service![position].time.toString(),
-                                                                              style: TextStyle(fontSize: width * 0.03, fontFamily: "Poppins Semibold", color: Colors.black))
-                                                                        ],
-                                                                      ),
-                                                                      Icon(tempArray.contains(a.services![index].service![
-                                                                              position])
-                                                                          ? Icons
-                                                                              .remove_circle_outline
-                                                                          : Icons
-                                                                              .add),
+                                                                            .center,
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Text(a
+                                                                          .services![
+                                                                              index]
+                                                                          .subServices![
+                                                                              position]
+                                                                          .name
+                                                                          .toString()),
+                                                                      Text(a
+                                                                          .services![
+                                                                              index]
+                                                                          .subServices![
+                                                                              position]
+                                                                          .price
+                                                                          .toString())
                                                                     ],
                                                                   ),
-                                                                ),
+                                                                  Icon(tempArray.contains(a
+                                                                          .services![
+                                                                              index]
+                                                                          .subServices![position])
+                                                                      ? Icons.remove_circle_outline
+                                                                      : Icons.add),
+                                                                ],
                                                               ),
                                                             ),
-                                                          );
-                                                        }),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                                          ),
+                                                        );
+                                                      }),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       ),
                                     );
                                   },
@@ -705,17 +593,14 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     SizedBox(
                                       height: height * 0.003,
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(top: 10),
-                                      child: Center(
-                                        child: Text(
-                                          a.services![index].serviceTitle
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontFamily: 'Poppins Regular',
-                                              color: Colors.black,
-                                              fontSize: width * 0.04),
-                                        ),
+                                    Center(
+                                      child: Text(
+                                        a.services![index].serviceTitle
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins Regular',
+                                            color: Colors.black,
+                                            fontSize: width * 0.03),
                                       ),
                                     )
                                   ],
@@ -729,18 +614,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   ),
 
                   Divider(
-                    thickness: 1,
+                    thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: 6.0),
-                      child: seeallbarbaer(context)),
+                  seeallbarbaer(context),
 
                   Container(
-                    margin: EdgeInsets.only(left: 6.0,right: 4.0),
-                    height: a.emploeyee!.length > 0
-                        ? height * 0.3 - height * 0.03
-                        : 0.0,
+                    height: a.emploeyee!.length > 0 ? height * 0.4 : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,
                         //customerRegList == null ? 0 : customerRegList.length
@@ -748,6 +628,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                         itemCount:
                             a.emploeyee == null ? 0 : a.emploeyee!.length,
                         itemBuilder: (context, position) {
+                          print("SDF SDFSDF ");
                           print(a.emploeyee!.length);
                           return GestureDetector(
                             onTap: () {
@@ -763,10 +644,9 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                       top: 12, left: width * 0.02),
                                   child: Card(
                                     elevation: 20,
-                                    shadowColor: Colors.transparent,
                                     child: Container(
-                                      width: width * 0.4 - width * 0.03,
-                                      // height: height * 0.3,
+                                      width: width * 0.4 + width * 0.04,
+                                      //   height: height * 0.4 - height * 0.04,
                                       padding: EdgeInsets.only(
                                           top: height * 0.02,
                                           bottom: height * 0.02),
@@ -783,14 +663,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           SizedBox(
-                                            height: 8,
+                                            height: 12,
                                           ),
                                           CircleAvatar(
-                                            radius: width * 0.1 + width * 0.03,
+                                            radius: width * 0.14,
                                             backgroundColor: Colors.yellow,
                                             child: CircleAvatar(
-                                              radius:
-                                                  width * 0.1 + width * 0.02,
+                                              radius: width * 0.13,
                                               backgroundImage: NetworkImage(a
                                                   .emploeyee![position]
                                                   .profileImage
@@ -830,17 +709,17 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                           SizedBox(
                                             height: 2,
                                           ),
-                                          // RatingBarIndicator(
-                                          //   rating: 2.75,
-                                          //   itemBuilder: (context, index) =>
-                                          //       Icon(
-                                          //     Icons.star,
-                                          //     color: Colors.amber,
-                                          //   ),
-                                          //   itemCount: 5,
-                                          //   itemSize: 18.0,
-                                          //   direction: Axis.horizontal,
-                                          // )
+                                          RatingBarIndicator(
+                                            rating: 2.75,
+                                            itemBuilder: (context, index) =>
+                                                Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            itemCount: 5,
+                                            itemSize: 18.0,
+                                            direction: Axis.horizontal,
+                                          )
                                         ],
                                       ),
                                     ),
@@ -875,90 +754,61 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     height: 4,
                   ),
                   Divider(
-                    thickness: 1,
+                    thickness: 2,
                     color: Color(Utils.hexStringToHexInt('A3A2A2')),
                   ),
                   SizedBox(
                     height: 4,
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: width*0.03),
-                      child: chooseyourslot(context)),
+                  chooseyourslot(context),
 /*Todo--- Calendar  list*/
 
-                  Container(
-                    margin: EdgeInsets.only(left: width*0.03),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        DatePicker(
-                          DateTime.now(),
-                          height: 100,
-                          daysCount: 30,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      DatePicker(
+                        DateTime.now(),
+                        initialSelectedDate: DateTime.now(),
+                        selectionColor:
+                            Color(Utils.hexStringToHexInt('77ACA2')),
+                        selectedTextColor: Colors.white,
+                        monthTextStyle:
+                            TextStyle(color: Colors.white, fontSize: 0.0),
+                        onDateChange: (date) {
+                          // New date selected
+                          setState(() {
+                            selectDate = date.day.toString() +
+                                "-" +
+                                date.month.toString() +
+                                "-" +
+                                date.year.toString();
+                            selectDay = date.day.toString();
+                            if (date.weekday.toString() == "1") {
+                              selectDay = "Monday";
+                            } else if (date.weekday.toString() == "2") {
+                              selectDay = "Tuesday";
+                            } else if (date.weekday.toString() == "3") {
+                              selectDay = "Wednesday";
+                            } else if (date.weekday.toString() == "4") {
+                              selectDay = "Thrusday";
+                            } else if (date.weekday.toString() == "5") {
+                              selectDay = "Friday";
+                            } else if (date.weekday.toString() == "6") {
+                              selectDay = "Saturday";
+                            } else if (date.weekday.toString() == "7") {
+                              selectDay = "Sunday";
+                            }
 
-                          initialSelectedDate: DateTime.now(),
-                          selectionColor:
-                              Color(Utils.hexStringToHexInt('77ACA2')),
-                          selectedTextColor: Colors.black,
-                          monthTextStyle: TextStyle(
-                            color:  Color(Utils.hexStringToHexInt('8D8D8D')),
-                            fontSize: width * 0.04,
-                            fontFamily: 'Poppins Medium',
-                          ),
-                          dateTextStyle: TextStyle(
-                            color:  Color(Utils.hexStringToHexInt('8D8D8D')),
-                            fontSize: width * 0.04,
-                            fontFamily: 'Poppins Medium',
-                          ),
-                          dayTextStyle: TextStyle(
-                            color:  Color(Utils.hexStringToHexInt('8D8D8D')),
-                            fontSize: width * 0.04,
-                            fontFamily: 'Poppins Medium',
-                          ),
-
-                          onDateChange: (date) {
-                            // New date selected
-                            setState(() {
-                              selectDate = date.day.toString() +
-                                  "-" +
-                                  date.month.toString() +
-                                  "-" +
-                                  date.year.toString();
-                              selectDay = date.day.toString();
-                              if (date.weekday.toString() == "1") {
-                                selectDay = "Monday";
-                              } else if (date.weekday.toString() == "2") {
-                                selectDay = "Tuesday";
-                              } else if (date.weekday.toString() == "3") {
-                                selectDay = "Wednesday";
-                              } else if (date.weekday.toString() == "4") {
-                                selectDay = "Thrusday";
-                              } else if (date.weekday.toString() == "5") {
-                                selectDay = "Friday";
-                              } else if (date.weekday.toString() == "6") {
-                                selectDay = "Saturday";
-                              } else if (date.weekday.toString() == "7") {
-                                selectDay = "Sunday";
-                              }
-
-                              print(selectDay);
-                              // _selectedValue = date;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                            print(selectDay);
+                            // _selectedValue = date;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 6,
                   ),
-                  //===========
-            Container(
-              margin: EdgeInsets.only(left: width*0.03,right:  width*0.03),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
                   Text(
                     ' Morning',
                     style: TextStyle(
@@ -969,58 +819,30 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   SizedBox(
                     height: height * 0.01,
                   ),
-                  SizedBox(
-                    width: width,
-                    height: 40,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                        slotpojo.notificationDetail![0].morning!.length,
-                        itemBuilder: (context, position) {
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                slotSelected = "Morning";
-                                timeSelected =
-                                "${slotpojo.notificationDetail![0].morning![position]}";
-                                _isSelectedSlot(position);
-                              });
-                            },
-                            child: Container(
-                              width: width * 0.3,
-                              margin: EdgeInsets.only(
-                                  left: width * 0.02, right: width * 0.02),
-                              padding: EdgeInsets.only(
-                                  left: width * 0.02,
-                                  right: width * 0.02,
-                                  top: width * 0.02,
-                                  bottom: width * 0.02),
-                              decoration: BoxDecoration(
-                                  color: slotSelected == "Morning" &&
-                                      isSlotSelected == position
-                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
-                                      : Colors.white,
-                                  border: Border.all(
-                                    //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#8D8D8D')),
-                                      width: 1)),
-                              child: Center(
-                                child: Text(
-                                  '${slotpojo.notificationDetail![0].morning![position]}',
-                                  style: TextStyle(
-                                    fontSize: width * 0.03,
-                                    color: slotSelected == "Morning" &&
-                                        isSlotSelected == position
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
+                  InkWell(
+                    onTap: () {
+                      slotSelected = "Morning";
+                      timeSelected = "10:00 AM - 12:00 PM";
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: width * 0.02),
+                      padding: EdgeInsets.only(
+                          left: width * 0.02,
+                          right: width * 0.02,
+                          top: width * 0.02,
+                          bottom: width * 0.02),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                              color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                              width: 1)),
+                      child: Text(
+                        '10:00 AM - 12:00 PM',
+                        style: TextStyle(
+                            fontSize: width * 0.03,
+                            color: Color(Utils.hexStringToHexInt('#8D8D8D'))),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: height * 0.01,
@@ -1035,60 +857,66 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   SizedBox(
                     height: height * 0.01,
                   ),
-
-                  SizedBox(
-                    width: width,
-                    height: 40,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                        slotpojo.notificationDetail![0].afternoon!.length,
-                        itemBuilder: (context, position) {
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                slotSelected = "Afternoon";
-                                timeSelected =
-                                "${slotpojo.notificationDetail![0].morning![position]}";
-                                _isSelectedSlot(position);
-                              });
-                            },
-                            child: Container(
-                              width: width * 0.3,
-                              margin: EdgeInsets.only(
-                                  left: width * 0.02, right: width * 0.02),
+                  SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            slotSelected = "Afternoon";
+                            timeSelected = "10:00 AM - 12:00 PM";
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: width * 0.02),
+                            padding: EdgeInsets.only(
+                                left: width * 0.02,
+                                right: width * 0.02,
+                                top: width * 0.02,
+                                bottom: width * 0.02),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('#8D8D8D')),
+                                    width: 1)),
+                            child: Text(
+                              '10:00 AM - 12:00 PM',
+                              style: TextStyle(
+                                  fontSize: width * 0.03,
+                                  color: Color(
+                                      Utils.hexStringToHexInt('#8D8D8D'))),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: width * 0.02,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              slotSelected = "Afternoon";
+                              timeSelected = "10:00 AM - 12:00 PM";
+                            });
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(left: width * 0.01),
                               padding: EdgeInsets.only(
                                   left: width * 0.02,
                                   right: width * 0.02,
                                   top: width * 0.02,
                                   bottom: width * 0.02),
                               decoration: BoxDecoration(
-                                  color: slotSelected == "Afternoon" &&
-                                      isSlotSelected == position
-                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
-                                      : Colors.white,
                                   border: Border.all(
-                                    //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
                                       color: Color(
                                           Utils.hexStringToHexInt('#8D8D8D')),
                                       width: 1)),
-                              child: Center(
-                                child: Text(
-                                  '${slotpojo.notificationDetail![0].afternoon![position]}',
-                                  style: TextStyle(
+                              child: Text(
+                                '10:00 AM - 12:00 PM',
+                                style: TextStyle(
                                     fontSize: width * 0.03,
-                                    color: slotSelected == "Afternoon" &&
-                                        isSlotSelected == position
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
+                                    color: Color(
+                                        Utils.hexStringToHexInt('#8D8D8D'))),
+                              )),
+                        ),
+                      ])),
                   SizedBox(
                     height: height * 0.01,
                   ),
@@ -1103,63 +931,57 @@ class _SaloonDetailState extends State<SaloonDetail> {
                     height: 6,
                   ),
 
-                  SizedBox(
-                    width: width,
-                    height: 40,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount:
-                        slotpojo.notificationDetail![0].evening!.length,
-                        itemBuilder: (context, position) {
-                          return InkWell(
-                            onTap: () {
-                              setState(() {
-                                slotSelected = "Evening";
-                                timeSelected =
-                                "${slotpojo.notificationDetail![0].evening![position]}";
-                                _isSelectedSlot(position);
-                              });
-                            },
-                            child: Container(
-                              width: width * 0.3,
-                              margin: EdgeInsets.only(
-                                  left: width * 0.02, right: width * 0.02),
+                  SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(children: <Widget>[
+                        InkWell(
+                          onTap: () {
+                            slotSelected = "Evening";
+                            timeSelected = "10:00 AM - 12:00 PM";
+                          },
+                          child: Container(
+                              margin: EdgeInsets.only(left: width * 0.02),
                               padding: EdgeInsets.only(
                                   left: width * 0.02,
                                   right: width * 0.02,
                                   top: width * 0.02,
                                   bottom: width * 0.02),
                               decoration: BoxDecoration(
-                                  color: slotSelected == "Evening" &&
-                                      isSlotSelected == position
-                                      ? Color(Utils.hexStringToHexInt('77ACA2'))
-                                      : Colors.white,
                                   border: Border.all(
-                                    //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
                                       color: Color(
                                           Utils.hexStringToHexInt('#8D8D8D')),
                                       width: 1)),
-                              child: Center(
-                                child: Text(
-                                  '${slotpojo.notificationDetail![0].evening![position]}',
-                                  style: TextStyle(
+                              child: Text(
+                                '10:00 AM - 12:00 PM',
+                                style: TextStyle(
                                     fontSize: width * 0.03,
-                                    color: slotSelected == "Evening" &&
-                                        isSlotSelected == position
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
-              ),
-            ),
-
+                                    color: Color(
+                                        Utils.hexStringToHexInt('#8D8D8D'))),
+                              )),
+                        ),
+                        SizedBox(
+                          width: width * 0.02,
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: width * 0.01),
+                            padding: EdgeInsets.only(
+                                left: width * 0.02,
+                                right: width * 0.02,
+                                top: width * 0.02,
+                                bottom: width * 0.02),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('#8D8D8D')),
+                                    width: 1)),
+                            child: Text(
+                              '10:00 AM - 12:00 PM',
+                              style: TextStyle(
+                                  fontSize: width * 0.03,
+                                  color: Color(
+                                      Utils.hexStringToHexInt('#8D8D8D'))),
+                            )),
+                      ])),
 
                   const SizedBox(
                     height: 12,
@@ -1170,31 +992,93 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     child: Container(
-                        width: width,
-                        height: height * 0.1 + height * 0.01,
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(18))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                if (session == null || session == "") {
-                                  CommonDialog.showsnackbar(
-                                      "Please login for use all features");
-                                } else if (tempArray.isEmpty) {
-                                  CommonDialog.showsnackbar(
-                                      "Please select your services");
-                                } else if (slotSelected == "") {
-                                  CommonDialog.showsnackbar(
-                                      "Please select  slot");
-                                } else if (selectDate == "") {
-                                  CommonDialog.showsnackbar(
-                                      "Please select  date");
-                                } else {
+                      width: width,
+                      height: height * 0.1 + height * 0.05,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(18))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                ' Bill Total',
+                                style: TextStyle(
+                                    color: Color(
+                                        Utils.hexStringToHexInt('A3A2A2')),
+                                    fontSize: width * 0.04,
+                                    fontFamily: 'Poppins Regular'),
+                              ),
+                              Text(
+                                " \$599",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: width * 0.06,
+                                    fontFamily: 'Poppins Medium'),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CoinPage()),
+                                  );
+                                },
+                                child: Container(
+                                  width: width * 0.3,
+                                  height: height * 0.08,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      border: Border.all(
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '77ACA2')),
+                                          width: 2)),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Pay Later',
+                                          style: TextStyle(
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '77ACA2')),
+                                              fontFamily: 'Poppins Regular',
+                                              fontSize: width * 0.03),
+                                        ),
+                                        Text(
+                                          'No Discount',
+                                          style: TextStyle(
+                                              color: Color(
+                                                  Utils.hexStringToHexInt(
+                                                      '77ACA2')),
+                                              fontFamily: 'Poppins Regular',
+                                              fontSize: width * 0.02),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              /*TODO---pass from here*/
+
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  //String selectEmpid, String selectDate, String selectDay,String selectSlot
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -1204,41 +1088,46 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                             selectEmployeeId.toString() + "",
                                             selectDate + "",
                                             selectDay + "",
-                                            slotSelected + "",
                                             timeSelected + "")),
                                   );
-                                }
-                              },
-                              child: Container(
-                                width: width - width * 0.2,
-                                height: height * 0.08,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
-                                    border: Border.all(
-                                        color: Color(
-                                            Utils.hexStringToHexInt('77ACA2')),
-                                        width: 2)),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'Next',
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    '77ACA2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.03),
-                                      ),
-                                    ],
+                                },
+                                child: Container(
+                                  width: width * 0.3,
+                                  height: height * 0.08,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(12)),
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2'))),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Pay now',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins Regular',
+                                              fontSize: width * 0.03),
+                                        ),
+                                        Text(
+                                          'Save \$100',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Poppins Regular',
+                                              fontSize: width * 0.02),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        )),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -1345,10 +1234,10 @@ class _SaloonDetailState extends State<SaloonDetail> {
   }
 
   Widget profiledes(BuildContext context, width, height, name, address,
-      ownerimage, ownername, List<DataService>? services, rating) {
+      ownerimage, ownername, List<Service>? services) {
     return Container(
         width: width,
-        height: height * 0.2 + height * 0.06,
+        height: height * 0.4 - height * 0.07,
         color: Colors.white,
         margin: EdgeInsets.only(left: width * 0.04, top: height * 0.02),
         child: Stack(
@@ -1362,10 +1251,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       name,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.height * 0.05,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                           fontFamily: 'Poppins Regular'),
                     ),
-
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
                     Container(
                       alignment: Alignment.topLeft,
                       color: Colors.white,
@@ -1376,12 +1267,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
                             height: height * 0.04,
                             child: SvgPicture.asset(
                               "images/svgicons/mappin.svg",
-                              fit: BoxFit.contain,
+                              fit: BoxFit.fill,
                             ),
                           ),
                           Text(" " + address,
                               style: TextStyle(
-                                  fontSize: width * 0.04,
+                                  fontSize: width * 0.03,
                                   fontFamily: 'Poppins Regular',
                                   color: Color(
                                       Utils.hexStringToHexInt('#77ACA2'))),
@@ -1390,7 +1281,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                       ),
                     ),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.02,
                     ),
                     Row(
                       children: <Widget>[
@@ -1404,31 +1295,32 @@ class _SaloonDetailState extends State<SaloonDetail> {
                           style: TextStyle(
                               color: Color(Utils.hexStringToHexInt('#5E5E5E')),
                               fontSize:
-                                  MediaQuery.of(context).size.width * 0.04,
+                                  MediaQuery.of(context).size.width * 0.03,
                               fontFamily: 'Poppins Light'),
                         )
                       ],
                     ),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.02,
                     ),
                     Text(
                       'Services',
-                     style: TextStyle(
+                      style: TextStyle(
                           fontFamily: 'Poppins Regular',
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontSize: MediaQuery.of(context).size.height * 0.03,
                           color: Colors.black),
                     ),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.02,
                     ),
-                    Flexible(
+                    SizedBox(
+                      height: height * 0.06,
+                      width: width * 0.9,
                       child: ListView.builder(
                           // customerRegList == null ? 0 : customerRegList.length,
                           itemCount: services == null ? 0 : services.length,
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          primary: true,
                           itemBuilder: (context, position) {
                             return Wrap(
                               children: <Widget>[
@@ -1482,7 +1374,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   right: width * 0.3 - 6,
                   // alignment: Alignment.topLeft,
                   child: Text(
-                    '${rating}',
+                    '4',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: width * 0.07,
@@ -1554,7 +1446,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   left: width * 0.6 + width * 0.05,
                   // alignment: Alignment.topLeft,
                   child: RatingBarIndicator(
-                    rating: rating != null ? rating!.toDouble() : 1.0,
+                    rating: 2.75,
                     itemBuilder: (context, index) => Icon(
                       Icons.star,
                       color: Colors.amber,
@@ -1573,7 +1465,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
   Widget description(BuildContext context, width, height, description,
       aminities, List<TimeSlot>? timeSlot) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 6, left: 12, right: 12),
+      margin: const EdgeInsets.only(bottom: 6, left: 6, right: 6),
       width: width,
       color: Colors.white,
       child: Column(
@@ -1582,7 +1474,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
           Text(
             'Description',
             style: TextStyle(
-                fontSize: width * 0.05,
+                fontSize: width * 0.03,
                 color: Colors.black,
                 fontFamily: 'Poppins Regular'),
           ),
@@ -1595,12 +1487,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
             maxLines: 5,
           ),
           SizedBox(
-            height: height * 0.01,
+            height: height * 0.02,
           ),
           Text(
             'Amenties',
             style: TextStyle(
-                fontSize: width * 0.05,
+                fontSize: width * 0.03,
                 color: Colors.black,
                 fontFamily: 'Poppins Regular'),
           ),
@@ -1613,18 +1505,18 @@ class _SaloonDetailState extends State<SaloonDetail> {
             maxLines: 5,
           ),
           SizedBox(
-            height: height * 0.01,
+            height: height * 0.02,
           ),
           Text(
             "Timings",
-              style: TextStyle(
-                  fontSize: width * 0.05,
-                  color: Colors.black,
-                  fontFamily: 'Poppins Regular'),
+            style: TextStyle(
+                fontFamily: 'Poppins Regular',
+                fontSize: MediaQuery.of(context).size.height * 0.02,
+                color: Colors.black),
           ),
           //Utils().titleText('Timings ', context),
           SizedBox(
-            height: 4,
+            height: height * 0.01,
           ),
           Row(
             children: <Widget>[
@@ -1633,7 +1525,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                 style: TextStyle(
                     color: Color(Utils.hexStringToHexInt('5E5E5E')),
                     fontFamily: 'Poppins Light',
-                    fontSize: width * 0.04),
+                    fontSize: width * 0.03),
               ),
               SizedBox(
                 width: width * 0.09,
@@ -1643,7 +1535,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                 style: TextStyle(
                     color: Color(Utils.hexStringToHexInt('5E5E5E')),
                     fontFamily: 'Poppins Light',
-                    fontSize: width * 0.04),
+                    fontSize: width * 0.03),
               )
             ],
           ),
@@ -1659,7 +1551,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins Regular',
-                    fontSize: width * 0.04),
+                    fontSize: width * 0.03),
               ),
               SizedBox(
                 width: width * 0.2,
@@ -1672,7 +1564,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                 style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins Regular',
-                    fontSize: width * 0.04),
+                    fontSize: width * 0.03),
               )
             ],
           )
@@ -1798,21 +1690,21 @@ class _SaloonDetailState extends State<SaloonDetail> {
           "  Choose your barber",
           style: TextStyle(
               fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.width * 0.05,
+              fontSize: MediaQuery.of(context).size.height * 0.02,
               color: Colors.black),
         ),
-        // Text(
-        //   'See all ',
-        //   style: TextStyle(
-        //       fontFamily: 'Poppins Regular',
-        //       fontSize: MediaQuery.of(context).size.height * 0.02,
-        //       color: Color(Utils.hexStringToHexInt('#77aca2'))),
-        // )
+        Text(
+          'See all ',
+          style: TextStyle(
+              fontFamily: 'Poppins Regular',
+              fontSize: MediaQuery.of(context).size.height * 0.02,
+              color: Color(Utils.hexStringToHexInt('#77aca2'))),
+        )
       ],
     );
   }
 
-  Widget bestoffer(BuildContext context, a) {
+  Widget bestoffer(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -1824,10 +1716,10 @@ class _SaloonDetailState extends State<SaloonDetail> {
               color: Colors.black),
         ),
         Text(
-          '${a.coupon!.length} offers    ',
+          '3 offers  ',
           style: TextStyle(
               fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.width * 0.03,
+              fontSize: MediaQuery.of(context).size.height * 0.01,
               color: Color(Utils.hexStringToHexInt('#77aca2'))),
         )
       ],
@@ -1843,16 +1735,16 @@ class _SaloonDetailState extends State<SaloonDetail> {
           "  Choose services",
           style: TextStyle(
               fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.width * 0.05,
+              fontSize: MediaQuery.of(context).size.height * 0.02,
               color: Colors.black),
         ),
-        // Text(
-        //   'See all ',
-        //   style: TextStyle(
-        //       fontFamily: 'Poppins Regular',
-        //       fontSize: MediaQuery.of(context).size.height * 0.02,
-        //       color: Color(Utils.hexStringToHexInt('#77aca2'))),
-        // )
+        Text(
+          'See all ',
+          style: TextStyle(
+              fontFamily: 'Poppins Regular',
+              fontSize: MediaQuery.of(context).size.height * 0.02,
+              color: Color(Utils.hexStringToHexInt('#77aca2'))),
+        )
       ],
     );
   }
@@ -1861,12 +1753,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Utils().titleText2(' Choose your Slot', context),
+        Utils().titleText1(' Choose your Slot', context),
         Text(
           '',
           style: TextStyle(
               fontFamily: 'Poppins Regular',
-              fontSize: MediaQuery.of(context).size.width * 0.05,
+              fontSize: MediaQuery.of(context).size.height * 0.02,
               color: Color(Utils.hexStringToHexInt('#77aca2'))),
         )
       ],

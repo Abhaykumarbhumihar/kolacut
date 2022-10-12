@@ -49,13 +49,12 @@ class Data {
     this.longitude,
     this.shopType,
     this.description,
+    this.ifFavourite,
     this.amenties,
-    this.isFavorite,
     this.timeSlot,
     this.services,
     this.emploeyee,
     this.coupon,
-    this.rating
   });
 
   int? id;
@@ -73,13 +72,12 @@ class Data {
   String? longitude;
   String? shopType;
   String? description;
+  int? ifFavourite;
   String? amenties;
-  int? isFavorite;
   List<TimeSlot>? timeSlot;
-  List<DataService>? services;
+  List<Service>? services;
   List<Emploeyee>? emploeyee;
   List<Coupon>? coupon;
-  int? rating;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -97,13 +95,12 @@ class Data {
     longitude: json["longitude"],
     shopType: json["shop_type"],
     description: json["description"],
+    ifFavourite: json["is_favorite"],
     amenties: json["amenties"],
-    isFavorite: json["is_favorite"],
     timeSlot: List<TimeSlot>.from(json["time_slot"].map((x) => TimeSlot.fromJson(x))),
-    services: List<DataService>.from(json["services"].map((x) => DataService.fromJson(x))),
+    services: List<Service>.from(json["services"].map((x) => Service.fromJson(x))),
     emploeyee: List<Emploeyee>.from(json["emploeyee"].map((x) => Emploeyee.fromJson(x))),
     coupon: List<Coupon>.from(json["coupon"].map((x) => Coupon.fromJson(x))),
-    rating: json["rating"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -122,13 +119,12 @@ class Data {
     "longitude": longitude,
     "shop_type": shopType,
     "description": description,
+    "is_favorite": ifFavourite,
     "amenties": amenties,
-    "is_favorite": isFavorite,
     "time_slot": List<dynamic>.from(timeSlot!.map((x) => x.toJson())),
     "services": List<dynamic>.from(services!.map((x) => x.toJson())),
     "emploeyee": List<dynamic>.from(emploeyee!.map((x) => x.toJson())),
     "coupon": List<dynamic>.from(coupon!.map((x) => x.toJson())),
-    "rating": rating,
   };
 }
 
@@ -138,21 +134,18 @@ class Coupon {
     this.couponName,
     this.price,
     this.couponCode,
-    this.percentage
   });
 
   int? id;
   String? couponName;
   String? price;
   String? couponCode;
-  String? percentage;
 
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
     id: json["id"],
     couponName: json["coupon_name"],
     price: json["price"],
     couponCode: json["coupon_code"],
-    percentage: json["percentage"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -160,7 +153,6 @@ class Coupon {
     "coupon_name": couponName,
     "price": price,
     "coupon_code": couponCode,
-    "percentage": percentage,
   };
 }
 
@@ -208,59 +200,55 @@ class Emploeyee {
   };
 }
 
-class DataService {
-  DataService({
+class Service {
+  Service({
     this.serviceId,
     this.serviceTitle,
     this.serviceImage,
-    this.service,
+    this.subServices,
   });
 
   int? serviceId;
   String? serviceTitle;
   String? serviceImage;
-  List<ServiceService>? service;
+  List<SubService>? subServices;
 
-  factory DataService.fromJson(Map<String, dynamic> json) => DataService(
+  factory Service.fromJson(Map<String, dynamic> json) => Service(
     serviceId: json["service_id"],
     serviceTitle: json["service_title"],
     serviceImage: json["service_image"],
-    service: List<ServiceService>.from(json["service"].map((x) => ServiceService.fromJson(x))),
+    subServices: List<SubService>.from(json["sub_services"].map((x) => SubService.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "service_id": serviceId,
     "service_title": serviceTitle,
     "service_image": serviceImage,
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "sub_services": List<dynamic>.from(subServices!.map((x) => x.toJson())),
   };
 }
 
-class ServiceService {
-  ServiceService({
+class SubService {
+  SubService({
     this.id,
     this.name,
     this.price,
-    this.time
   });
 
   int? id;
   String? name;
   String? price;
-  String? time;
 
-  factory ServiceService.fromJson(Map<String, dynamic> json) => ServiceService(
+  factory SubService.fromJson(Map<String, dynamic> json) => SubService(
     id: json["id"],
     name: json["name"],
     price: json["price"],
-    time: json["time"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
     "price": price,
-    "time": time,
   };
 }
 

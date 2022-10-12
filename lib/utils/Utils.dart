@@ -31,6 +31,15 @@ static String SESSION="";
           color: Colors.black),
     );
   }
+  Widget titleText2(text, context) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontFamily: 'Poppins Regular',
+          fontSize: MediaQuery.of(context).size.width * 0.05,
+          color: Colors.black),
+    );
+  }
 
   Widget titleTextsemibold(text, context) {
     return Text(

@@ -1,12 +1,6 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/screen/circular_slider.dart';
 import 'package:untitled/screen/coin.dart';
 import 'package:untitled/screen/homepage.dart';
@@ -19,7 +13,6 @@ import 'package:untitled/screen/yourbooking.dart';
 import 'package:untitled/utils/Utils.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import '../main.dart';
 import 'profile.dart';
 
 class MainPage extends StatefulWidget {
@@ -33,9 +26,8 @@ class _MainPageState extends State<MainPage> {
   var index = 0;
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-  late SharedPreferences sharedPreferences;
-var image="";
-   List<Widget> _buildScreens() {
+
+  List<Widget> _buildScreens() {
     return [
      const HomePage(),
      const TableBasicsExample(),
@@ -46,7 +38,6 @@ var image="";
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
-
     return [
       PersistentBottomNavBarItem(
         icon: Icon(
@@ -83,19 +74,6 @@ var image="";
         activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
-
-
-      // PersistentBottomNavBarItem(
-      //   icon:  image == null||image==""?ImageIcon(
-      //     AssetImage("images/svgicons/emptyheart.png"),
-      //     size: 30,
-      //   ):ImageIcon(
-      //     NetworkImage(image),
-      //   ),
-      //   activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
-      //   inactiveColorPrimary: CupertinoColors.systemGrey,
-      // ),
-
       PersistentBottomNavBarItem(
         icon: const Icon(
           CupertinoIcons.profile_circled,
@@ -108,119 +86,12 @@ var image="";
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    notification();
-
-
-
-  }
-
-  getImage()async{
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      sharedPreferences = sp;
-      var _testValue = sharedPreferences.getString("name");
-      var emailValue = sharedPreferences.getString("email");
-      var _imageValue = sharedPreferences.getString("image");
-      var _phoneValue = sharedPreferences.getString("phoneno");
-      var _sessss = sharedPreferences.getString("session");
-      setState(() {
-        if (_imageValue != null) {
-          image = _imageValue;
-        } else {
-          image="";
-        }
-
-        //  print(name+" "+email+" "+phone+" "+_imageValue);
-      });
-      // will be null if never previously saved
-      // print("SDFKLDFKDKLFKDLFKLDFKL  " + "${_testValue}");
-    });
-  }
-  notification() async {
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-    if (Platform.isIOS) {
-      firebaseMessaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
-      );
-    }
-
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-        alert: true, badge: true, sound: true);
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      print(  message.data["we"]);
-      print("54566565565656565556 ----UNONPE UNONPE ");
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title! + "789",
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                // channel.description,
-                color: Colors.transparent,
-                playSound: true,
-                icon: "mipmap/ic_launcher",
-              ),
-            ));
-/*TODO-- pass rote here*/
-        // _homepage = TwilioPhoneNumberInput();
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      print(  message.data["we"]);
-      print(
-          "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title! + "onMessageOpenedApp",
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                // channel.description,
-                color: Colors.transparent,
-                playSound: true,
-                icon: "mipmap/ic_launcher",
-              ),
-            ));
-/*TODO-- pass rote here*/
-        // _homepage = TwilioPhoneNumberInput();
-      } /*TODO-- pass rote here*/
-      //  _homepage = TwilioPhoneNumberInput();
-    });
-  }
-  @override
   Widget build(BuildContext context) {
     //box.write('session', "TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
-  //  getImage();
     return PersistentTabView(
       context,
       controller: _controller,
+
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,

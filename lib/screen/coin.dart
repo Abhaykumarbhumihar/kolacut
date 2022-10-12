@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_circular_slider/flutter_circular_slider.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -197,7 +198,95 @@ var session="";
                                     kimColor: Colors.amberAccent,
                                   ),
                                 ),
-
+                                // Center(
+                                //   child: Container(
+                                //       child: SingleCircularSlider(
+                                //         1000,
+                                //         10,
+                                //         width: width * 0.8,
+                                //         height: height * 0.5,
+                                //         primarySectors: 4,
+                                //         secondarySectors: 4,
+                                //         showHandlerOutter: true,
+                                //         showRoundedCapInSelection: true,
+                                //         child: Center(
+                                //           child: Container(
+                                //             width: width * 0.8,
+                                //             height: height * 0.3,
+                                //             decoration: const BoxDecoration(
+                                //               color: Colors.white,
+                                //               shape: BoxShape.circle,
+                                //             ),
+                                //             child: Column(
+                                //               crossAxisAlignment: CrossAxisAlignment.center,
+                                //               mainAxisAlignment: MainAxisAlignment.center,
+                                //               children: <Widget>[
+                                //                 Text(
+                                //                   '₹ 100',
+                                //                   style: TextStyle(
+                                //                       color: Colors.black,
+                                //                       fontSize: width * 0.07,
+                                //                       fontFamily: 'Poppins Medium'),
+                                //                 ),
+                                //                 Text(
+                                //                   '100 coins',
+                                //                   style: TextStyle(
+                                //                       fontFamily: 'Poppins Regular',
+                                //                       fontSize: width * 0.04,
+                                //                       color:
+                                //                       Color(Utils.hexStringToHexInt('C4C4C4'))),
+                                //                 ),
+                                //                 Container(
+                                //                   width: width * 0.5,
+                                //                   height: 34,
+                                //                   margin: EdgeInsets.only(top: height * 0.03),
+                                //                   decoration: BoxDecoration(
+                                //                       borderRadius: BorderRadius.circular(12),
+                                //                       border: Border.all(
+                                //                           color: Color(
+                                //                               Utils.hexStringToHexInt('77ACA2')),
+                                //                           width: 1)),
+                                //                   child: Row(
+                                //                     mainAxisAlignment:
+                                //                     MainAxisAlignment.spaceEvenly,
+                                //                     children: <Widget>[
+                                //                       Text(
+                                //                         '',
+                                //                         style: TextStyle(
+                                //                             fontSize: width * 0.03,
+                                //                             fontFamily: 'Poppins Light',
+                                //                             color: Color(
+                                //                                 Utils.hexStringToHexInt('77ACA2'))),
+                                //                       ),
+                                //                       Text(
+                                //                         'Conversion Rate 1%',
+                                //                         style: TextStyle(
+                                //                             fontSize: width * 0.02,
+                                //                             fontFamily: 'Poppins Light',
+                                //                             color: Color(
+                                //                                 Utils.hexStringToHexInt('77ACA2'))),
+                                //                       ),
+                                //                       Icon(
+                                //                         Icons.arrow_forward_ios,
+                                //                         size: width * 0.04,
+                                //                       )
+                                //                     ],
+                                //                   ),
+                                //                 )
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ),
+                                //         onSelectionChange: (a, b, c) => {
+                                //           setState(() {
+                                //
+                                //             outBedTime = b;
+                                //           })
+                                //         },
+                                //         baseColor: Color(Utils.hexStringToHexInt('#d6dfe9')),
+                                //         selectionColor: Color(Utils.hexStringToHexInt('77ACA2')),
+                                //       )),
+                                // ),
                                 SizedBox(
                                   height: height * 0.03,
                                 ),

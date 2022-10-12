@@ -561,15 +561,15 @@ class _OrderDetailState extends State<OrderDetail> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  Upto 50% off via UPI',
+                                                            '  Upto ${widget.data!.coupon![position].percentage}% off via UPI',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Light',
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.01,
+                                                                        .width *
+                                                                    0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
                                                                         'A4A4A4'))),
@@ -586,8 +586,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.01,
+                                                                        .width *
+                                                                    0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
                                                                         'A4A4A4'))),
@@ -610,8 +610,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.01,
+                                                                        .width *
+                                                                    0.03,
                                                                 color: Colors
                                                                     .white,
                                                               ),
@@ -1341,7 +1341,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               },
                               child: Container(
                                 width: width - width * 0.2,
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(20),
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(12)),
