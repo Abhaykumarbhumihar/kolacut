@@ -40,7 +40,7 @@ class _NotificationPageState extends State<NotificationPage> {
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
-              centerTitle: true,
+              centerTitle: false,
               elevation: 0.0,
               backgroundColor: Color(Utils.hexStringToHexInt('46D0D9')),
               leading: InkWell(

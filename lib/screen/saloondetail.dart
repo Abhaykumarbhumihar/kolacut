@@ -120,6 +120,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
       apiUrl,
       body: map,
     );
+    print(response);
     setState(() {
       slotpojo = slotPojoFromJson(response.body);
     });
@@ -504,6 +505,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                               StateSetter setState) {
                                             return Container(
                                               width: width,
+                                              height: 200,
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
@@ -690,8 +692,8 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                                 width: 14,
                                                 height: 14),
                                             Center(
-                                                child: Image.asset(
-                                              'images/svgicons/hairdressing.png',
+                                                child: Image.network(
+                                              '${a.services![index].serviceImage}',
                                               width: 24,
                                               height: 24,
                                             )),

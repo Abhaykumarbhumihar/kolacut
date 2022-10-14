@@ -241,9 +241,9 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                         Icons.share,
                         color: Color(Utils.hexStringToHexInt('77ACA2')),
                       ),
-                      title: const Text(' Refer To Earm '),
-                      subtitle: const Text(
-                          ' You will get 50 coin on first order of your firend '),
+                      title: const Text(' Refer To Earn '),
+                      // subtitle: const Text(
+                      //     ' You will get 50 coin on first order of your firend '),
                       onTap: () async {
                         Navigator.pop(context);
                         // CommonDialog.showLoading(title: "Please wait");

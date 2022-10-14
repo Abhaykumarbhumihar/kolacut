@@ -47,10 +47,10 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
         ),
         titleSpacing: 0,
         title: Text(
-          '',
+          'Salons',
           style: TextStyle(
-              fontFamily: 'Poppins Regular',
               color: Colors.white,
+              fontFamily: 'Poppins Medium',
               fontSize: width * 0.04),
         ),
         actions: <Widget>[

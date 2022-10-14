@@ -56,7 +56,8 @@ class _CartOrderState extends State<CartOrder> {
   var applycouponPrice = 0.0;
   var applycouponCode = "";
   var serviceTime = 0;
-  var coupontype ="";
+  var coupontype = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -185,11 +186,21 @@ class _CartOrderState extends State<CartOrder> {
                           daysCount: 30,
                           initialSelectedDate: DateTime.now(),
                           selectionColor:
-                          Color(Utils.hexStringToHexInt('77ACA2')),
+                              Color(Utils.hexStringToHexInt('77ACA2')),
                           selectedTextColor: Colors.black,
                           monthTextStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: width * 0.03,
+                            color: Color(Utils.hexStringToHexInt('8D8D8D')),
+                            fontSize: width * 0.04,
+                            fontFamily: 'Poppins Medium',
+                          ),
+                          dateTextStyle: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('8D8D8D')),
+                            fontSize: width * 0.04,
+                            fontFamily: 'Poppins Medium',
+                          ),
+                          dayTextStyle: TextStyle(
+                            color: Color(Utils.hexStringToHexInt('8D8D8D')),
+                            fontSize: width * 0.04,
                             fontFamily: 'Poppins Medium',
                           ),
                           onDateChange: (date) {
@@ -272,7 +283,8 @@ class _CartOrderState extends State<CartOrder> {
                                       decoration: BoxDecoration(
                                           color: slotSelected == "Morning" &&
                                                   isSlotSelected == position
-                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
                                               : Colors.white,
                                           border: Border.all(
                                               //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -284,11 +296,11 @@ class _CartOrderState extends State<CartOrder> {
                                         child: Text(
                                           '${slotpojo.notificationDetail![0].morning![position]}',
                                           style: TextStyle(
-                                              fontSize: width * 0.03,
-                                              color: slotSelected == "Morning" &&
-                                                  isSlotSelected == position
-                                                  ?   Colors.white
-                                                  : Colors.black,
+                                            fontSize: width * 0.03,
+                                            color: slotSelected == "Morning" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                       ),
@@ -346,7 +358,8 @@ class _CartOrderState extends State<CartOrder> {
                                       decoration: BoxDecoration(
                                           color: slotSelected == "Afternoon" &&
                                                   isSlotSelected == position
-                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
                                               : Colors.white,
                                           border: Border.all(
                                               //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -358,11 +371,12 @@ class _CartOrderState extends State<CartOrder> {
                                         child: Text(
                                           '${slotpojo.notificationDetail![0].afternoon![position]}',
                                           style: TextStyle(
-                                              fontSize: width * 0.03,
-                                              color: slotSelected == "Afternoon" &&
-                                                  isSlotSelected == position
-                                                  ?   Colors.white
-                                                  : Colors.black,
+                                            fontSize: width * 0.03,
+                                            color: slotSelected ==
+                                                        "Afternoon" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                       ),
@@ -420,7 +434,8 @@ class _CartOrderState extends State<CartOrder> {
                                       decoration: BoxDecoration(
                                           color: slotSelected == "Evening" &&
                                                   isSlotSelected == position
-                                              ?   Color(Utils.hexStringToHexInt('77ACA2'))
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
                                               : Colors.white,
                                           border: Border.all(
                                               //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
@@ -432,11 +447,11 @@ class _CartOrderState extends State<CartOrder> {
                                         child: Text(
                                           '${slotpojo.notificationDetail![0].evening![position]}',
                                           style: TextStyle(
-                                              fontSize: width * 0.03,
-                                              color: slotSelected == "Evening" &&
-                                                  isSlotSelected == position
-                                                  ?   Colors.white
-                                                  : Colors.black,
+                                            fontSize: width * 0.03,
+                                            color: slotSelected == "Evening" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                         ),
                                       ),
@@ -471,6 +486,9 @@ class _CartOrderState extends State<CartOrder> {
                       height: height * 0.02,
                     ),
                     Container(
+                      margin: EdgeInsets.only(
+                          left: width * 0.1 + width * 0.04,
+                          right: width * 0.03),
                       width: width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -494,7 +512,7 @@ class _CartOrderState extends State<CartOrder> {
                     ),
                     SizedBox(height: height * 0.02),
                     Material(
-                      elevation: 1,
+                      elevation: 0,
                       color: Colors.white,
                       child: Column(
                         children: <Widget>[
@@ -509,8 +527,10 @@ class _CartOrderState extends State<CartOrder> {
                                 itemCount: widget.slotDetail!.service!.length,
                                 itemBuilder: (context, position) {
                                   return Container(
-                                    margin:
-                                        EdgeInsets.only(right: width * 0.03),
+                                    margin: EdgeInsets.only(
+                                        right: width * 0.03,
+                                        bottom: 3.0,
+                                        top: 3.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -609,7 +629,7 @@ class _CartOrderState extends State<CartOrder> {
                           false; // Declare your variable outside the builder
 
                       bool showmainList = true;
-                      print(widget.slotDetail!.coupon!.length);
+
                       return AlertDialog(
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -634,7 +654,7 @@ class _CartOrderState extends State<CartOrder> {
                               (BuildContext context, StateSetter setState) {
                             return Container(
                               width: width,
-                              height: height,
+                              height: 250,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -686,15 +706,15 @@ class _CartOrderState extends State<CartOrder> {
                                                           height: 8,
                                                         ),
                                                         Text(
-                                                          '  Upto 50% off via UPI',
+                                                          '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'Poppins Light',
                                                               fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.01,
+                                                                      .width *
+                                                                  0.03,
                                                               color: Color(Utils
                                                                   .hexStringToHexInt(
                                                                       'A4A4A4'))),
@@ -711,17 +731,16 @@ class _CartOrderState extends State<CartOrder> {
                                                               fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.01,
+                                                                      .width *
+                                                                  0.03,
                                                               color: Color(Utils
                                                                   .hexStringToHexInt(
                                                                       'A4A4A4'))),
                                                         ),
                                                         Container(
-                                                          padding: const EdgeInsets
+                                                          padding: EdgeInsets
                                                               .symmetric(
                                                                   vertical: 2.0,
-
                                                                   horizontal:
                                                                       10.0),
                                                           color: Color(Utils
@@ -735,8 +754,8 @@ class _CartOrderState extends State<CartOrder> {
                                                               fontSize: MediaQuery.of(
                                                                           context)
                                                                       .size
-                                                                      .height *
-                                                                  0.01,
+                                                                      .width *
+                                                                  0.03,
                                                               color:
                                                                   Colors.white,
                                                             ),
@@ -752,16 +771,47 @@ class _CartOrderState extends State<CartOrder> {
                                                   child: IconButton(
                                                       tooltip: "Applied coupon",
                                                       onPressed: () {
+                                                        var percentPrice = int
+                                                            .parse(total_price
+                                                            .toString()) *
+                                                            (1.0 / 100.0) *
+                                                            int.parse(widget
+                                                                .slotDetail!
+                                                                .coupon![
+                                                            position]
+                                                                .percentage
+                                                                .toString());
+                                                        print(percentPrice
+                                                            .toString() +
+                                                            " =======ppp");
+                                                        if (int.parse(widget
+                                                            .slotDetail!
+                                                            .coupon![
+                                                        position]
+                                                            .price
+                                                            .toString()) >
+                                                            percentPrice) {
+                                                          applycouponPrice =
+                                                              percentPrice;
+                                                        }
+                                                        else {
+                                                          applycouponPrice =
+                                                              double.parse(widget
+                                                                  .slotDetail!
+                                                                  .coupon![
+                                                              position]
+                                                                  .price
+                                                                  .toString());
+                                                        }
                                                         print(widget
                                                             .slotDetail!
                                                             .coupon![position]
                                                             .price
                                                             .toString());
-                                                        coupontype="Shop Coupon";
-                                                        applycouponPrice =
-                                                            double.parse(widget.slotDetail!
-                                                                .coupon![position]
-                                                                .price.toString());
+                                                        coupontype =
+                                                            "Shop Coupon";
+
+
                                                         applycouponCode =
                                                             applycouponCode =
                                                                 widget
@@ -798,7 +848,7 @@ class _CartOrderState extends State<CartOrder> {
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
@@ -840,7 +890,6 @@ class _CartOrderState extends State<CartOrder> {
               SizedBox(
                 height: 10,
               ),
-
               InkWell(
                 onTap: () {
                   showDialog(
@@ -875,15 +924,15 @@ class _CartOrderState extends State<CartOrder> {
                               (BuildContext context, StateSetter setState) {
                             return Container(
                               width: width,
-                              height: height,
+                              height: 250,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-
                                   Flexible(
                                     child: ListView.builder(
                                         shrinkWrap: true,
-                                        itemCount: Get.find<HomeController>().adminCouponList
+                                        itemCount: Get.find<HomeController>()
+                                            .adminCouponList
                                             .value
                                             .couponDetail
                                             ?.length,
@@ -917,9 +966,7 @@ class _CartOrderState extends State<CartOrder> {
                                                             .start,
                                                         children: <Widget>[
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList
-                                                                .value
-                                                                .couponDetail![position].couponName}',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                 'Poppins Regular',
@@ -934,8 +981,20 @@ class _CartOrderState extends State<CartOrder> {
                                                           const SizedBox(
                                                             height: 8,
                                                           ),
-
-
+                                                          Text(
+                                                            '  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                    context)
+                                                                    .size
+                                                                    .width *
+                                                                    0.03,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                    'A4A4A4'))),
+                                                          ),
                                                         ],
                                                       ),
                                                       Row(
@@ -948,14 +1007,15 @@ class _CartOrderState extends State<CartOrder> {
                                                                 fontSize: MediaQuery.of(
                                                                     context)
                                                                     .size
-                                                                    .height *
-                                                                    0.01,
+                                                                    .width *
+                                                                    0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
                                                                     'A4A4A4'))),
                                                           ),
                                                           Container(
-                                                            padding: const EdgeInsets
+                                                            padding:
+                                                            const EdgeInsets
                                                                 .symmetric(
                                                                 vertical:
                                                                 2.0,
@@ -965,17 +1025,15 @@ class _CartOrderState extends State<CartOrder> {
                                                                 .hexStringToHexInt(
                                                                 '#46D0D9')),
                                                             child: Text(
-                                                              '${Get.find<HomeController>().adminCouponList
-                                                                  .value
-                                                                  .couponDetail![position].couponCode}',
+                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponCode}',
                                                               style: TextStyle(
                                                                 fontFamily:
                                                                 'Poppins Light',
                                                                 fontSize: MediaQuery.of(
                                                                     context)
                                                                     .size
-                                                                    .height *
-                                                                    0.01,
+                                                                    .width *
+                                                                    0.03,
                                                                 color: Colors
                                                                     .white,
                                                               ),
@@ -992,22 +1050,63 @@ class _CartOrderState extends State<CartOrder> {
                                                         tooltip:
                                                         "Applied coupon",
                                                         onPressed: () {
-                                                          print(Get.find<HomeController>().adminCouponList
+                                                          coupontype =
+                                                          "Kolacut Coupon";
+                                                          print(Get.find<
+                                                              HomeController>()
+                                                              .adminCouponList
                                                               .value
-                                                              .couponDetail![position].price.toString());
-                                                          coupontype="Kolacut Coupon";
-                                                          applycouponPrice =
-                                                              double.parse(Get.find<HomeController>().adminCouponList
-                                                                  .value
-                                                                  .couponDetail![position].price.toString());
-                                                          applycouponCode =
-                                                              Get.find<HomeController>().adminCouponList
-                                                                  .value
-                                                                  .couponDetail![position].couponCode.toString();
-
+                                                              .couponDetail![
+                                                          position]
+                                                              .price
+                                                              .toString());
+                                                          var percentPrice = int.parse(total_price.toString()) * (1.0 / 100.0) *
+                                                              int.parse(Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage.toString());
+                                                          print(percentPrice
+                                                              .toString() +
+                                                              " =======ppp");
+                                                          if (int.parse(Get.find<
+                                                              HomeController>()
+                                                              .adminCouponList
+                                                              .value
+                                                              .couponDetail![
+                                                          position]
+                                                              .price
+                                                              .toString()) >
+                                                              percentPrice) {
+                                                            applycouponPrice =
+                                                                percentPrice;
+                                                          } else {
+                                                            applycouponPrice =
+                                                                double.parse(Get.find<
+                                                                    HomeController>()
+                                                                    .adminCouponList
+                                                                    .value
+                                                                    .couponDetail![
+                                                                position]
+                                                                    .price
+                                                                    .toString());
+                                                          }
+                                                          // applycouponPrice = double
+                                                          //     .parse(Get.find<
+                                                          //             HomeController>()
+                                                          //         .adminCouponList
+                                                          //         .value
+                                                          //         .couponDetail![
+                                                          //             position]
+                                                          //         .price
+                                                          //         .toString());
+                                                          applycouponCode = Get
+                                                              .find<
+                                                              HomeController>()
+                                                              .adminCouponList
+                                                              .value
+                                                              .couponDetail![
+                                                          position]
+                                                              .couponCode
+                                                              .toString();
                                                           Navigator.pop(
                                                               context);
-                                                          CommonDialog.showsnackbar(applycouponPrice);
                                                         },
                                                         icon: Icon(
                                                           CupertinoIcons
@@ -1031,12 +1130,12 @@ class _CartOrderState extends State<CartOrder> {
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
                         width: width,
-                        height: height * 0.09,
+                        height: height * 0.07,
                         padding: EdgeInsets.only(
                             left: width * 0.03, right: width * 0.03),
                         color: Color(Utils.hexStringToHexInt('#dbe8e5')),
@@ -1073,7 +1172,6 @@ class _CartOrderState extends State<CartOrder> {
               SizedBox(
                 height: 10,
               ),
-
               InkWell(
                 onTap: () {
                   var Totalcoin = Get.find<HomeController>().coin * 0.10;
@@ -1127,7 +1225,7 @@ class _CartOrderState extends State<CartOrder> {
                                 //   ),
                                 // ),
                                 Text(
-                                  ' ${Get.find<HomeController>().coin>100? 100 : 00} coin applied  .',
+                                  ' ${Get.find<HomeController>().coin > 100 ? 100 : 00} coin applied  .',
                                   style: TextStyle(
                                     fontSize: 8.0,
                                     color: Color(
@@ -1196,15 +1294,16 @@ class _CartOrderState extends State<CartOrder> {
                                     child: Text('Use coin'),
                                     onPressed: () async {
                                       setState(() {
-
                                         /*100 coin =10 rupees*/
                                         /*ek baar me only 25% coin use kr skta hai*/
 
-                                        if(Get.find<HomeController>().coin>100){
-                                         // applycoin = Get.find<HomeController>().coin - 100;
-                                          applycoin=10;
-                                        }else{
-                                          CommonDialog.showsnackbar("Need minimum 100 coin for use");
+                                        if (Get.find<HomeController>().coin >
+                                            100) {
+                                          // applycoin = Get.find<HomeController>().coin - 100;
+                                          applycoin = 10;
+                                        } else {
+                                          CommonDialog.showsnackbar(
+                                              "Need minimum 100 coin for use");
                                         }
                                         // applycoin = double.parse(
                                         //     "${Get.find<HomeController>().coin * 0.25}");
@@ -1224,7 +1323,7 @@ class _CartOrderState extends State<CartOrder> {
                 },
                 child: SizedBox(
                   width: width,
-                  height: height * 0.09,
+                  height: height * 0.07,
                   child: Material(
                     color: Color(Utils.hexStringToHexInt('#dbe8e5')),
                     child: Container(
@@ -1287,7 +1386,7 @@ class _CartOrderState extends State<CartOrder> {
                                       child: Text('Services total',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1298,14 +1397,15 @@ class _CartOrderState extends State<CartOrder> {
                                   child: Text('Rs. ${total_price}',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.05,
                                           fontFamily: 'Poppins Regular')),
                                 )
                               ],
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 6.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1335,7 +1435,7 @@ class _CartOrderState extends State<CartOrder> {
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 )
                               ],
@@ -1345,7 +1445,8 @@ class _CartOrderState extends State<CartOrder> {
                             height: height * 0.02,
                           ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1357,7 +1458,7 @@ class _CartOrderState extends State<CartOrder> {
                                       child: Text('Coupon Discount',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1371,17 +1472,15 @@ class _CartOrderState extends State<CartOrder> {
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 2,
-                          ),
                           Container(
-                            margin: EdgeInsets.only(right: width * 0.03),
+                            margin:
+                                EdgeInsets.only(right: width * 0.03, top: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -1393,7 +1492,7 @@ class _CartOrderState extends State<CartOrder> {
                                       child: Text('Coin Applied',
                                           style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: width * 0.04,
+                                              fontSize: width * 0.05,
                                               fontFamily: 'Poppins Regular')),
                                     )
                                   ],
@@ -1407,7 +1506,7 @@ class _CartOrderState extends State<CartOrder> {
                                       style: TextStyle(
                                           color: Color(Utils.hexStringToHexInt(
                                               '5E5E5E')),
-                                          fontSize: width * 0.03,
+                                          fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular')),
                                 ),
                               ],
@@ -1417,11 +1516,11 @@ class _CartOrderState extends State<CartOrder> {
                       ),
                     ),
                     SizedBox(
-                      height: 2,
+                      height: 5,
                     ),
                     Divider(
                       color: Color(Utils.hexStringToHexInt('5E5E5E')),
-                      thickness: 1,
+                      thickness: 0.5,
                     ),
                     SizedBox(
                       height: height * 0.02,
@@ -1523,7 +1622,8 @@ class _CartOrderState extends State<CartOrder> {
                       ),
                       child: Container(
                         width: width,
-                        height: height * 0.1 + height * 0.05,
+                        height: height * 0.1,
+                        margin: EdgeInsets.only(bottom: 10.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius:
@@ -1641,7 +1741,7 @@ class _CartOrderState extends State<CartOrder> {
                                       //     }
                                       //   });
                                       // });
-                                        openCheckout(
+                                      openCheckout(
                                         widget.slotDetail!.shopName.toString(),
                                         description,
                                       );
@@ -1686,6 +1786,9 @@ class _CartOrderState extends State<CartOrder> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    )
                   ],
                 ),
               )
@@ -1740,11 +1843,12 @@ class _CartOrderState extends State<CartOrder> {
   }
 
   void openCheckout(shopname, description) async {
-    var newprice=double.parse(total_price.toString())-(applycouponPrice + applycoin);
+    var newprice =
+        double.parse(total_price.toString()) - (applycouponPrice + applycoin);
 
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
-      'amount': newprice*100,
+      'amount': newprice * 100,
       'name': '${widget.slotDetail!.shopName}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
@@ -1766,7 +1870,8 @@ class _CartOrderState extends State<CartOrder> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print('Success Response: $response');
     print("${response.paymentId} " + " SDF SDF SDF SDF ");
-    bookServiceOnline(context,"${response.paymentId}", applycoin, applycouponCode);
+    bookServiceOnline(
+        context, "${response.paymentId}", applycoin, applycouponCode);
     /*Fluttertoast.showToast(
         msg: "SUCCESS: " + response.paymentId!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -1774,7 +1879,8 @@ class _CartOrderState extends State<CartOrder> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
-    CommonDialog.showsnackbar( "ERROR: " + response.code.toString() + " - " + response.message!);
+    CommonDialog.showsnackbar(
+        "ERROR: " + response.code.toString() + " - " + response.message!);
     /* Fluttertoast.showToast(
         msg: "ERROR: " + response.code.toString() + " - " + response.message!,
         toastLength: Toast.LENGTH_SHORT); */
@@ -1787,7 +1893,6 @@ class _CartOrderState extends State<CartOrder> {
         toastLength: Toast.LENGTH_SHORT); */
   }
 
-
   void bookService(BuildContext context) {
     if (selectDay == "") {
       CommonDialog.showsnackbar("Please select date");
@@ -1795,8 +1900,8 @@ class _CartOrderState extends State<CartOrder> {
       CommonDialog.showsnackbar("Please select slot");
     } else {
       salonControlller.bookserVicecart(
-      widget.slotDetail!.id.toString(),
-        context,
+          widget.slotDetail!.id.toString(),
+          context,
           widget.slotDetail!.shopId.toString(),
           "",
           "3",
@@ -1809,11 +1914,13 @@ class _CartOrderState extends State<CartOrder> {
           "Offline",
           "",
           0.0,
-          "","","");
+          "",
+          "",
+          "");
     }
   }
 
-  void bookServiceOnline(BuildContext context,transactionID, coin, coupon) {
+  void bookServiceOnline(BuildContext context, transactionID, coin, coupon) {
     if (selectDay == "") {
       CommonDialog.showsnackbar("Please select date");
     } else if (slotSelected == "") {
@@ -1821,7 +1928,7 @@ class _CartOrderState extends State<CartOrder> {
     } else {
       salonControlller.bookserVicecart(
           widget.slotDetail!.id.toString(),
-        context,
+          context,
           widget.slotDetail!.shopId.toString(),
           widget.slotDetail!.employeeId.toString() + "",
           "3",
@@ -1835,9 +1942,8 @@ class _CartOrderState extends State<CartOrder> {
           transactionID,
           coin,
           coupon + "",
-          coupontype+"",
-          total_price.toString()
-      );
+          coupontype + "",
+          total_price.toString());
     }
   }
 }

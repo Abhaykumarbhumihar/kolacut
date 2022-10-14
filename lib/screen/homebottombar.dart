@@ -49,8 +49,10 @@ var image="";
 
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(
-          index == 0 ? Icons.home : Icons.home_outlined,
+        icon: ImageIcon(
+          AssetImage(index == 0
+              ? "images/svgicons/homeicon.png"
+              : "images/svgicons/homeempty.png"),
           size: 30,
         ),
         activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
@@ -68,16 +70,19 @@ var image="";
       ),
       PersistentBottomNavBarItem(
         iconSize: 30,
-        icon: const Icon(
-          CupertinoIcons.creditcard_fill,
+        icon: ImageIcon(
+          AssetImage
+            ("images/svgicons/ccd.png",),
           color: Colors.white,
+          size: 30,
         ),
         activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const ImageIcon(
-          AssetImage("images/svgicons/emptyheart.png"),
+        icon:  ImageIcon(
+          AssetImage(index == 3
+              ?"images/svgicons/fillheart.png":"images/svgicons/emptyheart.png"),
           size: 30,
         ),
         activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
@@ -97,10 +102,34 @@ var image="";
       // ),
 
       PersistentBottomNavBarItem(
-        icon: const Icon(
-          CupertinoIcons.profile_circled,
-          size: 30,
-        ),
+        // icon: const Icon(
+        //   CupertinoIcons.profile_circled,
+        //   size: 30,
+        // ),
+        iconSize: 30,
+        icon: CircleAvatar(
+    child: ClipOval(
+    child: Image.network(image, fit: BoxFit.fill),
+    ),
+    backgroundColor: Colors.transparent,
+    radius: 30,
+    ),
+        // Container(width: 45,
+        // height: 30,
+        //
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(26),
+        //   image: DecorationImage(
+        //     image: NetworkImage(image)
+        //   )
+        // ),),
+
+        // ImageIcon(
+        //   NetworkImage
+        //     ("http://kolacut.kvpscampuscare.com/public/images/1661860703.jpg",),
+        //   color: Colors.white,
+        //   size: 30,
+        // ),
         activeColorPrimary: Color(Utils.hexStringToHexInt('77ACA2')),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -217,7 +246,7 @@ var image="";
   @override
   Widget build(BuildContext context) {
     //box.write('session', "TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
-  //  getImage();
+    getImage();
     return PersistentTabView(
       context,
       controller: _controller,

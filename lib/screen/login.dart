@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                       fit: BoxFit.fill)),
             ),
             SizedBox(
-              height: height * 0.02,
+              height: height * 0.04,
             ),
             Utils().titleTextsemibold('Login Now', context),
             SizedBox(
@@ -263,44 +263,44 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: height * 0.04,
             ),
-            Container(
-              margin:
-                  EdgeInsets.only(left: width * 0.08, right: width * 0.08),
-              width: width,
-              height: height * .07,
-              child: Material(
-                borderRadius: BorderRadius.circular(width * 0.03),
-                elevation: 8,
-                child: Container(
-                  width: width,
-                  height: height * .07,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(width * 0.03),
-                      color: Colors.white),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        "images/svgicons/logos_google-gmail.svg",
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'Continue with Gmail',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins Regular',
-                            fontSize: width * 0.03),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: height * 0.03,
-            ),
+            // Container(
+            //   margin:
+            //       EdgeInsets.only(left: width * 0.08, right: width * 0.08),
+            //   width: width,
+            //   height: height * .07,
+            //   child: Material(
+            //     borderRadius: BorderRadius.circular(width * 0.03),
+            //     elevation: 8,
+            //     child: Container(
+            //       width: width,
+            //       height: height * .07,
+            //       decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(width * 0.03),
+            //           color: Colors.white),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: <Widget>[
+            //           SvgPicture.asset(
+            //             "images/svgicons/logos_google-gmail.svg",
+            //           ),
+            //           const SizedBox(
+            //             width: 5,
+            //           ),
+            //           Text(
+            //             'Continue with Gmail',
+            //             style: TextStyle(
+            //                 color: Colors.black,
+            //                 fontFamily: 'Poppins Regular',
+            //                 fontSize: width * 0.03),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: height * 0.03,
+            // ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

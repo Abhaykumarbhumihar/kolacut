@@ -82,18 +82,20 @@ class Coupon {
     this.couponName,
     this.price,
     this.couponCode,
+    this.percentage
   });
 
   int? id;
   String? couponName;
   String? price;
   String? couponCode;
-
+  String? percentage;
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
     id: json["id"],
     couponName: json["coupon_name"],
     price: json["price"],
     couponCode: json["coupon_code"],
+    percentage: json["percentage"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -101,6 +103,7 @@ class Coupon {
     "coupon_name": couponName,
     "price": price,
     "coupon_code": couponCode,
+    "percentage": percentage,
   };
 }
 

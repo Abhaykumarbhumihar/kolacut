@@ -92,7 +92,8 @@ class _ProfilePageState extends State<ProfilePage> {
           email = emailValue!;
           phone = _phoneValue!;
           iamge = _imageValue!;
-        } else {
+        }
+        else {
           name = "";
           email = "";
           phone = "";

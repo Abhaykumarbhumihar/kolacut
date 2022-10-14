@@ -516,112 +516,112 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(' ${_currentAddress != null ? _currentAddress : ""}',
               style: TextStyle(
-                  fontSize: width * 0.02,
+                  fontSize: width * 0.03,
                   fontFamily: 'Poppins Regular',
                   color: Colors.black),
               textAlign: TextAlign.center),
-          IconButton(
-            icon: Icon(
-              Icons.keyboard_arrow_down_sharp,
-              size: width * 0.04,
-              color: Colors.black,
-            ),
-            tooltip: 'Search location',
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text("Search your location"),
-                    content: StatefulBuilder(
-                      // You need this, notice the parameters below:
-                      builder: (BuildContext context, StateSetter setState) {
-                        return ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: 0.5,
-                            maxHeight: height * 0.4,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              TextField(
-                                decoration: InputDecoration(
-                                  labelText: "Search",
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(
-                                          Utils.hexStringToHexInt('77ACA2')),
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.black54,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    setState(() {
-                                      autoCompleteSearch(value);
-                                    });
-                                  } else {
-                                    if (predictions.length > 0 && mounted) {
-                                      setState(() {
-                                        predictions = [];
-                                      });
-                                    }
-                                  }
-                                },
-                              ),
-                              ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minHeight: 0.5,
-                                  maxHeight: height * 0.3,
-                                ),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: predictions.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.white60,
-                                        child: Icon(
-                                          Icons.pin_drop,
-                                          color: Color(Utils.hexStringToHexInt(
-                                              '77ACA2')),
-                                        ),
-                                      ),
-                                      title: Text(
-                                        predictions[index]
-                                            .description
-                                            .toString(),
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      onTap: () {
-                                        setState(() {
-                                          debugPrint(
-                                              predictions[index].placeId);
-                                          getDetils(
-                                              predictions[index].placeId!);
-                                          Navigator.pop(context);
-                                        });
-                                      },
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
-            },
-          )
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.keyboard_arrow_down_sharp,
+          //     size: width * 0.04,
+          //     color: Colors.black,
+          //   ),
+          //   tooltip: 'Search location',
+          //   onPressed: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return AlertDialog(
+          //           title: Text("Search your location"),
+          //           content: StatefulBuilder(
+          //             // You need this, notice the parameters below:
+          //             builder: (BuildContext context, StateSetter setState) {
+          //               return ConstrainedBox(
+          //                 constraints: BoxConstraints(
+          //                   minHeight: 0.5,
+          //                   maxHeight: height * 0.4,
+          //                 ),
+          //                 child: Column(
+          //                   mainAxisAlignment: MainAxisAlignment.start,
+          //                   children: [
+          //                     TextField(
+          //                       decoration: InputDecoration(
+          //                         labelText: "Search",
+          //                         focusedBorder: OutlineInputBorder(
+          //                           borderSide: BorderSide(
+          //                             color: Color(
+          //                                 Utils.hexStringToHexInt('77ACA2')),
+          //                             width: 2.0,
+          //                           ),
+          //                         ),
+          //                         enabledBorder: const OutlineInputBorder(
+          //                           borderSide: BorderSide(
+          //                             color: Colors.black54,
+          //                             width: 2.0,
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       onChanged: (value) {
+          //                         if (value.isNotEmpty) {
+          //                           setState(() {
+          //                             autoCompleteSearch(value);
+          //                           });
+          //                         } else {
+          //                           if (predictions.length > 0 && mounted) {
+          //                             setState(() {
+          //                               predictions = [];
+          //                             });
+          //                           }
+          //                         }
+          //                       },
+          //                     ),
+          //                     ConstrainedBox(
+          //                       constraints: BoxConstraints(
+          //                         minHeight: 0.5,
+          //                         maxHeight: height * 0.3,
+          //                       ),
+          //                       child: ListView.builder(
+          //                         shrinkWrap: true,
+          //                         itemCount: predictions.length,
+          //                         itemBuilder: (context, index) {
+          //                           return ListTile(
+          //                             leading: CircleAvatar(
+          //                               backgroundColor: Colors.white60,
+          //                               child: Icon(
+          //                                 Icons.pin_drop,
+          //                                 color: Color(Utils.hexStringToHexInt(
+          //                                     '77ACA2')),
+          //                               ),
+          //                             ),
+          //                             title: Text(
+          //                               predictions[index]
+          //                                   .description
+          //                                   .toString(),
+          //                               style: TextStyle(color: Colors.black),
+          //                             ),
+          //                             onTap: () {
+          //                               setState(() {
+          //                                 debugPrint(
+          //                                     predictions[index].placeId);
+          //                                 getDetils(
+          //                                     predictions[index].placeId!);
+          //                                 Navigator.pop(context);
+          //                               });
+          //                             },
+          //                           );
+          //                         },
+          //                       ),
+          //                     )
+          //                   ],
+          //                 ),
+          //               );
+          //             },
+          //           ),
+          //         );
+          //       },
+          //     );
+          //   },
+          // )
         ],
       ),
       elevation: 0.0,

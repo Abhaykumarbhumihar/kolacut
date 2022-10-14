@@ -312,7 +312,9 @@ class _OrderDetailState extends State<OrderDetail> {
                       height: height * 0.02,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: width*0.1+width*0.04,right: width*0.03),
+                      margin: EdgeInsets.only(
+                          left: width * 0.1 + width * 0.04,
+                          right: width * 0.03),
                       width: width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -336,7 +338,7 @@ class _OrderDetailState extends State<OrderDetail> {
                     ),
                     SizedBox(height: height * 0.01),
                     Material(
-                      elevation:0,
+                      elevation: 0,
                       color: Colors.white,
                       child: Column(
                         children: <Widget>[
@@ -347,10 +349,11 @@ class _OrderDetailState extends State<OrderDetail> {
                                 itemCount: widget.newarray!.length,
                                 itemBuilder: (context, position) {
                                   return Container(
-                                    margin:
-                                        EdgeInsets.only(right: width * 0.03,bottom: 3.0),
+                                    margin: EdgeInsets.only(
+                                        right: width * 0.03, bottom: 3.0),
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -391,7 +394,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(
-                                                  left: width * 0.03,bottom: 1.0),
+                                                  left: width * 0.03,
+                                                  bottom: 1.0),
                                               child: Text(
                                                   '${widget.newarray![position].name}',
                                                   style: TextStyle(
@@ -507,7 +511,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               (BuildContext context, StateSetter setState) {
                             return Container(
                               width: width,
-                              height: height,
+                              height: 250,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -628,6 +632,38 @@ class _OrderDetailState extends State<OrderDetail> {
                                                         tooltip:
                                                             "Applied coupon",
                                                         onPressed: () {
+                                                          //${int.parse(totalPrice.toString())}
+                                                          var percentPrice = int
+                                                                  .parse(totalPrice
+                                                                      .toString()) *
+                                                              (1.0 / 100.0) *
+                                                              int.parse(widget
+                                                                  .data!
+                                                                  .coupon![
+                                                                      position]
+                                                                  .percentage
+                                                                  .toString());
+                                                          print(percentPrice
+                                                                  .toString() +
+                                                              " =======ppp");
+                                                          if (int.parse(widget
+                                                                  .data!
+                                                                  .coupon![
+                                                                      position]
+                                                                  .price
+                                                                  .toString()) >
+                                                              percentPrice) {
+                                                            applycouponPrice =
+                                                                percentPrice;
+                                                          } else {
+                                                            applycouponPrice =
+                                                                double.parse(widget
+                                                                    .data!
+                                                                    .coupon![
+                                                                        position]
+                                                                    .price
+                                                                    .toString());
+                                                          }
                                                           coupontype =
                                                               "Shop Coupon";
                                                           print(widget
@@ -635,13 +671,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                               .coupon![position]
                                                               .price
                                                               .toString());
-                                                          applycouponPrice =
-                                                              double.parse(widget
-                                                                  .data!
-                                                                  .coupon![
-                                                                      position]
-                                                                  .price
-                                                                  .toString());
+
                                                           applycouponcode =
                                                               widget
                                                                   .data!
@@ -750,7 +780,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               (BuildContext context, StateSetter setState) {
                             return Container(
                               width: width,
-                              height: height,
+                              height: 250,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -807,20 +837,20 @@ class _OrderDetailState extends State<OrderDetail> {
                                                           const SizedBox(
                                                             height: 8,
                                                           ),
-                                                          // Text(
-                                                          //   '  Upto 50% off via UPI',
-                                                          //   style: TextStyle(
-                                                          //       fontFamily:
-                                                          //       'Poppins Light',
-                                                          //       fontSize: MediaQuery.of(
-                                                          //           context)
-                                                          //           .size
-                                                          //           .height *
-                                                          //           0.01,
-                                                          //       color: Color(Utils
-                                                          //           .hexStringToHexInt(
-                                                          //           'A4A4A4'))),
-                                                          // ),
+                                                          Text(
+                                                            '  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.03,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                        'A4A4A4'))),
+                                                          ),
                                                         ],
                                                       ),
                                                       Row(
@@ -833,8 +863,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.01,
+                                                                        .width *
+                                                                    0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
                                                                         'A4A4A4'))),
@@ -858,8 +888,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 fontSize: MediaQuery.of(
                                                                             context)
                                                                         .size
-                                                                        .height *
-                                                                    0.01,
+                                                                        .width *
+                                                                    0.03,
                                                                 color: Colors
                                                                     .white,
                                                               ),
@@ -886,15 +916,42 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                   position]
                                                               .price
                                                               .toString());
-                                                          applycouponPrice = double
-                                                              .parse(Get.find<
-                                                                      HomeController>()
-                                                                  .adminCouponList
-                                                                  .value
-                                                                  .couponDetail![
-                                                                      position]
-                                                                  .price
-                                                                  .toString());
+                                   var percentPrice = int.parse(totalPrice.toString()) * (1.0 / 100.0) *
+                                       int.parse(Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage.toString());
+                                                          print(percentPrice
+                                                                  .toString() +
+                                                              " =======ppp");
+                                                          if (int.parse(Get.find<
+                                                              HomeController>()
+                                                              .adminCouponList
+                                                              .value
+                                                              .couponDetail![
+                                                          position]
+                                                              .price
+                                                              .toString()) >
+                                                              percentPrice) {
+                                                            applycouponPrice =
+                                                                percentPrice;
+                                                          } else {
+                                                            applycouponPrice =
+                                                                double.parse(Get.find<
+                                                                    HomeController>()
+                                                                    .adminCouponList
+                                                                    .value
+                                                                    .couponDetail![
+                                                                position]
+                                                                    .price
+                                                                    .toString());
+                                                          }
+                                                          // applycouponPrice = double
+                                                          //     .parse(Get.find<
+                                                          //             HomeController>()
+                                                          //         .adminCouponList
+                                                          //         .value
+                                                          //         .couponDetail![
+                                                          //             position]
+                                                          //         .price
+                                                          //         .toString());
                                                           applycouponcode = Get
                                                                   .find<
                                                                       HomeController>()
@@ -1339,8 +1396,6 @@ class _OrderDetailState extends State<OrderDetail> {
                                     resultList.join(","),
                                     "");
                               },
-
-
                               child: Container(
                                 width: width - width * 0.2,
                                 padding: EdgeInsets.all(20),
@@ -1378,7 +1433,7 @@ class _OrderDetailState extends State<OrderDetail> {
                       ),
                       child: Container(
                         width: width,
-                        height: height * 0.1 ,
+                        height: height * 0.1,
                         margin: EdgeInsets.only(bottom: 10.0),
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -1570,7 +1625,9 @@ class _OrderDetailState extends State<OrderDetail> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10.0,)
+                    SizedBox(
+                      height: 10.0,
+                    )
                   ],
                 ),
               )
