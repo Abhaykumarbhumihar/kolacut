@@ -1339,6 +1339,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                     resultList.join(","),
                                     "");
                               },
+
+
                               child: Container(
                                 width: width - width * 0.2,
                                 padding: EdgeInsets.all(20),
