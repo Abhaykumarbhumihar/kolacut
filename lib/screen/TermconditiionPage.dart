@@ -38,7 +38,7 @@ class _TermConditionPageState extends State<TermConditionPage> {
     return SafeArea(child:
      Scaffold(
        appBar: AppBar(
-         backgroundColor: Color(Utils.hexStringToHexInt('46D0D9')),
+         backgroundColor: Color(Utils.hexStringToHexInt('77ACA2')),
          elevation: 0.0,
          automaticallyImplyLeading: false,
          titleSpacing: 0,
@@ -62,8 +62,13 @@ class _TermConditionPageState extends State<TermConditionPage> {
          actions: <Widget>[],
        ),
        body: Container(
-         margin: EdgeInsets.only(bottom: 20,left: 20,right: 20),
+         margin: EdgeInsets.only(bottom: 20,),
          child: WebView(
+           onProgress: (int progress) {
+             print('WebView is loading (progress : $progress%)');
+           },
+           gestureNavigationEnabled: true,
+           backgroundColor: const Color(0x00000000),
            initialUrl: 'http://kolacut.kvpscampuscare.com/public/user-terms',
            javascriptMode: JavascriptMode.disabled,
          ),

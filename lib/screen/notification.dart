@@ -42,13 +42,14 @@ class _NotificationPageState extends State<NotificationPage> {
             appBar: AppBar(
               centerTitle: false,
               elevation: 0.0,
-              backgroundColor: Color(Utils.hexStringToHexInt('46D0D9')),
+              backgroundColor:Color(Utils.hexStringToHexInt('77ACA2')),
+              titleSpacing: 0,
               leading: InkWell(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(
-                  Icons.keyboard_backspace_rounded,
+                child: Icon(
+                  Icons.arrow_back,
                   color: Colors.white,
                 ),
               ),

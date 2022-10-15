@@ -133,7 +133,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                                   "${widget.s}",
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: width * 0.04,
+                                                    fontSize: width * 0.05,
                                                     fontFamily: 'Poppins Regular',
                                                   ),
                                                 ),
@@ -141,7 +141,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                                   "${widget.s2}",
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: width * 0.02,
+                                                    fontSize: width * 0.03,
                                                     fontFamily: 'Poppins Regular',
                                                   ),
                                                 ),
@@ -149,7 +149,7 @@ class _SideNavigatinPageState extends State<SideNavigatinPage> {
                                                   "${widget.s3}",
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: width * 0.02,
+                                                    fontSize: width * 0.03,
                                                     fontFamily: 'Poppins Regular',
                                                   ),
                                                 )
