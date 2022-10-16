@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                       Utils.hexStringToHexInt('#cfcfcf'))),
                             ),
                             Text(
-                              'Start looking for your Favourite Salon',
+                              'Start looking for your Favourite Salon?',
                               style: TextStyle(
                                   fontFamily: 'Poppins Medium',
                                   fontSize:
@@ -727,7 +727,7 @@ class _HomePageState extends State<HomePage> {
                               color: Color(Utils.hexStringToHexInt('77ACA2'))),
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'What are you looking for?',
+                            hintText: 'Search for salons or services here?',
                             hintStyle: TextStyle(
                                 fontFamily: 'Poppins Regular',
                                 fontSize:

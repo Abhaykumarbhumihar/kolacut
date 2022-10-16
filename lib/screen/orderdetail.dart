@@ -1470,7 +1470,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 ),
                                 /*TODO--${int.parse(totalPrice.toString()) - (applycouponPrice + applycoin)}*/
                                 Text(
-                                  " ₹${int.parse(totalPrice.toString())}",
+                                  " ₹${int.parse(totalPrice.toString()) - (applycouponPrice + applycoin)}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: width * 0.05,

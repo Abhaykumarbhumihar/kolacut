@@ -84,9 +84,7 @@ class _CartOrderState extends State<CartOrder> {
       //  print(element.name.toString() + "  " + element.price.toString());
       resultList.add(element.id);
     });
-    Future.delayed(const Duration(milliseconds: 800), () {
-      getSlot(serviceTime);
-    });
+    getSlot(serviceTime);
   }
 
   _isSelectedSlot(int index) {
@@ -186,8 +184,8 @@ class _CartOrderState extends State<CartOrder> {
                           daysCount: 30,
                           initialSelectedDate: DateTime.now(),
                           selectionColor:
-                              Color(Utils.hexStringToHexInt('77ACA2')),
-                          selectedTextColor: Colors.black,
+                          Color(Utils.hexStringToHexInt('77ACA2')),
+                          selectedTextColor: Colors.white,
                           monthTextStyle: TextStyle(
                             color: Color(Utils.hexStringToHexInt('8D8D8D')),
                             fontSize: width * 0.04,
@@ -249,65 +247,62 @@ class _CartOrderState extends State<CartOrder> {
                       height: height * 0.01,
                     ),
                     slotpojo != null
-                        ? SizedBox(
-                            width: width,
-                            height: 40,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount:
-                                    slotpojo.notificationDetail?[0] != null
-                                        ? slotpojo.notificationDetail![0]
-                                            .morning!.length
-                                        : 0,
-                                itemBuilder: (context, position) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        slotSelected = "Morning";
-                                        timeSelected =
-                                            "${slotpojo.notificationDetail![0].morning![position]}";
-                                        _isSelectedSlot(position);
-                                      });
-                                    },
-                                    child: Container(
-                                      width: width * 0.3,
-                                      margin: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02),
-                                      padding: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02,
-                                          top: width * 0.02,
-                                          bottom: width * 0.02),
-                                      decoration: BoxDecoration(
-                                          color: slotSelected == "Morning" &&
-                                                  isSlotSelected == position
-                                              ? Color(Utils.hexStringToHexInt(
-                                                  '77ACA2'))
-                                              : Colors.white,
-                                          border: Border.all(
-                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '#8D8D8D')),
-                                              width: 1)),
-                                      child: Center(
-                                        child: Text(
-                                          '${slotpojo.notificationDetail![0].morning![position]}',
-                                          style: TextStyle(
-                                            fontSize: width * 0.03,
-                                            color: slotSelected == "Morning" &&
-                                                    isSlotSelected == position
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
+                        ?    SizedBox(
+                      width: width,
+                      height: 32,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: slotpojo
+                              .notificationDetail![0].morning!.length,
+                          itemBuilder: (context, position) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  slotSelected = "Morning";
+                                  timeSelected =
+                                  "${slotpojo.notificationDetail![0].morning![position]}";
+                                  _isSelectedSlot(position);
+                                });
+                              },
+                              child: Container(
+                                width: width * 0.3,
+                                margin: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02),
+                                padding: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02,
+                                    top: width * 0.02,
+                                    bottom: width * 0.02),
+                                decoration: BoxDecoration(
+                                    color: slotSelected == "Morning" &&
+                                        isSlotSelected == position
+                                        ? Color(Utils.hexStringToHexInt(
+                                        '77ACA2'))
+                                        : Colors.white,
+                                    border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                        color: Colors.grey.shade100,
+                                        width: 1)),
+                                child: Center(
+                                  child: Text(
+                                    '${slotpojo.notificationDetail![0].morning![position]}',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins Regular',
+                                      fontSize: width * 0.04,
+                                      color: slotSelected == "Morning" &&
+                                          isSlotSelected == position
+                                          ? Colors.white
+                                          : Color(Utils.hexStringToHexInt(
+                                          '#8D8D8D')),
                                     ),
-                                  );
-                                }),
-                          )
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
                         : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
@@ -324,66 +319,62 @@ class _CartOrderState extends State<CartOrder> {
                     ),
 
                     slotpojo != null
-                        ? SizedBox(
-                            width: width,
-                            height: 40,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount:
-                                    slotpojo.notificationDetail?[0] != null
-                                        ? slotpojo.notificationDetail![0]
-                                            .afternoon!.length
-                                        : 0,
-                                itemBuilder: (context, position) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        slotSelected = "Afternoon";
-                                        timeSelected =
-                                            "${slotpojo.notificationDetail![0].morning![position]}";
-                                        _isSelectedSlot(position);
-                                      });
-                                    },
-                                    child: Container(
-                                      width: width * 0.3,
-                                      margin: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02),
-                                      padding: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02,
-                                          top: width * 0.02,
-                                          bottom: width * 0.02),
-                                      decoration: BoxDecoration(
-                                          color: slotSelected == "Afternoon" &&
-                                                  isSlotSelected == position
-                                              ? Color(Utils.hexStringToHexInt(
-                                                  '77ACA2'))
-                                              : Colors.white,
-                                          border: Border.all(
-                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '#8D8D8D')),
-                                              width: 1)),
-                                      child: Center(
-                                        child: Text(
-                                          '${slotpojo.notificationDetail![0].afternoon![position]}',
-                                          style: TextStyle(
-                                            fontSize: width * 0.03,
-                                            color: slotSelected ==
-                                                        "Afternoon" &&
-                                                    isSlotSelected == position
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
+                        ?  SizedBox(
+                      width: width,
+                      height: 32,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: slotpojo
+                              .notificationDetail![0].afternoon!.length,
+                          itemBuilder: (context, position) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  slotSelected = "Afternoon";
+                                  timeSelected =
+                                  "${slotpojo.notificationDetail![0].morning![position]}";
+                                  _isSelectedSlot(position);
+                                });
+                              },
+                              child: Container(
+                                width: width * 0.3,
+                                margin: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02),
+                                padding: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02,
+                                    top: width * 0.02,
+                                    bottom: width * 0.02),
+                                decoration: BoxDecoration(
+                                    color: slotSelected == "Afternoon" &&
+                                        isSlotSelected == position
+                                        ? Color(Utils.hexStringToHexInt(
+                                        '77ACA2'))
+                                        : Colors.white,
+                                    border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                        color: Colors.grey.shade100,
+                                        width: 1)),
+                                child: Center(
+                                  child: Text(
+                                    '${slotpojo.notificationDetail![0].afternoon![position]}',
+                                    style: TextStyle(
+                                      fontSize: width * 0.04,
+                                      fontFamily: 'Poppins Regular',
+                                      color: slotSelected == "Afternoon" &&
+                                          isSlotSelected == position
+                                          ? Colors.white
+                                          : Color(Utils.hexStringToHexInt(
+                                          '#8D8D8D')),
                                     ),
-                                  );
-                                }),
-                          )
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
                         : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
@@ -400,65 +391,63 @@ class _CartOrderState extends State<CartOrder> {
                     ),
 
                     slotpojo != null
-                        ? SizedBox(
-                            width: width,
-                            height: 40,
-                            child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount:
-                                    slotpojo.notificationDetail?[0] != null
-                                        ? slotpojo.notificationDetail![0]
-                                            .evening!.length
-                                        : 0,
-                                itemBuilder: (context, position) {
-                                  return InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        slotSelected = "Evening";
-                                        timeSelected =
-                                            "${slotpojo.notificationDetail![0].evening![position]}";
-                                        _isSelectedSlot(position);
-                                      });
-                                    },
-                                    child: Container(
-                                      width: width * 0.3,
-                                      margin: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02),
-                                      padding: EdgeInsets.only(
-                                          left: width * 0.02,
-                                          right: width * 0.02,
-                                          top: width * 0.02,
-                                          bottom: width * 0.02),
-                                      decoration: BoxDecoration(
-                                          color: slotSelected == "Evening" &&
-                                                  isSlotSelected == position
-                                              ? Color(Utils.hexStringToHexInt(
-                                                  '77ACA2'))
-                                              : Colors.white,
-                                          border: Border.all(
-                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '#8D8D8D')),
-                                              width: 1)),
-                                      child: Center(
-                                        child: Text(
-                                          '${slotpojo.notificationDetail![0].evening![position]}',
-                                          style: TextStyle(
-                                            fontSize: width * 0.03,
-                                            color: slotSelected == "Evening" &&
-                                                    isSlotSelected == position
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
+                        ?
+                    SizedBox(
+                      width: width,
+                      height: 32,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: slotpojo
+                              .notificationDetail![0].evening!.length,
+                          itemBuilder: (context, position) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  slotSelected = "Evening";
+                                  timeSelected =
+                                  "${slotpojo.notificationDetail![0].evening![position]}";
+                                  _isSelectedSlot(position);
+                                });
+                              },
+                              child: Container(
+                                width: width * 0.3,
+                                margin: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02),
+                                padding: EdgeInsets.only(
+                                    left: width * 0.02,
+                                    right: width * 0.02,
+                                    top: width * 0.02,
+                                    bottom: width * 0.02),
+                                decoration: BoxDecoration(
+                                    color: slotSelected == "Evening" &&
+                                        isSlotSelected == position
+                                        ? Color(Utils.hexStringToHexInt(
+                                        '77ACA2'))
+                                        : Colors.white,
+                                    border: Border.all(
+                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                        color: Colors.grey.shade100,
+                                        width: 1)),
+                                child: Center(
+                                  child: Text(
+                                    '${slotpojo.notificationDetail![0].evening![position]}',
+                                    style: TextStyle(
+                                      fontSize: width * 0.04,
+                                      fontFamily: 'Poppins Regular',
+                                      color: slotSelected == "Evening" &&
+                                          isSlotSelected == position
+                                          ? Colors.white
+                                          : Color(Utils.hexStringToHexInt(
+                                          '#8D8D8D')),
                                     ),
-                                  );
-                                }),
-                          )
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    )
                         : SizedBox(),
                     ///////
                     SizedBox(
@@ -1650,7 +1639,7 @@ class _CartOrderState extends State<CartOrder> {
                                 //TODO--total price yaha pe change krna hai
 /*TODO--${int.parse(total_price.toString()) - (applycouponPrice + applycoin)}*/
                                 Text(
-                                  " ₹${int.parse(total_price.toString())}",
+                                  " ₹${int.parse(total_price.toString()) - (applycouponPrice + applycoin)}",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: width * 0.05,

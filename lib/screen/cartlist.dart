@@ -223,7 +223,7 @@ class _MyCartListState extends State<MyCartList> {
                                                                           context)
                                                                       .size
                                                                       .height *
-                                                                  0.04,
+                                                                  0.03,
                                                               child: ListView
                                                                   .builder(
                                                                       shrinkWrap:

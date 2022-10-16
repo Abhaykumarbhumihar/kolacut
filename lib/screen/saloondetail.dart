@@ -1599,6 +1599,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               fit: BoxFit.contain,
                             ),
                           ),
+                          ///Set size here
                           Text(" " + address,
                               style: TextStyle(
                                   fontSize: width * 0.05,
