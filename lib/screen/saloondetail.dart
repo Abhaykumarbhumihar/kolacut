@@ -348,7 +348,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
 
                   SizedBox(
                     width: width,
-                    height: height * 0.1 + height * 0.01,
+                    height: height * 0.1 + height * 0.03,
                     child: ListView.builder(
                         itemCount: a.coupon!.length,
                         scrollDirection: Axis.horizontal,
@@ -696,11 +696,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
              GridView.builder(
                  shrinkWrap: true,
                  itemCount: a.services!.length,
+                 physics: new NeverScrollableScrollPhysics(),
                  gridDelegate:
              SliverGridDelegateWithFixedCrossAxisCount(
                  crossAxisCount: 3,
                  crossAxisSpacing: 10,
                  mainAxisSpacing: 10,
+
                  mainAxisExtent: 130), itemBuilder:
              (context, index){
                 return Center(
@@ -945,7 +947,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   Container(
                     margin: EdgeInsets.only(left: 6.0, right: 4.0),
                     height: a.emploeyee!.length > 0
-                        ? height * 0.3 - height * 0.03
+                        ? height * 0.3 - height * 0.02
                         : 0.0,
                     child: ListView.builder(
                         shrinkWrap: true,

@@ -220,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                 : ConstrainedBox(
                                     constraints: BoxConstraints(
                                       minHeight: 0.01,
-                                      maxHeight: height * 0.2 - height * 0.07,
+                                      maxHeight: height * 0.2 - height * 0.06,
                                     ),
                                     child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
@@ -800,7 +800,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(children: [
       Container(
         width: MediaQuery.of(context).size.width - width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.10,
         margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
         padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.02, left: 12),
@@ -839,7 +839,7 @@ class _HomePageState extends State<HomePage> {
                   //       fontSize: width * 0.03),
                   // ),
                   SizedBox(
-                    height: height * 0.02,
+                    height: height * 0.01,
                   ),
                   Text(
                     'Use Code : ${couponDetail.couponCode}',
