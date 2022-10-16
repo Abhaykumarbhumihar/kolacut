@@ -159,6 +159,7 @@ flutter:
     - images/svgicons/dobn.png
     - images/svgicons/homeempty.png
     - images/svgicons/ccd.png
+    - images/svgicons/bx_checkbox.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -270,14 +270,16 @@ class _HomePageState extends State<HomePage> {
                                                         .shopId!)),
                                           );
                                         },
-                                        child: Container(
+                                        child:
+                                        Container(
                                           width: width,
                                           height: height * 0.2 - height * 0.06,
                                           margin: EdgeInsets.only(
-                                              top: height * 0.001,
-                                              bottom: height * 0.001),
+                                              top: height * 0.006,
+                                              bottom: height * 0.006),
                                           color: Colors.transparent,
                                           child: Card(
+                                            elevation: 4.0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(12)),
@@ -374,12 +376,13 @@ class _HomePageState extends State<HomePage> {
                                                                ],
                                                              ),
                                                               SizedBox(height: 2.0,),
+                                                              /*TODO---inner servce*/
                                                               SizedBox(
                                                                 height: MediaQuery.of(
                                                                             context)
                                                                         .size
                                                                         .height *
-                                                                    0.03,
+                                                                    0.02,
                                                                 child: ListView
                                                                     .builder(
                                                                         shrinkWrap:
@@ -449,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                                                                   ),
                                                                   itemCount: 5,
                                                                   itemSize:
-                                                                      14.0,
+                                                                      10.0,
                                                                   direction: Axis
                                                                       .horizontal,
                                                                 ),
@@ -516,112 +519,112 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(' ${_currentAddress != null ? _currentAddress : ""}',
               style: TextStyle(
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.02,
                   fontFamily: 'Poppins Regular',
                   color: Colors.black),
               textAlign: TextAlign.center),
-          // IconButton(
-          //   icon: Icon(
-          //     Icons.keyboard_arrow_down_sharp,
-          //     size: width * 0.04,
-          //     color: Colors.black,
-          //   ),
-          //   tooltip: 'Search location',
-          //   onPressed: () {
-          //     showDialog(
-          //       context: context,
-          //       builder: (BuildContext context) {
-          //         return AlertDialog(
-          //           title: Text("Search your location"),
-          //           content: StatefulBuilder(
-          //             // You need this, notice the parameters below:
-          //             builder: (BuildContext context, StateSetter setState) {
-          //               return ConstrainedBox(
-          //                 constraints: BoxConstraints(
-          //                   minHeight: 0.5,
-          //                   maxHeight: height * 0.4,
-          //                 ),
-          //                 child: Column(
-          //                   mainAxisAlignment: MainAxisAlignment.start,
-          //                   children: [
-          //                     TextField(
-          //                       decoration: InputDecoration(
-          //                         labelText: "Search",
-          //                         focusedBorder: OutlineInputBorder(
-          //                           borderSide: BorderSide(
-          //                             color: Color(
-          //                                 Utils.hexStringToHexInt('77ACA2')),
-          //                             width: 2.0,
-          //                           ),
-          //                         ),
-          //                         enabledBorder: const OutlineInputBorder(
-          //                           borderSide: BorderSide(
-          //                             color: Colors.black54,
-          //                             width: 2.0,
-          //                           ),
-          //                         ),
-          //                       ),
-          //                       onChanged: (value) {
-          //                         if (value.isNotEmpty) {
-          //                           setState(() {
-          //                             autoCompleteSearch(value);
-          //                           });
-          //                         } else {
-          //                           if (predictions.length > 0 && mounted) {
-          //                             setState(() {
-          //                               predictions = [];
-          //                             });
-          //                           }
-          //                         }
-          //                       },
-          //                     ),
-          //                     ConstrainedBox(
-          //                       constraints: BoxConstraints(
-          //                         minHeight: 0.5,
-          //                         maxHeight: height * 0.3,
-          //                       ),
-          //                       child: ListView.builder(
-          //                         shrinkWrap: true,
-          //                         itemCount: predictions.length,
-          //                         itemBuilder: (context, index) {
-          //                           return ListTile(
-          //                             leading: CircleAvatar(
-          //                               backgroundColor: Colors.white60,
-          //                               child: Icon(
-          //                                 Icons.pin_drop,
-          //                                 color: Color(Utils.hexStringToHexInt(
-          //                                     '77ACA2')),
-          //                               ),
-          //                             ),
-          //                             title: Text(
-          //                               predictions[index]
-          //                                   .description
-          //                                   .toString(),
-          //                               style: TextStyle(color: Colors.black),
-          //                             ),
-          //                             onTap: () {
-          //                               setState(() {
-          //                                 debugPrint(
-          //                                     predictions[index].placeId);
-          //                                 getDetils(
-          //                                     predictions[index].placeId!);
-          //                                 Navigator.pop(context);
-          //                               });
-          //                             },
-          //                           );
-          //                         },
-          //                       ),
-          //                     )
-          //                   ],
-          //                 ),
-          //               );
-          //             },
-          //           ),
-          //         );
-          //       },
-          //     );
-          //   },
-          // )
+          IconButton(
+            icon: Icon(
+              Icons.keyboard_arrow_down_sharp,
+              size: width * 0.04,
+              color: Colors.black,
+            ),
+            tooltip: 'Search location',
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Search your location"),
+                    content: StatefulBuilder(
+                      // You need this, notice the parameters below:
+                      builder: (BuildContext context, StateSetter setState) {
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: 0.5,
+                            maxHeight: height * 0.4,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              TextField(
+                                decoration: InputDecoration(
+                                  labelText: "Search",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(
+                                          Utils.hexStringToHexInt('77ACA2')),
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black54,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    setState(() {
+                                      autoCompleteSearch(value);
+                                    });
+                                  } else {
+                                    if (predictions.length > 0 && mounted) {
+                                      setState(() {
+                                        predictions = [];
+                                      });
+                                    }
+                                  }
+                                },
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minHeight: 0.5,
+                                  maxHeight: height * 0.3,
+                                ),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: predictions.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.white60,
+                                        child: Icon(
+                                          Icons.pin_drop,
+                                          color: Color(Utils.hexStringToHexInt(
+                                              '77ACA2')),
+                                        ),
+                                      ),
+                                      title: Text(
+                                        predictions[index]
+                                            .description
+                                            .toString(),
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          debugPrint(
+                                              predictions[index].placeId);
+                                          getDetils(
+                                              predictions[index].placeId!);
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+          )
         ],
       ),
       elevation: 0.0,
@@ -693,7 +696,7 @@ class _HomePageState extends State<HomePage> {
         child: Card(
           elevation: 1.0,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

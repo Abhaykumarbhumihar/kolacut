@@ -109,7 +109,8 @@ class _WishlistState extends State<Wishlist> {
                         onTap: () {
                           Get.offAll(LoginPage());
                         },
-                        child: Container(
+                        child:
+                        Container(
                           height: width * 0.2,
                           width: height * 0.3,
                           decoration: BoxDecoration(
@@ -178,12 +179,16 @@ class _WishlistState extends State<Wishlist> {
               builder: (context) => SaloonDetail(staffDetail.shopId!)),
         );
       },
-      child: Container(
+      child:
+      Container(
         width: width,
-        height: height * 0.2-height*0.06,
-        margin: EdgeInsets.only(top: height * 0.001, bottom: height * 0.001),
-        color: Colors.white,
+        height: height * 0.2 - height * 0.06,
+        margin: EdgeInsets.only(
+            top: height * 0.006,
+            bottom: height * 0.006),
+        color: Colors.transparent,
         child: Card(
+          elevation: 4.0,
           shape: RoundedRectangleBorder(
               borderRadius:
               BorderRadius.circular(12)),
@@ -197,118 +202,171 @@ class _WishlistState extends State<Wishlist> {
                     child: Expanded(
                       flex: 3,
                       child: Container(
-
-                          height: MediaQuery.of(context).size.height * 0.2 -
-                              height * 0.04,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12)),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    staffDetail.shopLogo.toString()),
-                                fit: BoxFit.cover,
+                          height: MediaQuery.of(
+                              context)
+                              .size
+                              .height *
+                              0.2 -
+                              height * 0.03,
+                          decoration:
+                          BoxDecoration(
+                              borderRadius: const BorderRadius
+                                  .only(
+                                  topLeft:
+                                  Radius.circular(
+                                      12),
+                                  bottomLeft:
+                                  Radius.circular(
+                                      12)),
+                              image:
+                              DecorationImage(
+                                image: NetworkImage(staffDetail
+                                    .shopLogo
+                                    .toString()),
+                                fit: BoxFit
+                                    .cover,
                               ))),
                     ),
                   ),
+                  //SizedBox(width: 4.0,),
                   Container(
                     child: Expanded(
                       flex: 5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(""),
-                              SizedBox(
-                                height: height * 0.03,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04,
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: staffDetail.service!.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        margin:
-                                            EdgeInsets.only(left: 4, right: 4),
-                                        padding: EdgeInsets.all(4),
+                      child: Container(
+                        margin:
+                        EdgeInsets.only(
+                            left: 6.0,top: 3.0,bottom: 3.0),
+                        child: Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment
+                              .spaceAround,
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: <Widget>[
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: <Widget>[
+                                // // /*TODO--femina text*/
+                                Text(
+                                  staffDetail
+                                      .shopName
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors
+                                          .black,
+                                      fontSize: MediaQuery.of(context)
+                                          .size
+                                          .width *
+                                          0.05,
+                                      fontFamily:
+                                      'Poppins Regular'),
+                                ),
+                                //*TODO---address*/
+                                Positioned(
+                                  top: 20,
+                                  child: Text(
+                                    staffDetail
+                                        .location
+                                        .toString(),
+                                    style: TextStyle(
                                         color: Color(
-                                            Utils.hexStringToHexInt('E5E5E5')),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Center(
-                                                child: SvgPicture.asset(
-                                                  'images/svgicons/tagsvg.svg',
-                                                  fit: BoxFit.contain,
-                                                  width: 24,
-                                                  height: 24,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              padding:
-                                                  EdgeInsets.only(right: 4),
-                                              decoration: BoxDecoration(
-                                                  color: Color(
-                                                      Utils.hexStringToHexInt(
-                                                          'E5E5E5'))),
-                                              child: Center(
-                                                  child: Text(
-                                                staffDetail.service![index]
-                                                    .serviceTitle
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: width * 0.03),
-                                              )),
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: height * 0.01),
-                             child:   RatingBarIndicator(
-                                  rating:  staffDetail.rating !=
-                                      null
-                                      ?  staffDetail.rating!
-                                      .toDouble()
-                                      : 1.0,
+                                            Utils.hexStringToHexInt(
+                                                'A3A2A2')),
+                                        fontSize: MediaQuery.of(context)
+                                            .size
+                                            .width *
+                                            0.03,
+                                        fontFamily:
+                                        'Poppins Regular'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 2.0,),
+                            /*TODO---inner servce*/
+                            SizedBox(
+                              height: MediaQuery.of(
+                                  context)
+                                  .size
+                                  .height *
+                                  0.02,
+                              child: ListView
+                                  .builder(
+                                  shrinkWrap:
+                                  true,
+                                  scrollDirection:
+                                  Axis
+                                      .horizontal,
+                                  itemCount: staffDetail
+                                      .service!
+                                      .length,
                                   itemBuilder:
                                       (context,
-                                      index) =>
-                                  const Icon(
-                                    Icons
-                                        .star,
-                                    color: Colors
-                                        .amber,
-                                  ),
-                                  itemCount:
-                                  5,
-                                  itemSize:
-                                  18.0,
-                                  direction: Axis
-                                      .horizontal,
+                                      index) {
+                                    return Container(
+                                      margin:
+                                      EdgeInsets.only(right: 4),
+                                      // padding:
+                                      //     EdgeInsets.all(2),
+                                      color:
+                                      Color(Utils.hexStringToHexInt('E5E5E5')),
+                                      child:
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(top: 5),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                'images/svgicons/tagsvg.svg',
+                                                fit: BoxFit.contain,
+                                                width: 20,
+                                                height: 20,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.only(right: 4),
+                                            decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
+                                            child: Center(
+                                                child: Text(
+                                                  staffDetail.service![index].serviceTitle.toString(),
+                                                  style: TextStyle(fontSize: width * 0.03),
+                                                )),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ),
+                            Container(
+                              child:
+                              RatingBarIndicator(
+                                rating: staffDetail
+                                    .rating !=
+                                    null
+                                    ?staffDetail
+                                    .rating!
+                                    .toDouble()
+                                    : 1.0,
+                                itemBuilder: (context,
+                                    index) =>
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors
+                                      .amber,
                                 ),
+                                itemCount: 5,
+                                itemSize:
+                                10.0,
+                                direction: Axis
+                                    .horizontal,
                               ),
-                            ],
-                          )
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -317,43 +375,20 @@ class _WishlistState extends State<Wishlist> {
                         flex: 1,
                         child: Container(
                           child: Icon(
-                            Icons.keyboard_arrow_right_outlined,
+                            Icons
+                                .keyboard_arrow_right_outlined,
                             size: 34,
-                            color: Colors.black,
+                            color:
+                            Colors.black,
                           ),
                         )),
                   )
                 ],
               ),
-              // /*TODO--femina text*/
-              Positioned(
-                top: height * 0.01,
-                left: width * 0.3 + width * 0.03,
-                child: Text(
-                  staffDetail.shopName.toString(),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontFamily: 'Poppins Regular'),
-                ),
-              ),
-
-              /*TODO---address*/
-              Positioned(
-                top: height * 0.03,
-                left: width * 0.3 + width * 0.03,
-                child: Text(
-                  staffDetail.location.toString(),
-                  style: TextStyle(
-                      color: Color(Utils.hexStringToHexInt('A3A2A2')),
-                      fontSize: MediaQuery.of(context).size.width * 0.03,
-                      fontFamily: 'Poppins Regular'),
-                ),
-              )
             ],
           ),
         ),
-      ),
-    );
+      ));
+
   }
 }

@@ -473,6 +473,7 @@ class _CoinPageState extends State<CoinPage> {
             ),
             content: Container(
                 width: MediaQuery.of(context).size.width,
+                height: height*0.6,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Colors.grey, width: 2),

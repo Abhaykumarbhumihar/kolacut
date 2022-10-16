@@ -658,185 +658,188 @@ class _CartOrderState extends State<CartOrder> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          widget.slotDetail!.coupon!.length,
-                                      scrollDirection: Axis.vertical,
-                                      itemBuilder: (context, position) {
-                                        return Container(
-                                            width: width * 0.4 + width * 0.05,
-                                            height: height * 0.12,
-                                            margin: EdgeInsets.all(6),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8)),
-                                                border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 1)),
-                                            child: Stack(
-                                              children: <Widget>[
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  children: <Widget>[
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          '  ${widget.slotDetail!.coupon![position].couponName.toString()}',
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'Poppins Regular',
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .height *
-                                                                  0.02,
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 8,
-                                                        ),
-                                                        Text(
-                                                          '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'Poppins Light',
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.03,
-                                                              color: Color(Utils
-                                                                  .hexStringToHexInt(
-                                                                      'A4A4A4'))),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          '  Use Code ',
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'Poppins Light',
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.03,
-                                                              color: Color(Utils
-                                                                  .hexStringToHexInt(
-                                                                      'A4A4A4'))),
-                                                        ),
-                                                        Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  vertical: 2.0,
-                                                                  horizontal:
-                                                                      10.0),
-                                                          color: Color(Utils
-                                                              .hexStringToHexInt(
-                                                                  '#46D0D9')),
-                                                          child: Text(
-                                                            '${widget.slotDetail!.coupon![position].couponCode.toString()}',
+                                  Flexible(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            widget.slotDetail!.coupon!.length,
+                                        scrollDirection: Axis.vertical,
+                                        itemBuilder: (context, position) {
+                                          return Container(
+                                              width: width * 0.4 + width * 0.05,
+                                              height: height * 0.12,
+                                              margin: EdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: <Widget>[
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  ${widget.slotDetail!.coupon![position].couponName.toString()}',
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'Poppins Light',
-                                                              fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.03,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                                                fontFamily:
+                                                                    'Poppins Regular',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height *
+                                                                    0.02,
+                                                                color:
+                                                                    Colors.black),
                                                           ),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: IconButton(
-                                                      tooltip: "Applied coupon",
-                                                      onPressed: () {
-                                                        var percentPrice = int
-                                                            .parse(total_price
-                                                            .toString()) *
-                                                            (1.0 / 100.0) *
-                                                            int.parse(widget
-                                                                .slotDetail!
-                                                                .coupon![
-                                                            position]
-                                                                .percentage
-                                                                .toString());
-                                                        print(percentPrice
-                                                            .toString() +
-                                                            " =======ppp");
-                                                        if (int.parse(widget
-                                                            .slotDetail!
-                                                            .coupon![
-                                                        position]
-                                                            .price
-                                                            .toString()) >
-                                                            percentPrice) {
-                                                          applycouponPrice =
-                                                              percentPrice;
-                                                        }
-                                                        else {
-                                                          applycouponPrice =
-                                                              double.parse(widget
+                                                          SizedBox(
+                                                            height: 8,
+                                                          ),
+                                                          Text(
+                                                            '  ${widget.slotDetail!.coupon![position].percentage}% off upto ${widget.slotDetail!.coupon![position].price} Rupees',
+                                                           // '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.03,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                        'A4A4A4'))),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Text(
+                                                            '  Use Code ',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.03,
+                                                                color: Color(Utils
+                                                                    .hexStringToHexInt(
+                                                                        'A4A4A4'))),
+                                                          ),
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical: 2.0,
+                                                                    horizontal:
+                                                                        10.0),
+                                                            color: Color(Utils
+                                                                .hexStringToHexInt(
+                                                                    '#46D0D9')),
+                                                            child: Text(
+                                                              '${widget.slotDetail!.coupon![position].couponCode.toString()}',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Poppins Light',
+                                                                fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width *
+                                                                    0.03,
+                                                                color:
+                                                                    Colors.white,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: IconButton(
+                                                        tooltip: "Applied coupon",
+                                                        onPressed: () {
+                                                          var percentPrice = int
+                                                              .parse(total_price
+                                                              .toString()) *
+                                                              (1.0 / 100.0) *
+                                                              int.parse(widget
                                                                   .slotDetail!
                                                                   .coupon![
                                                               position]
-                                                                  .price
+                                                                  .percentage
                                                                   .toString());
-                                                        }
-                                                        print(widget
-                                                            .slotDetail!
-                                                            .coupon![position]
-                                                            .price
-                                                            .toString());
-                                                        coupontype =
-                                                            "Shop Coupon";
-
-
-                                                        applycouponCode =
-                                                            applycouponCode =
-                                                                widget
+                                                          print(percentPrice
+                                                              .toString() +
+                                                              " =======ppp");
+                                                          if (int.parse(widget
+                                                              .slotDetail!
+                                                              .coupon![
+                                                          position]
+                                                              .price
+                                                              .toString()) >
+                                                              percentPrice) {
+                                                            applycouponPrice =
+                                                                percentPrice;
+                                                          }
+                                                          else {
+                                                            applycouponPrice =
+                                                                double.parse(widget
                                                                     .slotDetail!
                                                                     .coupon![
-                                                                        position]
-                                                                    .couponCode
-                                                                    .toString();
-                                                        double.parse(widget
-                                                            .slotDetail!
-                                                            .coupon![position]
-                                                            .price
-                                                            .toString());
-                                                        Navigator.pop(context);
-                                                      },
-                                                      icon: Icon(
-                                                        CupertinoIcons
-                                                            .tag_circle,
-                                                        size: width * 0.05,
-                                                        color: Colors.cyan,
-                                                      )),
-                                                ),
-                                              ],
-                                            ));
-                                      }),
+                                                                position]
+                                                                    .price
+                                                                    .toString());
+                                                          }
+                                                          print(widget
+                                                              .slotDetail!
+                                                              .coupon![position]
+                                                              .price
+                                                              .toString());
+                                                          coupontype =
+                                                              "Shop Coupon";
+
+
+                                                          applycouponCode =
+                                                              applycouponCode =
+                                                                  widget
+                                                                      .slotDetail!
+                                                                      .coupon![
+                                                                          position]
+                                                                      .couponCode
+                                                                      .toString();
+                                                          double.parse(widget
+                                                              .slotDetail!
+                                                              .coupon![position]
+                                                              .price
+                                                              .toString());
+                                                          Navigator.pop(context);
+                                                        },
+                                                        icon: Icon(
+                                                          CupertinoIcons
+                                                              .tag_circle,
+                                                          size: width * 0.05,
+                                                          color: Colors.cyan,
+                                                        )),
+                                                  ),
+                                                ],
+                                              ));
+                                        }),
+                                  ),
                                 ],
                               ),
                             );
@@ -982,7 +985,7 @@ class _CartOrderState extends State<CartOrder> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].price} Rupees',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                 'Poppins Light',

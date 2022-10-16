@@ -565,7 +565,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  Upto ${widget.data!.coupon![position].percentage}% off via UPI',
+                                                            '  ${widget.data!.coupon![position].percentage}% off upto ${widget.data!.coupon![position].price} Rupees',
+                                                            // '  Upto ${widget.data!.coupon![position].percentage}% off via UPI',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Light',
@@ -838,7 +839,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].price} Rupees',
+                                                            //'  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Light',
@@ -916,30 +918,41 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                   position]
                                                               .price
                                                               .toString());
-                                   var percentPrice = int.parse(totalPrice.toString()) * (1.0 / 100.0) *
-                                       int.parse(Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage.toString());
+                                                          var percentPrice = int
+                                                                  .parse(totalPrice
+                                                                      .toString()) *
+                                                              (1.0 / 100.0) *
+                                                              int.parse(Get.find<
+                                                                      HomeController>()
+                                                                  .adminCouponList
+                                                                  .value
+                                                                  .couponDetail![
+                                                                      position]
+                                                                  .percentage
+                                                                  .toString());
                                                           print(percentPrice
                                                                   .toString() +
                                                               " =======ppp");
                                                           if (int.parse(Get.find<
-                                                              HomeController>()
-                                                              .adminCouponList
-                                                              .value
-                                                              .couponDetail![
-                                                          position]
-                                                              .price
-                                                              .toString()) >
+                                                                      HomeController>()
+                                                                  .adminCouponList
+                                                                  .value
+                                                                  .couponDetail![
+                                                                      position]
+                                                                  .price
+                                                                  .toString()) >
                                                               percentPrice) {
                                                             applycouponPrice =
                                                                 percentPrice;
                                                           } else {
                                                             applycouponPrice =
-                                                                double.parse(Get.find<
-                                                                    HomeController>()
+                                                                double.parse(Get
+                                                                        .find<
+                                                                            HomeController>()
                                                                     .adminCouponList
                                                                     .value
                                                                     .couponDetail![
-                                                                position]
+                                                                        position]
                                                                     .price
                                                                     .toString());
                                                           }
