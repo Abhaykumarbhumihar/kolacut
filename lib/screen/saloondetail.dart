@@ -1180,7 +1180,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                         ),
                         SizedBox(
                           width: width,
-                          height: 32,
+                          height: height*0.04,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
@@ -1219,6 +1219,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     child: Center(
                                       child: Text(
                                         '${slotpojo.notificationDetail![0].morning![position]}',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: 'Poppins Regular',
                                           fontSize: width * 0.04,
@@ -1249,7 +1250,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                         ),
                         SizedBox(
                           width: width,
-                          height: 32,
+                          height: height*0.04,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
@@ -1288,6 +1289,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     child: Center(
                                       child: Text(
                                         '${slotpojo.notificationDetail![0].afternoon![position]}',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular',
@@ -1318,7 +1320,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                         ),
                         SizedBox(
                           width: width,
-                          height: 32,
+                          height: height*0.04,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
@@ -1357,6 +1359,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                     child: Center(
                                       child: Text(
                                         '${slotpojo.notificationDetail![0].evening![position]}',
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: width * 0.04,
                                           fontFamily: 'Poppins Regular',
@@ -1605,18 +1608,23 @@ class _SaloonDetailState extends State<SaloonDetail> {
                               fit: BoxFit.contain,
                             ),
                           ),
-                          ///Set size here
-                          AutoSizeText(" " + address,
-                              softWrap: false,
-                              maxLines: 1,
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
+                         //
+                          Container(
+                            width: width*0.5,
+                            child:
+                            AutoSizeText(" " + address,
+                                softWrap: false,
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                    fontSize: width * 0.05,
+                                    fontFamily: 'Poppins Regular',
+                                    color: Color(
+                                        Utils.hexStringToHexInt('#77ACA2'))),
+                                textAlign: TextAlign.center),
+                          ),
+                         ///
 
-                                  fontSize: width * 0.05,
-                                  fontFamily: 'Poppins Regular',
-                                  color: Color(
-                                      Utils.hexStringToHexInt('#77ACA2'))),
-                              textAlign: TextAlign.center),
                         ],
                       ),
                     ),

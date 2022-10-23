@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -340,10 +341,14 @@ class _HomePageState extends State<HomePage> {
                                                                clipBehavior: Clip.none,
                                                                children: <Widget>[
                                                                  // // /*TODO--femina text*/
-                                                                 Text(
+
+                                                                 AutoSizeText(
                                                                    data[position]
                                                                        .shopName
                                                                        .toString(),
+                                                                   softWrap: false,
+                                                                   maxLines: 1,
+                                                                   overflow: TextOverflow.fade,
                                                                    style: TextStyle(
                                                                        color: Colors
                                                                            .black,
@@ -356,21 +361,27 @@ class _HomePageState extends State<HomePage> {
                                                                  ),
                                                                  //*TODO---address*/
                                                                  Positioned(
-                                                                   top: 20,
-                                                                   child: Text(
-                                                                     data[position]
-                                                                         .location
-                                                                         .toString(),
-                                                                     style: TextStyle(
-                                                                         color: Color(
-                                                                             Utils.hexStringToHexInt(
-                                                                                 'A3A2A2')),
-                                                                         fontSize: MediaQuery.of(context)
-                                                                             .size
-                                                                             .width *
-                                                                             0.03,
-                                                                         fontFamily:
-                                                                         'Poppins Regular'),
+                                                                   top: height*0.03,
+                                                                   child: Container(
+                                                                     width: width*0.4,
+                                                                     child: Text(
+                                                                       data[position]
+                                                                           .location
+                                                                           .toString(),
+                                                                       softWrap: false,
+                                                                       maxLines: 1,
+                                                                       overflow: TextOverflow.fade,
+                                                                       style: TextStyle(
+                                                                           color: Color(
+                                                                               Utils.hexStringToHexInt(
+                                                                                   'A3A2A2')),
+                                                                           fontSize: MediaQuery.of(context)
+                                                                               .size
+                                                                               .width *
+                                                                               0.03,
+                                                                           fontFamily:
+                                                                           'Poppins Regular'),
+                                                                     ),
                                                                    ),
                                                                  ),
                                                                ],

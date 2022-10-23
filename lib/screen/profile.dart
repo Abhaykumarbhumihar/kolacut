@@ -111,12 +111,6 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         width: width,
         height: height,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-
-            image: DecorationImage(
-                image: AssetImage('images/svgicons/profilebackgound.png'),
-                fit: BoxFit.fill)),
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             key: scaffolKey,
@@ -200,231 +194,247 @@ class _ProfilePageState extends State<ProfilePage> {
                         _element
                             .add(profileController.bookingPojo.value.slotDetail![i]);
                       }
-                      return SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      return SizedBox(
+                        width: width,
+                        height: height,
+                        child: ListView(
                           children: <Widget>[
-                            SizedBox(
-                              height: height * 0.07,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: width * 0.2 - width * 0.06,
-                                  backgroundImage: NetworkImage(
-                                      profileController.profilePojo.value.data!
-                                          .profileImage!),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.04,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Stack(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(left: width * 0.06),
-                                  child: Text(
-                                    'Personal Details',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: width * 0.03,
-                                        fontFamily: 'Poppins Medium'),
-                                  ),
+                                  width: width,
+                                  height: height * 0.6,
+                                  decoration:  BoxDecoration(
+                                    //color: Color(Utils.hexStringToHexInt('4285F4')),
+                                      image: const DecorationImage(
+                                          image: AssetImage(
+                                              'images/svgicons/profilebackgound.png'),
+                                          fit: BoxFit.fill)),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.to(ProfileUpdate());
-
-                                    //  _profileUpdate(context,width,height);
-                                  },
-                                  child: Container(
-                                    margin:
-                                        EdgeInsets.only(right: width * 0.02),
-                                    width: width * 0.2,
-                                    height: height * 0.03,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(width * 0.01),
-                                        color: Color(Utils.hexStringToHexInt(
-                                            '#ecfafb'))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: height * 0.07,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Center(
-                                          child: SvgPicture.asset(
-                                            "images/svgicons/modify.svg",
-                                          ),
-                                        ),
-                                        Text(
-                                          'Modify',
-                                          style: TextStyle(
-                                              fontSize: width * 0.02,
-                                              fontFamily: 'Poppins Regular',
-                                              color: Color(
-                                                  Utils.hexStringToHexInt(
-                                                      '46D0D9'))),
+                                        CircleAvatar(
+                                          radius: width * 0.2 - width * 0.06,
+                                          backgroundImage: NetworkImage(
+                                              profileController.profilePojo.value.data!
+                                                  .profileImage!),
                                         )
                                       ],
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: width * 0.06),
-                              child: SizedBox(
-                                width: width * 0.09,
-                                child: Divider(
-                                  thickness: 3,
-                                  color:
-                                      Color(Utils.hexStringToHexInt('77ACA2')),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: width * 0.06),
-                              width: width,
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Name',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.03),
+                                    SizedBox(
+                                      height: height * 0.04,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: width * 0.06),
+                                          child: Text(
+                                            'Personal Details',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: width * 0.03,
+                                                fontFamily: 'Poppins Medium'),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.to(ProfileUpdate());
+
+                                            //  _profileUpdate(context,width,height);
+                                          },
+                                          child: Container(
+                                            margin:
+                                            EdgeInsets.only(right: width * 0.02),
+                                            width: width * 0.2,
+                                            height: height * 0.03,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(width * 0.01),
+                                                color: Color(Utils.hexStringToHexInt(
+                                                    '#ecfafb'))),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Center(
+                                                  child: SvgPicture.asset(
+                                                    "images/svgicons/modify.svg",
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Modify',
+                                                  style: TextStyle(
+                                                      fontSize: width * 0.02,
+                                                      fontFamily: 'Poppins Regular',
+                                                      color: Color(
+                                                          Utils.hexStringToHexInt(
+                                                              '46D0D9'))),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: width * 0.06),
+                                      child: SizedBox(
+                                        width: width * 0.09,
+                                        child: Divider(
+                                          thickness: 3,
+                                          color:
+                                          Color(Utils.hexStringToHexInt('77ACA2')),
+                                        ),
                                       ),
-                                      SizedBox(
-                                        width: width * 0.06,
-                                      ),
-                                      Text(
-                                        profileController.profilePojo.value
-                                                        .data!.name
-                                                        .toString() +
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: width * 0.06),
+                                      width: width,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Name',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.03),
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.06,
+                                              ),
+                                              Text(
+                                                profileController.profilePojo.value
+                                                    .data!.name
+                                                    .toString() +
                                                     "" !=
-                                                ""
-                                            ? profileController.profilePojo
+                                                    ""
+                                                    ? profileController.profilePojo
                                                     .value.data!.name
                                                     .toString() +
-                                                ""
-                                            : "N/A",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.04),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.01,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Email',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.03),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.06,
-                                      ),
-                                      Text(
-                                        profileController.profilePojo.value
-                                                        .data!.email
-                                                        .toString() +
+                                                    ""
+                                                    : "N/A",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.04),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Email',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.03),
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.06,
+                                              ),
+                                              Text(
+                                                profileController.profilePojo.value
+                                                    .data!.email
+                                                    .toString() +
                                                     "" !=
-                                                ""
-                                            ? profileController.profilePojo
+                                                    ""
+                                                    ? profileController.profilePojo
                                                     .value.data!.email
                                                     .toString() +
-                                                ""
-                                            : "N/A",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.04),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.01,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'Contact',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.03),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.04,
-                                      ),
-                                      Text(
-                                        profileController.profilePojo.value
-                                                        .data!.phone
-                                                        .toString() +
+                                                    ""
+                                                    : "N/A",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.04),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Contact',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.03),
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.04,
+                                              ),
+                                              Text(
+                                                profileController.profilePojo.value
+                                                    .data!.phone
+                                                    .toString() +
                                                     "" !=
-                                                ""
-                                            ? profileController.profilePojo
+                                                    ""
+                                                    ? profileController.profilePojo
                                                     .value.data!.phone
                                                     .toString() +
-                                                ""
-                                            : "N/A",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.04),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: height * 0.01,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'DOB',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.03),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.06,
-                                      ),
-                                      Text(
-                                        " " +
+                                                    ""
+                                                    : "N/A",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.04),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: height * 0.01,
+                                          ),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'DOB',
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.03),
+                                              ),
+                                              SizedBox(
+                                                width: width * 0.06,
+                                              ),
+                                              Text(
+                                                " " +
                                                     profileController
                                                         .profilePojo
                                                         .value
@@ -432,63 +442,71 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         .dob
                                                         .toString() +
                                                     "" !=
-                                                ""
-                                            ? "  " +
-                                                "${DateFormat.yMMMMd().format(DateTime.parse(profileController.profilePojo.value.data!.dob.toString()))}" +
-                                                ""
-                                            : "N/A",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                            color: Color(
-                                                Utils.hexStringToHexInt(
-                                                    'A3A2A2')),
-                                            fontFamily: 'Poppins Regular',
-                                            fontSize: width * 0.04),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: height * 0.02,
-                            ),
-                            Divider(
-                              thickness: 1,
-                            ),
+                                                    ""
+                                                    ? "  " +
+                                                    "${DateFormat.yMMMMd().format(DateTime.parse(profileController.profilePojo.value.data!.dob.toString()))}" +
+                                                    ""
+                                                    : "N/A",
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Color(
+                                                        Utils.hexStringToHexInt(
+                                                            'A3A2A2')),
+                                                    fontFamily: 'Poppins Regular',
+                                                    fontSize: width * 0.04),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: height * 0.02,
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                    ),
 
-                            Container(
-                                margin: EdgeInsets.only(left: width * 0.06),
-                                child: Utils().titleText('My Bookings', context)),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: 0.2,
-                                maxHeight: height * 0.5,
-                              ),
-                              child:
-                              StickyGroupedListView<SlotDetail, DateTime>(
-                                elements: _element,
-                                order: StickyGroupedListOrder.ASC,
-                                groupBy: (SlotDetail element) => DateTime(
-                                  element.date!.year,
-                                  element.date!.month,
-                                  element.date!.day,
+                                    Container(
+                                        margin: EdgeInsets.only(left: width * 0.06),
+                                        child: Utils().titleText('My Bookings', context)),
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        minHeight: 0.2,
+                                        maxHeight: height * 0.5,
+                                      ),
+                                      child:
+                                      StickyGroupedListView<SlotDetail, DateTime>(
+                                        elements: _element,
+                                        order: StickyGroupedListOrder.ASC,
+                                        groupBy: (SlotDetail element) => DateTime(
+                                          element.date!.year,
+                                          element.date!.month,
+                                          element.date!.day,
+                                        ),
+                                        groupComparator:
+                                            (DateTime value1, DateTime value2) =>
+                                            value2.compareTo(value1),
+                                        itemComparator: (SlotDetail element1,
+                                            SlotDetail element2) =>
+                                            element1.date!.compareTo(element2.date!),
+                                        floatingHeader: false,
+                                        groupSeparatorBuilder: _getGroupSeparator,
+                                        itemBuilder: _getItem,
+                                      ),
+                                    ),
+
+
+                                  ],
                                 ),
-                                groupComparator:
-                                    (DateTime value1, DateTime value2) =>
-                                    value2.compareTo(value1),
-                                itemComparator: (SlotDetail element1,
-                                    SlotDetail element2) =>
-                                    element1.date!.compareTo(element2.date!),
-                                floatingHeader: false,
-                                groupSeparatorBuilder: _getGroupSeparator,
-                                itemBuilder: _getItem,
-                              ),
-                            ),
-
-
+                                Container(width: width,
+                                  height: 30,
+                                  color: Color(Utils.hexStringToHexInt('77ACA2')),
+                                )
+                              ],
+                            )
                           ],
-                        ),
+                        )
                       );
                     }
                   })),
@@ -916,9 +934,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: width * 0.2-width*0.03,
+                        width: width * 0.2-width*0.05,
                         child: Text(
                           '${slotDetail.toTime}',
+                          softWrap: false,
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
                           style: TextStyle(
                               color: Color(Utils.hexStringToHexInt('26578C')),
                               fontFamily: 'Poppins Semibold',

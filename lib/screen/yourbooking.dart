@@ -361,151 +361,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                   itemBuilder: _getItem,
                                 ),
                               ),
-                              // SizedBox(
-                              //   height: height * 0.02,
-                              // ),
-                              // Divider(
-                              //   height: 2,
-                              //   color: Colors.grey,
-                              // ),
-                              // SizedBox(
-                              //   height: height * 0.02,
-                              // ),
-                              // Center(
-                              //   child: Text(
-                              //     'Today',
-                              //     style: TextStyle(
-                              //         color: Colors.black,
-                              //         fontSize: width * 0.04,
-                              //         fontFamily: 'Poppins Semibold'),
-                              //   ),
-                              // ),
-                              // Container(
-                              //   width: width,
-                              //   padding: EdgeInsets.all(width * 0.03),
-                              //   margin: EdgeInsets.all(width * 0.03),
-                              //   decoration: BoxDecoration(
-                              //       borderRadius:
-                              //           BorderRadius.all(Radius.circular(width * 0.02)),
-                              //       border: Border.all(color: Colors.black26, width: 2)),
-                              //   child: Row(
-                              //     children: <Widget>[
-                              //       Row(
-                              //         children: <Widget>[
-                              //           IntrinsicHeight(
-                              //             child: Row(
-                              //               children: <Widget>[
-                              //                 Text(
-                              //                   '11:00',
-                              //                   style: TextStyle(
-                              //                       color: Color(
-                              //                           Utils.hexStringToHexInt('26578C')),
-                              //                       fontFamily: 'Poppins Semibold',
-                              //                       fontSize: width * 0.04),
-                              //                 ),
-                              //                 SizedBox(
-                              //                   width: width * 0.02,
-                              //                 ),
-                              //                 Container(
-                              //                   width: 1,
-                              //                   height: height * 0.06,
-                              //                   color: Colors.black,
-                              //                   padding:
-                              //                       EdgeInsets.only(left: 12, right: 12),
-                              //                 ),
-                              //                 SizedBox(
-                              //                   width: width * 0.02,
-                              //                 )
-                              //               ],
-                              //             ),
-                              //           ),
-                              //           Column(
-                              //             crossAxisAlignment: CrossAxisAlignment.start,
-                              //             children: <Widget>[
-                              //               Text(
-                              //                 'Femina Beauty Salon',
-                              //                 style: TextStyle(
-                              //                     color: Colors.black,
-                              //                     fontSize: width * 0.03,
-                              //                     fontFamily: 'Poppins Regular'),
-                              //               ),
-                              //               Text('Galleria, Ghaziabad',
-                              //                   style: TextStyle(
-                              //                       fontSize: width * 0.02,
-                              //                       fontFamily: 'Poppins Regular',
-                              //                       color: Color(
-                              //                           Utils.hexStringToHexInt('6B6868'))),
-                              //                   textAlign: TextAlign.center),
-                              //             ],
-                              //           )
-                              //         ],
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
-                              // Container(
-                              //   width: width,
-                              //   padding: EdgeInsets.all(width * 0.03),
-                              //   margin: EdgeInsets.all(width * 0.03),
-                              //   decoration: BoxDecoration(
-                              //       borderRadius:
-                              //           BorderRadius.all(Radius.circular(width * 0.02)),
-                              //       border: Border.all(color: Colors.black26, width: 2)),
-                              //   child: Row(
-                              //     children: <Widget>[
-                              //       Row(
-                              //         children: <Widget>[
-                              //           IntrinsicHeight(
-                              //             child: Row(
-                              //               children: <Widget>[
-                              //                 Text(
-                              //                   '11:00',
-                              //                   style: TextStyle(
-                              //                       color: Color(
-                              //                           Utils.hexStringToHexInt('26578C')),
-                              //                       fontFamily: 'Poppins Semibold',
-                              //                       fontSize: width * 0.04),
-                              //                 ),
-                              //                 SizedBox(
-                              //                   width: width * 0.02,
-                              //                 ),
-                              //                 Container(
-                              //                   width: 1,
-                              //                   height: height * 0.06,
-                              //                   color: Colors.black,
-                              //                   padding:
-                              //                       EdgeInsets.only(left: 12, right: 12),
-                              //                 ),
-                              //                 SizedBox(
-                              //                   width: width * 0.02,
-                              //                 )
-                              //               ],
-                              //             ),
-                              //           ),
-                              //           Column(
-                              //             crossAxisAlignment: CrossAxisAlignment.start,
-                              //             children: <Widget>[
-                              //               Text(
-                              //                 'Femina Beauty Salon',
-                              //                 style: TextStyle(
-                              //                     color: Colors.black,
-                              //                     fontSize: width * 0.03,
-                              //                     fontFamily: 'Poppins Regular'),
-                              //               ),
-                              //               Text('Galleria, Ghaziabad',
-                              //                   style: TextStyle(
-                              //                       fontSize: width * 0.02,
-                              //                       fontFamily: 'Poppins Regular',
-                              //                       color: Color(
-                              //                           Utils.hexStringToHexInt('6B6868'))),
-                              //                   textAlign: TextAlign.center),
-                              //             ],
-                              //           )
-                              //         ],
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
+
                             ],
                           ),
                         ),
@@ -937,9 +793,12 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: width * 0.2-width*0.03,
+                        width: width * 0.2-width*0.05,
                         child: Text(
                           '${slotDetail.toTime}',
+                          softWrap: false,
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
                           style: TextStyle(
                               color: Color(Utils.hexStringToHexInt('26578C')),
                               fontFamily: 'Poppins Semibold',

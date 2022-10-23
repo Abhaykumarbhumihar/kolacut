@@ -53,9 +53,9 @@ dependencies:
   share_plus: ^4.0.10
   flutter_circle_chart: ^1.0.0
   ezanimation: ^0.6.0
-  firebase_messaging: ^12.0.3
+  firebase_messaging: ^14.0.2
   flutter_local_notifications: ^9.8.0+1
-  firebase_core:
+  firebase_core: ^2.1.0
   swipebuttonflutter: ^1.0.0
   slider_button: ^2.0.0
   flutter_speedometer: ^1.0.2
