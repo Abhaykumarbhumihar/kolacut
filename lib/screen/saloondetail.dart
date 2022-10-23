@@ -891,30 +891,28 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                    color: Colors.grey.shade200
                                )
                            ),
-                           child: Flexible(
-                             child: Column(
-                               children: <Widget>[
-                                 Row(
-                                   mainAxisAlignment: MainAxisAlignment.start,
-                                   children: [
-                                     Image.asset(
-                                       'images/svgicons/bx_checkbox.png',
-                                       width: 22,
-                                       height: 22,
-                                       fit: BoxFit.fill,
-                                     ),
-                                   ],
-                                 ),
-                                 Center(
-                                     child: Image.network(
-                                       '${a.services![index].serviceImage}',
-                                       width: width * 0.2,
-                                       height: height * 0.1-25,
-                                       fit: BoxFit.fill,
-                                     )),
-                                 SizedBox(height: 22,)
-                               ],
-                             ),
+                           child: Column(
+                             children: <Widget>[
+                               Row(
+                                 mainAxisAlignment: MainAxisAlignment.start,
+                                 children: [
+                                   Image.asset(
+                                     'images/svgicons/bx_checkbox.png',
+                                     width: 22,
+                                     height: 22,
+                                     fit: BoxFit.fill,
+                                   ),
+                                 ],
+                               ),
+                               Center(
+                                   child: Image.network(
+                                     '${a.services![index].serviceImage}',
+                                     width: width * 0.2,
+                                     height: height * 0.1-25,
+                                     fit: BoxFit.fill,
+                                   )),
+                               SizedBox(height: 22,)
+                             ],
                            ),
 
                          ),
@@ -1579,12 +1577,20 @@ class _SaloonDetailState extends State<SaloonDetail> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      name,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.height * 0.05,
-                          fontFamily: 'Poppins Regular'),
+
+                    Container(
+
+                      width: width*0.4,
+                      child: AutoSizeText(
+                        name,
+                        softWrap: false,
+                        maxLines: 1,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: MediaQuery.of(context).size.height * 0.05,
+                            fontFamily: 'Poppins Regular'),
+                      ),
                     ),
                     Container(
                       alignment: Alignment.topLeft,
@@ -1600,8 +1606,12 @@ class _SaloonDetailState extends State<SaloonDetail> {
                             ),
                           ),
                           ///Set size here
-                          Text(" " + address,
+                          AutoSizeText(" " + address,
+                              softWrap: false,
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
                               style: TextStyle(
+
                                   fontSize: width * 0.05,
                                   fontFamily: 'Poppins Regular',
                                   color: Color(

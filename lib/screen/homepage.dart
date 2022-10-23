@@ -409,7 +409,7 @@ class _HomePageState extends State<HomePage> {
                                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                                               children: <Widget>[
                                                                                 Container(
-                                                                                  margin: EdgeInsets.only(top: 5),
+                                                                                  margin: EdgeInsets.only(bottom: 1,top: 2),
                                                                                   child: Center(
                                                                                     child: SvgPicture.asset(
                                                                                       'images/svgicons/tagsvg.svg',
@@ -420,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                                                                                   ),
                                                                                 ),
                                                                                 Container(
-                                                                                  padding: EdgeInsets.only(right: 4),
+                                                                                  padding: EdgeInsets.only(right: 2),
                                                                                   decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
                                                                                   child: Center(
                                                                                       child: Text(

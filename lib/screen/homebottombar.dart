@@ -106,13 +106,11 @@ var image="";
         //   CupertinoIcons.profile_circled,
         //   size: 30,
         // ),
-        iconSize: 30,
+        //iconSize: 30,
         icon: CircleAvatar(
-    child: ClipOval(
-    child: Image.network(image, fit: BoxFit.fill),
-    ),
-    backgroundColor: Colors.transparent,
-    radius: 30,
+          backgroundColor: Colors.transparent,
+          backgroundImage:NetworkImage(image),
+          radius: 30.0,
     ),
         // Container(width: 45,
         // height: 30,
