@@ -249,7 +249,7 @@ class _CartOrderState extends State<CartOrder> {
                     slotpojo != null
                         ?    SizedBox(
                       width: width,
-                      height: 32,
+                      height: height*0.04,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -290,7 +290,7 @@ class _CartOrderState extends State<CartOrder> {
                                     '${slotpojo.notificationDetail![0].morning![position]}',
                                     style: TextStyle(
                                       fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.04,
+                                      fontSize: width * 0.04-3,
                                       color: slotSelected == "Morning" &&
                                           isSlotSelected == position
                                           ? Colors.white
@@ -321,7 +321,7 @@ class _CartOrderState extends State<CartOrder> {
                     slotpojo != null
                         ?  SizedBox(
                       width: width,
-                      height: 32,
+                      height: height*0.04,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -361,7 +361,7 @@ class _CartOrderState extends State<CartOrder> {
                                   child: Text(
                                     '${slotpojo.notificationDetail![0].afternoon![position]}',
                                     style: TextStyle(
-                                      fontSize: width * 0.04,
+                                      fontSize: width * 0.04-3,
                                       fontFamily: 'Poppins Regular',
                                       color: slotSelected == "Afternoon" &&
                                           isSlotSelected == position
@@ -394,7 +394,7 @@ class _CartOrderState extends State<CartOrder> {
                         ?
                     SizedBox(
                       width: width,
-                      height: 32,
+                      height: height*0.04,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -434,7 +434,7 @@ class _CartOrderState extends State<CartOrder> {
                                   child: Text(
                                     '${slotpojo.notificationDetail![0].evening![position]}',
                                     style: TextStyle(
-                                      fontSize: width * 0.04,
+                                      fontSize: width * 0.04-3,
                                       fontFamily: 'Poppins Regular',
                                       color: slotSelected == "Evening" &&
                                           isSlotSelected == position

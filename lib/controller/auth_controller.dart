@@ -60,7 +60,8 @@ class AuthControlller extends GetxController {
         loginPojo.value = loginOtpFromJson(response);
 
         CommonDialog.showsnackbar(loginPojo.value.otp.toString());
-        Get.off(const VerifyOtpPage(), arguments: phoneno);
+
+        Get.to(const VerifyOtpPage(), arguments: phoneno);
       }
     } catch (error) {
       if (kDebugMode) {
@@ -74,9 +75,9 @@ class AuthControlller extends GetxController {
     Map map;
     map = {"phone": phoneno};
     try {
-      CommonDialog.showLoading(title: "Please waitt...");
+     // CommonDialog.showLoading(title: "Please waitt...");
       final response = await APICall().registerUrse(map, AppConstant.SEND_OTP);
-      CommonDialog.hideLoading();
+     /// CommonDialog.hideLoading();
       print("SDF SDF SDF DF ");
       //print(response);
       final body = json.decode(response);
@@ -93,7 +94,7 @@ class AuthControlller extends GetxController {
       if (kDebugMode) {
         print(error);
       }
-      CommonDialog.hideLoading();
+    //  CommonDialog.hideLoading();
     }
   }
   void verifyOtp(otp) async {

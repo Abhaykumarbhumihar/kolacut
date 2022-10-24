@@ -216,6 +216,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             filterContainer(context, width, height),
                             searchHint(context),
+
                             session == null || session == ""
                                 ? Container()
                                 : ConstrainedBox(
@@ -252,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                             ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: 0.5,
-                                maxHeight: height * 0.4,
+                                maxHeight: height * 0.5,
                               ),
                               child:
                               ListView.builder(
@@ -345,7 +346,7 @@ class _HomePageState extends State<HomePage> {
                                                                  AutoSizeText(
                                                                    data[position]
                                                                        .shopName
-                                                                       .toString(),
+                                                                       .toString()+'\n',
                                                                    softWrap: false,
                                                                    maxLines: 1,
                                                                    overflow: TextOverflow.fade,
@@ -364,23 +365,26 @@ class _HomePageState extends State<HomePage> {
                                                                    top: height*0.03,
                                                                    child: Container(
                                                                      width: width*0.4,
-                                                                     child: Text(
-                                                                       data[position]
-                                                                           .location
-                                                                           .toString(),
-                                                                       softWrap: false,
-                                                                       maxLines: 1,
-                                                                       overflow: TextOverflow.fade,
-                                                                       style: TextStyle(
-                                                                           color: Color(
-                                                                               Utils.hexStringToHexInt(
-                                                                                   'A3A2A2')),
-                                                                           fontSize: MediaQuery.of(context)
-                                                                               .size
-                                                                               .width *
-                                                                               0.03,
-                                                                           fontFamily:
-                                                                           'Poppins Regular'),
+                                                                     child: Padding(
+                                                                       padding: const EdgeInsets.only(top: 3.0),
+                                                                       child: Text(
+                                                                         data[position]
+                                                                             .location
+                                                                             .toString(),
+                                                                         softWrap: false,
+                                                                         maxLines: 1,
+                                                                         overflow: TextOverflow.fade,
+                                                                         style: TextStyle(
+                                                                             color: Color(
+                                                                                 Utils.hexStringToHexInt(
+                                                                                     'A3A2A2')),
+                                                                             fontSize: MediaQuery.of(context)
+                                                                                 .size
+                                                                                 .width *
+                                                                                 0.03,
+                                                                             fontFamily:
+                                                                             'Poppins Regular'),
+                                                                       ),
                                                                      ),
                                                                    ),
                                                                  ),
@@ -811,7 +815,7 @@ class _HomePageState extends State<HomePage> {
     return Stack(children: [
       Container(
         width: MediaQuery.of(context).size.width - width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.10,
+        height: MediaQuery.of(context).size.height * 0.11,
         margin: EdgeInsets.only(top: height * 0.02, left: 4, right: 4),
         padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.02, left: 12),
@@ -895,7 +899,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               margin: const EdgeInsets.only(left: 5, right: 5),
               width: MediaQuery.of(context).size.width * 0.2 - width * 0.04,
-              height: height * 0.1,
+              height: height * 0.2,
               decoration: BoxDecoration(
                 color: isSelected != null &&
                         isSelected ==

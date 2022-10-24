@@ -1222,7 +1222,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: 'Poppins Regular',
-                                          fontSize: width * 0.04,
+                                          fontSize: width * 0.04-3,
                                           color: slotSelected == "Morning" &&
                                                   isSlotSelected == position
                                               ? Colors.white
@@ -1291,7 +1291,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                         '${slotpojo.notificationDetail![0].afternoon![position]}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: width * 0.04,
+                                          fontSize: width * 0.04-3,
                                           fontFamily: 'Poppins Regular',
                                           color: slotSelected == "Afternoon" &&
                                                   isSlotSelected == position
@@ -1361,7 +1361,7 @@ class _SaloonDetailState extends State<SaloonDetail> {
                                         '${slotpojo.notificationDetail![0].evening![position]}',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: width * 0.04,
+                                          fontSize: width * 0.04-3,
                                           fontFamily: 'Poppins Regular',
                                           color: slotSelected == "Evening" &&
                                                   isSlotSelected == position
