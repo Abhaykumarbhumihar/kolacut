@@ -934,7 +934,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: width * 0.2-width*0.05,
+                        width: width * 0.2-width*0.01,
                         child: Text(
                           '${slotDetail.toTime}',
                           softWrap: false,
@@ -943,7 +943,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           style: TextStyle(
                               color: Color(Utils.hexStringToHexInt('26578C')),
                               fontFamily: 'Poppins Semibold',
-                              fontSize: width * 0.03),
+                              fontSize: width * 0.03-2),
                         ),
                       ),
                       SizedBox(
@@ -966,6 +966,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: <Widget>[
                     Text(
                       '${slotDetail.shopName}',
+                      softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: width * 0.03,

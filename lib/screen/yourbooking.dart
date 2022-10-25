@@ -793,7 +793,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: width * 0.2-width*0.05,
+                        width: width * 0.2-width*0.02,
                         child: Text(
                           '${slotDetail.toTime}',
                           softWrap: false,
