@@ -1611,11 +1611,13 @@ class _SaloonDetailState extends State<SaloonDetail> {
                          //
                           Container(
                             width: width*0.5,
+                            alignment: Alignment.topLeft,
                             child:
                             AutoSizeText(" " + address,
                                 softWrap: false,
                                 maxLines: 1,
                                 overflow: TextOverflow.fade,
+
                                 style: TextStyle(
                                     fontSize: width * 0.05,
                                     fontFamily: 'Poppins Regular',
