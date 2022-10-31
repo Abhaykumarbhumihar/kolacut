@@ -609,279 +609,281 @@ class _CartOrderState extends State<CartOrder> {
                   ],
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      bool showSublist =
-                          false; // Declare your variable outside the builder
+              // InkWell(
+              //   onTap: () {
+              //     showDialog(
+              //       context: context,
+              //       builder: (BuildContext context) {
+              //         bool showSublist =
+              //             false; // Declare your variable outside the builder
+              //
+              //         bool showmainList = true;
+              //
+              //         return AlertDialog(
+              //           title: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: <Widget>[
+              //               Text(
+              //                 'Use coupon',
+              //                 style: TextStyle(
+              //                   fontSize: width * 0.04,
+              //                   color: Colors.black,
+              //                   fontFamily: 'Poppins Medium',
+              //                 ),
+              //               ),
+              //               IconButton(
+              //                 onPressed: () => {Navigator.pop(context)},
+              //                 icon: Icon(Icons.cancel_outlined),
+              //               ),
+              //             ],
+              //           ),
+              //           content: StatefulBuilder(
+              //             // You need this, notice the parameters below:
+              //             builder:
+              //                 (BuildContext context, StateSetter setState) {
+              //               return Container(
+              //                 width: width,
+              //                 height: 250,
+              //                 child: Column(
+              //                   mainAxisAlignment: MainAxisAlignment.start,
+              //                   children: [
+              //                     Flexible(
+              //                       child: ListView.builder(
+              //                           shrinkWrap: true,
+              //                           itemCount:
+              //                               widget.slotDetail!.coupon!.length,
+              //                           scrollDirection: Axis.vertical,
+              //                           itemBuilder: (context, position) {
+              //                             return Container(
+              //                                 width: width * 0.4 + width * 0.05,
+              //                                 height: height * 0.12,
+              //                                 margin: EdgeInsets.all(6),
+              //                                 decoration: BoxDecoration(
+              //                                     color: Colors.white,
+              //                                     borderRadius: BorderRadius.all(
+              //                                         Radius.circular(8)),
+              //                                     border: Border.all(
+              //                                         color: Colors.grey,
+              //                                         width: 1)),
+              //                                 child: Stack(
+              //                                   children: <Widget>[
+              //                                     Column(
+              //                                       crossAxisAlignment:
+              //                                           CrossAxisAlignment.start,
+              //                                       mainAxisAlignment:
+              //                                           MainAxisAlignment
+              //                                               .spaceAround,
+              //                                       children: <Widget>[
+              //                                         Column(
+              //                                           crossAxisAlignment:
+              //                                               CrossAxisAlignment
+              //                                                   .start,
+              //                                           children: <Widget>[
+              //                                             Text(
+              //                                               '  ${widget.slotDetail!.coupon![position].couponName.toString()}',
+              //                                               style: TextStyle(
+              //                                                   fontFamily:
+              //                                                       'Poppins Regular',
+              //                                                   fontSize: MediaQuery.of(
+              //                                                               context)
+              //                                                           .size
+              //                                                           .height *
+              //                                                       0.02,
+              //                                                   color:
+              //                                                       Colors.black),
+              //                                             ),
+              //                                             SizedBox(
+              //                                               height: 8,
+              //                                             ),
+              //                                             Text(
+              //                                               '  ${widget.slotDetail!.coupon![position].percentage}% off upto ${widget.slotDetail!.coupon![position].price} Rupees',
+              //                                              // '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
+              //                                               style: TextStyle(
+              //                                                   fontFamily:
+              //                                                       'Poppins Light',
+              //                                                   fontSize: MediaQuery.of(
+              //                                                               context)
+              //                                                           .size
+              //                                                           .width *
+              //                                                       0.03,
+              //                                                   color: Color(Utils
+              //                                                       .hexStringToHexInt(
+              //                                                           'A4A4A4'))),
+              //                                             ),
+              //                                           ],
+              //                                         ),
+              //                                         Row(
+              //                                           children: <Widget>[
+              //                                             Text(
+              //                                               '  Use Code ',
+              //                                               style: TextStyle(
+              //                                                   fontFamily:
+              //                                                       'Poppins Light',
+              //                                                   fontSize: MediaQuery.of(
+              //                                                               context)
+              //                                                           .size
+              //                                                           .width *
+              //                                                       0.03,
+              //                                                   color: Color(Utils
+              //                                                       .hexStringToHexInt(
+              //                                                           'A4A4A4'))),
+              //                                             ),
+              //                                             Container(
+              //                                               padding: EdgeInsets
+              //                                                   .symmetric(
+              //                                                       vertical: 2.0,
+              //                                                       horizontal:
+              //                                                           10.0),
+              //                                               color: Color(Utils
+              //                                                   .hexStringToHexInt(
+              //                                                       '#46D0D9')),
+              //                                               child: Text(
+              //                                                 '${widget.slotDetail!.coupon![position].couponCode.toString()}',
+              //                                                 style: TextStyle(
+              //                                                   fontFamily:
+              //                                                       'Poppins Light',
+              //                                                   fontSize: MediaQuery.of(
+              //                                                               context)
+              //                                                           .size
+              //                                                           .width *
+              //                                                       0.03,
+              //                                                   color:
+              //                                                       Colors.white,
+              //                                                 ),
+              //                                               ),
+              //                                             )
+              //                                           ],
+              //                                         )
+              //                                       ],
+              //                                     ),
+              //                                     Align(
+              //                                       alignment:
+              //                                           Alignment.centerRight,
+              //                                       child: IconButton(
+              //                                           tooltip: "Applied coupon",
+              //                                           onPressed: () {
+              //                                             var percentPrice = int
+              //                                                 .parse(total_price
+              //                                                 .toString()) *
+              //                                                 (1.0 / 100.0) *
+              //                                                 int.parse(widget
+              //                                                     .slotDetail!
+              //                                                     .coupon![
+              //                                                 position]
+              //                                                     .percentage
+              //                                                     .toString());
+              //                                             print(percentPrice
+              //                                                 .toString() +
+              //                                                 " =======ppp");
+              //                                             if (int.parse(widget
+              //                                                 .slotDetail!
+              //                                                 .coupon![
+              //                                             position]
+              //                                                 .price
+              //                                                 .toString()) >
+              //                                                 percentPrice) {
+              //                                               applycouponPrice =
+              //                                                   percentPrice;
+              //                                             }
+              //                                             else {
+              //                                               applycouponPrice =
+              //                                                   double.parse(widget
+              //                                                       .slotDetail!
+              //                                                       .coupon![
+              //                                                   position]
+              //                                                       .price
+              //                                                       .toString());
+              //                                             }
+              //                                             print(widget
+              //                                                 .slotDetail!
+              //                                                 .coupon![position]
+              //                                                 .price
+              //                                                 .toString());
+              //                                             coupontype =
+              //                                                 "Shop Coupon";
+              //
+              //
+              //                                             applycouponCode =
+              //                                                 applycouponCode =
+              //                                                     widget
+              //                                                         .slotDetail!
+              //                                                         .coupon![
+              //                                                             position]
+              //                                                         .couponCode
+              //                                                         .toString();
+              //                                             double.parse(widget
+              //                                                 .slotDetail!
+              //                                                 .coupon![position]
+              //                                                 .price
+              //                                                 .toString());
+              //                                             Navigator.pop(context);
+              //                                           },
+              //                                           icon: Icon(
+              //                                             CupertinoIcons
+              //                                                 .tag_circle,
+              //                                             size: width * 0.05,
+              //                                             color: Colors.cyan,
+              //                                           )),
+              //                                     ),
+              //                                   ],
+              //                                 ));
+              //                           }),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               );
+              //             },
+              //           ),
+              //         );
+              //       },
+              //     );
+              //   },
+              //   child: SizedBox(
+              //     width: width,
+              //     height: height * 0.07,
+              //     child: Material(
+              //       color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+              //       child: Container(
+              //           width: width,
+              //           height: height * 0.09,
+              //           padding: EdgeInsets.only(
+              //               left: width * 0.03, right: width * 0.03),
+              //           color: Color(Utils.hexStringToHexInt('#dbe8e5')),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: <Widget>[
+              //               Row(
+              //                 children: <Widget>[
+              //                   SvgPicture.asset(
+              //                     'images/svgicons/bigoffer.svg',
+              //                     fit: BoxFit.contain,
+              //                     width: width * 0.06,
+              //                     height: height * 0.04,
+              //                   ),
+              //                   Text(
+              //                     ' Use Coupons',
+              //                     style: TextStyle(
+              //                         color: Color(
+              //                             Utils.hexStringToHexInt('77ACA2')),
+              //                         fontFamily: 'Poppins Medium',
+              //                         fontSize: width * 0.04),
+              //                   )
+              //                 ],
+              //               ),
+              //               Icon(
+              //                 Icons.arrow_forward_ios_outlined,
+              //                 color: Color(Utils.hexStringToHexInt('77ACA2')),
+              //               )
+              //             ],
+              //           )),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
 
-                      bool showmainList = true;
 
-                      return AlertDialog(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Use coupon',
-                              style: TextStyle(
-                                fontSize: width * 0.04,
-                                color: Colors.black,
-                                fontFamily: 'Poppins Medium',
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () => {Navigator.pop(context)},
-                              icon: Icon(Icons.cancel_outlined),
-                            ),
-                          ],
-                        ),
-                        content: StatefulBuilder(
-                          // You need this, notice the parameters below:
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            return Container(
-                              width: width,
-                              height: 250,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount:
-                                            widget.slotDetail!.coupon!.length,
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context, position) {
-                                          return Container(
-                                              width: width * 0.4 + width * 0.05,
-                                              height: height * 0.12,
-                                              margin: EdgeInsets.all(6),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(8)),
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 1)),
-                                              child: Stack(
-                                                children: <Widget>[
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: <Widget>[
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '  ${widget.slotDetail!.coupon![position].couponName.toString()}',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins Regular',
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height *
-                                                                    0.02,
-                                                                color:
-                                                                    Colors.black),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 8,
-                                                          ),
-                                                          Text(
-                                                            '  ${widget.slotDetail!.coupon![position].percentage}% off upto ${widget.slotDetail!.coupon![position].price} Rupees',
-                                                           // '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins Light',
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.03,
-                                                                color: Color(Utils
-                                                                    .hexStringToHexInt(
-                                                                        'A4A4A4'))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            '  Use Code ',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins Light',
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.03,
-                                                                color: Color(Utils
-                                                                    .hexStringToHexInt(
-                                                                        'A4A4A4'))),
-                                                          ),
-                                                          Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical: 2.0,
-                                                                    horizontal:
-                                                                        10.0),
-                                                            color: Color(Utils
-                                                                .hexStringToHexInt(
-                                                                    '#46D0D9')),
-                                                            child: Text(
-                                                              '${widget.slotDetail!.coupon![position].couponCode.toString()}',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Poppins Light',
-                                                                fontSize: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.03,
-                                                                color:
-                                                                    Colors.white,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: IconButton(
-                                                        tooltip: "Applied coupon",
-                                                        onPressed: () {
-                                                          var percentPrice = int
-                                                              .parse(total_price
-                                                              .toString()) *
-                                                              (1.0 / 100.0) *
-                                                              int.parse(widget
-                                                                  .slotDetail!
-                                                                  .coupon![
-                                                              position]
-                                                                  .percentage
-                                                                  .toString());
-                                                          print(percentPrice
-                                                              .toString() +
-                                                              " =======ppp");
-                                                          if (int.parse(widget
-                                                              .slotDetail!
-                                                              .coupon![
-                                                          position]
-                                                              .price
-                                                              .toString()) >
-                                                              percentPrice) {
-                                                            applycouponPrice =
-                                                                percentPrice;
-                                                          }
-                                                          else {
-                                                            applycouponPrice =
-                                                                double.parse(widget
-                                                                    .slotDetail!
-                                                                    .coupon![
-                                                                position]
-                                                                    .price
-                                                                    .toString());
-                                                          }
-                                                          print(widget
-                                                              .slotDetail!
-                                                              .coupon![position]
-                                                              .price
-                                                              .toString());
-                                                          coupontype =
-                                                              "Shop Coupon";
-
-
-                                                          applycouponCode =
-                                                              applycouponCode =
-                                                                  widget
-                                                                      .slotDetail!
-                                                                      .coupon![
-                                                                          position]
-                                                                      .couponCode
-                                                                      .toString();
-                                                          double.parse(widget
-                                                              .slotDetail!
-                                                              .coupon![position]
-                                                              .price
-                                                              .toString());
-                                                          Navigator.pop(context);
-                                                        },
-                                                        icon: Icon(
-                                                          CupertinoIcons
-                                                              .tag_circle,
-                                                          size: width * 0.05,
-                                                          color: Colors.cyan,
-                                                        )),
-                                                  ),
-                                                ],
-                                              ));
-                                        }),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: SizedBox(
-                  width: width,
-                  height: height * 0.07,
-                  child: Material(
-                    color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                    child: Container(
-                        width: width,
-                        height: height * 0.09,
-                        padding: EdgeInsets.only(
-                            left: width * 0.03, right: width * 0.03),
-                        color: Color(Utils.hexStringToHexInt('#dbe8e5')),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  'images/svgicons/bigoffer.svg',
-                                  fit: BoxFit.contain,
-                                  width: width * 0.06,
-                                  height: height * 0.04,
-                                ),
-                                Text(
-                                  ' Use Coupons',
-                                  style: TextStyle(
-                                      color: Color(
-                                          Utils.hexStringToHexInt('77ACA2')),
-                                      fontFamily: 'Poppins Medium',
-                                      fontSize: width * 0.04),
-                                )
-                              ],
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: Color(Utils.hexStringToHexInt('77ACA2')),
-                            )
-                          ],
-                        )),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
               InkWell(
                 onTap: () {
                   showDialog(
@@ -1143,7 +1145,7 @@ class _CartOrderState extends State<CartOrder> {
                                   height: height * 0.04,
                                 ),
                                 Text(
-                                  ' Use Kolacut Coupons',
+                                  ' Use Coupons',
                                   style: TextStyle(
                                       color: Color(
                                           Utils.hexStringToHexInt('77ACA2')),

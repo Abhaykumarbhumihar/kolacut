@@ -334,106 +334,100 @@ class _SaloonDetailState extends State<SaloonDetail> {
                   ),
                   description(context, width, height, a.description.toString(),
                       a.amenties.toString(), a.timeSlot),
-                  Divider(
-                    thickness: 1,
-                    color: Color(Utils.hexStringToHexInt('E5E5E5')),
-                  ),
-                  SizedBox(
-                    height: height * 0.02,
-                  ),
-/*Todo-----best offer view*/
-                  Container(
-                      margin: EdgeInsets.only(left: 4.0),
-                      child: bestoffer(context, a)),
 
-                  SizedBox(
-                    width: width,
-                    height: height * 0.1 + height * 0.03,
-                    child: ListView.builder(
-                        itemCount: a.coupon!.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, position) {
-                          return Container(
-                            width: width * 0.4 + width * 0.02,
-                            height: height * 0.2,
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
-                                border: Border.all(
-                                    color: Colors.grey.shade100, width: 1)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      ' ${a.coupon![position].couponName}',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins Regular',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.02,
-                                          color: Colors.black),
-                                    ),
-                                    //50% off upto 50 Rupees
-                                    Text(
-                                      '   ${a.coupon![position].percentage}% off upto ${a.coupon![position].price} Rupees',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins Light',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03,
-                                          color: Color(Utils.hexStringToHexInt(
-                                              'A4A4A4'))),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      '  Use Code ',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins Light',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03,
-                                          color: Color(Utils.hexStringToHexInt(
-                                              'A4A4A4'))),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 2.0, horizontal: 10.0),
-                                      color: Color(
-                                          Utils.hexStringToHexInt('#46D0D9')),
-                                      child: Text(
-                                        '${a.coupon![position].couponCode}',
-                                        style: TextStyle(
-                                          fontFamily: 'Poppins Light',
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.03,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
-                        }),
-                  ),
+/*Todo-----best offer view*/
+                  // Container(
+                  //     margin: EdgeInsets.only(left: 4.0),
+                  //     child: bestoffer(context, a)),
+                  //
+                  // SizedBox(
+                  //   width: width,
+                  //   height: height * 0.1 + height * 0.03,
+                  //   child: ListView.builder(
+                  //       itemCount: a.coupon!.length,
+                  //       scrollDirection: Axis.horizontal,
+                  //       itemBuilder: (context, position) {
+                  //         return Container(
+                  //           width: width * 0.4 + width * 0.02,
+                  //           height: height * 0.2,
+                  //           margin: EdgeInsets.all(8),
+                  //           decoration: BoxDecoration(
+                  //               color: Colors.white,
+                  //               borderRadius:
+                  //                   BorderRadius.all(Radius.circular(6)),
+                  //               border: Border.all(
+                  //                   color: Colors.grey.shade100, width: 1)),
+                  //           child: Column(
+                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //             children: <Widget>[
+                  //               Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 children: <Widget>[
+                  //                   Text(
+                  //                     ' ${a.coupon![position].couponName}',
+                  //                     style: TextStyle(
+                  //                         fontFamily: 'Poppins Regular',
+                  //                         fontSize: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .height *
+                  //                             0.02,
+                  //                         color: Colors.black),
+                  //                   ),
+                  //                   //50% off upto 50 Rupees
+                  //                   Text(
+                  //                     '   ${a.coupon![position].percentage}% off upto ${a.coupon![position].price} Rupees',
+                  //                     style: TextStyle(
+                  //                         fontFamily: 'Poppins Light',
+                  //                         fontSize: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .width *
+                  //                             0.03,
+                  //                         color: Color(Utils.hexStringToHexInt(
+                  //                             'A4A4A4'))),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //               SizedBox(
+                  //                 height: 5,
+                  //               ),
+                  //               Row(
+                  //                 children: <Widget>[
+                  //                   Text(
+                  //                     '  Use Code ',
+                  //                     style: TextStyle(
+                  //                         fontFamily: 'Poppins Light',
+                  //                         fontSize: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .width *
+                  //                             0.03,
+                  //                         color: Color(Utils.hexStringToHexInt(
+                  //                             'A4A4A4'))),
+                  //                   ),
+                  //                   Container(
+                  //                     padding: EdgeInsets.symmetric(
+                  //                         vertical: 2.0, horizontal: 10.0),
+                  //                     color: Color(
+                  //                         Utils.hexStringToHexInt('#46D0D9')),
+                  //                     child: Text(
+                  //                       '${a.coupon![position].couponCode}',
+                  //                       style: TextStyle(
+                  //                         fontFamily: 'Poppins Light',
+                  //                         fontSize: MediaQuery.of(context)
+                  //                                 .size
+                  //                                 .width *
+                  //                             0.03,
+                  //                         color: Colors.white,
+                  //                       ),
+                  //                     ),
+                  //                   )
+                  //                 ],
+                  //               )
+                  //             ],
+                  //           ),
+                  //         );
+                  //       }),
+                  // ),
 
                   Divider(
                     thickness: 1,
