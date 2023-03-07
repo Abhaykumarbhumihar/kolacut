@@ -59,7 +59,7 @@ class AuthControlller extends GetxController {
       } else {
         loginPojo.value = loginOtpFromJson(response);
 
-        CommonDialog.showsnackbar(loginPojo.value.otp.toString());
+      //  CommonDialog.showsnackbar(loginPojo.value.otp.toString());
 
         Get.to(const VerifyOtpPage(), arguments: phoneno);
       }
@@ -87,8 +87,8 @@ class AuthControlller extends GetxController {
       } else {
         loginPojo.value = loginOtpFromJson(response);
 
-        CommonDialog.showsnackbar(loginPojo.value.otp.toString());
-        Get.off(const VerifyOtpPage(), arguments: phoneno);
+        //CommonDialog.showsnackbar(loginPojo.value.otp.toString());
+        //Get.off(const VerifyOtpPage(), arguments: phoneno);
       }
     } catch (error) {
       if (kDebugMode) {
@@ -100,7 +100,7 @@ class AuthControlller extends GetxController {
   void verifyOtp(otp) async {
     Map map;
     print(phoneno);
-    String? fcm_token = await FirebaseMessaging.instance.getToken();
+    String fcm_token = await FirebaseMessaging.instance.getToken();
 
     map = {
       "phone": phoneno,
@@ -124,17 +124,17 @@ class AuthControlller extends GetxController {
 
 
         final prefs = await SharedPreferences.getInstance();
-Utils.SESSION=registerPojo.value.data!.token.toString();
+Utils.SESSION=registerPojo.value.data.token.toString();
         await prefs.setString(
-            'session', registerPojo.value.data!.token.toString());
-        await prefs.setString('name', registerPojo.value.data!.name.toString());
+            'session', registerPojo.value.data.token.toString());
+        await prefs.setString('name', registerPojo.value.data.name.toString());
         await prefs.setString(
-            'email', registerPojo.value.data!.email.toString());
+            'email', registerPojo.value.data.email.toString());
         await prefs.setString(
-            'phoneno', registerPojo.value.data!.phone.toString());
+            'phoneno', registerPojo.value.data.phone.toString());
         await prefs.setString(
-            'image', registerPojo.value.data!.profileImage.toString());
-        box.write('session', registerPojo.value.data?.token);
+            'image', registerPojo.value.data.profileImage.toString());
+        box.write('session', registerPojo.value.data.token);
         Get.offAll(MainPage());
       }
 
@@ -167,7 +167,7 @@ Utils.SESSION=registerPojo.value.data!.token.toString();
 
     // if (response != "null") {
     //   registerPojo.value = registerPojoFromJson(response);
-    //   CommonDialog.showsnackbar(registerPojo.value.message ?? "");
+    //   CommonDialog.showsnackbar(registerPojo.value.message  "");
     // }
   }
 

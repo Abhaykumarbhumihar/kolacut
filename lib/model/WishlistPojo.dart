@@ -15,9 +15,9 @@ class WishlistPojo {
     this.staffDetail,
   });
 
-  int? status;
-  String? message;
-  List<StaffDetail>? staffDetail;
+  int status;
+  String message;
+  List<StaffDetail> staffDetail;
 
   factory WishlistPojo.fromJson(Map<String, dynamic> json) => WishlistPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class WishlistPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Staff Detail": List<dynamic>.from(staffDetail!.map((x) => x.toJson())),
+    "Staff Detail": List<dynamic>.from(staffDetail.map((x) => x.toJson())),
   };
 }
 
@@ -46,16 +46,16 @@ class StaffDetail {
     this.rating
   });
 
-  int? id;
-  int? shopId;
-  String? shopName;
-  String? userName;
-  String? location;
-  String? latitude;
-  String? longitude;
-  String? shopLogo;
-  List<Service>? service;
-  int? rating;
+  int id;
+  int shopId;
+  String shopName;
+  String userName;
+  String location;
+  String latitude;
+  String longitude;
+  String shopLogo;
+  List<Service> service;
+  int rating;
   factory StaffDetail.fromJson(Map<String, dynamic> json) => StaffDetail(
     id: json["id"],
     shopId: json["shop_id"],
@@ -79,7 +79,7 @@ class StaffDetail {
     "latitude": latitude,
     "longitude": longitude,
     "shop_logo": shopLogo,
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "service": List<dynamic>.from(service.map((x) => x.toJson())),
   };
 }
 
@@ -90,9 +90,9 @@ class Service {
     this.serviceImage,
   });
 
-  int? serviceId;
-  String? serviceTitle;
-  String? serviceImage;
+  int serviceId;
+  String serviceTitle;
+  String serviceImage;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
     serviceId: json["service_id"],

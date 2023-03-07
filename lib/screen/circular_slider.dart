@@ -10,8 +10,8 @@ class CircularSlider extends StatefulWidget {
   final ValueChanged<double> onAngleChanged;
 
   const CircularSlider({
-    Key? key,
-    required this.onAngleChanged,
+    Key key,
+     this.onAngleChanged,
   }) : super(key: key);
 
   @override
@@ -75,7 +75,7 @@ class SliderPainter extends CustomPainter {
   final double startAngle;
   final double currentAngle;
 
-  SliderPainter({required this.startAngle, required this.currentAngle});
+  SliderPainter({ this.startAngle,  this.currentAngle});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -108,7 +108,7 @@ class SliderPainter extends CustomPainter {
 }
 
 class _Knob extends StatelessWidget {
-  const _Knob({Key? key}) : super(key: key);
+  const _Knob({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

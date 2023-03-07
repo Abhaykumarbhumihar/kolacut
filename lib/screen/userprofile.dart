@@ -7,7 +7,7 @@ import 'package:untitled/screen/sidenavigation.dart';
 import 'package:untitled/utils/Utils.dart';
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+  const UserProfile({Key key}) : super(key: key);
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -18,7 +18,7 @@ class _UserProfileState extends State<UserProfile> {
   var email = "";
   var phone = "";
   var iamge = "";
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class _UserProfileState extends State<UserProfile> {
       var _imageValue = sharedPreferences.getString("image");
       var _phoneValue = sharedPreferences.getString("phoneno");
       setState(() {
-        name = _testValue!;
-        email = emailValue!;
-        phone = _phoneValue!;
-        iamge = _imageValue!;
+        name = _testValue;
+        email = emailValue;
+        phone = _phoneValue;
+        iamge = _imageValue;
         //  print(name+" "+email+" "+phone+" "+_imageValue);
       });
       // will be null if never previously saved
@@ -61,7 +61,7 @@ class _UserProfileState extends State<UserProfile> {
           centerTitle: false,
           leading: InkWell(
             onTap: () {
-              //session !=null? scaffolKey.currentState!.openDrawer():null;
+              //session =null? scaffolKey.currentState.openDrawer():null;
             },
             child: Icon(
               Icons.menu,

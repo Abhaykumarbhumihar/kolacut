@@ -27,7 +27,7 @@ class APICall {
     if (response.statusCode == 200) {
       var jsonString = response.body;
       print(response.statusCode);
-       //print(response.body);
+       print(response.body);
       return jsonString;
     }else if(response.statusCode==403){
       SharedPreferences prefrences = await SharedPreferences.getInstance();

@@ -16,7 +16,7 @@ import '../controller/auth_controller.dart';
 import '../controller/profile_controllet.dart';
 
 class ProfileUpdate extends StatefulWidget {
-  const ProfileUpdate({Key? key}) : super(key: key);
+  const ProfileUpdate({Key key}) : super(key: key);
 
   @override
   State<ProfileUpdate> createState() => _RegisterPageState();
@@ -24,7 +24,7 @@ class ProfileUpdate extends StatefulWidget {
 
 class _RegisterPageState extends State<ProfileUpdate> {
   ProfileController profileController = Get.put(ProfileController());
-  late TextEditingController emailcontroller,
+   TextEditingController emailcontroller,
       _nameController,
       _dobController,
       _phonecontroller;
@@ -534,7 +534,7 @@ class _RegisterPageState extends State<ProfileUpdate> {
   }
 
   _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
+    final DateTime selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1975),

@@ -8,7 +8,7 @@ import 'package:untitled/screen/constant.dart';
 
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class _VolumeRow extends StatelessWidget {
   final int volume;
 
-  const _VolumeRow({Key? key, required this.volume}) : super(key: key);
+  const _VolumeRow({Key key,  this.volume}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class _VolumeRow extends StatelessWidget {
 class _Card extends StatelessWidget {
   final CardModel cardModel;
 
-  const _Card({Key? key, required this.cardModel}) : super(key: key);
+  const _Card({Key key,  this.cardModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

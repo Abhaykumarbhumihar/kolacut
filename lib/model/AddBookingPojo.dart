@@ -14,8 +14,8 @@ class AddBookingPojo {
     this.message,
   });
 
-  int? status;
-  String? message;
+  int status;
+  String message;
 
   factory AddBookingPojo.fromJson(Map<String, dynamic> json) => AddBookingPojo(
     status: json["status"],

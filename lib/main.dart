@@ -26,7 +26,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 
-late FirebaseMessaging _firebaseMessaging;
+ FirebaseMessaging _firebaseMessaging;
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
@@ -45,15 +45,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final String? session = prefs.getString('session');
+  final String session = prefs.getString('session');
   await Firebase.initializeApp();
-  String? fcm_token = await FirebaseMessaging.instance.getToken();
+  String fcm_token = await FirebaseMessaging.instance.getToken();
   print(fcm_token);
   debugPrint(fcm_token);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
       AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+      .createNotificationChannel(channel);
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
@@ -78,8 +78,8 @@ void main() async {
       alert: true, badge: true, sound: true);
 
 //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//     RemoteNotification? notification = message.notification;
-//     AndroidNotification? android = message.notification?.android;
+//     RemoteNotification notification = message.notification;
+//     AndroidNotification android = message.notification.android;
 //     print("54566565565656565556 ----UNONPE UNONPE ");
 //     print(  message.data["we"]);
 //
@@ -104,8 +104,8 @@ void main() async {
 //   });
 //
 //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-//     RemoteNotification? notification = message.notification;
-//     AndroidNotification? android = message.notification?.android;
+//     RemoteNotification notification = message.notification;
+//     AndroidNotification android = message.notification.android;
 //     print(
 //         "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
 //     print(  message.data["we"]);
@@ -137,8 +137,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, this.session}) : super(key: key);
-  final String? session;
+  const MyApp({Key key, this.session}) : super(key: key);
+  final String session;
 
 
   @override
@@ -150,7 +150,7 @@ class MyApp extends StatelessWidget {
     }
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: session == null ? const LoginPage() : const MainPage(),
+      home: session == null ?  LoginPage() :  MainPage(),
     );
   }
 }

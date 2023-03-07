@@ -25,7 +25,7 @@ class ShopDetailController extends GetxController {
   var shopId = "".obs;
   var addRemoveFavourtePojo = AddRemoveFavouritePojo().obs;
   var addBookingPojo = AddBookingPojo().obs;
-  var isFavourite = 0;
+  var isFavourite = 0.obs;
   var bookingMessage = "";
   BookingController bookingController = Get.put(BookingController());
   HomeController homeController = Get.put(HomeController());
@@ -36,6 +36,17 @@ class ShopDetailController extends GetxController {
     super.onInit();
     print("init init init iit");
   }
+   favourite(data){
+    if(data==1){
+      isFavourite.value=1;
+
+      update();
+    }else{
+      isFavourite.value=0;
+
+      update();
+    }
+   }
 
   @override
   void dispose() {
@@ -59,7 +70,14 @@ class ShopDetailController extends GetxController {
 
   void getShopDetail(shop_id) async {
     Map map;
-    map = {"shop_id": shop_id.toString()};
+
+    if(box.read('session')!=null&&box.read('session')!=""){
+      map = {"shop_id": shop_id.toString(),
+        "session_id": box.read('session')};
+    }else{
+      map = {"shop_id": shop_id.toString()};
+    }
+
     print("API HIT HIT HIT HIT");
     try {
       lodaer = true;
@@ -68,6 +86,8 @@ class ShopDetailController extends GetxController {
           await APICall().registerUrse(map, AppConstant.SHOP_DETAIL);
      // print("response  response   response   response  ");
       //print(response);
+      shopDetailpojo.value.data=null;
+      update();
       if (shopDetailpojo.value.message == "No Data found") {
         //print(response);
         CommonDialog.hideLoading();
@@ -75,10 +95,11 @@ class ShopDetailController extends GetxController {
       } else {
         CommonDialog.hideLoading();
         shopDetailpojo.value = shopDetailPojoFromJson(response);
-        print(
-            shopDetailpojo.value.data!.isFavorite.toString() + " lllllllllll");
-        update();
+        favourite(shopDetailpojo.value.data.isFavorite);
+        print(shopDetailpojo.value.data.isFavorite.toString()+" ABHAY ABHAY ABHAY");
         lodaer = false;
+        update();
+
       }
     } catch (error) {
       print(error);
@@ -92,41 +113,45 @@ class ShopDetailController extends GetxController {
     Map map;
     map = {"session_id": box.read('session'), "shop_id": shop_id.toString()};
     // map = {"session_id":"TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm", "shop_id": shop_id.toString()};
-
+    favourite(0);
     try {
       //lodaer = true;
-      CommonDialog.showLoading(title: "Please waitt...");
+     // CommonDialog.showLoading(title: "Please waitt...");
       final response =
           await APICall().registerUrse(map, AppConstant.ADD_REMOVE_FAVOURITE);
       print("response  response   response   response  ");
       //print(response);
       addRemoveFavourtePojo.value = addRemoveFavouritePojoFromJson(response);
+    //  CommonDialog.hideLoading();
       if (addRemoveFavourtePojo.value.message ==
           "Item removed from favorite.") {
-        isFavourite = 0;
+        favourite(0);
         print(isFavourite);
         print(response);
-        CommonDialog.hideLoading();
+       // CommonDialog.hideLoading();
         //CommonDialog.showsnackbar("No Data found");
         update();
       } else if (addRemoveFavourtePojo.value.message.toString() ==
           "Item added to favorite.") {
-        isFavourite = 1;
+        favourite(1);
         print(isFavourite);
         print(response);
-        CommonDialog.hideLoading();
+       // CommonDialog.hideLoading();
         //  CommonDialog.showsnackbar("No Data found");
         update();
       } else {
-        CommonDialog.hideLoading();
+       // CommonDialog.hideLoading();
+
         // addRemoveFavourtePojo.value = addRemoveFavouritePojoFromJson(response);
         update();
         // lodaer = false;
       }
+     // getShopDetail(shopId.value);
+      update();
     } catch (error) {
       print(error);
       print("ERROR  ERROR   ERROR   ERROR  ");
-      CommonDialog.hideLoading();
+     // CommonDialog.hideLoading();
     }
   }
 
@@ -217,7 +242,7 @@ class ShopDetailController extends GetxController {
       lodaer = false;
       if (response != "null") {
         addBookingPojo.value = addBookingPojoFromJson(response);
-        bookingMessage = addBookingPojo.value.message!;
+        bookingMessage = addBookingPojo.value.message;
         update();
         CommonDialog.showsnackbar(addBookingPojo.value.message);
 
@@ -296,7 +321,7 @@ class ShopDetailController extends GetxController {
       lodaer = false;
       if (response != "null") {
         addBookingPojo.value = addBookingPojoFromJson(response);
-        bookingMessage = addBookingPojo.value.message!;
+        bookingMessage = addBookingPojo.value.message;
         update();
         CommonDialog.showsnackbar(addBookingPojo.value.message);
 

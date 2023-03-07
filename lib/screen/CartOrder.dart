@@ -1,12 +1,13 @@
+import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:ezanimation/ezanimation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled/model/CartListPojo.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:untitled/utils/CommomDialog.dart';
 
 import '../controller/BookingController.dart';
@@ -15,30 +16,29 @@ import '../controller/shopdetain_controller.dart';
 import '../model/SlotPojo.dart';
 import '../utils/Utils.dart';
 import '../utils/appconstant.dart';
-import 'coin.dart';
-import 'homepage.dart';
-import 'package:http/http.dart' as http;
 
 class CartOrder extends StatefulWidget {
-  SlotDetail? slotDetail;
+  int slotDetail;
 
   //const CartOrder(SlotDetail slotDetail, {Key? key}) : super(key: key);
-  CartOrder(SlotDetail slotDetail) {
+  CartOrder(int slotDetail, {Key key}) : super(key: key) {
     this.slotDetail = slotDetail;
   }
-
   @override
-  State<CartOrder> createState() => _CartOrderState(slotDetail!);
+  State<CartOrder> createState() => _CartOrderState(slotDetail);
 }
 
 class _CartOrderState extends State<CartOrder> {
-  _CartOrderState(SlotDetail slotDetail);
+  var shopid = 0;
 
+  _CartOrderState(int id) {
+    this.shopid = id;
+  }
   EzAnimation ezAnimation = EzAnimation(50.0, 200.0, Duration(seconds: 5));
   BookingController bookingController = Get.put(BookingController());
 
   TextEditingController _textFieldcoin = TextEditingController();
-  late Razorpay _razorpay;
+   Razorpay _razorpay;
   ShopDetailController salonControlller = Get.put(ShopDetailController());
   List resultList = [];
   var slotSelected = "";
@@ -48,9 +48,10 @@ class _CartOrderState extends State<CartOrder> {
   var total_price = 0;
   var slotpojo = SlotPojo();
   int isSlotSelected = 1;
+  bool isApiloaded=false;
 
   List priceList = [];
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   var coin = 0;
   var applycoin = 0.0;
   var applycouponPrice = 0.0;
@@ -58,11 +59,16 @@ class _CartOrderState extends State<CartOrder> {
   var serviceTime = 0;
   var coupontype = "";
 
+   SlotDetail slotDetail;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    slotDetail = Get.find<HomeController>()
+        .cartListPjo
+        .value
+        .slotDetail[shopid];
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -77,8 +83,8 @@ class _CartOrderState extends State<CartOrder> {
     });
     print("COIN IS ${Get.find<HomeController>().coin}");
     coin = Get.find<HomeController>().coin;
-    widget.slotDetail?.service!.forEach((element) {
-      serviceTime += int.parse(element.time!);
+    slotDetail.service.forEach((element) {
+      serviceTime += int.parse(element.time);
       //totalPrice = totalPrice + int.parse(element.price.toString());
       total_price += int.parse(element.price.toString());
       //  print(element.name.toString() + "  " + element.price.toString());
@@ -104,7 +110,8 @@ class _CartOrderState extends State<CartOrder> {
         child: Scaffold(
       resizeToAvoidBottomInset: false,
       //  backgroundColor: Colors.white,
-      body: ListView(
+      body:isApiloaded?
+      ListView(
         shrinkWrap: true,
         children: <Widget>[
           Column(
@@ -133,7 +140,7 @@ class _CartOrderState extends State<CartOrder> {
                               ),
                             ),
                             Text(
-                              '${widget.slotDetail!.shopName.toString()}',
+                              '${slotDetail.shopName.toString()}',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: width * 0.04,
@@ -164,7 +171,7 @@ class _CartOrderState extends State<CartOrder> {
                               "images/svgicons/mappin.svg",
                             ),
                           ),
-                          Text(' ${widget.slotDetail!.userName}',
+                          Text(' ${slotDetail.userName}',
                               style: TextStyle(
                                   fontSize: width * 0.03,
                                   fontFamily: 'Poppins Regular',
@@ -184,7 +191,7 @@ class _CartOrderState extends State<CartOrder> {
                           daysCount: 30,
                           initialSelectedDate: DateTime.now(),
                           selectionColor:
-                          Color(Utils.hexStringToHexInt('77ACA2')),
+                              Color(Utils.hexStringToHexInt('77ACA2')),
                           selectedTextColor: Colors.white,
                           monthTextStyle: TextStyle(
                             color: Color(Utils.hexStringToHexInt('8D8D8D')),
@@ -247,62 +254,64 @@ class _CartOrderState extends State<CartOrder> {
                       height: height * 0.01,
                     ),
                     slotpojo != null
-                        ?    SizedBox(
-                      width: width,
-                      height: height*0.04,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: slotpojo
-                              .notificationDetail![0].morning!.length,
-                          itemBuilder: (context, position) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  slotSelected = "Morning";
-                                  timeSelected =
-                                  "${slotpojo.notificationDetail![0].morning![position]}";
-                                  _isSelectedSlot(position);
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.3,
-                                margin: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02),
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02,
-                                    top: width * 0.02,
-                                    bottom: width * 0.02),
-                                decoration: BoxDecoration(
-                                    color: slotSelected == "Morning" &&
-                                        isSlotSelected == position
-                                        ? Color(Utils.hexStringToHexInt(
-                                        '77ACA2'))
-                                        : Colors.white,
-                                    border: Border.all(
-                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                        color: Colors.grey.shade100,
-                                        width: 1)),
-                                child: Center(
-                                  child: Text(
-                                    '${slotpojo.notificationDetail![0].morning![position]}',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins Regular',
-                                      fontSize: width * 0.04-3,
-                                      color: slotSelected == "Morning" &&
-                                          isSlotSelected == position
-                                          ? Colors.white
-                                          : Color(Utils.hexStringToHexInt(
-                                          '#8D8D8D')),
+                        ? SizedBox(
+                            width: width,
+                            height: height * 0.04,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: slotpojo.notificationDetail != null
+                                    ? slotpojo
+                                        .notificationDetail[0].morning.length
+                                    : null,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Morning";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail[0].morning[position]}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Morning" &&
+                                                  isSlotSelected == position
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Colors.grey.shade100,
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail[0].morning[position]}',
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins Regular',
+                                            fontSize: width * 0.04 - 3,
+                                            color: slotSelected == "Morning" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Color(Utils.hexStringToHexInt(
+                                                    '#8D8D8D')),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    )
+                                  );
+                                }),
+                          )
                         : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
@@ -319,62 +328,66 @@ class _CartOrderState extends State<CartOrder> {
                     ),
 
                     slotpojo != null
-                        ?  SizedBox(
-                      width: width,
-                      height: height*0.04,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: slotpojo
-                              .notificationDetail![0].afternoon!.length,
-                          itemBuilder: (context, position) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  slotSelected = "Afternoon";
-                                  timeSelected =
-                                  "${slotpojo.notificationDetail![0].morning![position]}";
-                                  _isSelectedSlot(position);
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.3,
-                                margin: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02),
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02,
-                                    top: width * 0.02,
-                                    bottom: width * 0.02),
-                                decoration: BoxDecoration(
-                                    color: slotSelected == "Afternoon" &&
-                                        isSlotSelected == position
-                                        ? Color(Utils.hexStringToHexInt(
-                                        '77ACA2'))
-                                        : Colors.white,
-                                    border: Border.all(
-                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                        color: Colors.grey.shade100,
-                                        width: 1)),
-                                child: Center(
-                                  child: Text(
-                                    '${slotpojo.notificationDetail![0].afternoon![position]}',
-                                    style: TextStyle(
-                                      fontSize: width * 0.04-3,
-                                      fontFamily: 'Poppins Regular',
-                                      color: slotSelected == "Afternoon" &&
-                                          isSlotSelected == position
-                                          ? Colors.white
-                                          : Color(Utils.hexStringToHexInt(
-                                          '#8D8D8D')),
+                        ? SizedBox(
+                            width: width,
+                            height: height * 0.04,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount:
+                                    slotpojo.notificationDetail.isNotEmpty
+                                        ? slotpojo.notificationDetail[0]
+                                            .afternoon.length
+                                        : null,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Afternoon";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail[0].morning[position]}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Afternoon" &&
+                                                  isSlotSelected == position
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Colors.grey.shade100,
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail[0] != null ? slotpojo.notificationDetail[0].afternoon[position] : ""}',
+                                          style: TextStyle(
+                                            fontSize: width * 0.04 - 3,
+                                            fontFamily: 'Poppins Regular',
+                                            color: slotSelected ==
+                                                        "Afternoon" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Color(Utils.hexStringToHexInt(
+                                                    '#8D8D8D')),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    )
+                                  );
+                                }),
+                          )
                         : SizedBox(),
                     SizedBox(
                       height: height * 0.01,
@@ -391,63 +404,62 @@ class _CartOrderState extends State<CartOrder> {
                     ),
 
                     slotpojo != null
-                        ?
-                    SizedBox(
-                      width: width,
-                      height: height*0.04,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: slotpojo
-                              .notificationDetail![0].evening!.length,
-                          itemBuilder: (context, position) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  slotSelected = "Evening";
-                                  timeSelected =
-                                  "${slotpojo.notificationDetail![0].evening![position]}";
-                                  _isSelectedSlot(position);
-                                });
-                              },
-                              child: Container(
-                                width: width * 0.3,
-                                margin: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02),
-                                padding: EdgeInsets.only(
-                                    left: width * 0.02,
-                                    right: width * 0.02,
-                                    top: width * 0.02,
-                                    bottom: width * 0.02),
-                                decoration: BoxDecoration(
-                                    color: slotSelected == "Evening" &&
-                                        isSlotSelected == position
-                                        ? Color(Utils.hexStringToHexInt(
-                                        '77ACA2'))
-                                        : Colors.white,
-                                    border: Border.all(
-                                      //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
-                                        color: Colors.grey.shade100,
-                                        width: 1)),
-                                child: Center(
-                                  child: Text(
-                                    '${slotpojo.notificationDetail![0].evening![position]}',
-                                    style: TextStyle(
-                                      fontSize: width * 0.04-3,
-                                      fontFamily: 'Poppins Regular',
-                                      color: slotSelected == "Evening" &&
-                                          isSlotSelected == position
-                                          ? Colors.white
-                                          : Color(Utils.hexStringToHexInt(
-                                          '#8D8D8D')),
+                        ? SizedBox(
+                            width: width,
+                            height: height * 0.04,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: slotpojo
+                                    .notificationDetail[0].evening.length,
+                                itemBuilder: (context, position) {
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        slotSelected = "Evening";
+                                        timeSelected =
+                                            "${slotpojo.notificationDetail[0] != null ? slotpojo.notificationDetail[0].evening[position] : ""}";
+                                        _isSelectedSlot(position);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.3,
+                                      margin: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02),
+                                      padding: EdgeInsets.only(
+                                          left: width * 0.02,
+                                          right: width * 0.02,
+                                          top: width * 0.02,
+                                          bottom: width * 0.02),
+                                      decoration: BoxDecoration(
+                                          color: slotSelected == "Evening" &&
+                                                  isSlotSelected == position
+                                              ? Color(Utils.hexStringToHexInt(
+                                                  '77ACA2'))
+                                              : Colors.white,
+                                          border: Border.all(
+                                              //color: Color(Utils.hexStringToHexInt('#8D8D8D')),
+                                              color: Colors.grey.shade100,
+                                              width: 1)),
+                                      child: Center(
+                                        child: Text(
+                                          '${slotpojo.notificationDetail[0] != null ? slotpojo.notificationDetail[0].evening[position] : ""}',
+                                          style: TextStyle(
+                                            fontSize: width * 0.04 - 3,
+                                            fontFamily: 'Poppins Regular',
+                                            color: slotSelected == "Evening" &&
+                                                    isSlotSelected == position
+                                                ? Colors.white
+                                                : Color(Utils.hexStringToHexInt(
+                                                    '#8D8D8D')),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    )
+                                  );
+                                }),
+                          )
                         : SizedBox(),
                     ///////
                     SizedBox(
@@ -513,7 +525,7 @@ class _CartOrderState extends State<CartOrder> {
                             child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: widget.slotDetail!.service!.length,
+                                itemCount: slotDetail.service.length,
                                 itemBuilder: (context, position) {
                                   return Container(
                                     margin: EdgeInsets.only(
@@ -537,7 +549,7 @@ class _CartOrderState extends State<CartOrder> {
                                               margin: EdgeInsets.only(
                                                   left: width * 0.03),
                                               child: Text(
-                                                  '${widget.slotDetail!.service![position].name}',
+                                                  '${slotDetail.service[position].name}',
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: width * 0.04,
@@ -550,7 +562,7 @@ class _CartOrderState extends State<CartOrder> {
                                           margin: EdgeInsets.only(
                                               right: width * 0.03),
                                           child: Text(
-                                              'Rs. ${widget.slotDetail!.service![position].price}',
+                                              'Rs. ${slotDetail.service[position].price}',
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: width * 0.03,
@@ -651,7 +663,7 @@ class _CartOrderState extends State<CartOrder> {
               //                       child: ListView.builder(
               //                           shrinkWrap: true,
               //                           itemCount:
-              //                               widget.slotDetail!.coupon!.length,
+              //                               slotDetail.coupon.length,
               //                           scrollDirection: Axis.vertical,
               //                           itemBuilder: (context, position) {
               //                             return Container(
@@ -680,7 +692,7 @@ class _CartOrderState extends State<CartOrder> {
               //                                                   .start,
               //                                           children: <Widget>[
               //                                             Text(
-              //                                               '  ${widget.slotDetail!.coupon![position].couponName.toString()}',
+              //                                               '  ${slotDetail.coupon[position].couponName.toString()}',
               //                                               style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Regular',
@@ -696,8 +708,8 @@ class _CartOrderState extends State<CartOrder> {
               //                                               height: 8,
               //                                             ),
               //                                             Text(
-              //                                               '  ${widget.slotDetail!.coupon![position].percentage}% off upto ${widget.slotDetail!.coupon![position].price} Rupees',
-              //                                              // '  Upto ${widget.slotDetail!.coupon![position].percentage}% off via UPI',
+              //                                               '  ${slotDetail.coupon[position].percentage}% off upto ${slotDetail.coupon[position].price} Rupees',
+              //                                              // '  Upto ${slotDetail.coupon[position].percentage}% off via UPI',
               //                                               style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Light',
@@ -738,7 +750,7 @@ class _CartOrderState extends State<CartOrder> {
               //                                                   .hexStringToHexInt(
               //                                                       '#46D0D9')),
               //                                               child: Text(
-              //                                                 '${widget.slotDetail!.coupon![position].couponCode.toString()}',
+              //                                                 '${slotDetail.coupon[position].couponCode.toString()}',
               //                                                 style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Light',
@@ -767,8 +779,8 @@ class _CartOrderState extends State<CartOrder> {
               //                                                 .toString()) *
               //                                                 (1.0 / 100.0) *
               //                                                 int.parse(widget
-              //                                                     .slotDetail!
-              //                                                     .coupon![
+              //                                                     .slotDetail
+              //                                                     .coupon[
               //                                                 position]
               //                                                     .percentage
               //                                                     .toString());
@@ -776,8 +788,8 @@ class _CartOrderState extends State<CartOrder> {
               //                                                 .toString() +
               //                                                 " =======ppp");
               //                                             if (int.parse(widget
-              //                                                 .slotDetail!
-              //                                                 .coupon![
+              //                                                 .slotDetail
+              //                                                 .coupon[
               //                                             position]
               //                                                 .price
               //                                                 .toString()) >
@@ -788,15 +800,15 @@ class _CartOrderState extends State<CartOrder> {
               //                                             else {
               //                                               applycouponPrice =
               //                                                   double.parse(widget
-              //                                                       .slotDetail!
-              //                                                       .coupon![
+              //                                                       .slotDetail
+              //                                                       .coupon[
               //                                                   position]
               //                                                       .price
               //                                                       .toString());
               //                                             }
               //                                             print(widget
-              //                                                 .slotDetail!
-              //                                                 .coupon![position]
+              //                                                 .slotDetail
+              //                                                 .coupon[position]
               //                                                 .price
               //                                                 .toString());
               //                                             coupontype =
@@ -806,14 +818,14 @@ class _CartOrderState extends State<CartOrder> {
               //                                             applycouponCode =
               //                                                 applycouponCode =
               //                                                     widget
-              //                                                         .slotDetail!
-              //                                                         .coupon![
+              //                                                         .slotDetail
+              //                                                         .coupon[
               //                                                             position]
               //                                                         .couponCode
               //                                                         .toString();
               //                                             double.parse(widget
-              //                                                 .slotDetail!
-              //                                                 .coupon![position]
+              //                                                 .slotDetail
+              //                                                 .coupon[position]
               //                                                 .price
               //                                                 .toString());
               //                                             Navigator.pop(context);
@@ -883,14 +895,13 @@ class _CartOrderState extends State<CartOrder> {
               //   height: 10,
               // ),
 
-
               InkWell(
                 onTap: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       bool showSublist =
-                      false; // Declare your variable outside the builder
+                          false; // Declare your variable outside the builder
 
                       bool showmainList = true;
 
@@ -939,8 +950,8 @@ class _CartOrderState extends State<CartOrder> {
                                               decoration: BoxDecoration(
                                                   color: Colors.white,
                                                   borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(8)),
+                                                      const BorderRadius.all(
+                                                          Radius.circular(8)),
                                                   border: Border.all(
                                                       color: Colors.grey,
                                                       width: 1)),
@@ -948,26 +959,26 @@ class _CartOrderState extends State<CartOrder> {
                                                 children: <Widget>[
                                                   Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
+                                                        MainAxisAlignment
+                                                            .spaceAround,
                                                     children: <Widget>[
                                                       Column(
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: <Widget>[
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].couponName}',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Regular',
+                                                                    'Poppins Regular',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .height *
+                                                                            context)
+                                                                        .size
+                                                                        .height *
                                                                     0.02,
                                                                 color: Colors
                                                                     .black),
@@ -976,18 +987,18 @@ class _CartOrderState extends State<CartOrder> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].price} Rupees',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].price} Rupees',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Light',
+                                                                    'Poppins Light',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .width *
+                                                                            context)
+                                                                        .size
+                                                                        .width *
                                                                     0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
-                                                                    'A4A4A4'))),
+                                                                        'A4A4A4'))),
                                                           ),
                                                         ],
                                                       ),
@@ -997,36 +1008,36 @@ class _CartOrderState extends State<CartOrder> {
                                                             '  Use Code ',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Light',
+                                                                    'Poppins Light',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .width *
+                                                                            context)
+                                                                        .size
+                                                                        .width *
                                                                     0.03,
                                                                 color: Color(Utils
                                                                     .hexStringToHexInt(
-                                                                    'A4A4A4'))),
+                                                                        'A4A4A4'))),
                                                           ),
                                                           Container(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                2.0,
-                                                                horizontal:
-                                                                10.0),
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        2.0,
+                                                                    horizontal:
+                                                                        10.0),
                                                             color: Color(Utils
                                                                 .hexStringToHexInt(
-                                                                '#46D0D9')),
+                                                                    '#46D0D9')),
                                                             child: Text(
-                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponCode}',
+                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail[position].couponCode}',
                                                               style: TextStyle(
                                                                 fontFamily:
-                                                                'Poppins Light',
+                                                                    'Poppins Light',
                                                                 fontSize: MediaQuery.of(
-                                                                    context)
-                                                                    .size
-                                                                    .width *
+                                                                            context)
+                                                                        .size
+                                                                        .width *
                                                                     0.03,
                                                                 color: Colors
                                                                     .white,
@@ -1039,45 +1050,56 @@ class _CartOrderState extends State<CartOrder> {
                                                   ),
                                                   Align(
                                                     alignment:
-                                                    Alignment.centerRight,
+                                                        Alignment.centerRight,
                                                     child: IconButton(
                                                         tooltip:
-                                                        "Applied coupon",
+                                                            "Applied coupon",
                                                         onPressed: () {
                                                           coupontype =
-                                                          "Kolacut Coupon";
+                                                              "Kolacut Coupon";
                                                           print(Get.find<
-                                                              HomeController>()
+                                                                  HomeController>()
                                                               .adminCouponList
                                                               .value
-                                                              .couponDetail![
-                                                          position]
+                                                              .couponDetail[
+                                                                  position]
                                                               .price
                                                               .toString());
-                                                          var percentPrice = int.parse(total_price.toString()) * (1.0 / 100.0) *
-                                                              int.parse(Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage.toString());
+                                                          var percentPrice = int
+                                                                  .parse(total_price
+                                                                      .toString()) *
+                                                              (1.0 / 100.0) *
+                                                              int.parse(Get.find<
+                                                                      HomeController>()
+                                                                  .adminCouponList
+                                                                  .value
+                                                                  .couponDetail[
+                                                                      position]
+                                                                  .percentage
+                                                                  .toString());
                                                           print(percentPrice
-                                                              .toString() +
+                                                                  .toString() +
                                                               " =======ppp");
                                                           if (int.parse(Get.find<
-                                                              HomeController>()
-                                                              .adminCouponList
-                                                              .value
-                                                              .couponDetail![
-                                                          position]
-                                                              .price
-                                                              .toString()) >
+                                                                      HomeController>()
+                                                                  .adminCouponList
+                                                                  .value
+                                                                  .couponDetail[
+                                                                      position]
+                                                                  .price
+                                                                  .toString()) >
                                                               percentPrice) {
                                                             applycouponPrice =
                                                                 percentPrice;
                                                           } else {
                                                             applycouponPrice =
-                                                                double.parse(Get.find<
-                                                                    HomeController>()
+                                                                double.parse(Get
+                                                                        .find<
+                                                                            HomeController>()
                                                                     .adminCouponList
                                                                     .value
-                                                                    .couponDetail![
-                                                                position]
+                                                                    .couponDetail[
+                                                                        position]
                                                                     .price
                                                                     .toString());
                                                           }
@@ -1086,17 +1108,17 @@ class _CartOrderState extends State<CartOrder> {
                                                           //             HomeController>()
                                                           //         .adminCouponList
                                                           //         .value
-                                                          //         .couponDetail![
+                                                          //         .couponDetail[
                                                           //             position]
                                                           //         .price
                                                           //         .toString());
                                                           applycouponCode = Get
-                                                              .find<
-                                                              HomeController>()
+                                                                  .find<
+                                                                      HomeController>()
                                                               .adminCouponList
                                                               .value
-                                                              .couponDetail![
-                                                          position]
+                                                              .couponDetail[
+                                                                  position]
                                                               .couponCode
                                                               .toString();
                                                           Navigator.pop(
@@ -1573,7 +1595,7 @@ class _CartOrderState extends State<CartOrder> {
                     //
                     //             // salonControlller.addTocart(
                     //             //     context,
-                    //             //     widget.data!.id.toString(),
+                    //             //     data.id.toString(),
                     //             //     resultList.join(","));
                     //           },
                     //           child: Container(
@@ -1704,8 +1726,7 @@ class _CartOrderState extends State<CartOrder> {
                                   onTap: () {
                                     setState(() {
                                       var description = "";
-                                      widget.slotDetail!.service!
-                                          .forEach((element) {
+                                      slotDetail.service.forEach((element) {
                                         description = description +
                                             "," +
                                             "${element.name.toString() + " " + element.price.toString()}";
@@ -1736,7 +1757,7 @@ class _CartOrderState extends State<CartOrder> {
                                       //   });
                                       // });
                                       openCheckout(
-                                        widget.slotDetail!.shopName.toString(),
+                                        slotDetail.shopName.toString(),
                                         description,
                                       );
                                     });
@@ -1789,7 +1810,7 @@ class _CartOrderState extends State<CartOrder> {
             ],
           ),
         ],
-      ),
+      ):Container(),
     ));
   }
 
@@ -1825,7 +1846,9 @@ class _CartOrderState extends State<CartOrder> {
       body: map,
     );
     setState(() {
+
       slotpojo = slotPojoFromJson(response.body);
+      isApiloaded=true;
     });
     print(response.body);
   }
@@ -1843,7 +1866,7 @@ class _CartOrderState extends State<CartOrder> {
     var options = {
       'key': 'rzp_test_XyJKvJNHhYN1ax',
       'amount': newprice * 100,
-      'name': '${widget.slotDetail!.shopName}',
+      'name': '${slotDetail.shopName}',
       'description': '${description}',
       'retry': {'enabled': true, 'max_count': 1},
       'send_sms_hash': true,
@@ -1867,23 +1890,23 @@ class _CartOrderState extends State<CartOrder> {
     bookServiceOnline(
         context, "${response.paymentId}", applycoin, applycouponCode);
     /*Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId!,
+        msg: "SUCCESS: " + response.paymentId,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
     CommonDialog.showsnackbar(
-        "ERROR: " + response.code.toString() + " - " + response.message!);
+        "ERROR: " + response.code.toString() + " - " + response.message);
     /* Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     print('External SDK Response: $response');
     /* Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        msg: "EXTERNAL_WALLET: " + response.walletName,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
@@ -1894,9 +1917,9 @@ class _CartOrderState extends State<CartOrder> {
       CommonDialog.showsnackbar("Please select slot");
     } else {
       salonControlller.bookserVicecart(
-          widget.slotDetail!.id.toString(),
+          slotDetail.id.toString(),
           context,
-          widget.slotDetail!.shopId.toString(),
+          slotDetail.shopId.toString(),
           "",
           "3",
           resultList.join(","),
@@ -1921,10 +1944,10 @@ class _CartOrderState extends State<CartOrder> {
       CommonDialog.showsnackbar("Please select slot");
     } else {
       salonControlller.bookserVicecart(
-          widget.slotDetail!.id.toString(),
+          slotDetail.id.toString(),
           context,
-          widget.slotDetail!.shopId.toString(),
-          widget.slotDetail!.employeeId.toString() + "",
+          slotDetail.shopId.toString(),
+          slotDetail.employeeId.toString() + "",
           "3",
           resultList.join(","),
           selectDate,

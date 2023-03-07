@@ -11,21 +11,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:untitled/controller/home_controller.dart';
 import 'package:untitled/screen/homepage.dart';
 import 'package:untitled/utils/Utils.dart';
 
 import 'package:swipebuttonflutter/swipebuttonflutter.dart';
-import 'package:flutter_speedometer/flutter_speedometer.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
 import 'login.dart';
 import 'sidenavigation.dart';
 
 class CoinPage extends StatefulWidget {
-  const CoinPage({Key? key}) : super(key: key);
+  const CoinPage({Key key}) : super(key: key);
 
   @override
   State<CoinPage> createState() => _CoinPageState();
@@ -34,7 +32,7 @@ class CoinPage extends StatefulWidget {
 class _CoinPageState extends State<CoinPage> {
   var inBedTime;
   var outBedTime;
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   final box = GetStorage();
   var session = "";
   var name = "";
@@ -57,13 +55,13 @@ class _CoinPageState extends State<CoinPage> {
       var _phoneValue = sharedPreferences.getString("phoneno");
       var _sessss = sharedPreferences.getString("session");
       setState(() {
-        session = _testValue!;
+        session = _testValue;
         if (_sessss != null) {
           session = _sessss;
-          name = _testValuess!;
-          email = emailValue!;
-          phone = _phoneValue!;
-          iamge = _imageValue!;
+          name = _testValuess;
+          email = emailValue;
+          phone = _phoneValue;
+          iamge = _imageValue;
         }
         else {
           name = "";
@@ -97,7 +95,7 @@ class _CoinPageState extends State<CoinPage> {
               leading: InkWell(
                 onTap: () {
                   session != ""
-                      ? scaffolKey.currentState!.openDrawer()
+                      ? scaffolKey.currentState.openDrawer()
                       : null;
                 },
                 child: Icon(

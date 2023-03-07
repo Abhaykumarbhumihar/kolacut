@@ -15,9 +15,9 @@ class ProfilePojo {
     this.data,
   });
 
-  int? status;
-  String? message;
-  Data? data;
+  int status;
+  String message;
+  Data data;
 
   factory ProfilePojo.fromJson(Map<String, dynamic> json) => ProfilePojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class ProfilePojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "data": data!.toJson(),
+    "data": data.toJson(),
   };
 }
 
@@ -43,13 +43,13 @@ class Data {
     this.profileImage,
   });
 
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  DateTime? dob;
-  String? gender;
-  String? profileImage;
+  int id;
+  String name;
+  String email;
+  String phone;
+  DateTime dob;
+  String gender;
+  String profileImage;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -66,7 +66,7 @@ class Data {
     "name": name,
     "email": email,
     "phone": phone,
-    "dob": "${dob?.year.toString().padLeft(4, '0')}-${dob?.month.toString().padLeft(2, '0')}-${dob?.day.toString().padLeft(2, '0')}",
+    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
     "gender": gender,
     "profile image": profileImage,
   };

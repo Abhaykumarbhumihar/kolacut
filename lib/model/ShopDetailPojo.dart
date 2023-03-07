@@ -15,9 +15,9 @@ class ShopDetailPojo {
     this.data,
   });
 
-  int? status;
-  String? message;
-  Data? data;
+  int status;
+  String message;
+  Data data;
 
   factory ShopDetailPojo.fromJson(Map<String, dynamic> json) => ShopDetailPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class ShopDetailPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "data": data!.toJson(),
+    "data": data.toJson(),
   };
 }
 
@@ -58,28 +58,28 @@ class Data {
     this.rating
   });
 
-  int? id;
-  String? name;
-  String? email;
-  String? ownerName;
-  String? ownerEmail;
-  String? ownerPhoneNo;
-  String? ownerProfileImage;
-  int? owerAge;
-  String? logo;
-  String? adhaarCardFile;
-  String? address;
-  String? latitude;
-  String? longitude;
-  String? shopType;
-  String? description;
-  String? amenties;
-  int? isFavorite;
-  List<TimeSlot>? timeSlot;
-  List<DataService>? services;
-  List<Emploeyee>? emploeyee;
-  List<Coupon>? coupon;
-  int? rating;
+  int id;
+  String name;
+  String email;
+  String ownerName;
+  String ownerEmail;
+  String ownerPhoneNo;
+  String ownerProfileImage;
+  int owerAge;
+  String logo;
+  String adhaarCardFile;
+  String address;
+  String latitude;
+  String longitude;
+  String shopType;
+  String description;
+  String amenties;
+  int isFavorite;
+  List<TimeSlot> timeSlot;
+  List<DataService> services;
+  List<Emploeyee> emploeyee;
+  List<Coupon> coupon;
+  int rating;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -124,10 +124,10 @@ class Data {
     "description": description,
     "amenties": amenties,
     "is_favorite": isFavorite,
-    "time_slot": List<dynamic>.from(timeSlot!.map((x) => x.toJson())),
-    "services": List<dynamic>.from(services!.map((x) => x.toJson())),
-    "emploeyee": List<dynamic>.from(emploeyee!.map((x) => x.toJson())),
-    "coupon": List<dynamic>.from(coupon!.map((x) => x.toJson())),
+    "time_slot": List<dynamic>.from(timeSlot.map((x) => x.toJson())),
+    "services": List<dynamic>.from(services.map((x) => x.toJson())),
+    "emploeyee": List<dynamic>.from(emploeyee.map((x) => x.toJson())),
+    "coupon": List<dynamic>.from(coupon.map((x) => x.toJson())),
     "rating": rating,
   };
 }
@@ -141,11 +141,11 @@ class Coupon {
     this.percentage
   });
 
-  int? id;
-  String? couponName;
-  String? price;
-  String? couponCode;
-  String? percentage;
+  int id;
+  String couponName;
+  String price;
+  String couponCode;
+  String percentage;
 
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
     id: json["id"],
@@ -176,14 +176,14 @@ class Emploeyee {
     this.experience,
   });
 
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  List<String>? skills;
-  String? isDuty;
-  String? profileImage;
-  String? experience;
+  int id;
+  String name;
+  String email;
+  String phone;
+  List<String> skills;
+  String isDuty;
+  String profileImage;
+  String experience;
 
   factory Emploeyee.fromJson(Map<String, dynamic> json) => Emploeyee(
     id: json["id"],
@@ -201,7 +201,7 @@ class Emploeyee {
     "name": name,
     "email": email,
     "phone": phone,
-    "skills": List<dynamic>.from(skills!.map((x) => x)),
+    "skills": List<dynamic>.from(skills.map((x) => x)),
     "is_duty": isDuty,
     "profile_image": profileImage,
     "experience": experience,
@@ -216,10 +216,10 @@ class DataService {
     this.service,
   });
 
-  int? serviceId;
-  String? serviceTitle;
-  String? serviceImage;
-  List<ServiceService>? service;
+  int serviceId;
+  String serviceTitle;
+  String serviceImage;
+  List<ServiceService> service;
 
   factory DataService.fromJson(Map<String, dynamic> json) => DataService(
     serviceId: json["service_id"],
@@ -232,7 +232,7 @@ class DataService {
     "service_id": serviceId,
     "service_title": serviceTitle,
     "service_image": serviceImage,
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "service": List<dynamic>.from(service.map((x) => x.toJson())),
   };
 }
 
@@ -244,10 +244,10 @@ class ServiceService {
     this.time
   });
 
-  int? id;
-  String? name;
-  String? price;
-  String? time;
+  int id;
+  String name;
+  String price;
+  String time;
 
   factory ServiceService.fromJson(Map<String, dynamic> json) => ServiceService(
     id: json["id"],
@@ -273,11 +273,11 @@ class TimeSlot {
     this.slotDays,
   });
 
-  String? slotType;
-  String? openingTime;
-  String? closingTime;
-  String? slotDuration;
-  List<String>? slotDays;
+  String slotType;
+  String openingTime;
+  String closingTime;
+  String slotDuration;
+  List<String> slotDays;
 
   factory TimeSlot.fromJson(Map<String, dynamic> json) => TimeSlot(
     slotType: json["slot_type"],
@@ -292,6 +292,6 @@ class TimeSlot {
     "opening_time": openingTime,
     "closing_time": closingTime,
     "slot_duration": slotDuration,
-    "slot_days": List<dynamic>.from(slotDays!.map((x) => x)),
+    "slot_days": List<dynamic>.from(slotDays.map((x) => x)),
   };
 }

@@ -14,8 +14,8 @@ class AddRemoveFavouritePojo {
     this.message,
   });
 
-  int? status;
-  String? message;
+  int status;
+  String message;
 
   factory AddRemoveFavouritePojo.fromJson(Map<String, dynamic> json) => AddRemoveFavouritePojo(
     status: json["status"],

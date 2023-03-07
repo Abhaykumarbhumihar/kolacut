@@ -14,8 +14,8 @@ class LoginOtp {
     this.otp,
   });
 
-  String? message;
-  int? otp;
+  String message;
+  int otp;
 
   factory LoginOtp.fromJson(Map<String, dynamic> json) => LoginOtp(
     message: json["message"],

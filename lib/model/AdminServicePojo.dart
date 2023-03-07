@@ -15,9 +15,9 @@ class AdminServicePojo {
     this.serviceDetail,
   });
 
-  int? status;
-  String? message;
-  List<ServiceDetail>? serviceDetail;
+  int status;
+  String message;
+  List<ServiceDetail> serviceDetail;
 
   factory AdminServicePojo.fromJson(Map<String, dynamic> json) => AdminServicePojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class AdminServicePojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Service Detail": List<dynamic>.from(serviceDetail!.map((x) => x.toJson())),
+    "Service Detail": List<dynamic>.from(serviceDetail.map((x) => x.toJson())),
   };
 }
 
@@ -39,9 +39,9 @@ class ServiceDetail {
     this.serviceImage,
   });
 
-  int? serviceId;
-  String? serviceTitle;
-  String? serviceImage;
+  int serviceId;
+  String serviceTitle;
+  String serviceImage;
 
   factory ServiceDetail.fromJson(Map<String, dynamic> json) => ServiceDetail(
     serviceId: json["service_id"],

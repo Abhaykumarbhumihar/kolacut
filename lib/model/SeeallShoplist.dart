@@ -9,14 +9,14 @@ import '../screen/saloondetail.dart';
 import '../utils/Utils.dart';
 
 class SeeAllShopList extends StatefulWidget {
-  const SeeAllShopList({Key? key}) : super(key: key);
+  const SeeAllShopList({Key key}) : super(key: key);
 
   @override
   State<SeeAllShopList> createState() => _SeeAllShopListState();
 }
 
 class _SeeAllShopListState extends State<SeeAllShopList> {
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   HomeController homeControlller = Get.put(HomeController());
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
@@ -67,7 +67,7 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
         if (homeControlller.lodaer) {
           return Container();
         } else {
-          var data = homeControlller.shopListPojo.value.staffDetail!;
+          var data = homeControlller.shopListPojo.value.staffDetail;
           var servicedata =
               homeControlller.serviceList.value.serviceDetail;
           return
@@ -82,13 +82,13 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
                   itemBuilder: (context, position) {
                     return GestureDetector(
                         onTap: () {
-                          print(data[position].shopId!);
+                          print(data[position].shopId);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     SaloonDetail(data[position]
-                                        .shopId!)),
+                                        .shopId)),
                           );
                         },
                         child: Container(
@@ -200,7 +200,7 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
                                                     Axis
                                                         .horizontal,
                                                     itemCount: data[position]
-                                                        .service!
+                                                        .service
                                                         .length,
                                                     itemBuilder:
                                                         (context,
@@ -233,7 +233,7 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
                                                               decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
                                                               child: Center(
                                                                   child: Text(
-                                                                    data[position].service![index].serviceTitle.toString(),
+                                                                    data[position].service[index].serviceTitle.toString(),
                                                                     style: TextStyle(fontSize: width * 0.03),
                                                                   )),
                                                             )
@@ -249,7 +249,7 @@ class _SeeAllShopListState extends State<SeeAllShopList> {
                                                       .rating !=
                                                       null
                                                       ? data[position]
-                                                      .rating!
+                                                      .rating
                                                       .toDouble()
                                                       : 1.0,
                                                   itemBuilder: (context,

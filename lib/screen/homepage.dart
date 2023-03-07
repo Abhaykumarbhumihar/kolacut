@@ -21,7 +21,7 @@ import 'package:google_place/google_place.dart';
 import '../model/SeeallShoplist.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,9 +29,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeController homeControlller = Get.put(HomeController());
-  late GooglePlace googlePlace;
+   GooglePlace googlePlace;
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-  late Position _currentPosition;
+   Position _currentPosition;
   String _currentAddress = "";
   List<AutocompletePrediction> predictions = [];
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   var phone = "";
   var iamge = "";
   var session = "";
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
 
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     var result = await googlePlace.autocomplete.get(value);
     if (result != null && result.predictions != null && mounted) {
       setState(() {
-        predictions = result.predictions!;
+        predictions = result.predictions;
       });
     }
   }
@@ -121,10 +121,10 @@ class _HomePageState extends State<HomePage> {
     if (result != null && result.result != null) {
       print("opopoopoppopopopoopo");
       setState(() {
-        var detailsResult = result.result!;
-        _currentAddress = detailsResult.name!;
-        print(detailsResult.geometry!.location!.lat);
-        //print( detailsResult.geometry!.location!.lat);
+        var detailsResult = result.result;
+        _currentAddress = detailsResult.name;
+        print(detailsResult.geometry.location.lat);
+        //print( detailsResult.geometry.location.lat);
       });
     } else {
       print("KJKJKJKJKJKJKKJ");
@@ -146,10 +146,10 @@ class _HomePageState extends State<HomePage> {
           session = _sessss;
           homeControlller.sessiooo.value =
               sharedPreferences.getString("session") as String;
-          name = _testValue!;
-          email = emailValue!;
-          phone = _phoneValue!;
-          iamge = _imageValue!;
+          name = _testValue;
+          email = emailValue;
+          phone = _phoneValue;
+          iamge = _imageValue;
         } else {
           name = "";
           email = "";
@@ -230,7 +230,7 @@ class _HomePageState extends State<HomePage> {
                                             .adminCouponList
                                             .value
                                             .couponDetail
-                                            ?.length,
+                                            .length,
                                         itemBuilder: (context, position) {
                                           return OfferWidger(
                                               context,
@@ -239,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                                               homeControlller
                                                   .adminCouponList
                                                   .value
-                                                  .couponDetail![position]);
+                                                  .couponDetail[position]);
                                         }),
                                   ),
                             session == null || session == ""
@@ -263,13 +263,13 @@ class _HomePageState extends State<HomePage> {
                                   itemBuilder: (context, position) {
                                     return GestureDetector(
                                         onTap: () {
-                                          print(data[position].shopId!);
+                                          print(data[position].shopId);
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     SaloonDetail(data[position]
-                                                        .shopId!)),
+                                                        .shopId)),
                                           );
                                         },
                                         child:
@@ -406,7 +406,7 @@ class _HomePageState extends State<HomePage> {
                                                                             Axis
                                                                                 .horizontal,
                                                                         itemCount: data[position]
-                                                                            .service!
+                                                                            .service
                                                                             .length,
                                                                         itemBuilder:
                                                                             (context,
@@ -439,7 +439,7 @@ class _HomePageState extends State<HomePage> {
                                                                                   decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
                                                                                   child: Center(
                                                                                       child: Text(
-                                                                                    data[position].service![index].serviceTitle.toString(),
+                                                                                    data[position].service[index].serviceTitle.toString(),
                                                                                     style: TextStyle(fontSize: width * 0.03),
                                                                                   )),
                                                                                 )
@@ -455,7 +455,7 @@ class _HomePageState extends State<HomePage> {
                                                                               .rating !=
                                                                           null
                                                                       ? data[position]
-                                                                          .rating!
+                                                                          .rating
                                                                           .toDouble()
                                                                       : 1.0,
                                                                   itemBuilder: (context,
@@ -515,7 +515,7 @@ class _HomePageState extends State<HomePage> {
 
       leading: InkWell(
         onTap: () {
-          session != "" ? scaffolKey.currentState!.openDrawer() : null;
+          session != "" ? scaffolKey.currentState.openDrawer() : null;
         },
         child: Icon(
           Icons.menu,
@@ -622,7 +622,7 @@ class _HomePageState extends State<HomePage> {
                                           debugPrint(
                                               predictions[index].placeId);
                                           getDetils(
-                                              predictions[index].placeId!);
+                                              predictions[index].placeId);
                                           Navigator.pop(context);
                                         });
                                       },
@@ -884,14 +884,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget servicelist(
-      BuildContext context, width, height, List<ServiceDetail>? serviceDetail) {
+      BuildContext context, width, height, List<ServiceDetail> serviceDetail) {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: 0.05,
         maxHeight: height * 0.2 - height * 0.09,
       ),
       child: ListView.builder(
-        itemCount: serviceDetail!.length,
+        itemCount: serviceDetail.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, position) {
           double scale = 1;

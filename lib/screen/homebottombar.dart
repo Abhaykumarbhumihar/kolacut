@@ -23,7 +23,7 @@ import '../main.dart';
 import 'profile.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({Key key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
   var index = 0;
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
 var image="";
    List<Widget> _buildScreens() {
     return [
@@ -190,14 +190,14 @@ var image="";
         alert: true, badge: true, sound: true);
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification.android;
       print(  message.data["we"]);
       print("54566565565656565556 ----UNONPE UNONPE ");
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
-            notification.title! + "789",
+            notification.title,
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(
@@ -215,15 +215,15 @@ var image="";
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification.android;
       print(  message.data["we"]);
       print(
           "UNONPE  UNONPE  UNONPE  UNONPE UNONPE UNONPE UNONPE ----UNONPE UNONPE ");
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
-            notification.title! + "onMessageOpenedApp",
+            notification.title ,
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(

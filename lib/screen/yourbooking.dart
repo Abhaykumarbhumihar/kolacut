@@ -17,7 +17,7 @@ import '../utils/appconstant.dart';
 import 'login.dart';
 
 class TableBasicsExample extends StatefulWidget {
-  const TableBasicsExample({Key? key}) : super(key: key);
+  const TableBasicsExample({Key key}) : super(key: key);
 
   @override
   _TableBasicsExampleState createState() => _TableBasicsExampleState();
@@ -30,9 +30,9 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
   var phone = "";
   var iamge = "";
   var rating = 0;
-  late TextEditingController _nameController = TextEditingController();
+   TextEditingController _nameController = TextEditingController();
 
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
   var session = "";
@@ -56,10 +56,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
       setState(() {
         if (_sessss != null) {
           session = _sessss;
-          name = _testValue!;
-          email = emailValue!;
-          phone = _phoneValue!;
-          iamge = _imageValue!;
+          name = _testValue;
+          email = emailValue;
+          phone = _phoneValue;
+          iamge = _imageValue;
         } else {
           name = "";
           email = "";
@@ -92,7 +92,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
         centerTitle: false,
         leading: InkWell(
           onTap: () {
-            session != "" ? scaffolKey.currentState!.openDrawer() : null;
+            session != "" ? scaffolKey.currentState.openDrawer() : null;
           },
           child: const Icon(
             Icons.menu,
@@ -140,15 +140,16 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                 ),
               )),
             ))
-          : GetBuilder<BookingController>(builder: (bookingController) {
+          :
+      GetBuilder<BookingController>(builder: (bookingController) {
               if (bookingController.lodaer) {
                 return Container();
               } else {
                 for (var i = 0;
-                    i < bookingController.bookingPojo.value.slotDetail!.length;
+                    i < bookingController.bookingPojo.value.slotDetail.length;
                     i++) {
                   _element
-                      .add(bookingController.bookingPojo.value.slotDetail![i]);
+                      .add(bookingController.bookingPojo.value.slotDetail[i]);
                 }
                 return RefreshIndicator(
                   onRefresh: () async {
@@ -167,7 +168,8 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                 child: SizedBox(
                                   width: width,
                                   height: height * 0.4,
-                                  child: Center(
+                                  child:
+                                  Center(
                                     child: TableCalendar(
                                       focusedDay: focuseddaate,
                                       firstDay: DateTime(2022),
@@ -234,7 +236,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                             "-" +
                                             datee;
                                         //  print(date);
-                                        var newlist =bookingController.bookingPojo.value.slotDetail!
+                                        var newlist =bookingController.bookingPojo.value.slotDetail
                                             .where((x) => x.date
                                             .toString()
                                             .toLowerCase()
@@ -268,15 +270,15 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                           for (var leaveEvent = 0;
                                               leaveEvent <
                                                   bookingController.bookingPojo
-                                                      .value.slotDetail!.length;
+                                                      .value.slotDetail.length;
                                               leaveEvent++) {
                                             index++;
                                             final DateTime event =
                                                 bookingController
                                                     .bookingPojo
                                                     .value
-                                                    .slotDetail![leaveEvent]
-                                                    .date!;
+                                                    .slotDetail[leaveEvent]
+                                                    .date;
                                             if (day.day == event.day &&
                                                 day.month == event.month &&
                                                 day.year == event.year) {
@@ -346,16 +348,16 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                   elements: _element,
                                   order: StickyGroupedListOrder.ASC,
                                   groupBy: (SlotDetail element) => DateTime(
-                                    element.date!.year,
-                                    element.date!.month,
-                                    element.date!.day,
+                                    element.date.year,
+                                    element.date.month,
+                                    element.date.day,
                                   ),
                                   groupComparator:
                                       (DateTime value1, DateTime value2) =>
                                           value2.compareTo(value1),
                                   itemComparator: (SlotDetail element1,
                                           SlotDetail element2) =>
-                                      element1.date!.compareTo(element2.date!),
+                                      element1.date.compareTo(element2.date),
                                   floatingHeader: false,
                                   groupSeparatorBuilder: _getGroupSeparator,
                                   itemBuilder: _getItem,
@@ -384,14 +386,14 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
           decoration: BoxDecoration(
             color: Colors.blue[300],
             border: Border.all(
-              color: Colors.blue[300]!,
+              color: Colors.blue[300],
             ),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '${element.date!.day}- ${element.date!.month}- ${element.date!.year}',
+              '${element.date.day}- ${element.date.month}- ${element.date.year}',
               textAlign: TextAlign.center,
             ),
           ),
@@ -400,10 +402,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
     );
   }
 
-  Widget recentleavelistbottom(width, height, contet, List<SlotDetail>? slotDetail) {
+  Widget recentleavelistbottom(width, height, contet, List<SlotDetail> slotDetail) {
     return ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: slotDetail!.length,
+        itemCount: slotDetail.length,
         shrinkWrap: true,
         itemBuilder: (context, position) {
           return Container(
@@ -505,7 +507,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                     ? InkWell(
                   onTap: () async {
                     setState(() {
-                      _show(context, slotDetail[position].id!);
+                      _show(context, slotDetail[position].id);
                     });
                   },
                   child: Container(
@@ -642,7 +644,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                     fontSize: width * 0.03),
                               ),
                               Text(
-                                  "${slotDetail.date!.day}-${slotDetail.date!.month}-${slotDetail.date!.year}",
+                                  "${slotDetail.date.day}-${slotDetail.date.month}-${slotDetail.date.year}",
                                   style: TextStyle(
                                       fontFamily: 'Poppins Regular',
                                       color: Color(
@@ -732,7 +734,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                           LimitedBox(
                             maxHeight: height * 0.3,
                             child: ListView.builder(
-                                itemCount: slotDetail.service!.length,
+                                itemCount: slotDetail.service.length,
                                 itemBuilder: (context, position) {
                                   return Container(
                                     height: height * 0.03,
@@ -751,14 +753,14 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                "${slotDetail.service![position].name}",
+                                                "${slotDetail.service[position].name}",
                                                 style: const TextStyle(
                                                     fontSize: 8.0),
                                               ),
                                             ],
                                           ),
                                           Text(
-                                            "${slotDetail.service![position].price}",
+                                            "${slotDetail.service[position].price}",
                                             style:
                                                 const TextStyle(fontSize: 8.0),
                                           )
@@ -879,7 +881,7 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
                         ? InkWell(
                             onTap: () async {
                               setState(() {
-                                _show(context, slotDetail.id!);
+                                _show(context, slotDetail.id);
                               });
                             },
                             child: Container(

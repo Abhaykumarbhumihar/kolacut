@@ -15,9 +15,9 @@ class CartListPojo {
     this.slotDetail,
   });
 
-  int? status;
-  String? message;
-  List<SlotDetail>? slotDetail;
+  int status;
+  String message;
+  List<SlotDetail> slotDetail;
 
   factory CartListPojo.fromJson(Map<String, dynamic> json) => CartListPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class CartListPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Slot Detail": List<dynamic>.from(slotDetail!.map((x) => x.toJson())),
+    "Slot Detail": List<dynamic>.from(slotDetail.map((x) => x.toJson())),
   };
 }
 
@@ -44,14 +44,14 @@ class SlotDetail {
     this.coupon,
   });
 
-  int? id;
-  int? shopId;
-  String? userName;
-  String? shopName;
-  String? userImage;
-  int? employeeId;
-  List<Service>? service;
-  List<Coupon>? coupon;
+  int id;
+  int shopId;
+  String userName;
+  String shopName;
+  String userImage;
+  int employeeId;
+  List<Service> service;
+  List<Coupon> coupon;
 
   factory SlotDetail.fromJson(Map<String, dynamic> json) => SlotDetail(
     id: json["id"],
@@ -71,8 +71,8 @@ class SlotDetail {
     "shop_name": shopName,
     "user_image": userImage,
     "employee_id": employeeId,
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
-    "coupon": List<dynamic>.from(coupon!.map((x) => x.toJson())),
+    "service": List<dynamic>.from(service.map((x) => x.toJson())),
+    "coupon": List<dynamic>.from(coupon.map((x) => x.toJson())),
   };
 }
 
@@ -85,11 +85,11 @@ class Coupon {
     this.percentage
   });
 
-  int? id;
-  String? couponName;
-  String? price;
-  String? couponCode;
-  String? percentage;
+  int id;
+  String couponName;
+  String price;
+  String couponCode;
+  String percentage;
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
     id: json["id"],
     couponName: json["coupon_name"],
@@ -115,10 +115,10 @@ class Service {
     this.time,
   });
 
-  int? id;
-  String? name;
-  String? price;
-  String? time;
+  int id;
+  String name;
+  String price;
+  String time;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
     id: json["id"],

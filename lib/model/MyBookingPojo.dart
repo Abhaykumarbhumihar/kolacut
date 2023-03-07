@@ -16,9 +16,9 @@ class MyBookingPojo {
     this.slotDetail,
   });
 
-  int? status;
-  String? message;
-  List<SlotDetail>? slotDetail;
+  int status;
+  String message;
+  List<SlotDetail> slotDetail;
 
   factory MyBookingPojo.fromJson(Map<String, dynamic> json) => MyBookingPojo(
         status: json["status"],
@@ -30,7 +30,7 @@ class MyBookingPojo {
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "Slot Detail": List<dynamic>.from(slotDetail!.map((x) => x.toJson())),
+        "Slot Detail": List<dynamic>.from(slotDetail.map((x) => x.toJson())),
       };
 }
 
@@ -53,23 +53,23 @@ class SlotDetail {
     this.payment_type,
   });
 
-  int? id;
-  String? bookingId;
-  String? userName;
-  String? shopName;
-  String? userImage;
-  String? bookingDay;
-  String? fromTime;
-  String? toTime;
-  String? status;
-  DateTime? date;
-  String? coupon_code;
-  String? payment_type;
-  String? coin;
-  String? transaction_id;
+  int id;
+  String bookingId;
+  String userName;
+  String shopName;
+  String userImage;
+  String bookingDay;
+  String fromTime;
+  String toTime;
+  String status;
+  DateTime date;
+  String coupon_code;
+  String payment_type;
+  String coin;
+  String transaction_id;
 
 
-  List<Service>? service;
+  List<Service> service;
 
   factory SlotDetail.fromJson(Map<String, dynamic> json) => SlotDetail(
     id: json["id"],
@@ -103,8 +103,8 @@ class SlotDetail {
     "coin": coin,
     "payment_type": payment_type,
     "transaction_id": transaction_id,
-    "date": "${date!.year.toString().padLeft(4, '0')}-${date!.month.toString().padLeft(2, '0')}-${date!.day.toString().padLeft(2, '0')}",
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+    "service": List<dynamic>.from(service.map((x) => x.toJson())),
   };
 }
 
@@ -115,9 +115,9 @@ class Service {
     this.price,
   });
 
-  int? id;
-  String? name;
-  String? price;
+  int id;
+  String name;
+  String price;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
     id: json["id"],

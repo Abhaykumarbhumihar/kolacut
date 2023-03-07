@@ -13,7 +13,7 @@ import '../utils/Utils.dart';
 import 'login.dart';
 
 class Wishlist extends StatefulWidget {
-  const Wishlist({Key? key}) : super(key: key);
+  const Wishlist({Key key}) : super(key: key);
 
   @override
   State<Wishlist> createState() => _WishlistState();
@@ -26,7 +26,7 @@ class _WishlistState extends State<Wishlist> {
   var phone = "";
   var iamge = "";
 
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
   var session = "";
 
@@ -43,10 +43,10 @@ class _WishlistState extends State<Wishlist> {
       setState(() {
         if (_sessss != null) {
           session = _sessss;
-          name = _testValue!;
-          email = emailValue!;
-          phone = _phoneValue!;
-          iamge = _imageValue!;
+          name = _testValue;
+          email = emailValue;
+          phone = _phoneValue;
+          iamge = _imageValue;
         } else {
           name = "";
           email = "";
@@ -77,7 +77,7 @@ class _WishlistState extends State<Wishlist> {
               centerTitle: false,
               leading: InkWell(
                 onTap: () {
-                  session != "" ? scaffolKey.currentState!.openDrawer() : null;
+                  session != "" ? scaffolKey.currentState.openDrawer() : null;
                 },
                 child: Icon(
                   Icons.menu,
@@ -153,14 +153,14 @@ class _WishlistState extends State<Wishlist> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemCount: wishListControlller
-                                    .wihlistlpojo.value.staffDetail!.length,
+                                    .wihlistlpojo.value.staffDetail.length,
                                 itemBuilder: (context, position) {
                                   return wishlist(
                                       context,
                                       width,
                                       height,
                                       wishListControlller.wihlistlpojo.value
-                                          .staffDetail![position]);
+                                          .staffDetail[position]);
                                 }),
                           ),
                         ),
@@ -176,7 +176,7 @@ class _WishlistState extends State<Wishlist> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SaloonDetail(staffDetail.shopId!)),
+              builder: (context) => SaloonDetail(staffDetail.shopId)),
         );
       },
       child:
@@ -299,7 +299,7 @@ class _WishlistState extends State<Wishlist> {
                                   Axis
                                       .horizontal,
                                   itemCount: staffDetail
-                                      .service!
+                                      .service
                                       .length,
                                   itemBuilder:
                                       (context,
@@ -332,7 +332,7 @@ class _WishlistState extends State<Wishlist> {
                                             decoration: BoxDecoration(color: Color(Utils.hexStringToHexInt('E5E5E5'))),
                                             child: Center(
                                                 child: Text(
-                                                  staffDetail.service![index].serviceTitle.toString(),
+                                                  staffDetail.service[index].serviceTitle.toString(),
                                                   style: TextStyle(fontSize: width * 0.03),
                                                 )),
                                           )
@@ -348,7 +348,7 @@ class _WishlistState extends State<Wishlist> {
                                     .rating !=
                                     null
                                     ?staffDetail
-                                    .rating!
+                                    .rating
                                     .toDouble()
                                     : 1.0,
                                 itemBuilder: (context,

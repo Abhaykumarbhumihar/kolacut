@@ -13,18 +13,18 @@ import '../controller/auth_controller.dart';
 import 'homebottombar.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late TextEditingController emailcontroller;
+   TextEditingController emailcontroller;
   AuthControlller authControlller = Get.put(AuthControlller());
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-  late Position _currentPosition;
-  late String _currentAddress;
+   Position _currentPosition;
+   String _currentAddress;
 
   @override
   void initState() {

@@ -14,8 +14,8 @@ class ApplyLeavePojo {
     this.message,
   });
 
-  int? status;
-  String? message;
+  int status;
+  String message;
 
   factory ApplyLeavePojo.fromJson(Map<String, dynamic> json) => ApplyLeavePojo(
     status: json["status"],

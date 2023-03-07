@@ -17,9 +17,9 @@ class ShopLIstPojo {
     this.staffDetail,
   });
 
-  int? status;
-  String? message;
-  List<StaffDetail>? staffDetail;
+  int status;
+  String message;
+  List<StaffDetail> staffDetail;
 
   factory ShopLIstPojo.fromJson(Map<String, dynamic> json) => ShopLIstPojo(
         status: json["status"],
@@ -31,7 +31,7 @@ class ShopLIstPojo {
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "Staff Detail": List<dynamic>.from(staffDetail!.map((x) => x.toJson())),
+        "Staff Detail": List<dynamic>.from(staffDetail.map((x) => x.toJson())),
       };
 }
 
@@ -47,14 +47,14 @@ class StaffDetail {
     this.rating
   });
 
-  int? shopId;
-  String? shopName;
-  String? location;
-  String? latitude;
-  String? longitude;
-  String? shopLogo;
-  int? rating;
-  List<Service>? service;
+  int shopId;
+  String shopName;
+  String location;
+  String latitude;
+  String longitude;
+  String shopLogo;
+  int rating;
+  List<Service> service;
 
   factory StaffDetail.fromJson(Map<String, dynamic> json) => StaffDetail(
         shopId: json["shop_id"],
@@ -76,7 +76,7 @@ class StaffDetail {
         "longitude": longitude,
     "rating": rating,
         "shop_logo": shopLogo,
-        "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+        "service": List<dynamic>.from(service.map((x) => x.toJson())),
       };
 }
 
@@ -87,9 +87,9 @@ class Service {
     this.serviceImage,
   });
 
-  int? serviceId;
-  String? serviceTitle;
-  String? serviceImage;
+  int serviceId;
+  String serviceTitle;
+  String serviceImage;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
         serviceId: json["service_id"],

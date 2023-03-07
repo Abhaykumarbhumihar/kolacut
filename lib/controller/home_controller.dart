@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,16 +5,12 @@ import 'package:untitled/model/AdminCouponPojo.dart';
 import 'package:untitled/model/CartListPojo.dart';
 import 'package:untitled/model/CoinPojo.dart';
 import 'package:untitled/model/NotificationPojo.dart';
-import 'package:untitled/model/ProfilePojo.dart';
-import 'package:untitled/model/ShopDetailPojo.dart';
 import 'package:untitled/model/ShopLIstPojo.dart';
-import 'package:untitled/screen/profile.dart';
 
 import '../model/AdminServicePojo.dart';
 import '../services/ApiCall.dart';
 import '../utils/CommomDialog.dart';
 import '../utils/appconstant.dart';
-import 'dart:convert';
 
 class HomeController extends GetxController {
   var shopListPojo = ShopLIstPojo().obs;
@@ -26,7 +21,7 @@ class HomeController extends GetxController {
   final box = GetStorage();
   var lodaer = true;
   var sessiooo = "".obs;
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   var cartListPjo = CartListPojo().obs;
   int coin = 0;
   var notification = NotificationPojo().obs;
@@ -42,7 +37,7 @@ class HomeController extends GetxController {
         var _testValue = sharedPreferences.getString("session");
         // print(sharedPreferences.getString("session"));
         if (_testValue != null) {
-          print(_testValue+"sdfdsfdsfsdfsdfsdfdsfd");
+          print(_testValue + "sdfdsfdsfsdfsdfsdfdsfd");
           getShopList1(_testValue);
           //getServiceList(_testValue);
           // getCartList(_testValue);
@@ -58,7 +53,6 @@ class HomeController extends GetxController {
   void onReady() {
     //session_id
     super.onReady();
-
 
     //  getShopList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
     //  getServiceList("TXKe48DXicKoAjkyEOgXWqU3VuVZqdHm");
@@ -159,18 +153,18 @@ class HomeController extends GetxController {
         //  CommonDialog.hideLoading();
         coinPojo.value = coinPojoFromJson(response);
         if (coinPojo.value.coin != null) {
-          coin = coinPojo.value.coin!;
+          coin = coinPojo.value.coin;
           //myInteger.value
           getNotificationList(session_id);
           update();
         }
         update();
-
       }
     } catch (error) {
       //CommonDialog.hideLoading();
     }
   }
+
   void getCoin1(session_id) async {
     Map map;
     map = {"session_id": "$session_id"};
@@ -187,17 +181,17 @@ class HomeController extends GetxController {
         //  CommonDialog.hideLoading();
         coinPojo.value = coinPojoFromJson(response);
         if (coinPojo.value.coin != null) {
-          coin = coinPojo.value.coin!;
+          coin = coinPojo.value.coin;
           //myInteger.value
           update();
         }
         update();
-
       }
     } catch (error) {
       //CommonDialog.hideLoading();
     }
   }
+
   void getShopList1(_testValue) async {
     Map map;
     map = {"session_id": "session_id"};
@@ -214,11 +208,11 @@ class HomeController extends GetxController {
         // Get.back();
         // CommonDialog.hideLoading();
         print("98988989899889988");
-        try{
+        try {
           shopListPojo.value = shopLIstPojoFromJson(response);
           print("7777777777777777777");
-          data = shopListPojo.value.staffDetail!;
-        }catch(e){
+          data = shopListPojo.value.staffDetail;
+        } catch (e) {
           print(e);
         }
         // lodaer = false;
@@ -246,7 +240,7 @@ class HomeController extends GetxController {
         // Get.back();
         CommonDialog.hideLoading();
         shopListPojo.value = shopLIstPojoFromJson(response);
-        data = shopListPojo.value.staffDetail!;
+        data = shopListPojo.value.staffDetail;
         lodaer = false;
         update();
       }
@@ -257,7 +251,7 @@ class HomeController extends GetxController {
   }
 
   void getCartList(session_id) async {
-   // lodaer = true;
+    // lodaer = true;
     Map map;
     map = {"session_id": session_id};
     try {
@@ -268,12 +262,12 @@ class HomeController extends GetxController {
       Get.back();
       //print(response);
       if (cartListPjo.value.message == "No Data found") {
-      //  CommonDialog.hideLoading();
+        //  CommonDialog.hideLoading();
         //CommonDialog.showsnackbar("No Data found");
       } else {
         // Get.back();
         cartListPjo.value = cartListPojoFromJson(response);
-       // lodaer = false;
+        // lodaer = false;
         getCoin(session_id);
         update();
       }
@@ -304,16 +298,29 @@ class HomeController extends GetxController {
 
   void filterEmplist(text) {
     if (text.toString().trim() == "") {
-      data = shopListPojo.value.staffDetail!;
+      data = shopListPojo.value.staffDetail;
       update();
     } else {
-      var da = shopListPojo.value.staffDetail!
-          .where((m) => m.service!
-              .where((s) =>
-                  s.serviceTitle!.toLowerCase().contains(text.toString().tr))
+      var da = shopListPojo.value.staffDetail
+          .where((m) => m.service
+              .where((s) => s.serviceTitle
+                  .toLowerCase()
+                  .contains(text.toString().tr.toLowerCase()))
               .isNotEmpty)
           .toList();
-      data = da;
+
+      var daa = shopListPojo.value.staffDetail
+          .where((element) => element.shopName
+              .toLowerCase()
+              .contains(text.toString().tr.toLowerCase()))
+          .toList();
+
+      List<StaffDetail> list = []
+        ..addAll(da)
+        ..addAll(daa);
+      print(list);
+      var distinctIds = list.toSet().toList();
+      data = distinctIds;
       update();
     }
   }

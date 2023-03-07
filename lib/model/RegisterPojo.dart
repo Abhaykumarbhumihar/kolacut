@@ -15,9 +15,9 @@ class RegisterPojo {
     this.data,
   });
 
-  int? status;
-  String? message;
-  Data? data;
+  int status;
+  String message;
+  Data data;
 
   factory RegisterPojo.fromJson(Map<String, dynamic> json) => RegisterPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class RegisterPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "data": data?.toJson(),
+    "data": data.toJson(),
   };
 }
 
@@ -44,14 +44,14 @@ class Data {
     this.token,
   });
 
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  DateTime? dob;
-  String? gender;
-  String? profileImage;
-  String? token;
+  int id;
+  String name;
+  String email;
+  String phone;
+  DateTime dob;
+  String gender;
+  String profileImage;
+  String token;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -69,7 +69,7 @@ class Data {
     "name": name,
     "email": email,
     "phone": phone,
-    "dob": "${dob?.year.toString().padLeft(4, '0')}-${dob?.month.toString().padLeft(2, '0')}-${dob?.day.toString().padLeft(2, '0')}",
+    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
     "gender": gender,
     "profile image": profileImage,
     "token": token,

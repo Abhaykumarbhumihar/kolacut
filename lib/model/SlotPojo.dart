@@ -15,9 +15,9 @@ class SlotPojo {
     this.notificationDetail,
   });
 
-  int? status;
-  String? message;
-  List<NotificationDetail>? notificationDetail;
+  int status;
+  String message;
+  List<NotificationDetail> notificationDetail;
 
   factory SlotPojo.fromJson(Map<String, dynamic> json) => SlotPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class SlotPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Notification Detail": List<dynamic>.from(notificationDetail!.map((x) => x.toJson())),
+    "Notification Detail": List<dynamic>.from(notificationDetail.map((x) => x.toJson())),
   };
 }
 
@@ -39,9 +39,9 @@ class NotificationDetail {
     this.evening,
   });
 
-  List<String>?morning;
-  List<String>?afternoon;
-  List<String>?evening;
+  List<String>morning;
+  List<String>afternoon;
+  List<String>evening;
 
   factory NotificationDetail.fromJson(Map<String, dynamic> json) => NotificationDetail(
     morning: List<String>.from(json["Morning"].map((x) => x)),
@@ -50,8 +50,8 @@ class NotificationDetail {
   );
 
   Map<String, dynamic> toJson() => {
-    "Morning": List<dynamic>.from(morning!.map((x) => x)),
-    "Afternoon": List<dynamic>.from(afternoon!.map((x) => x)),
-    "Evening": List<dynamic>.from(evening!.map((x) => x)),
+    "Morning": List<dynamic>.from(morning.map((x) => x)),
+    "Afternoon": List<dynamic>.from(afternoon.map((x) => x)),
+    "Evening": List<dynamic>.from(evening.map((x) => x)),
   };
 }

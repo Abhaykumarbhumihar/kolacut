@@ -15,9 +15,9 @@ class LeaveApplyPojo {
     this.data,
   });
 
-  int? status;
-  String? message;
-  List<Datum>? data;
+  int status;
+  String message;
+  List<Datum> data;
 
   factory LeaveApplyPojo.fromJson(Map<String, dynamic> json) => LeaveApplyPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class LeaveApplyPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
   };
 }
 
@@ -42,12 +42,12 @@ class Datum {
     this.calenderDate,
   });
 
-  String? leaveDate;
-  String? holidayType;
-  String? holidayReason;
-  String? startFrom;
-  String? endFrom;
-  DateTime? calenderDate;
+  String leaveDate;
+  String holidayType;
+  String holidayReason;
+  String startFrom;
+  String endFrom;
+  DateTime calenderDate;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     leaveDate: json["leave_date"],
@@ -64,6 +64,6 @@ class Datum {
     "holiday_reason": holidayReason,
     "start_from": startFrom,
     "end_from": endFrom,
-    "calender_date": "${calenderDate!.year.toString().padLeft(4, '0')}-${calenderDate!.month.toString().padLeft(2, '0')}-${calenderDate!.day.toString().padLeft(2, '0')}",
+    "calender_date": "${calenderDate.year.toString().padLeft(4, '0')}-${calenderDate.month.toString().padLeft(2, '0')}-${calenderDate.day.toString().padLeft(2, '0')}",
   };
 }

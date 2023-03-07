@@ -22,7 +22,7 @@ import '../utils/appconstant.dart';
 import 'sidenavigation.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -30,7 +30,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ProfileController profileController = Get.put(ProfileController());
-  late TextEditingController emailcontroller,
+   TextEditingController emailcontroller,
       _nameController,
       _dobController,
       _phonecontroller;
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var email = "";
   var phone = "";
   var iamge = "";
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
   GlobalKey<ScaffoldState> scaffolKey = GlobalKey<ScaffoldState>();
 
   List<DropdownMenuItem<String>> _createList() {
@@ -88,10 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         if (_sessss != null) {
           session = _sessss;
-          name = _testValue!;
-          email = emailValue!;
-          phone = _phoneValue!;
-          iamge = _imageValue!;
+          name = _testValue;
+          email = emailValue;
+          phone = _phoneValue;
+          iamge = _imageValue;
         }
         else {
           name = "";
@@ -111,6 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Container(
         width: width,
         height: height,
+        color: Colors.white,
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             key: scaffolKey,
@@ -125,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: InkWell(
                 onTap: () {
                   session != ""
-                      ? scaffolKey.currentState!.openDrawer()
+                      ? scaffolKey.currentState.openDrawer()
                       : null;
                 },
                 child: Icon(
@@ -189,10 +190,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       return Container();
                     } else {
                       for (var i = 0;
-                      i < profileController.bookingPojo.value.slotDetail!.length;
+                      i < profileController.bookingPojo.value.slotDetail.length;
                       i++) {
                         _element
-                            .add(profileController.bookingPojo.value.slotDetail![i]);
+                            .add(profileController.bookingPojo.value.slotDetail[i]);
                       }
                       return SizedBox(
                         width: width,
@@ -224,8 +225,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         CircleAvatar(
                                           radius: width * 0.2 - width * 0.06,
                                           backgroundImage: NetworkImage(
-                                              profileController.profilePojo.value.data!
-                                                  .profileImage!),
+                                              profileController.profilePojo.value.data
+                                                  .profileImage),
                                         )
                                       ],
                                     ),
@@ -318,12 +319,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                               Text(
                                                 profileController.profilePojo.value
-                                                    .data!.name
+                                                    .data.name
                                                     .toString() +
                                                     "" !=
                                                     ""
                                                     ? profileController.profilePojo
-                                                    .value.data!.name
+                                                    .value.data.name
                                                     .toString() +
                                                     ""
                                                     : "N/A",
@@ -357,12 +358,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                               Text(
                                                 profileController.profilePojo.value
-                                                    .data!.email
+                                                    .data.email
                                                     .toString() +
                                                     "" !=
                                                     ""
                                                     ? profileController.profilePojo
-                                                    .value.data!.email
+                                                    .value.data.email
                                                     .toString() +
                                                     ""
                                                     : "N/A",
@@ -396,12 +397,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                               ),
                                               Text(
                                                 profileController.profilePojo.value
-                                                    .data!.phone
+                                                    .data.phone
                                                     .toString() +
                                                     "" !=
                                                     ""
                                                     ? profileController.profilePojo
-                                                    .value.data!.phone
+                                                    .value.data.phone
                                                     .toString() +
                                                     ""
                                                     : "N/A",
@@ -438,13 +439,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     profileController
                                                         .profilePojo
                                                         .value
-                                                        .data!
+                                                        .data
                                                         .dob
                                                         .toString() +
                                                     "" !=
                                                     ""
                                                     ? "  " +
-                                                    "${DateFormat.yMMMMd().format(DateTime.parse(profileController.profilePojo.value.data!.dob.toString()))}" +
+                                                    "${DateFormat.yMMMMd().format(DateTime.parse(profileController.profilePojo.value.data.dob.toString()))}" +
                                                     ""
                                                     : "N/A",
                                                 textAlign: TextAlign.left,
@@ -480,16 +481,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                         elements: _element,
                                         order: StickyGroupedListOrder.ASC,
                                         groupBy: (SlotDetail element) => DateTime(
-                                          element.date!.year,
-                                          element.date!.month,
-                                          element.date!.day,
+                                          element.date.year,
+                                          element.date.month,
+                                          element.date.day,
                                         ),
                                         groupComparator:
                                             (DateTime value1, DateTime value2) =>
                                             value2.compareTo(value1),
                                         itemComparator: (SlotDetail element1,
                                             SlotDetail element2) =>
-                                            element1.date!.compareTo(element2.date!),
+                                            element1.date.compareTo(element2.date),
                                         floatingHeader: false,
                                         groupSeparatorBuilder: _getGroupSeparator,
                                         itemBuilder: _getItem,
@@ -525,14 +526,14 @@ class _ProfilePageState extends State<ProfilePage> {
           decoration: BoxDecoration(
             color: Colors.blue[300],
             border: Border.all(
-              color: Colors.blue[300]!,
+              color: Colors.blue[300],
             ),
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              '${element.date!.day}- ${element.date!.month}- ${element.date!.year}',
+              '${element.date.day}- ${element.date.month}- ${element.date.year}',
               textAlign: TextAlign.center,
             ),
           ),
@@ -541,10 +542,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget recentleavelistbottom(width, height, contet, List<SlotDetail>? slotDetail) {
+  Widget recentleavelistbottom(width, height, contet, List<SlotDetail> slotDetail) {
     return ListView.builder(
         scrollDirection: Axis.vertical,
-        itemCount: slotDetail!.length,
+        itemCount: slotDetail.length,
         shrinkWrap: true,
         itemBuilder: (context, position) {
           return Container(
@@ -646,7 +647,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ? InkWell(
                   onTap: () async {
                     setState(() {
-                      _show(context, slotDetail[position].id!);
+                      _show(context, slotDetail[position].id);
                     });
                   },
                   child: Container(
@@ -783,7 +784,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     fontSize: width * 0.03),
                               ),
                               Text(
-                                  "${slotDetail.date!.day}-${slotDetail.date!.month}-${slotDetail.date!.year}",
+                                  "${slotDetail.date.day}-${slotDetail.date.month}-${slotDetail.date.year}",
                                   style: TextStyle(
                                       fontFamily: 'Poppins Regular',
                                       color: Color(
@@ -873,7 +874,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           LimitedBox(
                             maxHeight: height * 0.3,
                             child: ListView.builder(
-                                itemCount: slotDetail.service!.length,
+                                itemCount: slotDetail.service.length,
                                 itemBuilder: (context, position) {
                                   return Container(
                                     height: height * 0.03,
@@ -892,14 +893,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                             CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                "${slotDetail.service![position].name}",
+                                                "${slotDetail.service[position].name}",
                                                 style: const TextStyle(
                                                     fontSize: 8.0),
                                               ),
                                             ],
                                           ),
                                           Text(
-                                            "${slotDetail.service![position].price}",
+                                            "${slotDetail.service[position].price}",
                                             style:
                                             const TextStyle(fontSize: 8.0),
                                           )
@@ -922,6 +923,7 @@ class _ProfilePageState extends State<ProfilePage> {
         width: width,
         padding: EdgeInsets.all(width * 0.03),
         margin: EdgeInsets.all(width * 0.03),
+
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(width * 0.02)),
             border: Border.all(color: Colors.black26, width: 2)),
@@ -1023,7 +1025,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ? InkWell(
               onTap: () async {
                 setState(() {
-                  _show(context, slotDetail.id!);
+                  _show(context, slotDetail.id);
                 });
               },
               child: Container(
@@ -2316,7 +2318,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
+    final DateTime selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2010),

@@ -15,9 +15,9 @@ class AdminCouponPojo {
     this.couponDetail,
   });
 
-  int? status;
-  String? message;
-  List<CouponDetail>? couponDetail;
+  int status;
+  String message;
+  List<CouponDetail> couponDetail;
 
   factory AdminCouponPojo.fromJson(Map<String, dynamic> json) => AdminCouponPojo(
     status: json["status"],
@@ -28,7 +28,7 @@ class AdminCouponPojo {
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "Coupon Detail": List<dynamic>.from(couponDetail!.map((x) => x.toJson())),
+    "Coupon Detail": List<dynamic>.from(couponDetail.map((x) => x.toJson())),
   };
 }
 
@@ -41,11 +41,11 @@ class CouponDetail {
     this.percentage
   });
 
-  int? id;
-  String? couponName;
-  String? price;
-  String? couponCode;
-  String? percentage;
+  int id;
+  String couponName;
+  String price;
+  String couponCode;
+  String percentage;
 
   factory CouponDetail.fromJson(Map<String, dynamic> json) => CouponDetail(
     id: json["id"],

@@ -15,9 +15,9 @@ class CoinPojo {
     this.coin,
   });
 
-  int? status;
-  String? message;
-  int? coin;
+  int status;
+  String message;
+  int coin;
 
   factory CoinPojo.fromJson(Map<String, dynamic> json) => CoinPojo(
     status: json["status"],

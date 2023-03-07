@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import '../controller/auth_controller.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -23,7 +23,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   AuthControlller authControlller = Get.put(AuthControlller());
-  late TextEditingController emailcontroller,
+   TextEditingController emailcontroller,
       _nameController,
       _dobController,
       _phonecontroller,_refferalcontroller;
@@ -626,7 +626,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   _selectDate(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
+    final DateTime selected = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1975),
@@ -646,7 +646,7 @@ class _RegisterPageState extends State<RegisterPage> {
     var email = emailcontroller.text.toString();
     var name = _nameController.text.toString();
     var phone = _phonecontroller.text.toString();
-    bool isValidPhoneNumber(String? value) =>
+    bool isValidPhoneNumber(String value) =>
         RegExp(r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)').hasMatch(value ?? '');
     if (name == "") {
       CommonDialog.showsnackbar("Please enter name.");

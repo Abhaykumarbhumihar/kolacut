@@ -20,8 +20,8 @@ import 'coin.dart';
 import 'yourbooking.dart';
 
 class OrderDetail extends StatefulWidget {
-  List<ServiceService>? newarray;
-  Data? data;
+  List<ServiceService> newarray;
+  Data data;
   var selectEmpid = "";
   var selectDate = "";
   var selectDay = "";
@@ -47,7 +47,7 @@ class OrderDetail extends StatefulWidget {
 }
 
 class _OrderDetailState extends State<OrderDetail> {
-  late Razorpay _razorpay;
+   Razorpay _razorpay;
   List resultList = [];
   var coin = 0;
   var applycoin = 0.0;
@@ -63,7 +63,7 @@ class _OrderDetailState extends State<OrderDetail> {
       tempArray, a, selectDate, selectEmpid, selectDay, selectSlot, timeslot);
 
   ShopDetailController salonControlller = Get.put(ShopDetailController());
-  late SharedPreferences sharedPreferences;
+   SharedPreferences sharedPreferences;
 
 //shop_idd,employee_id,service_id,sub_service_id,date,
 //       from_time,booking_day,to_time,amount
@@ -74,7 +74,7 @@ class _OrderDetailState extends State<OrderDetail> {
   void bookService(BuildContext context) {
     salonControlller.bookserVice(
         context,
-        widget.data!.id.toString(),
+        widget.data.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
         resultList.join(","),
@@ -105,7 +105,7 @@ class _OrderDetailState extends State<OrderDetail> {
   ) {
     salonControlller.bookserVice(
         context,
-        widget.data!.id.toString(),
+        widget.data.id.toString(),
         widget.selectEmpid.toString() + "",
         "3",
         resultList.join(","),
@@ -141,11 +141,11 @@ class _OrderDetailState extends State<OrderDetail> {
     });
     print("COIN IS ${Get.find<HomeController>().coin}");
     coin = Get.find<HomeController>().coin;
-    print(widget.data!.name.toString());
+    print(widget.data.name.toString());
     print(widget.selectEmpid + "EMP");
     print(widget.selectDay + " day");
     print(widget.selectDate + " date");
-    widget.newarray!.forEach((element) {
+    widget.newarray.forEach((element) {
       total_price += int.parse(element.price.toString());
       totalPrice = totalPrice + int.parse(element.price.toString());
       print(element.name.toString() + "  " + element.price.toString());
@@ -190,23 +190,23 @@ class _OrderDetailState extends State<OrderDetail> {
     bookServiceOnline(
         context, "${response.paymentId}", applycoin, applycouponcode);
     /*Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId!,
+        msg: "SUCCESS: " + response.paymentId,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
     CommonDialog.showsnackbar(
-        "ERROR: " + response.code.toString() + " - " + response.message!);
+        "ERROR: " + response.code.toString() + " - " + response.message);
     /* Fluttertoast.showToast(
-        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        msg: "ERROR: " + response.code.toString() + " - " + response.message,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     print('External SDK Response: $response');
     /* Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        msg: "EXTERNAL_WALLET: " + response.walletName,
         toastLength: Toast.LENGTH_SHORT); */
   }
 
@@ -246,7 +246,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               ),
                             ),
                             Text(
-                              '${widget.data!.name.toString()}',
+                              '${widget.data.name.toString()}',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: width * 0.06,
@@ -277,7 +277,7 @@ class _OrderDetailState extends State<OrderDetail> {
                               "images/svgicons/mappin.svg",
                             ),
                           ),
-                          Text(' ${widget.data!.address.toString()}',
+                          Text(' ${widget.data.address.toString()}',
                               style: TextStyle(
                                   fontSize: width * 0.04,
                                   fontFamily: 'Poppins Regular',
@@ -346,7 +346,7 @@ class _OrderDetailState extends State<OrderDetail> {
                             width: width,
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: widget.newarray!.length,
+                                itemCount: widget.newarray.length,
                                 itemBuilder: (context, position) {
                                   return Container(
                                     margin: EdgeInsets.only(
@@ -362,12 +362,12 @@ class _OrderDetailState extends State<OrderDetail> {
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  widget.newarray!
+                                                  widget.newarray
                                                       .removeAt(position);
                                                   resultList.clear();
                                                   total_price = 0;
                                                   totalPrice = 0;
-                                                  widget.newarray!
+                                                  widget.newarray
                                                       .forEach((element) {
                                                     total_price += int.parse(
                                                         element.price
@@ -397,7 +397,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                   left: width * 0.03,
                                                   bottom: 1.0),
                                               child: Text(
-                                                  '${widget.newarray![position].name}',
+                                                  '${widget.newarray[position].name}',
                                                   style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: width * 0.05,
@@ -410,7 +410,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                           margin: EdgeInsets.only(
                                               right: width * 0.03),
                                           child: Text(
-                                              'Rs. ${widget.newarray![position].price}',
+                                              'Rs. ${widget.newarray[position].price}',
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: width * 0.04,
@@ -518,7 +518,7 @@ class _OrderDetailState extends State<OrderDetail> {
               //                     Flexible(
               //                       child: ListView.builder(
               //                           shrinkWrap: true,
-              //                           itemCount: widget.data!.coupon!.length,
+              //                           itemCount: widget.data.coupon.length,
               //                           scrollDirection: Axis.vertical,
               //                           itemBuilder: (context, position) {
               //                             return Container(
@@ -549,7 +549,7 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                                   .start,
               //                                           children: <Widget>[
               //                                             Text(
-              //                                               '  ${widget.data!.coupon![position].couponName.toString()}',
+              //                                               '  ${widget.data.coupon[position].couponName.toString()}',
               //                                               style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Regular',
@@ -565,8 +565,8 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                               height: 8,
               //                                             ),
               //                                             Text(
-              //                                               '  ${widget.data!.coupon![position].percentage}% off upto ${widget.data!.coupon![position].price} Rupees',
-              //                                               // '  Upto ${widget.data!.coupon![position].percentage}% off via UPI',
+              //                                               '  ${widget.data.coupon[position].percentage}% off upto ${widget.data.coupon[position].price} Rupees',
+              //                                               // '  Upto ${widget.data.coupon[position].percentage}% off via UPI',
               //                                               style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Light',
@@ -608,7 +608,7 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                                   .hexStringToHexInt(
               //                                                       '#46D0D9')),
               //                                               child: Text(
-              //                                                 '${widget.data!.coupon![position].couponCode.toString()}',
+              //                                                 '${widget.data.coupon[position].couponCode.toString()}',
               //                                                 style: TextStyle(
               //                                                   fontFamily:
               //                                                       'Poppins Light',
@@ -639,8 +639,8 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                                         .toString()) *
               //                                                 (1.0 / 100.0) *
               //                                                 int.parse(widget
-              //                                                     .data!
-              //                                                     .coupon![
+              //                                                     .data
+              //                                                     .coupon[
               //                                                         position]
               //                                                     .percentage
               //                                                     .toString());
@@ -648,8 +648,8 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                                     .toString() +
               //                                                 " =======ppp");
               //                                             if (int.parse(widget
-              //                                                     .data!
-              //                                                     .coupon![
+              //                                                     .data
+              //                                                     .coupon[
               //                                                         position]
               //                                                     .price
               //                                                     .toString()) >
@@ -659,8 +659,8 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                             } else {
               //                                               applycouponPrice =
               //                                                   double.parse(widget
-              //                                                       .data!
-              //                                                       .coupon![
+              //                                                       .data
+              //                                                       .coupon[
               //                                                           position]
               //                                                       .price
               //                                                       .toString());
@@ -668,15 +668,15 @@ class _OrderDetailState extends State<OrderDetail> {
               //                                             coupontype =
               //                                                 "Shop Coupon";
               //                                             print(widget
-              //                                                 .data!
-              //                                                 .coupon![position]
+              //                                                 .data
+              //                                                 .coupon[position]
               //                                                 .price
               //                                                 .toString());
               //
               //                                             applycouponcode =
               //                                                 widget
-              //                                                     .data!
-              //                                                     .coupon![
+              //                                                     .data
+              //                                                     .coupon[
               //                                                         position]
               //                                                     .couponCode
               //                                                     .toString();
@@ -823,7 +823,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 .start,
                                                         children: <Widget>[
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].couponName}',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Regular',
@@ -839,8 +839,8 @@ class _OrderDetailState extends State<OrderDetail> {
                                                             height: 8,
                                                           ),
                                                           Text(
-                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].price} Rupees',
-                                                            //'  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponName}% off via UPI',
+                                                            '  ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].percentage}% off upto ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].price} Rupees',
+                                                            //'  Upto ${Get.find<HomeController>().adminCouponList.value.couponDetail[position].couponName}% off via UPI',
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Light',
@@ -883,7 +883,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                 .hexStringToHexInt(
                                                                     '#46D0D9')),
                                                             child: Text(
-                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail![position].couponCode}',
+                                                              '${Get.find<HomeController>().adminCouponList.value.couponDetail[position].couponCode}',
                                                               style: TextStyle(
                                                                 fontFamily:
                                                                     'Poppins Light',
@@ -914,7 +914,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                   HomeController>()
                                                               .adminCouponList
                                                               .value
-                                                              .couponDetail![
+                                                              .couponDetail[
                                                                   position]
                                                               .price
                                                               .toString());
@@ -926,7 +926,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                       HomeController>()
                                                                   .adminCouponList
                                                                   .value
-                                                                  .couponDetail![
+                                                                  .couponDetail[
                                                                       position]
                                                                   .percentage
                                                                   .toString());
@@ -937,7 +937,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                       HomeController>()
                                                                   .adminCouponList
                                                                   .value
-                                                                  .couponDetail![
+                                                                  .couponDetail[
                                                                       position]
                                                                   .price
                                                                   .toString()) >
@@ -951,7 +951,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                             HomeController>()
                                                                     .adminCouponList
                                                                     .value
-                                                                    .couponDetail![
+                                                                    .couponDetail[
                                                                         position]
                                                                     .price
                                                                     .toString());
@@ -961,7 +961,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                           //             HomeController>()
                                                           //         .adminCouponList
                                                           //         .value
-                                                          //         .couponDetail![
+                                                          //         .couponDetail[
                                                           //             position]
                                                           //         .price
                                                           //         .toString());
@@ -970,7 +970,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                                                       HomeController>()
                                                               .adminCouponList
                                                               .value
-                                                              .couponDetail![
+                                                              .couponDetail[
                                                                   position]
                                                               .couponCode
                                                               .toString();
@@ -1405,7 +1405,7 @@ class _OrderDetailState extends State<OrderDetail> {
 
                                 salonControlller.addTocart(
                                     context,
-                                    widget.data!.id.toString(),
+                                    widget.data.id.toString(),
                                     resultList.join(","),
                                     "");
                               },
@@ -1558,7 +1558,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                   onTap: () {
                                     setState(() {
                                       var description = "";
-                                      widget.newarray!.forEach((element) {
+                                      widget.newarray.forEach((element) {
                                         description = description +
                                             "," +
                                             "${element.name.toString() + " " + element.price.toString()}";
@@ -1594,7 +1594,7 @@ class _OrderDetailState extends State<OrderDetail> {
 //applycouponPrice + applycoin
                                       // var newPrice=double.parse(totalPrice.toString())-(applycouponPrice + applycoin);
                                       openCheckout(
-                                        widget.data!.name.toString(),
+                                        widget.data.name.toString(),
                                         description,
                                       );
                                     });
